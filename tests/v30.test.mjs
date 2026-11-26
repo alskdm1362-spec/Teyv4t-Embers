@@ -47,6 +47,6 @@ test('hero battle sprites come in poses on feet-centred canvases',()=>{
 
 test('shop opens the party only after an item is picked; awakening preview uses the card viewer spread',()=>{
  const app=dist('app.js');
- assert.ok(app.includes("case'shop':statusHero=state.party[0];shopItem=null;"));assert.ok(app.includes('shop-pick-hint'));assert.ok(app.includes('shop-party-open'));
+ assert.ok(app.includes("case'shop':statusHero=state.party[0];shopItem=null;"));assert.ok(app.includes('data-state="${tab===\'equipment\'&&item?\'picked\':\'idle\'}"'));assert.ok(app.includes("case'shop-back':shopItem=null;"));assert.ok(app.includes('shop-party-open'));
  assert.ok(app.includes("case'file-branch':"));assert.ok(app.includes('file-view is-branch'));assert.ok(app.includes("action:'file-branch'"));
 });
