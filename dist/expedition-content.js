@@ -2,20 +2,20 @@ export const LOOT_RULES=Object.freeze({normalUpgrade:.15,normalEquipment:.25,eli
 export const EXTRA_ROUTE=[
  {type:'battle',name:'잿빛 바람길',description:'수계의 발자국을 따라 보급로를 연다.',enemies:['hound','wanderer']},
  {type:'event',name:'버려진 보급함',description:'잠금쇠 너머에서 익숙한 목소리가 들린다.'},
- {type:'elite',name:'장막의 쌍둥이',description:'서로 장막을 이어 붙인 두 개체의 연결을 끊는다.',enemies:['angler','angler']},
+ {type:'elite',name:'장막의 쌍둥이',description:'두 낚시꾼의 연결을 끊는다.',enemies:['angler','angler']},
  {type:'base',name:'바람막이 거점',description:'바람을 막아낸 폐허에 불빛이 머문다.'},
  {type:'battle',name:'뒤틀린 성당 회랑',description:'추적자를 뚫고 성당 안으로 향한다.',enemies:['hunter','hound']},
  {type:'event',name:'금빛 잔해의 제단',description:'빛과 심연이 뒤섞인 제물이 남아 있다.'},
  {type:'elite',name:'이름 없는 의태',description:'여러 겹의 공허 장막 너머를 겨눈다.',enemies:['mimic','hound']},
  {type:'camp',name:'기울어진 종탑 아래',description:'종소리 대신 불꽃의 소리를 듣는다.'},
  {type:'battle',name:'광계의 파편 지대',description:'균열계가 퍼뜨린 빛이 길을 잠식한다.',enemies:['breacher','wanderer']},
- {type:'elite',name:'황야의 사냥',description:'연계 공격을 끊고 추적자들을 제압한다.',enemies:['hunter','hunter','hound']},
+ {type:'elite',name:'황야의 사냥',description:'연계 공격을 끊고 사냥꾼을 제압한다.',enemies:['hunter','hunter','hound']},
  {type:'base',name:'마지막 등불의 거점',description:'쓰러진 길 위로 생명의 불꽃을 잇는다.'},
  {type:'battle',name:'하늘 아래 검은 물결',description:'의태와 균열계가 서로의 모습을 훔친다.',enemies:['mimic','breacher']},
  {type:'event',name:'메아리의 거래',description:'돌아갈 수 없는 상인이 값을 제안한다.'},
  {type:'elite',name:'광계와 심연의 경계',description:'장막의 균열을 이용해 돌파한다.',enemies:['breacher','angler','hound']},
  {type:'camp',name:'여명 이전의 야영',description:'마지막 전선을 앞두고 준비한다.'},
- {type:'base',name:'잔불의 전초기지',description:'심연의 모태와 천공의 전선이 앞에 있다.'}
+ {type:'base',name:'잔불의 전초기지',description:'악몽 영주와 천공의 전선이 앞에 있다.'}
 ];
 // Each event exposes two or three choices. Plain choices show benefit and cost up front;
 // dice choices show the target number and both outcomes; mystery choices hide the result.

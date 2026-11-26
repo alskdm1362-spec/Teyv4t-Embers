@@ -1,6 +1,5 @@
 import {sortSceneDepth} from './scene-interactions.js';
 import {HEROES,cardInfo} from './engine.js';
-import {CAST_SPRITES,castPose} from './cast-art.js';
 import {presentationPlan} from './motion-plan.js';
 import {SuppliedVFX,blindnessTransitions,cardTexture} from './supplied-vfx.js';
 import {CameraFeedback} from './feedback.js';
@@ -13,15 +12,6 @@ export class BattleMotion{
  constructor(options){Object.assign(this,options);this.vfx=new SuppliedVFX({short:()=>this.short(),glow:()=>this.glow?.()??.85});this.camera=new CameraFeedback({enabled:()=>!!this.shake?.()&&!this.short()});this.pending=new Set();}
  effect(kind,anchor,options={}){const p=this.vfx.play(kind,anchor,options);this.pending.add(p);p.finally(()=>this.pending.delete(p));return p;}
  unit(el){return el?.querySelector('.sprite')||el;}
- // Swap the acting hero to the pose that matches the card, then back to idle.
- pose(owner,action,before,effects,source){const sp=CAST_SPRITES[owner];if(!sp||!source?.classList?.contains('sprite')||this.getState().heroes?.[owner]?.breakdown)return null;
-  const played=before.battle?.hand.find(c=>c.uid===action.uid),info=played?cardInfo(before,played):{},P=sp.poses;let pose;
-  if(effects.some(e=>e.type==='damage'))pose=P.attack2&&(this.swing=(this.swing||0)+1)%2===0?'attack2':'attack1';
-  else if((info.type==='draw'||effects.some(e=>e.type==='draw'))&&P.draw)pose='draw';
-  else if(effects.some(e=>e.type==='shield'||e.type==='cover')||info.type==='guard')pose='guard';
-  else pose=P.buff?'buff':'guard';
-  const old=source.getAttribute('src'),t0=performance.now();source.src=castPose(owner,pose);source.style.scale=String(sp.base*P[pose]);source.classList.add('posed');source.dataset.pose=pose;
-  return async()=>{const left=this.ms(420)-(performance.now()-t0);if(left>0)await wait(left);if(source.isConnected){source.src=old;source.style.scale='';source.classList.remove('posed');delete source.dataset.pose;}};}
  ms(n){return this.short()?Math.min(65,n*.2):n;}
  async animate(el,frames,duration=300,options={}){if(!el?.isConnected)return;const {retain=false,...timing}=options,a=el.animate(frames,{duration:this.ms(duration),easing:'cubic-bezier(.2,.7,.25,1)',fill:'both',...timing});try{await a.finished;}catch{}if(!retain)a.cancel();return a;}
  callout(text,enemy=false){const el=$('.battle-callout');if(!el)return;el.textContent=text;el.classList.add('visible');el.classList.toggle('enemy-call',enemy);}
@@ -42,7 +32,7 @@ export class BattleMotion{
  hudDamage(hp,shield){const label=$('[data-hp-number]'),bar=$('.team-health .party-hp>i'),sh=$('[data-shield-number]');if(label)label.innerHTML=`${hp}<small> / ${this.getState().maxHp}</small>`;if(bar)bar.style.width=(hp/this.getState().maxHp*100)+'%';if(sh)sh.textContent='◇ '+shield;const sb=$('.shared-shield');if(sb)sb.style.width=Math.min(100,shield/this.getState().maxHp*100)+'%';}
  async enemyStep(group,live){
   const actor=$(`[data-enemy="${group.enemy}"]`),target=group.hostile?$(`[data-ally="${group.hero}"]`):null;if(!actor)return;
-  const celestial=actor.dataset.realm==='celestial'||['keeper','sentinel','star'].includes(actor.dataset.kind),heroName=HEROES[group.hero]?.name||'파티',line=$(`[data-threat="${group.enemy}"]`);
+  const celestial=['keeper','sentinel','star'].includes(actor.dataset.kind),heroName=HEROES[group.hero]?.name||'파티',line=$(`[data-threat="${group.enemy}"]`);
   actor.classList.add('enemy-attacking');target?.classList.add('target-locked');line?.classList.add('focused');
   void this.sound(celestial?'resource':'abyss_cast',{gain:.55});this.callout(`${actor.querySelector('h3')?.textContent||'적'} · ${group.name}${group.hostile?' → '+heroName:''}`,true);await wait(this.ms(230));
   const sprite=this.unit(actor);let visual=Promise.resolve();
@@ -61,7 +51,7 @@ export class BattleMotion{
  }
  async playerEffects(before,action,effects){
   const state=this.getState(),owner=action._owner||action.hero,actor=$(`[data-ally="${owner}"]`),source=this.unit(actor),hits=effects.filter(e=>e.type==='damage');
-  const isMelee=['lohen','illuga','jahoda'].includes(owner)&&action.type==='play'&&hits.length>0,unpose=['play','ultimate'].includes(action.type)?this.pose(owner,action,before,effects,source):null;
+  const isMelee=['lohen','illuga','jahoda'].includes(owner)&&action.type==='play'&&hits.length>0;
   let dashDist=null,dashHold=null;
   if(hits.length){
    if(isMelee&&actor&&source){
@@ -92,13 +82,12 @@ export class BattleMotion{
    if(e.type==='cover')void this.effect('guard',this.unit($(`[data-ally="${e.hero}"]`)),{hero:owner||'illuga',shield:true,scale:.85});
    if(e.type==='friendlyFire'){this.callout('불신이 아군을 겨눕니다',true);void this.float($('[data-hp-number]'),'아군 피해 −'+e.amount,'stress');}
    if(e.type==='collapseFail')void this.float(actor,'극복 실패','stress');
-   if(e.type==='break'){void this.effect('guard-hit',this.unit($(`[data-enemy="${e.enemy}"]`)),{enemy:true,celestial:$(`[data-enemy="${e.enemy}"]`)?.dataset.realm==='celestial',shield:true,scale:.8});void this.float($(`[data-enemy="${e.enemy}"]`),'장막 파괴','label');}
+   if(e.type==='break'){void this.effect('guard-hit',this.unit($(`[data-enemy="${e.enemy}"]`)),{enemy:true,celestial:['keeper','sentinel','star'].includes($(`[data-enemy="${e.enemy}"]`)?.dataset.kind),shield:true,scale:.8});void this.float($(`[data-enemy="${e.enemy}"]`),'장막 파괴','label');}
    if(e.type==='cardHeal'){void this.sound('heal',{gain:.65});void this.effect('recover',source);void this.float($('[data-hp-number]'),'+'+e.amount,'heal');}
    if(e.type==='resource'){void this.sound('resource',{gain:.6});void this.effect('rally',source);void this.float($('.ap-meter'),'+'+(e.amount||2)+' AP','heal');}
   }
   const played=before.battle?.hand.find(c=>c.uid===action.uid);if(played){const info=cardInfo(before,played);if(info.type==='focus'){void this.sound('resource',{gain:.4});void this.effect('focus',source);void this.float(actor,'공격 준비','label');}if(info.type==='energy'){void this.sound('resource',{gain:.65});void this.effect('rally',source);void this.float($('.ap-meter'),'행동력 회복','heal');}}
   if(state.hp!==before.hp||state.shield!==before.shield)this.hudDamage(state.hp,state.shield);
-  void unpose?.();
  }
  async present(before,action,events){const after=this.getState(),plan=presentationPlan(before,after,action,events);this.onBusy(true);try{
  const wasBattle=before.phase==='battle'&&!!$('.battle');if(wasBattle){

@@ -35,7 +35,7 @@ test('raid rejects party records (v0.27 raids use per-combatant save data), pres
  const {s,recId}=setupCampaignWithRecord(77);act(s,{type:'returnToLobby'});
  s.collection.raid.totalDamage=95;s.collection.raid.recordStats[recId]={triesUsed:2,bestDamage:95};
  for(const id of [recId,'missing']){const before=serialize(s),r=act(s,{type:'startRaid',id});assert.equal(r.ok,false);assert.match(r.error,/세이브 데이터/);assert.equal(serialize(s),before);}
- const restored=hydrate(serialize(s));assert.equal(restored.collection.raid.bossName,'천공의 사도·케루빔');assert.equal(restored.collection.raid.totalDamage,95);assert.equal(restored.collection.records.length,1);
+ const restored=hydrate(serialize(s));assert.equal(restored.collection.raid.bossName,'천상의 왕좌 · 메타트론');assert.equal(restored.collection.raid.totalDamage,95);assert.equal(restored.collection.records.length,1);
 });
 
 test('v0.17 Branch A upgrades have concrete titles/effects and card artwork does not swap on upgrade', () => {
