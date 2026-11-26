@@ -1,10 +1,10 @@
 # 티바트 방어전 · 잔불 | Claude 협업 시작
-기준 버전 v0.35 · 2026-11-27 · v0.25(원본 Git 커밋 b9b1c077dd28c8e9dbfd41605cbacb86b85b272f) 위에 Claude가 작업
+기준 버전 v0.35.1 · 2026-11-27 · v0.25(원본 Git 커밋 b9b1c077dd28c8e9dbfd41605cbacb86b85b272f) 위에 Claude가 작업
 
 ## 실행 및 검증
 - Windows에서 압축을 완전히 해제하고 Node.js 22 이상에서 START-WINDOWS.cmd를 실행하세요. 터미널에서는 프로젝트 루트에서 node start.mjs를 실행하세요.
 - 본편 http://127.0.0.1:8080/ · QA http://127.0.0.1:8080/qa
-- npm test로 검사합니다. 별도의 npm install 없이 실행됩니다. 인계 시점에 181개 모두 통과했습니다.
+- npm test로 검사합니다. 별도의 npm install 없이 실행됩니다. 인계 시점에 182개 모두 통과했습니다.
 - dist/가 직접 편집하는 게임 소스와 리소스입니다. tests/에는 자동 테스트가 있습니다.
 
 ## 먼저 읽을 문서

@@ -21,3 +21,10 @@ test('v0.35: supplied SFX and BGM are wired',()=>{
  for(const k of ['swing_light','strike','fire_strong','stage_clear','card_flip','ui_tap'])assert.ok(fs.existsSync(new URL(`../dist/assets/audio/sfx/${k}.wav`,import.meta.url)),k);
  for(const k of ['lobby','battle','raid'])assert.ok(fs.existsSync(new URL(`../dist/assets/audio/bgm/${k}.mp3`,import.meta.url)),k);
 });
+
+test('v0.35.1: the living flame heals once per base visit',async()=>{
+ const {qaFixture}=await import('../dist/qa-fixtures.js');const {act}=await import('../dist/engine.js');
+ const s=qaFixture('base');s.hp=Math.max(1,s.maxHp-60);assert.ok(act(s,{type:'heal'}).ok);assert.equal(s.healUsed,true);
+ s.hp=1;const again=act(s,{type:'heal'});assert.equal(again.ok,false);assert.equal(s.hp,1);
+ assert.ok(dist('app.js').includes("(!needs.needed||state.healUsed)?'disabled'"));
+});

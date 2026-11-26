@@ -8,10 +8,10 @@ import {act,createGame,hydrate,serialize,healingNeeds} from '../dist/engine.js';
 import {ALLIES,galleryItems,injuryEffects} from '../dist/archive-ui.js';
 import {guidePosition} from '../dist/tutorial-focus.js';
 const go=(s,a)=>{const r=act(s,a);assert.ok(r.ok,r.error);return r;};
-test('flame repairs bodies, adds exactly twenty HP and reduces only current party stress by five',()=>{
+test('flame repairs bodies, adds exactly thirty HP and reduces only current party stress by five',()=>{
  const s=qaFixture('base');s.hp=31;s.heroes.lohen.body.eyes=3;s.heroes.lohen.body.leftArm=3;s.heroes.lohen.retired=true;s.heroes.lohen.breakdown={type:'panic',failures:7};s.heroes.lohen.stress=100;s.heroes.durin.stress=3;s.heroes.illuga.stress=11;s.heroes.jahoda.stress=80;s.heroes.jahoda.body.rightLeg=2;const gold=s.gold;
- const r=go(s,{type:'heal'});assert.equal(s.hp,51);assert.equal(s.heroes.lohen.retired,false);assert.ok(Object.values(s.heroes.lohen.body).every(n=>n===0));assert.equal(s.heroes.lohen.stress,95);assert.deepEqual(s.heroes.lohen.breakdown,{type:'panic',failures:7});assert.equal(s.heroes.durin.stress,0);assert.equal(s.heroes.illuga.stress,6);assert.equal(s.heroes.jahoda.stress,80);assert.equal(s.gold,gold);assert.equal(r.events.find(e=>e.type==='heal').hp,20);assert.equal(s.checkpoint.hp,51);assert.equal(hydrate(serialize(s)).checkpoint.heroes.lohen.stress,95);
- s.hp=93;go(s,{type:'heal'});assert.equal(s.hp,100);assert.equal(s.heroes.lohen.stress,90);
+ const r=go(s,{type:'heal'});assert.equal(s.hp,61);assert.equal(s.heroes.lohen.retired,false);assert.ok(Object.values(s.heroes.lohen.body).every(n=>n===0));assert.equal(s.heroes.lohen.stress,95);assert.deepEqual(s.heroes.lohen.breakdown,{type:'panic',failures:7});assert.equal(s.heroes.durin.stress,0);assert.equal(s.heroes.illuga.stress,6);assert.equal(s.heroes.jahoda.stress,80);assert.equal(s.gold,gold);assert.equal(r.events.find(e=>e.type==='heal').hp,30);assert.equal(s.checkpoint.hp,61);assert.equal(hydrate(serialize(s)).checkpoint.heroes.lohen.stress,95);
+ s.hp=93;s.healUsed=false;go(s,{type:'heal'});assert.equal(s.hp,100);assert.equal(s.heroes.lohen.stress,90);
 });
 test('flame remains available for mental burden alone, while a care action requires exactly one party hero',()=>{
  const s=qaFixture('base');s.hp=100;for(const h of Object.values(s.heroes))h.stress=0;s.heroes.durin.stress=9;assert.equal(healingNeeds(s).needed,true);go(s,{type:'heal'});assert.equal(s.heroes.durin.stress,4);const before=serialize(s);assert.equal(act(s,{type:'calm'}).ok,false);assert.equal(serialize(s),before);s.heroes.durin.breakdown={type:'panic',failures:0};finishCare(s,'durin');assert.equal(s.heroes.durin.stress,0);assert.equal(healingNeeds(s).needed,false);

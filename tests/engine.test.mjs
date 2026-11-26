@@ -139,8 +139,8 @@ test('returning from farming saves wounds and retirement until explicit recovery
  s.hp=32;s.heroes.durin.body.leftArm=3;s.heroes.durin.body.rightArm=3;s.heroes.durin.retired=true;s.heroes.durin.stress=76;s.heroes.lohen.stress=28;
  const r=action(s,{type:'advance'});assert.equal(s.phase,'base');assert.equal(s.hp,32);assert.equal(s.heroes.durin.retired,true);assert.equal(s.heroes.durin.body.leftArm,3);assert.equal(s.heroes.durin.stress,76);assert.equal(s.heroes.lohen.stress,28);assert.equal(s.retries,3);assert.equal(s.temporal,2);assert.ok(!r.events.some(e=>e.type==='heal'));
  assert.equal(s.checkpoint.hp,32);assert.equal(s.checkpoint.heroes.durin.retired,true);assert.ok(healingNeeds(s).needed);
- const gold=s.gold,heal=action(s,{type:'heal'});assert.equal(s.hp,52);assert.equal(s.heroes.durin.retired,false);assert.ok(Object.values(s.heroes.durin.body).every(n=>n===0));assert.equal(s.heroes.durin.stress,71);assert.equal(s.heroes.lohen.stress,23);assert.equal(s.gold,gold);assert.equal(s.retries,3);assert.ok(heal.events.some(e=>e.type==='heal'&&e.heroes.includes('durin')));assert.equal(healingNeeds(s).needed,true);
- assert.equal(s.checkpoint.hp,52);assert.equal(s.checkpoint.heroes.durin.retired,false);
+ const gold=s.gold,heal=action(s,{type:'heal'});assert.equal(s.hp,62);assert.equal(s.heroes.durin.retired,false);assert.ok(Object.values(s.heroes.durin.body).every(n=>n===0));assert.equal(s.heroes.durin.stress,71);assert.equal(s.heroes.lohen.stress,23);assert.equal(s.gold,gold);assert.equal(s.retries,3);assert.ok(heal.events.some(e=>e.type==='heal'&&e.heroes.includes('durin')));assert.equal(healingNeeds(s).needed,true);
+ assert.equal(s.checkpoint.hp,62);assert.equal(s.checkpoint.heroes.durin.retired,false);
 });
 
 test('first base arrival and checkpoint rewind preserve unhealed state; recovery is separately saved',()=>{
@@ -148,8 +148,8 @@ test('first base arrival and checkpoint rewind preserve unhealed state; recovery
  s.hp=31;s.heroes.durin.body.leftArm=3;s.heroes.durin.body.rightLeg=3;s.heroes.durin.retired=true;s.heroes.durin.stress=100;s.heroes.durin.breakdown={type:'panic',failures:7};s.retries=4;s.temporal=2;
  const arrival=action(s,{type:'advance'});assert.equal(s.phase,'base');assert.equal(s.hp,31);assert.equal(s.heroes.durin.retired,true);assert.equal(s.heroes.durin.body.leftArm,3);assert.equal(s.checkpoint.hp,31);assert.equal(s.retries,0);assert.equal(s.temporal,0);assert.ok(!arrival.events.some(e=>e.type==='heal'));
  const loaded=hydrate(serialize(s));action(loaded,{type:'farm'});loaded.phase='defeat';loaded.hp=0;action(loaded,{type:'restart'});assert.equal(loaded.hp,31);assert.equal(loaded.heroes.durin.retired,true);assert.equal(loaded.heroes.durin.breakdown.failures,7);assert.equal(loaded.retries,1);
- const gold=loaded.gold;action(loaded,{type:'heal'});assert.equal(loaded.hp,51);assert.equal(loaded.heroes.durin.retired,false);assert.equal(loaded.heroes.durin.stress,95);assert.deepEqual(loaded.heroes.durin.breakdown,{type:'panic',failures:7});assert.equal(loaded.gold,gold);
- action(loaded,{type:'farm'});loaded.phase='defeat';loaded.hp=0;action(loaded,{type:'restart'});assert.equal(loaded.hp,51);assert.equal(loaded.heroes.durin.retired,false);assert.equal(loaded.heroes.durin.stress,95);assert.equal(loaded.retries,2);
+ const gold=loaded.gold;action(loaded,{type:'heal'});assert.equal(loaded.hp,61);assert.equal(loaded.heroes.durin.retired,false);assert.equal(loaded.heroes.durin.stress,95);assert.deepEqual(loaded.heroes.durin.breakdown,{type:'panic',failures:7});assert.equal(loaded.gold,gold);
+ action(loaded,{type:'farm'});loaded.phase='defeat';loaded.hp=0;action(loaded,{type:'restart'});assert.equal(loaded.hp,61);assert.equal(loaded.heroes.durin.retired,false);assert.equal(loaded.heroes.durin.stress,95);assert.equal(loaded.retries,2);
 });
 
 test('body recovery only acts at base and cannot erase combat wounds by an invalid action',()=>{
@@ -203,10 +203,11 @@ test('all three parties traverse the expanded expedition, events, elites and fin
  for(const pair of [['durin','illuga'],['durin','jahoda'],['illuga','jahoda']]){
   const s=createLegacyFixture(20261123);action(s,{type:'start'});for(const hero of pair){action(s,{type:'skipTutorial'});action(s,{type:'skipRecruitDialogue'});action(s,{type:'recruit',hero});completeJoin(s);}
   const visited=new Set();
-  let restarts=0;for(let n=0;n<12000&&s.phase!=='ending'&&restarts<12;n++){
+  let restarts=0,lastFarm=-1;for(let n=0;n<12000&&s.phase!=='ending'&&restarts<12;n++){
    visited.add(s.node);
    if(s.phase==='base'){
-    for(let i=0;i<6&&healingNeeds(s).needed;i++)action(s,{type:'heal'});
+    if(healingNeeds(s).needed&&!s.healUsed)action(s,{type:"heal"});
+    else if(lastFarm!==restarts&&restarts>0&&s.healUsed&&healingNeeds(s).needed){lastFarm=restarts;action(s,{type:'farm'});continue;}
     const broken=s.party.find(id=>s.heroes[id].breakdown);if(broken&&!s.careUsed)finishCare(s,broken);
     if(s.upgradeOffer){const c=s.upgradeOffer.candidates[0];action(s,{type:'upgrade',hero:c.owner,card:c.key,branch:'A'});}
     for(const id of s.party)if(!s.heroes[id].equipment.weapon&&s.gold>=30)action(s,{type:'equip',hero:id,slot:'weapon',item:'plainSpear'});
