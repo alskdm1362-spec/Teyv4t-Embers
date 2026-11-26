@@ -1,5 +1,6 @@
 import {HEROES,currentNode} from './engine.js';
 import {NEW_ART} from './condition-ui.js';
+import {icon} from './presentation-ui.js';
 const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const labels={codex:'ARCHIVE', 'codex-ally':'PERSONNEL ARCHIVE','codex-enemy':'HOSTILE ARCHIVE','large-art':'ILLUSTRATION',status:'PERSONNEL','lobby-personnel':'COMBATANT & PARTNER ARCHIVE',settings:'PREFERENCES','pause-menu':'EXPEDITION MENU',shop:'KOMANIYA EXPRESS',formation:'FAVONIUS SUPPORT',upgrades:'TACTICAL INSIGHT','upgrade-detail':'TACTICAL INSIGHT',pile:'DECK ARCHIVE',route:'EXPEDITION LOG','care-select':'BY THE EMBERS','care-dialogue':'BY THE EMBERS'};
 const compact=new Set(['confirm','challenge','recruit-notice','import-text']);
@@ -10,7 +11,9 @@ export function surfaceMarkup(title,body,kind=''){
 }
 export function pauseMarkup(s){
  const title=s.phase==='title',party=title?['lohen']:s.party;
- return `<div class="expedition-menu"><nav class="pause-menu" aria-label="메뉴"><p class="menu-intro">불빛이 머무는 동안</p>${[['계속하기','close','원정으로 돌아갑니다'],['환경설정','settings','소리와 연출, 저장 기록'],['도감','codex','함께한 이들과 마주한 흔적'],['타이틀로','title','시작 화면으로 돌아갑니다']].map(([name,action,desc])=>`<button data-action="${action}"><span>${name}</span><small>${desc}</small><i aria-hidden="true">◇</i></button>`).join('')}</nav><aside class="menu-overview"><div class="menu-party-art" aria-hidden="true">${party.map(id=>`<img src="${NEW_ART}standing/${id}.webp" alt="">`).join('')}</div><div class="menu-location"><small>서풍 원정대</small><h3>${esc(title?'바람이 닿는 곳에':currentNode(s).name)}</h3><p>${title?'아직 남아 있는 불빛.':party.map(id=>HEROES[id].name).join(' · ')}</p>${title?'':`<dl><div><dt>공용 체력</dt><dd>${s.hp}<small> / ${s.maxHp}</small></dd></div><div><dt>보유 모라</dt><dd>${s.gold}</dd></div><div><dt>전선 기록</dt><dd>${s.collection.endings.length}</dd></div></dl>`}</div></aside></div>`;
+ const items=[['계속하기','close',title?'시작 화면으로 돌아갑니다':'원정으로 돌아갑니다','play','tile-main'],['환경설정','settings','소리와 연출, 저장 기록','gear',''],['도감','codex','함께한 이들과 마주한 흔적','book',''],['타이틀로','title','시작 화면으로 돌아갑니다','home','tile-quiet']];
+ const stats=title?'':`<dl class="menu-stats"><div><dt>공용 체력</dt><dd>${s.hp}<small> / ${s.maxHp}</small></dd></div><div><dt>보유 모라</dt><dd>${s.gold}</dd></div><div><dt>전선 기록</dt><dd>${s.collection.endings.length}</dd></div></dl>`;
+ return `<div class="expedition-menu"><nav class="pause-menu" aria-label="메뉴"><p class="menu-intro">불빛이 머무는 동안</p>${items.map(([name,action,desc,ic,cls])=>`<button data-action="${action}" class="menu-tile ${cls}"><span class="tile-icon">${icon(ic)}</span><span class="tile-text"><span>${name}</span><small>${desc}</small></span><i aria-hidden="true">›</i></button>`).join('')}</nav><aside class="menu-overview" style="--party:${party.length}"><div class="menu-stage" aria-hidden="true"><b class="menu-slash"></b><div class="menu-party-art">${party.map((id,i)=>`<img src="${NEW_ART}standing/${id}.webp" alt="" style="--i:${i};--c:${HEROES[id].color}">`).join('')}</div></div><div class="menu-location"><small>서풍 원정대 · ${title?'대기 중':'원정 중'}</small><h3>${esc(title?'바람이 닿는 곳에':currentNode(s).name)}</h3><p>${title?'아직 남아 있는 불빛.':party.map(id=>`<span style="--c:${HEROES[id].color}">${HEROES[id].name}</span>`).join('')}</p>${stats}</div></aside></div>`;
 }
 export function settingsMarkup(p,section='audio'){
  if(!['audio','visual','save'].includes(section))section='audio';
