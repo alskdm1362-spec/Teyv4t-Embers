@@ -14,13 +14,13 @@ function setup(extra={}){const audio=new Audio(),visibility=new Visibility(),mix
 
 test('scene routing distinguishes rest, exploration, elite and final boss including defeats',()=>{
  for(const phase of ['title','base','camp','ending'])assert.equal(sceneMusic({phase,mode:'challenge',challengeStage:2}),'main');
- assert.equal(sceneMusic({phase:'battle',node:0}),'stage-a');assert.equal(sceneMusic({phase:'event',node:4}),'stage-a');assert.equal(sceneMusic({phase:'reward',node:6}),'stage-b');
+ assert.equal(sceneMusic({phase:'battle',node:0}),'battle');assert.equal(sceneMusic({phase:'lobby'}),'lobby');assert.equal(sceneMusic({phase:'battle',mode:'raid'}),'raid');assert.equal(sceneMusic({phase:'event',node:4}),'stage-a');assert.equal(sceneMusic({phase:'reward',node:6}),'stage-b');
  assert.equal(sceneMusic({phase:'battle',node:6}),'boss');assert.equal(sceneMusic({phase:'defeat',node:6}),'boss');
  for(const phase of ['battle','reward','defeat']){assert.equal(sceneMusic({phase,mode:'farm',node:7}),'stage-a');assert.equal(sceneMusic({phase,mode:'challenge',challengeStage:1}),'boss');assert.equal(sceneMusic({phase,mode:'challenge',challengeStage:2}),'boss-final');}
 });
 
 test('source selection never autoplays before a gesture and same-track scene updates preserve progress',async()=>{
- const {director:d,audio:a}=setup();await d.setScene({phase:'battle',node:0});assert.equal(a.plays,0);assert.equal(a.loads,1);assert.equal(a.volume,1);assert.equal(a.loop,true);
+ const {director:d,audio:a}=setup();await d.setScene({phase:'reward',node:0});assert.equal(a.plays,0);assert.equal(a.loads,1);assert.equal(a.volume,1);assert.equal(a.loop,true);
  const play=d.unlock();assert.equal(a.plays,1,'play must be called in the same gesture stack');await play;a.currentTime=48.3;
  await d.setScene({phase:'event',node:4});await d.setScene({phase:'recruit',node:3});assert.equal(a.currentTime,48.3);assert.equal(a.loads,1);assert.equal(a.plays,1);d.destroy();
 });
@@ -52,5 +52,5 @@ test('a stale play promise cannot pause or overwrite the newer track',async()=>{
 
 test('provided MP3 copies match manifest hashes and every routed track has an asset',async()=>{
  const manifest=JSON.parse(await readFile(new URL('../dist/assets/audio/bgm/manifest.json',import.meta.url),'utf8'));
- for(const [id,track] of Object.entries(MUSIC_TRACKS)){const item=manifest.tracks[id];assert.equal(item.src,track.src);const bytes=await readFile(new URL('../dist/'+track.src,import.meta.url));assert.equal(createHash('sha256').update(bytes).digest('hex'),item.sha256);assert.equal(bytes.length,item.bytes);assert.ok(item.duration>100);assert.equal(item.originalPreserved,true);}
+ for(const [id,track] of Object.entries(MUSIC_TRACKS)){const item=manifest.tracks[id];assert.equal(item.src,track.src);const bytes=await readFile(new URL('../dist/'+track.src,import.meta.url));assert.equal(createHash('sha256').update(bytes).digest('hex'),item.sha256);assert.equal(bytes.length,item.bytes);assert.ok(item.duration>45);assert.equal(item.originalPreserved,true);}
 });

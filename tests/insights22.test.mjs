@@ -18,7 +18,7 @@ test('all 28 ordinary cards have four distinct tactics and every branch resolves
  assert.equal(Object.keys(INSIGHTS).length,44);
  for(const [key,paths]of Object.entries(INSIGHTS)){
   assert.deepEqual(Object.keys(paths),INSIGHT_BRANCHES);assert.equal(new Set(Object.values(paths).map(p=>p.title)).size,4);
-  for(const branch of INSIGHT_BRANCHES){const s=battle(key,branch),info=cardInfo(s,s.battle.hand[0]);assert.ok(Number.isFinite(info.cost)&&info.cost>=0);assert.ok(Number.isFinite(info.amount));assert.match(info.desc,new RegExp(paths[branch].title));play(s);assert.ok(s.hp>=0&&s.hp<=s.maxHp);assert.ok(s.battle.ap>=0&&s.battle.ap<=6);const cards=['hand','draw','discard','exhaust'].flatMap(z=>s.battle[z]);assert.equal(new Set(cards.map(c=>c.uid)).size,cards.length);}
+  for(const branch of INSIGHT_BRANCHES){const s=battle(key,branch),info=cardInfo(s,s.battle.hand[0]);assert.ok(Number.isFinite(info.cost)&&info.cost>=0);assert.ok(Number.isFinite(info.amount));assert.equal(info.branch,branch);assert.ok(!info.desc.includes('['));play(s);assert.ok(s.hp>=0&&s.hp<=s.maxHp);assert.ok(s.battle.ap>=0&&s.battle.ap<=6);const cards=['hand','draw','discard','exhaust'].flatMap(z=>s.battle[z]);assert.equal(new Set(cards.map(c=>c.uid)).size,cards.length);}
  }
 });
 test('pierce forecast includes all insight pressure, leaves state untouched, and matches damage',()=>{

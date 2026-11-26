@@ -5,17 +5,24 @@ export const MUSIC_TRACKS=Object.freeze({
  'stage-b':Object.freeze({id:'stage-b',src:'assets/audio/bgm/stage-b.mp3',label:'탐사 · 후반'}),
  boss:Object.freeze({id:'boss',src:'assets/audio/bgm/boss.mp3',label:'정예 · 보스'}),
  'boss-final':Object.freeze({id:'boss-final',src:'assets/audio/bgm/boss-final.mp3',label:'최종 전선'}),
+ lobby:Object.freeze({id:'lobby',src:'assets/audio/bgm/lobby.mp3',label:'로비'}),
+ battle:Object.freeze({id:'battle',src:'assets/audio/bgm/battle.mp3',label:'전투'}),
+ raid:Object.freeze({id:'raid',src:'assets/audio/bgm/raid.mp3',label:'레이드 · 케루빔'}),
 });
 
 /** Chooses atmosphere only; it does not alter combat or the save state. */
 export function sceneMusic(state={}){
  const phase=state.phase||'title',mode=state.mode||'route',node=Number(state.node)||0;
  if(['title','base','camp','ending'].includes(phase))return 'main';
+ if(phase==='lobby')return 'lobby';
+ if(mode==='raid')return 'raid';
  if(mode==='challenge')return Number(state.challengeStage)>=2?'boss-final':'boss';
  if(mode==='farm')return 'stage-a';
  // The current route's node 6 is the linked-ward elite. Outside that battle,
  // the late-route exploration/reward screen uses stage B.
  if(['battle','defeat'].includes(phase)&&(state.encounterType==='elite'||state.encounterType==='boss'||node===6))return 'boss';
+ // v0.35: ordinary route battles get their own battle track; map, events and rewards stay on exploration.
+ if(['battle','defeat'].includes(phase)&&mode==='route')return 'battle';
  return node>=6?'stage-b':'stage-a';
 }
 
