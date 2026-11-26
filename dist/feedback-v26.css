@@ -310,3 +310,6 @@ body .lobby-hub .lobby-top>img{width:auto!important;height:58px!important;max-wi
 .awaken-picker{padding-top:8px}
 .awaken-row{padding-top:16px}
 @media (max-height:500px) and (orientation:landscape){.awaken-picker>header p{display:none}.awaken-picker>header h2{font-size:17px;margin:2px 0 0}.awaken-picker>header small{font-size:9px}.awaken-picker{gap:2px}.awaken-row{padding-top:10px}}
+.file-saves{overflow:auto;min-height:0;max-height:100%;padding-right:6px}
+.file-saves .save-deck{zoom:.5}
+.file-saves .save-entry{margin-bottom:14px}

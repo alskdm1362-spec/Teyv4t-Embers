@@ -198,7 +198,7 @@ function draw(s,n,events=[]){const b=s.battle;for(let i=0;i<n&&b.hand.length<10;
 }}
 // v0.27 Epiphany: a drawn card may glow. Played while glowing it costs 0 AP and then offers
 // three of its four tactical awakenings to choose from (previewed), sometimes with an ember spark.
-export const EPIPHANY_CHANCE=.1,EPIPHANY_PER_BATTLE=2;
+export const EPIPHANY_CHANCE=.03,EPIPHANY_PER_BATTLE=1;
 function rollEpiphany(s,c){const b=s.battle;if(!b||s.tutorial?.active||s.mode==='raid'||c.epiphany)return;if((b.epiphanies||0)>=EPIPHANY_PER_BATTLE)return;const h=s.heroes[c.owner],d=CARDS[c.key];
  if(!h||!INSIGHTS[c.key]||h.upgrades[c.key]||d?.generated||d?.debuff||h.breakdown||(h.body.eyes||0)>=3)return;if(b.hand.some(x=>x!==c&&x.epiphany&&x.owner===c.owner&&x.key===c.key))return;
  if(random(s)<EPIPHANY_CHANCE){c.epiphany=true;b.epiphanies=(b.epiphanies||0)+1;}}

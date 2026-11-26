@@ -38,6 +38,7 @@ function toBase(pair,seed=81,beforeBase=false){const s=createGame(seed);action(s
  else if(s.phase==='refine')action(s,{type:'skipUpgrade'});
  else if(s.phase==='eventRemove')action(s,{type:'eventRemoveCard',skip:true});
  else if(s.phase==='camp'){action(s,{type:'camp',choice:'rest'});action(s,{type:'leaveCamp'});}
+ else if(s.phase==='cardReward')action(s,{type:'skipCard'});
  else throw new Error('Unexpected phase: '+s.phase);
  }throw new Error('Bot exceeded steps');}
 
