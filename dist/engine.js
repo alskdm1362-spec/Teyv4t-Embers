@@ -286,14 +286,14 @@ export function healingNeeds(s){
  const mental=s.party.some(id=>s.heroes[id].stress>0),hp=Math.max(0,s.maxHp-s.hp),injured=Object.keys(s.heroes).filter(id=>Object.values(s.heroes[id].body).some(stage=>stage>0)),retired=Object.keys(s.heroes).filter(id=>s.heroes[id].retired);
  return {hp,injured,retired,mental,needed:hp>0||injured.length>0||retired.length>0||mental};
 }
-function restoreBodies(s){s.hp=Math.min(s.maxHp,s.hp+20);for(const h of Object.values(s.heroes)){h.body=Object.fromEntries(PARTS.map(p=>[p,0]));h.retired=false;}}
+function restoreBodies(s){s.hp=Math.min(s.maxHp,s.hp+30);for(const h of Object.values(s.heroes)){h.body=Object.fromEntries(PARTS.map(p=>[p,0]));h.retired=false;}}
 export function rollEventOffer(s){const seen=s.seenEvents||[],fresh=EVENTS.filter(e=>!seen.includes(e.id)),offer=clone(choose(s,fresh.length?fresh:EVENTS));s.seenEvents=fresh.length?[...seen,offer.id]:[offer.id];for(const c of offer.choices){const premium=c.benefit?.elite||c.benefit?.kind==='gold'&&c.benefit.amount>=40;if(!premium&&!c.dice&&!c.mystery&&!Object.keys(c.cost||{}).length)c.cost=clone(choose(s,[{},{},{hp:6},{stress:7}]));if(c.benefit?.kind==='equipment'&&!c.benefit.item)c.benefit.item=gearDrop(s,!!c.benefit.elite);}return offer;}
 function enterNode(s,events){
  const n=currentNode(s);s.eventResult=null;s.lastReward=null;s.eventOffer=null;if(n.type==='event')s.eventOffer=rollEventOffer(s);if(n.type==='camp'){s.campActions=[];s.upgradeOffer=random(s)<LOOT_RULES.baseRefinement?makeUpgradeOffer(s,'camp','camp'):null;}if(n.type==='recruit')s.recruitLine=0;
  if(n.type==='battle'||n.type==='elite')return beginBattle(s,n.enemies,events);
  s.phase=n.type;
  if(n.type==='base'){
-  const baseId='route-'+s.node;if(s.baseId!==baseId||!s.baseInitialized){s.baseId=baseId;s.baseInitialized=true;s.careUsed=false;s.upgradeOffer=random(s)<LOOT_RULES.baseRefinement?makeUpgradeOffer(s,'base','base'):null;}s.collection.unlocked=[...new Set([...s.collection.unlocked,...Object.keys(HEROES)])];saveCheckpoint(s,true);
+  const baseId='route-'+s.node;if(s.baseId!==baseId||!s.baseInitialized){s.baseId=baseId;s.baseInitialized=true;s.careUsed=false;s.healUsed=false;s.upgradeOffer=random(s)<LOOT_RULES.baseRefinement?makeUpgradeOffer(s,'base','base'):null;}s.collection.unlocked=[...new Set([...s.collection.unlocked,...Object.keys(HEROES)])];saveCheckpoint(s,true);
   emit(events,'base','거점에 도착했습니다. 생명의 불꽃에서 회복 행동을 선택할 수 있습니다.');
  }
 }
@@ -585,7 +585,7 @@ export function makeUpgradeOffer(s,source='event',returnPhase='reward'){
 }
 function gearDrop(s,elite=false){const keys=Object.keys(EQUIPMENT).filter(key=>(EQUIPMENT[key].rarity==='elite')===elite);return choose(s,keys);}
 export function rollLoot(s,elite=false){return {elite,equipment:random(s)<(elite?LOOT_RULES.eliteEquipment:LOOT_RULES.normalEquipment)?[gearDrop(s,elite&&random(s)<LOOT_RULES.eliteRarity)]:[],upgradeOffer:random(s)<(elite?LOOT_RULES.eliteUpgrade:LOOT_RULES.normalUpgrade)?makeUpgradeOffer(s,elite?'elite':'loot','travel'):null};}
-function returnFromFarm(s){const loc=s.farmReturn||{node:7,mode:'route',selectedStage:null};s.mode=loc.mode;s.node=loc.node;if(loc.lane!==undefined)s.lane=loc.lane;s.selectedStage=loc.selectedStage;s.farmReturn=null;s.phase='base';s.battle=null;s.upgradeOffer=null;}
+function returnFromFarm(s){const loc=s.farmReturn||{node:7,mode:'route',selectedStage:null};s.mode=loc.mode;s.node=loc.node;if(loc.lane!==undefined)s.lane=loc.lane;s.selectedStage=loc.selectedStage;s.farmReturn=null;s.phase='base';s.healUsed=false;s.battle=null;s.upgradeOffer=null;}
 function finishRecruit(s,events){s.recruitNotice=null;s.battle=null;if(s.tutorial?.active){s.selectedStage=null;if(s.party.length<3){s.node=2;beginBattle(s,['trainingSlime','trainingSlime'],events);}else{s.tutorial={...s.tutorial,active:false,completed:true,step:'complete'};s.collection.tutorialDone=true;s.node=7;enterNode(s,events);}}else{s.phase='reward';s.lastReward=null;}}
 function applyEventCost(s,cost,events){
  s.hp=Math.max(0,s.hp-(cost.hp||0));if(cost.gold)s.gold=Math.max(0,s.gold-cost.gold);if(cost.stress)for(const id of s.party)stress(s,id,cost.stress,events);
@@ -633,7 +633,7 @@ function perform(s,a,events){
   }
   case 'camp':{
    if(s.phase!=='camp'||!['rest','prepare','calm'].includes(a.choice))reject('야영의 선택지를 확인하세요.');if((s.campActions||[]).length)reject('야영에서는 한 가지 행동만 고를 수 있습니다.');if(a.choice==='calm'&&(!s.party.includes(a.hero)||s.heroes[a.hero].retired))reject('함께 이야기할 동료를 고르세요.');(s.campActions??=[]).push(a.choice);s.lastReward=null;
-   if(a.choice==='rest'){s.hp=Math.min(s.maxHp,s.hp+25);for(const id of s.party){const h=s.heroes[id];h.stress=Math.max(0,h.stress-8);}emit(events,'camp','불빛 곁에서 몸을 쉬었습니다. 체력 +25 · 정신 부담 -8.');}
+   if(a.choice==='rest'){s.hp=Math.min(s.maxHp,s.hp+20);for(const id of s.party){const h=s.heroes[id];h.stress=Math.max(0,h.stress-8);}emit(events,'camp','불빛 곁에서 몸을 쉬었습니다. 체력 +20 · 정신 부담 -8.');}
    else if(a.choice==='calm'){const h=s.heroes[a.hero];h.stress=Math.max(0,h.stress-30);emit(events,'camp',`${HEROES[a.hero].name}와 밤새 이야기를 나눴습니다. 정신 부담 -30.`,{hero:a.hero});}
    else{s.support=Math.min(6,s.support+2);s.gold+=10;for(const id of s.party)s.heroes[id].stress=Math.max(0,s.heroes[id].stress-4);emit(events,'camp','장비를 점검하고 다음 전투의 지원을 준비했습니다.');}break;
   }
@@ -674,7 +674,7 @@ function perform(s,a,events){
    if(!['base','camp'].includes(s.phase)||a.out==='lohen'||!s.party.includes(a.out)||s.party.includes(a.in)||!s.collection.unlocked.includes(a.in))reject('교체할 동료를 확인하세요.');s.party[s.party.indexOf(a.out)]=a.in;if(s.upgradeOffer){s.upgradeOffer.candidates=s.upgradeOffer.candidates.filter(c=>s.party.includes(c.owner));if(!s.upgradeOffer.candidates.length)s.upgradeOffer=null;}saveCheckpoint(s);emit(events,'swap',`${HEROES[a.in].name}에게 서풍 매로 지원을 요청했습니다.`,{hero:a.in});break;
   }
   case 'heal':{
-   if(s.phase!=='base')reject('거점에서 치료할 수 있습니다.');const needs=healingNeeds(s),heroes=[...new Set([...needs.injured,...needs.retired,...(needs.hp>0?s.party:[])])];restoreBodies(s);for(const id of s.party)s.heroes[id].stress=Math.max(0,s.heroes[id].stress-5);saveCheckpoint(s);emit(events,'heal','생명의 불꽃이 따스하게 몸을 감쌉니다. 부상 회복 · 체력 +20 · 출전원 정신 부담 -5. 붕괴 극복은 별도로 필요합니다.',{heroes:[...new Set([...heroes,...s.party])],hp:Math.min(20,needs.hp)});break;
+   if(s.phase!=='base')reject('거점에서 치료할 수 있습니다.');if(s.healUsed)reject('생명의 불꽃은 거점마다 한 번만 받을 수 있습니다.');const needs=healingNeeds(s);s.healUsed=true;const heroes=[...new Set([...needs.injured,...needs.retired,...(needs.hp>0?s.party:[])])];restoreBodies(s);for(const id of s.party)s.heroes[id].stress=Math.max(0,s.heroes[id].stress-5);saveCheckpoint(s);emit(events,'heal','생명의 불꽃이 따스하게 몸을 감쌉니다. 부상 회복 · 체력 +30 · 출전원 정신 부담 -5. 거점마다 한 번 받을 수 있습니다.',{heroes:[...new Set([...heroes,...s.party])],hp:Math.min(30,needs.hp)});break;
   }
   case 'careStart':{if(!canCare(s,a.hero))reject('붕괴한 동료만 거점에서 한 번 안정을 취할 수 있습니다.');s.careDialogue={hero:a.hero,line:0};break;}
   case 'careNext':{const d=s.careDialogue;if(!d)reject('진행할 대화가 없습니다.');d.line=Math.min(CARE_SCRIPT[d.hero].length-1,d.line+1);break;}
@@ -690,7 +690,7 @@ function perform(s,a,events){
   }
   case 'restart':{
    if(!['defeat','ending'].includes(s.phase))reject('전멸 또는 클리어 후 거점으로 돌아갈 수 있습니다.');const clearedThisCampaign=!!s.claimedEnding||s.phase==='ending',collection=clone(s.collection),retries=s.retries+(s.phase==='defeat'?1:0),checkpoint=clone(s.checkpoint);if(!checkpoint)reject('복원할 거점이 없습니다.');const restored=clone(checkpoint);for(const k of Object.keys(s))delete s[k];Object.assign(s,restored,{checkpoint,claimedEnding:clearedThisCampaign||!!restored.claimedEnding,retries,temporal:Math.min(2,Math.max(0,retries-1)),collection,history:[]});
-   emit(events,'rewind','시간의 힘이 느껴집니다. 시계바늘이 거꾸로 움직입니다.',{retries,temporal:s.temporal});if(s.phase==='title')enterNode(s,events);else if(s.node===7){s.phase='base';s.mode='route';s.battle=null;}break;
+   emit(events,'rewind','시간의 힘이 느껴집니다. 시계바늘이 거꾸로 움직입니다.',{retries,temporal:s.temporal});if(s.phase==='title')enterNode(s,events);else if(s.node===7){s.phase='base';s.healUsed=false;s.mode='route';s.battle=null;}break;
   }
   case 'newGame':{
    const next=newCampaign(s,a.seed??Date.now());for(const k of Object.keys(s))delete s[k];Object.assign(s,next);emit(events,'newGame','새로운 캠페인을 시작합니다. 동료 해금과 기록은 남아 있습니다.');break;
@@ -777,7 +777,7 @@ function perform(s,a,events){
    if(s.phase!=='lobby')reject('로비에서 원정으로 출발할 수 있습니다.');if(!s.runActive)reject('진행 중인 원정이 없습니다. 새 원정을 시작하세요.');
    if(s.resumePhase){s.phase=s.resumePhase;s.resumePhase=null;emit(events,'resume','원정으로 돌아왔습니다.');break;}
    if(s.savedExpedition||s.checkpoint){
-    s.savedExpedition=false;s.mode='route';s.phase='base';s.battle=null;
+    s.savedExpedition=false;s.mode='route';s.phase='base';s.healUsed=false;s.battle=null;
     emit(events,'base','임시저장된 거점으로 복귀했습니다.');
    }else{
     s.mode='route';enterNode(s,events);
