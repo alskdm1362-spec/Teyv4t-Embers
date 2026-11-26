@@ -4,6 +4,7 @@ import {intersectBounds} from './visual-bounds.js';
 if(typeof CanvasRenderingContext2D!=='undefined'&&!CanvasRenderingContext2D.prototype.arc.__embersClamp){const arc=CanvasRenderingContext2D.prototype.arc;const safe=function(x,y,r,...rest){return arc.call(this,x,y,Math.max(0,r),...rest);};safe.__embersClamp=true;CanvasRenderingContext2D.prototype.arc=safe;}
 import './vendor/game-vfx-pack.js';
 import {BespokeVFX} from './vfx.js';
+import {CelVFX} from './cel-vfx.js';
 export const CAST_VFX={lohen:{attack:'spearThrust',ultimate:'daggerThrow',guard:'guardSky'},illuga:{attack:'spearSlash',ultimate:'goldenLightBeam',guard:'guardGold'},jahoda:{attack:'kickSweep',ultimate:'glintSparkle',guard:'guardCyanPink'},durin:{attack:'darkFireMagic',ultimate:'dragonWingFlap',guard:'guardDarkRed'}};
 export function shieldEffect(hero,{enemy=false,celestial=false}={}){return enemy?(celestial?'guardWhite':'guardPinkPurple'):(CAST_VFX[hero]?.guard||'guardSky');}
 export function suppliedEffect(kind,o={}){
@@ -18,8 +19,8 @@ function prepare(){if(!prepared){new globalThis.GameVFXManager();prepared=true;}
 const screenRect=()=>({left:0,top:0,width:innerWidth,height:innerHeight});
 function canvasLayer(parent=document.body,className='supplied-vfx',z=46){const n=document.createElement('canvas');n.className=className;n.setAttribute('aria-hidden','true');Object.assign(n.style,{position:parent===document.body?'fixed':'absolute',inset:0,width:'100%',height:'100%',pointerEvents:'none',zIndex:String(z)});parent.append(n);return n;}
 export class SuppliedVFX{
- constructor(options={}){this.options=options;this.fallback=new BespokeVFX(options);this.effects=new Set();this.serial=0;this.hidden=()=>{if(document.hidden)this.clear();};document.addEventListener('visibilitychange',this.hidden);}
- play(kind,anchor,options={}){options={...options,scale:(options.scale||1)*1.35};const id=suppliedEffect(kind,options);if(!id)return this.fallback.play(kind,anchor,options);return this.raw(id,anchor,options);}
+ constructor(options={}){this.options=options;this.fallback=new BespokeVFX(options);this.cel=new CelVFX(options);this.effects=new Set();this.serial=0;this.hidden=()=>{if(document.hidden)this.clear();};document.addEventListener('visibilitychange',this.hidden);}
+ play(kind,anchor,options={}){if(this.cel.has(kind,{...options,sprite:anchor?.classList?.contains('sprite')}))return this.cel.play(kind,anchor,options);options={...options,scale:(options.scale||1)*1.35};const id=suppliedEffect(kind,options);if(!id)return this.fallback.play(kind,anchor,options);return this.raw(id,anchor,options);}
  raw(id,anchor,options={}){
   if(!anchor?.isConnected||document.hidden)return Promise.resolve();prepare();
   const parent=options.parent||document.body,n=canvasLayer(parent,'supplied-vfx '+(id==='screenShatter'?'supplied-shatter':''),parent===document.body?(anchor.closest('.cutin-shade')?75:46):0),ctx=n.getContext('2d'),ink=document.createElement('canvas'),ic=ink.getContext('2d'),r=(parent===document.body?screenRect():parent.getBoundingClientRect()),ratio=Math.min(1,devicePixelRatio||1);n.width=ink.width=Math.ceil(r.width*ratio);n.height=ink.height=Math.ceil(r.height*ratio);n.dataset.effect=id;n.style.opacity=String(options.opacity??1);
@@ -31,7 +32,7 @@ export class SuppliedVFX{
     ctx.setTransform(1,0,0,1,0,0);ctx.clearRect(0,0,n.width,n.height);const glow=quick?0:Math.max(0,Math.min(1,this.options.glow?.()??.85));if(glow&&!options.card&&!full){ctx.save();ctx.globalCompositeOperation='lighter';ctx.globalAlpha=glow*.3;ctx.filter=`blur(${2+glow*3}px)`;ctx.drawImage(ink,0,0);ctx.restore();}ctx.drawImage(ink,0,0);n.dataset.progress=p.toFixed(2);if(Number.isFinite(options.hold)||p<1)frame=requestAnimationFrame(draw);else record.stop();};frame=requestAnimationFrame(draw);
   });
  }
- clear(){this.fallback.clear();for(const e of [...this.effects])e.stop();}
+ clear(){this.fallback.clear();this.cel.clear();for(const e of [...this.effects])e.stop();}
  destroy(){this.clear();this.fallback.destroy();document.removeEventListener('visibilitychange',this.hidden);}
 }
 // One persistent canvas for all visible collapse cards and the party's slow edge glitch.
