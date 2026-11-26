@@ -1,0 +1,271 @@
+{
+  "version": 1,
+  "sampleRate": 24000,
+  "channels": 1,
+  "encoding": "PCM signed 16-bit little endian WAV",
+  "provenance": "Original deterministic DSP waveforms authored for this project; no recorded or downloaded sample input.",
+  "references": [
+    "https://kenney.nl/assets/impact-sounds",
+    "https://kenney.nl/assets/rpg-audio",
+    "https://kenney.nl/assets/interface-sounds",
+    "https://kenney.nl/support"
+  ],
+  "assets": {
+    "spear_whoosh": [
+      {
+        "src": "assets/audio/sfx/spear_whoosh-1.wav",
+        "duration": 0.22,
+        "peakDbFS": -5.54,
+        "rmsDbFS": -20.5,
+        "bytes": 10604,
+        "sha256": "d264dd17fe2d1c88ac380302d6158d0012a86f63eec5efefc9e2552f990c4d9b"
+      },
+      {
+        "src": "assets/audio/sfx/spear_whoosh-2.wav",
+        "duration": 0.22,
+        "peakDbFS": -5.61,
+        "rmsDbFS": -20.5,
+        "bytes": 10604,
+        "sha256": "cf6d1d11f908f6826361b1c96ca13f6763fcf5068134f38dee394654c3df2ba1"
+      }
+    ],
+    "spear_hit": [
+      {
+        "src": "assets/audio/sfx/spear_hit-1.wav",
+        "duration": 0.22,
+        "peakDbFS": -4.73,
+        "rmsDbFS": -21.75,
+        "bytes": 10604,
+        "sha256": "d521ccdad645672d923aad4ea2385182dfbb040d6951aace05ec3b9645c2b552"
+      },
+      {
+        "src": "assets/audio/sfx/spear_hit-2.wav",
+        "duration": 0.22,
+        "peakDbFS": -4.73,
+        "rmsDbFS": -24.15,
+        "bytes": 10604,
+        "sha256": "a14af5ad8a12001cf2ad06e7049d10bb4bb9e9752ceb4015453a6f0b99f09fb8"
+      }
+    ],
+    "heavy_whoosh": [
+      {
+        "src": "assets/audio/sfx/heavy_whoosh.wav",
+        "duration": 0.34,
+        "peakDbFS": -6.01,
+        "rmsDbFS": -20.5,
+        "bytes": 16364,
+        "sha256": "48ff76b31a98034eda76c0c2d3cd582ec7220a8b4e9f037a8e482068ba9a516f"
+      }
+    ],
+    "heavy_hit": [
+      {
+        "src": "assets/audio/sfx/heavy_hit-1.wav",
+        "duration": 0.32,
+        "peakDbFS": -4.73,
+        "rmsDbFS": -21.08,
+        "bytes": 15404,
+        "sha256": "56783b24f17a4a78c55cd0f0e3fdf5b61f3b1fe0c326ab70c2c386b9316cfe4c"
+      },
+      {
+        "src": "assets/audio/sfx/heavy_hit-2.wav",
+        "duration": 0.32,
+        "peakDbFS": -4.73,
+        "rmsDbFS": -22.43,
+        "bytes": 15404,
+        "sha256": "1404d5db9142c8eb8db3ec8b74ef11641838f75b12413581b1e51e7588b0584e"
+      }
+    ],
+    "arcane_cast": [
+      {
+        "src": "assets/audio/sfx/arcane_cast.wav",
+        "duration": 0.48,
+        "peakDbFS": -6.64,
+        "rmsDbFS": -20.5,
+        "bytes": 23084,
+        "sha256": "bf5f1ff834518e3d45951e46e6392ab2dd83302ad6f7967efef78614478dd8c4"
+      }
+    ],
+    "arcane_hit": [
+      {
+        "src": "assets/audio/sfx/arcane_hit.wav",
+        "duration": 0.38,
+        "peakDbFS": -4.73,
+        "rmsDbFS": -23.16,
+        "bytes": 18284,
+        "sha256": "336fd5a7a90ed25c8ddbe4940389f0a0ca56bb11f5b1f2f66534e0ce69a093a8"
+      }
+    ],
+    "shield_cast": [
+      {
+        "src": "assets/audio/sfx/shield_cast.wav",
+        "duration": 0.47,
+        "peakDbFS": -5.84,
+        "rmsDbFS": -20.5,
+        "bytes": 22604,
+        "sha256": "f8231589787e1fd9ffde6371cbb2b567e2b834080978f1f3bc02c8b8b492abf4"
+      }
+    ],
+    "shield_hit": [
+      {
+        "src": "assets/audio/sfx/shield_hit.wav",
+        "duration": 0.29,
+        "peakDbFS": -4.73,
+        "rmsDbFS": -24.1,
+        "bytes": 13964,
+        "sha256": "ae9303a517bba78645edbbe2f95b5496128a98007806e08ac5754e984fe67c44"
+      }
+    ],
+    "counter": [
+      {
+        "src": "assets/audio/sfx/counter.wav",
+        "duration": 0.25,
+        "peakDbFS": -4.73,
+        "rmsDbFS": -22.92,
+        "bytes": 12044,
+        "sha256": "da71cd9ded342704e87e3e26dbb4ff060a95f6cde23635ba577cf5dead7cc017"
+      }
+    ],
+    "dagger": [
+      {
+        "src": "assets/audio/sfx/dagger-1.wav",
+        "duration": 0.22,
+        "peakDbFS": -4.73,
+        "rmsDbFS": -22.58,
+        "bytes": 10604,
+        "sha256": "2451d0e41f85b25d2c3fe4ee6b07b76e15689a3aff6c0d7701a41cfe9fae9055"
+      },
+      {
+        "src": "assets/audio/sfx/dagger-2.wav",
+        "duration": 0.22,
+        "peakDbFS": -4.73,
+        "rmsDbFS": -24.04,
+        "bytes": 10604,
+        "sha256": "99b305083a5768c3737203743418e3182b0375afb502e6ca535dba7e11e53b48"
+      }
+    ],
+    "abyss_cast": [
+      {
+        "src": "assets/audio/sfx/abyss_cast.wav",
+        "duration": 0.48,
+        "peakDbFS": -10.13,
+        "rmsDbFS": -20.5,
+        "bytes": 23084,
+        "sha256": "527c4215cf63a0b4a8116350fe7df378e1ce0e1b626ffa88333111163ad15262"
+      }
+    ],
+    "abyss_hit": [
+      {
+        "src": "assets/audio/sfx/abyss_hit.wav",
+        "duration": 0.39,
+        "peakDbFS": -5.58,
+        "rmsDbFS": -20.5,
+        "bytes": 18764,
+        "sha256": "63ec02e67b416283c0bc2b8a68f65d75b938435628db05896d0c9708b26165ea"
+      }
+    ],
+    "celestial_hit": [
+      {
+        "src": "assets/audio/sfx/celestial_hit.wav",
+        "duration": 0.44,
+        "peakDbFS": -4.73,
+        "rmsDbFS": -21.94,
+        "bytes": 21164,
+        "sha256": "46bd3972bdea16fd9ae8f514c0c74d4010e582e6e773cb891750f50adcadb0a2"
+      }
+    ],
+    "card_deal": [
+      {
+        "src": "assets/audio/sfx/card_deal-1.wav",
+        "duration": 0.105,
+        "peakDbFS": -7.23,
+        "rmsDbFS": -23.0,
+        "bytes": 5084,
+        "sha256": "389534774b1ad4557d6df3e34e2a1d67dd8c44b2bad90d7db7b32cdfe980d9bf"
+      },
+      {
+        "src": "assets/audio/sfx/card_deal-2.wav",
+        "duration": 0.105,
+        "peakDbFS": -6.57,
+        "rmsDbFS": -23.0,
+        "bytes": 5084,
+        "sha256": "55b47d9f7fb7cba98de879d9f3ae2b811c1c4d855cacb59111ddb1eff756bc26"
+      },
+      {
+        "src": "assets/audio/sfx/card_deal-3.wav",
+        "duration": 0.105,
+        "peakDbFS": -8.05,
+        "rmsDbFS": -23.0,
+        "bytes": 5084,
+        "sha256": "c35eea26d3e25a3918c6b25b3745d96d4ea74a83f09ae9b6c72401fcb591310e"
+      }
+    ],
+    "card_discard": [
+      {
+        "src": "assets/audio/sfx/card_discard-1.wav",
+        "duration": 0.145,
+        "peakDbFS": -7.71,
+        "rmsDbFS": -23.0,
+        "bytes": 7004,
+        "sha256": "c881eaea99e24351c734ac5a15a81289967f4b2d82e6ddc498ea03746cdb7a22"
+      },
+      {
+        "src": "assets/audio/sfx/card_discard-2.wav",
+        "duration": 0.145,
+        "peakDbFS": -8.07,
+        "rmsDbFS": -23.0,
+        "bytes": 7004,
+        "sha256": "a17e995a077629eafad02853cec565d929f43ab0ecae0c1624cbe0f0ec87db52"
+      }
+    ],
+    "card_morph": [
+      {
+        "src": "assets/audio/sfx/card_morph.wav",
+        "duration": 0.45,
+        "peakDbFS": -6.28,
+        "rmsDbFS": -23.0,
+        "bytes": 21644,
+        "sha256": "5c6b8ce734db3b6fcb64674ef66cd9f8dd3eeee47bfbbfab5edf1f56c9a5ff6a"
+      }
+    ],
+    "resource": [
+      {
+        "src": "assets/audio/sfx/resource.wav",
+        "duration": 0.3,
+        "peakDbFS": -7.25,
+        "rmsDbFS": -20.5,
+        "bytes": 14444,
+        "sha256": "3109692805622c158eaef6ff4242d3c52d28090c827b68e79811e0af569aca60"
+      }
+    ],
+    "heal": [
+      {
+        "src": "assets/audio/sfx/heal.wav",
+        "duration": 0.86,
+        "peakDbFS": -5.54,
+        "rmsDbFS": -20.5,
+        "bytes": 41324,
+        "sha256": "49480e80e7bb702e02d6b138a21185280a2ef286871b94ae7394900d9ae739eb"
+      }
+    ],
+    "victory": [
+      {
+        "src": "assets/audio/sfx/victory.wav",
+        "duration": 0.92,
+        "peakDbFS": -5.53,
+        "rmsDbFS": -20.5,
+        "bytes": 44204,
+        "sha256": "884aca3790ba0b15c78d977c0c711c5224c3312dfde34e0a9a66cb9586c9f1dc"
+      }
+    ],
+    "ui_click": [
+      {
+        "src": "assets/audio/sfx/ui_click.wav",
+        "duration": 0.065,
+        "peakDbFS": -7.54,
+        "rmsDbFS": -24.19,
+        "bytes": 3164,
+        "sha256": "702c5c994e9decb16d16ac0fa0f69652e05d28ddbf4be3292fe322577002755f"
+      }
+    ]
+  }
+}

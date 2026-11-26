@@ -1,0 +1,6 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {createGame,serialize,act} from '../dist/engine.js';
+import {titleChoices,titleScreen} from '../dist/title-screen.js';
+test('new and title-only saves offer a new expedition, while a real saved campaign is the first enabled action',()=>{for(const saved of [null,createGame(5)]){const choices=titleChoices(saved);assert.equal(choices[0].action,'new');assert.equal(choices.find(x=>x.action==='continue').enabled,false);}const s=createGame(82);act(s,{type:'start'});const before=serialize(s),choices=titleChoices(s);assert.equal(choices[0].action,'continue');assert.equal(choices[0].enabled,true);assert.match(choices[0].hint,/로엔.*부서진 순찰로/);titleScreen(s,false);titleScreen(s,true);assert.equal(serialize(s),before);});
+test('saved challenge and custom-route captions resolve the current location without exposing save data in markup',()=>{const s=createGame(8);s.phase='battle';s.mode='challenge';s.challengeStage=2;s.party=['lohen','durin','illuga'];assert.match(titleChoices(s)[0].hint,/로엔 · 두린 · 일루가.*타락한 별의 파수/);s.mode='route';s.selectedStage={mode:'route',node:s.node,name:'<img src=x onerror=bad>'};const html=titleScreen(s,true);assert.ok(html.includes('&lt;img src=x onerror=bad&gt;'));assert.ok(!html.includes('<img src=x'));assert.ok(!html.includes('"checkpoint"'));});

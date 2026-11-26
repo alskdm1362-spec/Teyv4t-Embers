@@ -1,0 +1,142 @@
+[
+  {
+    "file": "mitya.png",
+    "size": [
+      96,
+      96
+    ],
+    "bbox": [
+      20,
+      4,
+      76,
+      92
+    ],
+    "colors_total": 61,
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "source_sheet": "heroes-source.png",
+    "source_column": 0
+  },
+  {
+    "file": "jahoda.png",
+    "size": [
+      96,
+      96
+    ],
+    "bbox": [
+      18,
+      4,
+      78,
+      92
+    ],
+    "colors_total": 62,
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "source_sheet": "heroes-source.png",
+    "source_column": 1
+  },
+  {
+    "file": "illuga.png",
+    "size": [
+      96,
+      96
+    ],
+    "bbox": [
+      17,
+      4,
+      79,
+      92
+    ],
+    "colors_total": 62,
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "source_sheet": "heroes-source.png",
+    "source_column": 2
+  },
+  {
+    "file": "rifthound.png",
+    "size": [
+      96,
+      96
+    ],
+    "bbox": [
+      4,
+      30,
+      92,
+      92
+    ],
+    "colors_total": 61,
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "source_sheet": "enemies-source.png",
+    "source_column": 0
+  },
+  {
+    "file": "angler.png",
+    "size": [
+      96,
+      96
+    ],
+    "bbox": [
+      4,
+      21,
+      92,
+      92
+    ],
+    "colors_total": 61,
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "source_sheet": "enemies-source.png",
+    "source_column": 1
+  },
+  {
+    "file": "primus.png",
+    "size": [
+      96,
+      96
+    ],
+    "bbox": [
+      4,
+      15,
+      92,
+      92
+    ],
+    "colors_total": 59,
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "source_sheet": "enemies-source.png",
+    "source_column": 2
+  },
+  {
+    "file": "sentinel.png",
+    "size": [
+      96,
+      96
+    ],
+    "bbox": [
+      5,
+      5,
+      89,
+      92
+    ],
+    "colors_total": 59,
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "source_sheet": "enemies-source.png",
+    "source_column": 3
+  }
+]

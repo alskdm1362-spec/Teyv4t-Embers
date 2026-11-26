@@ -1,0 +1,291 @@
+/* v0.16 Feedback & CZN-Inspired UX / Mechanics Enhancements */
+
+/* 1. Live Damage / Kill / Echo Preview on Enemies */
+.enemy {
+  position: relative;
+}
+
+.enemy-preview-badge {
+  position: absolute;
+  top: -12px;
+  right: 8px;
+  z-index: 12;
+  padding: 3px 8px;
+  border-radius: 999px;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+  color: #fff6f2;
+  background: rgba(18, 22, 32, 0.94);
+  border: 1px solid rgba(242, 107, 78, 0.85);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.55);
+  pointer-events: none;
+  white-space: nowrap;
+}
+
+.enemy-preview-badge.is-kill {
+  background: rgba(168, 36, 44, 0.95);
+  border-color: #ff9e87;
+}
+
+.enemy-preview-badge.is-echo {
+  background: rgba(88, 42, 132, 0.95);
+  border-color: #d7b4ff;
+}
+
+.enemy-preview-badge.is-break {
+  background: rgba(24, 92, 128, 0.95);
+  border-color: #9ad5ff;
+}
+
+/* 2. Enemy Danger Intent Alert */
+.intent.intent-danger {
+  border-color: rgba(242, 107, 78, 0.82) !important;
+  box-shadow: 0 0 12px rgba(242, 107, 78, 0.28);
+}
+
+.intent-alert-pill {
+  display: inline-flex;
+  align-items: center;
+  margin-left: 5px;
+  padding: 1px 5px;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 700;
+  color: #ffd8ce;
+  background: rgba(185, 45, 38, 0.88);
+  vertical-align: middle;
+}
+
+/* 3. Card Injury Penalty Tag & Rare Ember Spark Seal */
+.card-injury-tag {
+  position: absolute;
+  top: 28px;
+  left: 6px;
+  z-index: 6;
+  padding: 1px 5px;
+  border-radius: 4px;
+  font-size: 10px;
+  font-weight: 700;
+  color: #ffd6cc;
+  background: rgba(140, 28, 28, 0.9);
+  border: 1px solid rgba(255, 130, 110, 0.6);
+  pointer-events: none;
+}
+
+.card-spark-tag {
+  position: absolute;
+  top: 28px;
+  right: 6px;
+  z-index: 6;
+  padding: 1px 6px;
+  border-radius: 999px;
+  font-size: 10px;
+  font-weight: 700;
+  color: #fff6d6;
+  background: linear-gradient(135deg, rgba(214, 118, 40, 0.95), rgba(164, 58, 36, 0.95));
+  border: 1px solid rgba(255, 224, 140, 0.85);
+  box-shadow: 0 0 10px rgba(242, 152, 74, 0.55);
+  pointer-events: none;
+}
+
+.card.spark-card {
+  box-shadow: 0 0 0 1px rgba(255, 212, 122, 0.72), 0 0 16px rgba(242, 126, 62, 0.35);
+}
+
+/* 4. Inline Keyword Tooltip Strip above Hand */
+#card-detail {
+  pointer-events: none;
+}
+
+.keyword-strip {
+  position: fixed;
+  left: 50%;
+  bottom: 186px;
+  transform: translateX(-50%);
+  z-index: 42;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px;
+  max-width: min(760px, 90vw);
+  padding: 6px 10px;
+  border-radius: 8px;
+  background: rgba(13, 17, 25, 0.92);
+  border: 1px solid rgba(154, 213, 255, 0.28);
+  backdrop-filter: blur(6px);
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.45);
+}
+
+.keyword-chip {
+  font-size: 11px;
+  line-height: 1.4;
+  color: #dbe4f0;
+}
+
+.keyword-chip strong {
+  color: #9ad5ff;
+  margin-right: 4px;
+}
+
+/* 5. Compact Combat Feed + Undo Button + Expandable Log Drawer */
+.combat-feed {
+  gap: 8px;
+}
+
+.feed-toggle {
+  background: transparent;
+  border: none;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+  padding: 2px 4px;
+  flex: 1;
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.feed-toggle:hover {
+  color: #9ad5ff;
+}
+
+.undo-btn {
+  padding: 3px 9px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #d9eeff;
+  background: rgba(34, 62, 92, 0.85);
+  border: 1px solid rgba(120, 186, 240, 0.55);
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.undo-btn:disabled {
+  opacity: 0.38;
+  cursor: not-allowed;
+}
+
+.feed-drawer {
+  position: absolute;
+  left: 14px;
+  bottom: 36px;
+  z-index: 36;
+  width: min(360px, 72vw);
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: rgba(12, 16, 24, 0.94);
+  border: 1px solid rgba(154, 213, 255, 0.28);
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.55);
+  font-size: 12px;
+  color: #d5dfec;
+}
+
+.feed-drawer ul {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.feed-drawer li {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  padding-bottom: 3px;
+}
+
+.feed-drawer li:last-child {
+  border-bottom: none;
+  padding-bottom: 0;
+}
+
+/* 6. Clickable Ally Fighter & Minimap affordance */
+.fighter[data-ally] {
+  cursor: pointer;
+}
+
+.travel-minimap[data-action="route"] {
+  cursor: pointer;
+}
+
+/* 7. Partner Passive Callout in Status & Formation */
+.partner-passive-box {
+  margin: 8px 0 12px;
+  padding: 8px 10px;
+  border-left: 3px solid #5ab4f0;
+  background: rgba(24, 34, 48, 0.65);
+  font-size: 12px;
+  line-height: 1.5;
+  color: #d6e2f0;
+}
+
+.partner-passive-box strong {
+  color: #9ad5ff;
+  display: block;
+  margin-bottom: 2px;
+}
+
+/* 8. Spark Highlight in Upgrade Detail */
+.spark-branch-banner {
+  display: inline-block;
+  margin-bottom: 8px;
+  padding: 3px 8px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #fff4cf;
+  background: rgba(196, 98, 36, 0.88);
+  border: 1px solid rgba(255, 214, 128, 0.8);
+}
+
+/* 9. Expedition Records Tab in Codex */
+.record-list {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.record-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: 8px;
+  background: rgba(18, 25, 36, 0.82);
+  border: 1px solid rgba(154, 213, 255, 0.22);
+}
+
+.record-row strong {
+  color: #f0f5fc;
+  font-size: 14px;
+}
+
+.record-row p {
+  margin: 3px 0 0;
+  font-size: 12px;
+  color: #aab6c8;
+}
+
+.record-actions {
+  display: flex;
+  gap: 6px;
+  flex-shrink: 0;
+}
+
+.hub-record-btn {
+  margin-left: 8px;
+  padding: 3px 9px;
+  border-radius: 6px;
+  font-size: 11px;
+  font-weight: 700;
+  color: #e6f2ff;
+  background: rgba(34, 52, 76, 0.88);
+  border: 1px solid rgba(154, 213, 255, 0.45);
+  cursor: pointer;
+}

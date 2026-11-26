@@ -1,0 +1,204 @@
+{
+  "reference_only": true,
+  "runtime": false,
+  "assets": [
+    {
+      "file": "monster-01.png",
+      "source_filename": "몬스터/no humans, solo, floating, {ophanim}, interlocking golden rings, glowing red ver s-3256935275.png",
+      "source_sha256": "4b5f6bd50352b1aa678900123f8943caa84b96da841929b0299456098c9e866f",
+      "sha256": "4b5f6bd50352b1aa678900123f8943caa84b96da841929b0299456098c9e866f",
+      "size": [
+        1024,
+        1024
+      ],
+      "mode": "RGBA",
+      "bytes": 803561,
+      "reference_only": true,
+      "runtime": false
+    },
+    {
+      "file": "monster-02.png",
+      "source_filename": "몬스터/no humans, solo, floating, {ophanim}, interlocking golden rings, glowing red ver s-546601625.png",
+      "source_sha256": "3f6d6e36e8a6091c4b85979a7aec6d8661fe17015abbf5731a7ed979d2173502",
+      "sha256": "3f6d6e36e8a6091c4b85979a7aec6d8661fe17015abbf5731a7ed979d2173502",
+      "size": [
+        1024,
+        1024
+      ],
+      "mode": "RGBA",
+      "bytes": 1117022,
+      "reference_only": true,
+      "runtime": false
+    },
+    {
+      "file": "monster-03.png",
+      "source_filename": "몬스터/no humans, solo, full body, floating, legless, white and gold, glowing red slit, s-1399317826.png",
+      "source_sha256": "c51d4497205e31894aa097e60399d9536177d42238340dbcc48de4de06944c64",
+      "sha256": "c51d4497205e31894aa097e60399d9536177d42238340dbcc48de4de06944c64",
+      "size": [
+        832,
+        1216
+      ],
+      "mode": "RGBA",
+      "bytes": 1006674,
+      "reference_only": true,
+      "runtime": false
+    },
+    {
+      "file": "monster-04.png",
+      "source_filename": "몬스터/no humans, solo, full body, floating, legless, white and gold, glowing red slit, s-3724632223.png",
+      "source_sha256": "b0f10e82d42c46f6ff24aa6e3f5c44a06de2dd5bd859bafbf9a99b607fa74b5b",
+      "sha256": "b0f10e82d42c46f6ff24aa6e3f5c44a06de2dd5bd859bafbf9a99b607fa74b5b",
+      "size": [
+        832,
+        1216
+      ],
+      "mode": "RGBA",
+      "bytes": 740283,
+      "reference_only": true,
+      "runtime": false
+    },
+    {
+      "file": "monster-05.png",
+      "source_filename": "몬스터/no humans, solo, full body, floating, legless, {heavy armor}, white and gold arm s-1665184791.png",
+      "source_sha256": "cc8d5883805713e7783b12a16633080db22267da250b5de842542f42ce0d3759",
+      "sha256": "cc8d5883805713e7783b12a16633080db22267da250b5de842542f42ce0d3759",
+      "size": [
+        1024,
+        1024
+      ],
+      "mode": "RGBA",
+      "bytes": 1303994,
+      "reference_only": true,
+      "runtime": false
+    },
+    {
+      "file": "monster-06.png",
+      "source_filename": "몬스터/no humans, solo, full body, floating, legless, {heavy armor}, white and gold arm s-2813895463.png",
+      "source_sha256": "dc78050fa521225c56afc696adea0407d35cd92cf062ab02f64f89358497475f",
+      "sha256": "dc78050fa521225c56afc696adea0407d35cd92cf062ab02f64f89358497475f",
+      "size": [
+        832,
+        1216
+      ],
+      "mode": "RGBA",
+      "bytes": 1135592,
+      "reference_only": true,
+      "runtime": false
+    },
+    {
+      "file": "monster-07.png",
+      "source_filename": "몬스터/no humans, solo, full body, floating, legless, {heavy armor}, white and gold arm s-3361783194.png",
+      "source_sha256": "918de9699739f92c2b7bdfc0cd7dc2ee8d4aa9ba83a12580c470ca40cce8c08b",
+      "sha256": "918de9699739f92c2b7bdfc0cd7dc2ee8d4aa9ba83a12580c470ca40cce8c08b",
+      "size": [
+        1024,
+        1024
+      ],
+      "mode": "RGBA",
+      "bytes": 1290029,
+      "reference_only": true,
+      "runtime": false
+    },
+    {
+      "file": "monster-08.png",
+      "source_filename": "몬스터/no humans, solo, monster, floating, {eldritch horror}, jellyfish-like body, spli s-1299634347.png",
+      "source_sha256": "d698605a33066ca580b41b7ebe1e681116f12be6ee82ab20db724e94617b6b93",
+      "sha256": "d698605a33066ca580b41b7ebe1e681116f12be6ee82ab20db724e94617b6b93",
+      "size": [
+        1024,
+        1024
+      ],
+      "mode": "RGBA",
+      "bytes": 1130048,
+      "reference_only": true,
+      "runtime": false
+    },
+    {
+      "file": "monster-09.png",
+      "source_filename": "몬스터/no humans, solo, monster, floating, {eldritch horror}, jellyfish-like body, spli s-2215030511.png",
+      "source_sha256": "48f1cccc1d50a9eccef484a75086aa6caadf659dff08c2ac1c59336590033db8",
+      "sha256": "48f1cccc1d50a9eccef484a75086aa6caadf659dff08c2ac1c59336590033db8",
+      "size": [
+        1024,
+        1024
+      ],
+      "mode": "RGBA",
+      "bytes": 1043210,
+      "reference_only": true,
+      "runtime": false
+    },
+    {
+      "file": "monster-10.png",
+      "source_filename": "몬스터/no humans, solo, monster, floating, {eldritch horror}, jellyfish-like body, spli s-3270457644.png",
+      "source_sha256": "76899dff1821361688dc99f41f5bf96e916286f2bc355acddcc45992049894fa",
+      "sha256": "76899dff1821361688dc99f41f5bf96e916286f2bc355acddcc45992049894fa",
+      "size": [
+        1024,
+        1024
+      ],
+      "mode": "RGBA",
+      "bytes": 1307943,
+      "reference_only": true,
+      "runtime": false
+    },
+    {
+      "file": "monster-11.png",
+      "source_filename": "몬스터/no humans, solo, monster, floating, {eldritch horror}, jellyfish-like body, spli s-3393208387.png",
+      "source_sha256": "a725af039e61e328a04a5a3950dc28f7e535b2d2bca4e840701dcf73595dc67d",
+      "sha256": "a725af039e61e328a04a5a3950dc28f7e535b2d2bca4e840701dcf73595dc67d",
+      "size": [
+        1024,
+        1024
+      ],
+      "mode": "RGBA",
+      "bytes": 1085880,
+      "reference_only": true,
+      "runtime": false
+    },
+    {
+      "file": "monster-12.png",
+      "source_filename": "몬스터/no humans, solo, monster, {insectoid}, dark purple chitin, glowing magenta sac,  s-1811009934.png",
+      "source_sha256": "068ab4c74e94fac312421624d99f4e992fd49ab541d025572e88f3ffd7d9bc3a",
+      "sha256": "068ab4c74e94fac312421624d99f4e992fd49ab541d025572e88f3ffd7d9bc3a",
+      "size": [
+        1024,
+        1024
+      ],
+      "mode": "RGBA",
+      "bytes": 1357960,
+      "reference_only": true,
+      "runtime": false
+    },
+    {
+      "file": "monster-13.png",
+      "source_filename": "몬스터/no humans, solo, monster, {insectoid}, dark purple chitin, glowing magenta sac,  s-2165253313.png",
+      "source_sha256": "6fc80d70233841af467d87645f9e22b71d73655be9517cf767141a96b4d15a78",
+      "sha256": "6fc80d70233841af467d87645f9e22b71d73655be9517cf767141a96b4d15a78",
+      "size": [
+        832,
+        1216
+      ],
+      "mode": "RGBA",
+      "bytes": 1692644,
+      "reference_only": true,
+      "runtime": false
+    },
+    {
+      "file": "monster-14.png",
+      "source_filename": "몬스터/no humans, solo, monster, {insectoid}, dark purple chitin, glowing magenta sac,  s-958494463.png",
+      "source_sha256": "52f3336524022afc57143940372dea7fecfb90117a5b721ff993e36c6eec8459",
+      "sha256": "52f3336524022afc57143940372dea7fecfb90117a5b721ff993e36c6eec8459",
+      "size": [
+        1024,
+        1024
+      ],
+      "mode": "RGBA",
+      "bytes": 1115652,
+      "reference_only": true,
+      "runtime": false
+    }
+  ],
+  "total_files": 14,
+  "total_bytes": 16130492
+}

@@ -1,0 +1,27 @@
+{
+  "url": "https://github.com/hada0127/hada-type-levelup/releases/download/v2026.10.21/LevelUp-WOFF2.zip",
+  "version": "v2026.10.21",
+  "archive_sha256": "4680c0f27035a32a52181cbbde2536931a4acd9a955686bacbd568b371f7b969",
+  "files": [
+    {
+      "file": "LevelUp-Bold.woff2",
+      "sha256": "5296e829092538d60fe2daa4d13b939191be6058c577a8d930b562a418bd6bc1"
+    },
+    {
+      "file": "COPYRIGHT.txt",
+      "sha256": "bb796b1f295358e1119a73ede1f8d8eec379d8ddfb1a7fa9c4f631c0c11e9bcf"
+    },
+    {
+      "file": "WEBFONT-USAGE.txt",
+      "sha256": "8e5a232ad99ab844343400107cc86488668b56d66d8aad893ef19b2eec1cf19d"
+    },
+    {
+      "file": "LICENSE.txt",
+      "sha256": "cea0f753f897f7f4085b4be52c997a64b259e8caf34942ca9a5ba9ee680f30f6"
+    },
+    {
+      "file": "LevelUp-Regular.woff2",
+      "sha256": "ac99b3f456e41a1c5ba0b56cf825537d5c584a6190061919d378fd3038ded396"
+    }
+  ]
+}

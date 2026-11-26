@@ -1,0 +1,493 @@
+/* v0.19 User's Signature Style: Borderless Buttons, 80% Translucent Modals over Dark Backdrop, Headerless Surfaces (except Menu & Route), 1280x720 Locked Lobby Ratio */
+
+/* 1. Hide Surface Header everywhere EXCEPT pause-menu & route */
+.modal.modern-surface:not([data-surface="pause-menu"]):not([data-surface="route"]) .surface-header {
+  position: absolute !important;
+  top: 10px !important;
+  right: 12px !important;
+  left: auto !important;
+  width: auto !important;
+  padding: 0 !important;
+  margin: 0 !important;
+  border: none !important;
+  background: transparent !important;
+  z-index: 30;
+}
+
+.modal.modern-surface:not([data-surface="pause-menu"]):not([data-surface="route"]) .surface-header > div {
+  display: none !important;
+}
+
+.modal.modern-surface .surface-close {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  color: rgba(235, 242, 250, 0.85) !important;
+  font-size: 26px !important;
+  width: 38px !important;
+  height: 38px !important;
+}
+
+.modal.modern-surface .surface-close:hover {
+  color: #ffffff !important;
+}
+
+/* 2. Global Borderless Buttons (no outlines on UI buttons) */
+.modal.modern-surface button:not(.catalog-card):not(.card):not(.czn-roster-btn),
+.modal.modern-surface .data-row,
+.modal.modern-surface .record-row {
+  border: none !important;
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.modal.modern-surface button:not(.catalog-card):not(.card):not(.czn-roster-btn) {
+  background: transparent !important;
+}
+
+.modal.modern-surface button:not(.catalog-card):not(.card):not(.czn-roster-btn):hover:not(:disabled) {
+  background: rgba(255, 255, 255, 0.08) !important;
+}
+
+/* 3. Darker Backdrop Shade for High Legibility */
+.modal-shade.modern-shade {
+  background: rgba(4, 7, 13, 0.86) !important;
+  backdrop-filter: blur(6px);
+}
+
+/* 4. 80% Window Proportions for Status, Care, Shop, Formation */
+.modal.modern-surface[data-surface="status"],
+.modal.modern-surface[data-surface="care-select"],
+.modal.modern-surface[data-surface="care-dialogue"],
+.modal.modern-surface[data-surface="shop"],
+.modal.modern-surface[data-surface="formation"] {
+  width: 80vw !important;
+  max-width: 1120px !important;
+  height: 80dvh !important;
+  max-height: 760px !important;
+  padding: 24px 28px !important;
+  overflow: hidden !important;
+}
+
+/* Transparent glass containers for Status, Care, Formation */
+.modal.modern-surface[data-surface="status"],
+.modal.modern-surface[data-surface="care-select"],
+.modal.modern-surface[data-surface="care-dialogue"],
+.modal.modern-surface[data-surface="formation"] {
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+}
+
+/* 5. Pause Menu: Borderless + Smaller Button & Status Text */
+.modal.modern-surface[data-surface="pause-menu"] .pause-menu button {
+  border: none !important;
+  background: transparent !important;
+  padding: 10px 12px !important;
+}
+
+.modal.modern-surface[data-surface="pause-menu"] .pause-menu button span {
+  font-size: 14px !important;
+}
+
+.modal.modern-surface[data-surface="pause-menu"] .pause-menu button small {
+  font-size: 11px !important;
+}
+
+.modal.modern-surface[data-surface="pause-menu"] .menu-location h3 {
+  font-size: 16px !important;
+}
+
+.modal.modern-surface[data-surface="pause-menu"] .menu-location p,
+.modal.modern-surface[data-surface="pause-menu"] .menu-location dt {
+  font-size: 11px !important;
+}
+
+.modal.modern-surface[data-surface="pause-menu"] .menu-location dd {
+  font-size: 14px !important;
+}
+
+/* 6. Codex: Rollback Name Font, Hover Underline, Dim Unselected Tabs */
+.modal.modern-surface[data-surface="codex"] .archive-tabs {
+  display: flex;
+  gap: 18px;
+  padding-right: 44px;
+  margin-bottom: 14px;
+}
+
+.modal.modern-surface[data-surface="codex"] .archive-tabs button {
+  padding: 6px 4px !important;
+  color: #eef4fc !important;
+  opacity: 0.38;
+  border-bottom: 2px solid transparent !important;
+  transition: opacity 0.16s ease, border-color 0.16s ease;
+}
+
+.modal.modern-surface[data-surface="codex"] .archive-tabs button.active {
+  opacity: 1 !important;
+  color: #ffffff !important;
+  background: transparent !important;
+  border-bottom: 2px solid #70d5ce !important;
+}
+
+.modal.modern-surface[data-surface="codex"] .ally-card-tile,
+.modal.modern-surface[data-surface="codex"] .ally-rail button,
+.modal.modern-surface[data-surface="codex"] .enemy-archive-grid button {
+  position: relative;
+  font-family: Paperlogy, -apple-system, BlinkMacSystemFont, sans-serif !important;
+}
+
+.modal.modern-surface[data-surface="codex"] .ally-rail button strong,
+.modal.modern-surface[data-surface="codex"] .ally-rail button span {
+  font-family: Paperlogy, -apple-system, BlinkMacSystemFont, sans-serif !important;
+}
+
+.modal.modern-surface[data-surface="codex"] .ally-rail button::after,
+.modal.modern-surface[data-surface="codex"] .enemy-archive-grid button::after {
+  content: '';
+  position: absolute;
+  left: 10%;
+  right: 10%;
+  bottom: 0;
+  height: 2px;
+  background: #70d5ce;
+  transform: scaleX(0);
+  transform-origin: center;
+  transition: transform 0.2s ease;
+}
+
+.modal.modern-surface[data-surface="codex"] .ally-rail button:hover::after,
+.modal.modern-surface[data-surface="codex"] .enemy-archive-grid button:hover::after {
+  transform: scaleX(1);
+}
+
+/* 7. Lobby Personnel (CZN Viewer): Narrow Portrait-Only Roster, Personal Color Line Only, Underline Mode Toggle, Fix Condition Tab */
+.modal.modern-surface[data-surface="lobby-personnel"] {
+  width: 84vw !important;
+  max-width: 1140px !important;
+  height: 82dvh !important;
+  background: rgba(10, 14, 22, 0.86) !important;
+  border: none !important;
+  padding: 20px 24px !important;
+}
+
+.czn-personnel {
+  grid-template-columns: 74px minmax(230px, 36%) minmax(0, 1fr) !important;
+  gap: 22px !important;
+  height: 100% !important;
+}
+
+.czn-roster {
+  gap: 10px !important;
+  padding-right: 0 !important;
+}
+
+.czn-roster-btn {
+  padding: 4px 4px 4px 8px !important;
+  border: none !important;
+  border-left: 3px solid var(--accent, #70d5ce) !important;
+  background: transparent !important;
+  opacity: 0.48;
+  justify-content: center;
+  transition: opacity 0.16s ease, transform 0.16s ease;
+}
+
+.czn-roster-btn.active,
+.czn-roster-btn:hover {
+  opacity: 1 !important;
+  background: transparent !important;
+  box-shadow: none !important;
+}
+
+.czn-roster-btn img {
+  width: 54px !important;
+  height: 54px !important;
+  border: none !important;
+  border-radius: 2px !important;
+}
+
+.czn-stage {
+  background: transparent !important;
+  border: none !important;
+  padding-top: 42px !important;
+}
+
+.czn-mode-toggle {
+  top: 4px !important;
+  left: 12px !important;
+  right: 12px !important;
+  gap: 16px !important;
+  justify-content: center;
+}
+
+.czn-mode-toggle button {
+  flex: 0 1 auto !important;
+  padding: 6px 8px !important;
+  border: none !important;
+  border-bottom: 2px solid transparent !important;
+  background: transparent !important;
+  opacity: 0.45;
+}
+
+.czn-mode-toggle button.active {
+  opacity: 1 !important;
+  border-bottom: 2px solid var(--accent, #70d5ce) !important;
+}
+
+.czn-nameplate {
+  background: linear-gradient(180deg, transparent, rgba(8, 12, 20, 0.88) 45%) !important;
+  border-top: none !important;
+}
+
+.czn-tabs {
+  position: relative;
+  z-index: 12;
+  padding-right: 48px !important;
+  gap: 14px !important;
+  margin-bottom: 12px !important;
+}
+
+.czn-tabs button {
+  flex: 0 1 auto !important;
+  padding: 6px 6px !important;
+  border-bottom: 2px solid transparent !important;
+  opacity: 0.45;
+}
+
+.czn-tabs button.active {
+  opacity: 1 !important;
+  border-bottom: 2px solid #70d5ce !important;
+}
+
+.czn-stat-cell {
+  background: rgba(14, 20, 32, 0.55) !important;
+  border: none !important;
+}
+
+/* 8. Lobby: Fixed 1280x720 Aspect Ratio & Readable Text */
+.lobby-scene {
+  width: 1280px !important;
+  height: 720px !important;
+  min-height: 720px !important;
+  padding: 20px 32px 24px !important;
+}
+
+.lobby-main {
+  height: 610px !important;
+  grid-template-columns: 470px 1fr !important;
+  gap: 44px !important;
+  align-items: end !important;
+}
+
+.lobby-standing {
+  height: 540px !important;
+  max-height: 540px !important;
+  width: auto !important;
+}
+
+.lobby-speech {
+  left: 4px !important;
+  right: 12px !important;
+  bottom: 16px !important;
+  padding: 15px 18px !important;
+}
+
+.lobby-speech small {
+  font-size: 12px !important;
+}
+
+.lobby-speech p {
+  font-size: 15px !important;
+  line-height: 1.55 !important;
+}
+
+.lobby-tile strong {
+  font-size: 20px !important;
+}
+
+.lobby-tile-grid .lobby-tile strong {
+  font-size: 17px !important;
+}
+
+.lobby-tile p {
+  font-size: 13px !important;
+}
+
+/* 9. Status Modal (80%, Transparent Standing, Non-Clickable Standing, 2 Tabs) */
+.status-v19 {
+  display: grid;
+  grid-template-columns: 36% 1fr;
+  gap: 28px;
+  height: calc(100% - 54px);
+}
+
+.status-standing-static {
+  height: 100%;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+  background: transparent;
+  pointer-events: none;
+  user-select: none;
+}
+
+.status-standing-static img {
+  max-height: 100%;
+  max-width: 100%;
+  height: 100%;
+  width: auto;
+  object-fit: contain;
+  object-position: center bottom;
+  filter: drop-shadow(0 14px 28px rgba(0, 0, 0, 0.72));
+}
+
+.status-v19-panel {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  height: 100%;
+  background: rgba(10, 15, 24, 0.72);
+  padding: 16px 20px;
+}
+
+.status-v19-tabs {
+  display: flex;
+  gap: 18px;
+  padding-right: 44px;
+  margin-bottom: 14px;
+}
+
+.status-v19-tabs button {
+  padding: 6px 4px !important;
+  opacity: 0.42;
+  border-bottom: 2px solid transparent !important;
+}
+
+.status-v19-tabs button.active {
+  opacity: 1 !important;
+  border-bottom: 2px solid #70d5ce !important;
+}
+
+.status-v19-body {
+  flex: 1;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.status-v19-grid {
+  display: grid;
+  grid-template-columns: 1fr 220px;
+  gap: 16px;
+}
+
+/* 10. Care (Mental Stabilization): 80%, Transparent, Fade-in Character */
+@keyframes careCharFadeIn {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.modal.modern-surface[data-surface="care-select"] .care-standing,
+.modal.modern-surface[data-surface="care-dialogue"] .story-dialogue img {
+  animation: careCharFadeIn 0.48s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.modal.modern-surface[data-surface="care-select"] .care-standing {
+  border: none !important;
+  background: transparent !important;
+}
+
+/* 11. Shop: 80% Window, Borderless Buttons, Card Removal Tab on Right */
+.modal.modern-surface[data-surface="shop"] .kirara-shop {
+  height: 100% !important;
+}
+
+.modal.modern-surface[data-surface="shop"] .shop-tabs {
+  display: flex !important;
+  justify-content: space-between !important;
+  align-items: center !important;
+  background: transparent !important;
+  padding-right: 36px;
+}
+
+.modal.modern-surface[data-surface="shop"] .shop-tabs button {
+  opacity: 0.45;
+  border-bottom: 2px solid transparent !important;
+}
+
+.modal.modern-surface[data-surface="shop"] .shop-tabs button.active {
+  opacity: 1 !important;
+  border-bottom: 2px solid #70d5ce !important;
+}
+
+.modal.modern-surface[data-surface="shop"] .shop-tabs button:last-child {
+  margin-left: auto;
+}
+
+/* 12. Formation: 80% Transparent Window, Full Illustration Top, Bottom Portrait->Name->Desc Buttons Only */
+.formation-v19 {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  gap: 16px;
+}
+
+.formation-v19-art {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.formation-v19-art img {
+  max-width: 100%;
+  max-height: 100%;
+  width: auto;
+  height: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 12px 26px rgba(0, 0, 0, 0.72));
+}
+
+.formation-v19-roster {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 16px;
+  flex-shrink: 0;
+}
+
+.formation-card-btn {
+  display: flex !important;
+  flex-direction: column !important;
+  align-items: center !important;
+  text-align: center !important;
+  gap: 6px !important;
+  padding: 12px 10px !important;
+  background: rgba(12, 18, 28, 0.65) !important;
+  border: none !important;
+  border-bottom: 2px solid transparent !important;
+}
+
+.formation-card-btn.in-party {
+  border-bottom: 2px solid var(--accent, #70d5ce) !important;
+}
+
+.formation-card-btn img {
+  width: 64px;
+  height: 64px;
+  object-fit: cover;
+  object-position: 50% 18%;
+  border-radius: 2px;
+}
+
+.formation-card-btn strong {
+  font-size: 14px;
+  color: #f4f8ff;
+}
+
+.formation-card-btn small {
+  font-size: 11px;
+  line-height: 1.45;
+  color: #b7c6d9;
+}

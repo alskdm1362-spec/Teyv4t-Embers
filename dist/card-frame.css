@@ -1,0 +1,42 @@
+/* CZN reference: full illustration, compact cost/name, thin side frame, clear tags. */
+#game:before{background-image:var(--scene-bg,url('assets/backgrounds/stormterror.png'))}
+.in-battle #game[data-scene=late-abyss]:before{filter:brightness(.76) saturate(.82);opacity:1}
+.in-battle #game[data-scene=late-sky]:before{filter:brightness(.72) saturate(.8);opacity:1}
+.in-battle #game[data-scene=late-final]:before{filter:brightness(.69) saturate(.9);opacity:1}
+.card-frame{--frame-color:#d4bd87;--frame-ink:#f6f4ec;border-radius:2px;isolation:isolate;background:#11161e;border:1px solid #c5d5db88;border-left:3px solid var(--frame-color);box-shadow:0 5px 12px #0008,inset 0 0 0 1px #0005}
+.in-battle .card-frame{width:clamp(84px,calc(750px / max(5,var(--hand-size))),150px);height:210px;border-radius:2px;border:1px solid #c5d5db88;border-left:3px solid var(--frame-color);background:#11161e}
+.in-battle .card-frame:before,.catalog-card.card-frame:before{display:block;content:'';position:absolute;z-index:4;left:0;top:0;right:auto;height:43px;width:3px;background:#fff6;box-shadow:none}
+.card-frame:after{content:'';position:absolute;inset:3px;pointer-events:none;z-index:4;border:1px solid #d7e8ed22;border-radius:1px}
+.in-battle .card-frame .card-art,.card-frame.catalog-card .card-art{inset:0;height:auto;background:#151b23;z-index:0}
+.in-battle .card-frame .card-art:before,.card-frame.catalog-card .card-art:before{display:none}
+.in-battle .card-frame .card-art .cast-card-art,.card-frame.catalog-card .card-art .cast-card-art{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:50% 34%;opacity:1;transform:none;filter:none;z-index:0;image-rendering:auto}
+.card-frame .card-head,.card-frame.catalog-card .card-head{position:absolute;z-index:3;left:0;right:0;top:0;min-height:52px;padding:7px 4px 8px 32px;border:0;background:linear-gradient(180deg,#030814e8,#030814a6 62%,transparent);text-shadow:0 1px 3px #000,0 2px 8px #000}
+.card-frame .card-head>b,.card-frame.catalog-card .card-head>b{font-size:13px;color:#fafaf5;line-height:1.28;font-weight:700;letter-spacing:-.15px}
+.card-frame .card-head small,.card-frame.catalog-card .card-head small{font-size:10px;line-height:1.25;color:#f4eee1;margin-top:3px;letter-spacing:.2px}
+.card-symbol{font-size:11px;color:#eee5d5}
+.card-frame .card-cost,.in-battle .card-frame .card-cost,.card-frame.catalog-card .card-cost{z-index:5;left:7px;top:6px;background:none;color:#fff;min-width:19px;width:auto;height:auto;border:0;border-radius:0;font-size:31px;line-height:1;font-weight:600;text-align:center;text-shadow:0 1px 3px #000,0 1px 8px #000}
+.card-frame .card-type,.in-battle .card-frame .card-type,.card-frame.catalog-card .card-type{z-index:3;left:0;right:0;bottom:0;min-height:20px;padding:5px 6px 4px;border:0;background:linear-gradient(0deg,#040a12e8,#040a128c 70%,transparent);font-size:8px;line-height:1.1;color:#ebede9;letter-spacing:.4px;text-shadow:0 1px 3px #000;display:flex;justify-content:space-between;align-items:center;gap:3px}
+.in-battle .card-frame .card-desc{z-index:6;left:3px;right:3px;bottom:20px;max-height:95px;background:#07101aee;border:1px solid #b5c9d344;padding:6px;color:#e5edf1;font-size:11px;line-height:1.45}
+.card-frame.catalog-card .card-desc{z-index:3;left:3px;right:3px;bottom:22px;max-height:74px;background:linear-gradient(0deg,#07101af5,#07101ace);border:0;padding:6px;color:#e5edf1;font-size:11px;line-height:1.4}
+.in-battle .card-frame:hover,.in-battle .card-frame.inspected{border-color:#f2fcff;border-left-color:#fff3c5;box-shadow:0 0 12px #b2defc55,0 10px 25px #000b;background:#11161e}
+.card-frame.broken,.in-battle .card-frame.broken,.card-frame.catalog-card.broken{--frame-color:#db496e;border-color:#c26a87;border-left-color:#ef5878;background:#28101c}
+.card-frame.broken .card-head{background:linear-gradient(180deg,#210710e8,#18050bb3 65%,transparent)}
+.card-frame.broken .card-symbol{color:#ff91ac}
+.card-frame.broken .card-art .cast-card-art{object-position:50% 38%;filter:none}
+.card-gallery .catalog-card.card-frame,.upgrade-comparison .catalog-card.card-frame{width:156px;height:228px;border:1px solid #c5d5db88;border-left:3px solid var(--frame-color);border-radius:2px;background:#11161e}
+.card-owner img,.catalog-card .card-owner img,.hud-profile>img{object-position:50% 14%;image-rendering:auto}
+.cast-status-art .cast-portrait{height:350px}.cast-status-art .broken-portrait{height:350px}
+.title-art{width:650px;right:0}
+@media(max-height:500px){
+ .in-battle .card-frame{width:clamp(62px,calc(620px / max(5,var(--hand-size))),124px);height:166px}
+ .card-frame .card-head,.card-frame.catalog-card .card-head{min-height:44px;padding:6px 3px 6px 28px}
+ .card-frame .card-head>b,.card-frame.catalog-card .card-head>b{font-size:12px}
+ .card-frame .card-head small,.card-frame.catalog-card .card-head small{font-size:9px;margin-top:2px}
+ .card-frame .card-cost,.in-battle .card-frame .card-cost,.card-frame.catalog-card .card-cost{left:5px;top:5px;font-size:27px}
+ .card-frame .card-type,.in-battle .card-frame .card-type,.card-frame.catalog-card .card-type{font-size:8px;min-height:18px;padding:4px 5px}
+ .in-battle .card-frame .card-desc{font-size:11px;bottom:18px;max-height:82px}
+ .card-frame.catalog-card .card-desc{font-size:10px;bottom:19px;max-height:62px;padding:4px}
+ .card-gallery .catalog-card.card-frame,.upgrade-comparison .catalog-card.card-frame{width:120px;height:176px}
+ .cast-status-art .cast-portrait,.cast-status-art .broken-portrait{height:230px}.title-art{width:470px;right:20px}
+}
+@media(max-width:550px){.upgrade-comparison .catalog-card.card-frame{width:92px;height:145px}.upgrade-comparison .catalog-card.card-frame .card-head>b{font-size:10px}.upgrade-comparison .catalog-card.card-frame .card-desc{font-size:9px;max-height:50px}}

@@ -1,0 +1,411 @@
+/* v0.17 CZN / Arknights / Blue Archive Inspired Lobby, Boss Raid, Melee Lunge & Epiphany VFX */
+
+/* 1. Main Lobby Scene (Arknights + Blue Archive + CZN dark tactical style) */
+.lobby-scene {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 100%;
+  overflow: hidden;
+  background: #0b0e15 url('assets/backgrounds/late-b.webp') center/cover no-repeat;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  padding: 18px 26px 22px;
+  color: #eef3fa;
+}
+
+.lobby-scene::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(95deg, rgba(10, 14, 22, 0.35) 0%, rgba(10, 14, 22, 0.52) 45%, rgba(9, 12, 20, 0.88) 100%),
+    linear-gradient(180deg, rgba(8, 11, 18, 0.72) 0%, transparent 22%, rgba(8, 11, 18, 0.82) 100%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.lobby-topbar {
+  position: relative;
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 8px 14px;
+  background: rgba(12, 16, 26, 0.78);
+  border: 1px solid rgba(154, 213, 255, 0.22);
+  border-left: 3px solid #70d5ce;
+  backdrop-filter: blur(8px);
+}
+
+.lobby-brand {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+}
+
+.lobby-brand strong {
+  font-size: 16px;
+  letter-spacing: 0.04em;
+  color: #f3f7fc;
+}
+
+.lobby-brand small {
+  font-size: 11px;
+  color: #9ad5ff;
+  letter-spacing: 0.1em;
+}
+
+.lobby-resources {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  font-size: 12px;
+  color: #d6e2f0;
+}
+
+.lobby-resources span {
+  padding: 3px 9px;
+  background: rgba(20, 28, 42, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.lobby-main {
+  position: relative;
+  z-index: 3;
+  flex: 1;
+  display: grid;
+  grid-template-columns: minmax(260px, 1.05fr) minmax(320px, 1fr);
+  align-items: end;
+  gap: 24px;
+  padding: 12px 0;
+}
+
+/* Left: Lohen Standing + Speech Bubble */
+.lobby-character {
+  position: relative;
+  height: 100%;
+  min-height: 320px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.lobby-standing {
+  max-height: 490px;
+  width: auto;
+  max-width: 100%;
+  object-fit: contain;
+  filter: drop-shadow(0 18px 34px rgba(0, 0, 0, 0.72));
+  animation: lobbyFloat 5.2s ease-in-out infinite;
+  user-select: none;
+  pointer-events: none;
+}
+
+@keyframes lobbyFloat {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-6px); }
+}
+
+.lobby-speech {
+  position: absolute;
+  left: 10px;
+  bottom: 14px;
+  max-width: 340px;
+  padding: 11px 14px;
+  background: rgba(11, 16, 26, 0.88);
+  border: 1px solid rgba(112, 213, 206, 0.45);
+  border-left: 3px solid #70d5ce;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 10px 26px rgba(0, 0, 0, 0.55);
+}
+
+.lobby-speech small {
+  display: block;
+  font-size: 11px;
+  font-weight: 700;
+  color: #70d5ce;
+  letter-spacing: 0.08em;
+  margin-bottom: 3px;
+}
+
+.lobby-speech p {
+  margin: 0;
+  font-size: 13px;
+  line-height: 1.5;
+  color: #e6eef8;
+}
+
+/* Right: Arknights / CZN Tactical Slanted Menu */
+.lobby-menu {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  align-self: center;
+}
+
+.lobby-tile {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+  width: 100%;
+  padding: 16px 20px;
+  text-align: left;
+  color: #f4f8ff;
+  background: linear-gradient(125deg, rgba(20, 28, 44, 0.92), rgba(12, 16, 26, 0.94));
+  border: 1px solid rgba(154, 213, 255, 0.28);
+  clip-path: polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%);
+  cursor: pointer;
+  transition: transform 0.16s ease, border-color 0.16s ease, background 0.16s ease;
+}
+
+.lobby-tile:hover {
+  transform: translateX(-5px);
+  border-color: rgba(154, 213, 255, 0.85);
+  background: linear-gradient(125deg, rgba(28, 42, 66, 0.96), rgba(16, 22, 36, 0.96));
+}
+
+.lobby-tile.tile-expedition {
+  padding: 22px 24px;
+  border-left: 5px solid #70d5ce;
+  background: linear-gradient(120deg, rgba(24, 58, 72, 0.92), rgba(12, 18, 28, 0.95));
+}
+
+.lobby-tile.tile-raid {
+  padding: 19px 22px;
+  border-left: 5px solid #f26b4e;
+  background: linear-gradient(120deg, rgba(66, 24, 28, 0.92), rgba(16, 14, 22, 0.95));
+}
+
+.lobby-tile-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.lobby-tile small {
+  display: block;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  color: #9ad5ff;
+  margin-bottom: 3px;
+}
+
+.tile-raid small {
+  color: #ffb19d;
+}
+
+.lobby-tile strong {
+  display: block;
+  font-size: 18px;
+  font-weight: 800;
+  letter-spacing: -0.01em;
+}
+
+.lobby-tile-grid .lobby-tile strong {
+  font-size: 15px;
+}
+
+.lobby-tile p {
+  margin: 4px 0 0;
+  font-size: 12px;
+  color: #c2cedf;
+}
+
+.lobby-badge {
+  flex-shrink: 0;
+  padding: 4px 10px;
+  font-size: 11px;
+  font-weight: 800;
+  background: rgba(10, 14, 22, 0.78);
+  border: 1px solid rgba(255, 255, 255, 0.22);
+  color: #e9f2ff;
+  white-space: nowrap;
+}
+
+.raid-mini-bar {
+  margin-top: 8px;
+  height: 5px;
+  width: 100%;
+  background: rgba(255, 255, 255, 0.12);
+  overflow: hidden;
+}
+
+.raid-mini-bar i {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, #f26b4e, #ffba7a);
+}
+
+/* 2. Raid Banner in Battle & Raid Modal */
+.raid-battle-banner {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 4px 12px;
+  font-size: 12px;
+  font-weight: 700;
+  color: #ffdcd2;
+  background: rgba(92, 22, 26, 0.88);
+  border: 1px solid rgba(242, 107, 78, 0.72);
+  border-radius: 6px;
+}
+
+.raid-boss-card {
+  padding: 14px 16px;
+  margin-bottom: 14px;
+  background: linear-gradient(135deg, rgba(64, 20, 28, 0.88), rgba(14, 16, 26, 0.94));
+  border: 1px solid rgba(242, 107, 78, 0.55);
+  border-left: 4px solid #f26b4e;
+}
+
+.raid-boss-card h3 {
+  margin: 0 0 6px;
+  font-size: 17px;
+  color: #fff2ee;
+}
+
+.raid-hp-track {
+  height: 10px;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 999px;
+  overflow: hidden;
+  margin: 8px 0;
+}
+
+.raid-hp-track i {
+  display: block;
+  height: 100%;
+  background: linear-gradient(90deg, #d93b3b, #ff9e68);
+}
+
+/* 3. Melee Dash Afterimage Trail */
+.fighter.melee-dashing .sprite {
+  filter: drop-shadow(-14px 0 10px var(--accent, #70d5ce)) brightness(1.18);
+  z-index: 20;
+}
+
+/* 4. CZN-Style Epiphany Card Upgrade Cutin */
+.refine-cutin-shade {
+  position: fixed;
+  inset: 0;
+  z-index: 95;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: radial-gradient(circle at 50% 50%, rgba(28, 42, 68, 0.92), rgba(7, 9, 15, 0.96));
+  backdrop-filter: blur(8px);
+  cursor: pointer;
+}
+
+.refine-cutin-stage {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  text-align: center;
+  animation: refinePop 0.42s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+.refine-ring {
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -56%);
+  border-radius: 50%;
+  border: 2px solid rgba(154, 213, 255, 0.55);
+  box-shadow: 0 0 42px rgba(90, 180, 240, 0.45), inset 0 0 36px rgba(242, 107, 78, 0.35);
+  animation: refineRingPulse 1.3s ease-out forwards;
+  pointer-events: none;
+}
+
+.refine-cutin-stage.is-spark .refine-ring {
+  border-color: rgba(255, 214, 122, 0.9);
+  box-shadow: 0 0 64px rgba(242, 152, 62, 0.72), inset 0 0 42px rgba(255, 224, 140, 0.45);
+}
+
+.refine-cutin-card {
+  position: relative;
+  z-index: 2;
+  transform: scale(1.08);
+  filter: drop-shadow(0 0 28px rgba(112, 213, 206, 0.55));
+}
+
+.refine-cutin-copy {
+  position: relative;
+  z-index: 2;
+}
+
+.refine-cutin-copy small {
+  display: block;
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  color: #9ad5ff;
+  margin-bottom: 4px;
+}
+
+.refine-cutin-stage.is-spark .refine-cutin-copy small {
+  color: #ffd98a;
+}
+
+.refine-cutin-copy h2 {
+  margin: 0;
+  font-size: 24px;
+  color: #ffffff;
+  text-shadow: 0 2px 14px rgba(0, 0, 0, 0.8);
+}
+
+.refine-cutin-copy p {
+  margin: 6px 0 0;
+  font-size: 13px;
+  color: #d6e2f2;
+}
+
+@keyframes refinePop {
+  0% { opacity: 0; transform: scale(0.76) rotateY(40deg); }
+  60% { opacity: 1; transform: scale(1.04) rotateY(-4deg); }
+  100% { opacity: 1; transform: scale(1) rotateY(0deg); }
+}
+
+@keyframes refineRingPulse {
+  0% { opacity: 0.95; transform: translate(-50%, -56%) scale(0.45) rotate(0deg); }
+  100% { opacity: 0.18; transform: translate(-50%, -56%) scale(1.38) rotate(32deg); }
+}
+
+/* 5. Loot Equip Target Modal */
+.loot-equip-box {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.loot-item-banner {
+  padding: 12px 14px;
+  background: rgba(24, 34, 52, 0.88);
+  border: 1px solid rgba(154, 213, 255, 0.42);
+  border-left: 4px solid #f5c86b;
+}
+
+.loot-item-banner strong {
+  display: block;
+  font-size: 15px;
+  color: #fff3cf;
+}
+
+.loot-item-banner p {
+  margin: 4px 0 0;
+  font-size: 12px;
+  color: #d0dce9;
+}
+
+/* 6. CZN Sleek Upgraded Card Frame Glow (without changing art) */
+.card.upgraded-card {
+  box-shadow: 0 0 0 1px rgba(154, 213, 255, 0.65), 0 0 14px rgba(90, 180, 240, 0.28);
+}

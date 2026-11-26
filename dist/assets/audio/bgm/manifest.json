@@ -1,0 +1,117 @@
+{
+  "version": 1,
+  "source": "bgm.zip",
+  "processing": "Copied without transcoding, trimming or normalization; SHA-256 verifies original bytes. Loudness measured, not altered.",
+  "tracks": {
+    "main": {
+      "src": "assets/audio/bgm/main.mp3",
+      "sourceFile": "main.mp3",
+      "bytes": 4266603,
+      "sha256": "d110100c3c5e981e62bbd8eeea316d1d89ebb47608e6d1944a6e2b3d908579e5",
+      "duration": 192.0,
+      "bitRate": 177775,
+      "streams": [
+        {
+          "codec_name": "mp3",
+          "sample_rate": "48000",
+          "channels": 2
+        },
+        {
+          "codec_name": "mjpeg"
+        }
+      ],
+      "integratedLufs": -16.04,
+      "truePeakDbTP": -4.16,
+      "loudnessRangeLu": 8.1,
+      "originalPreserved": true
+    },
+    "stage-a": {
+      "src": "assets/audio/bgm/stage-a.mp3",
+      "sourceFile": "stageA.mp3",
+      "bytes": 4442336,
+      "sha256": "ff7189f26d4cdc2cb3d825bad31d2c294efe4f2f04b48efb03abbae79906b18a",
+      "duration": 182.832,
+      "bitRate": 194378,
+      "streams": [
+        {
+          "codec_name": "mp3",
+          "sample_rate": "48000",
+          "channels": 2
+        },
+        {
+          "codec_name": "mjpeg"
+        }
+      ],
+      "integratedLufs": -15.09,
+      "truePeakDbTP": -4.44,
+      "loudnessRangeLu": 3.5,
+      "originalPreserved": true
+    },
+    "stage-b": {
+      "src": "assets/audio/bgm/stage-b.mp3",
+      "sourceFile": "stageB.mp3",
+      "bytes": 4023610,
+      "sha256": "31ec3a8b652cd6e10228c5ac8b9e155bc8416e086486eee37e0319e299704809",
+      "duration": 166.992,
+      "bitRate": 192757,
+      "streams": [
+        {
+          "codec_name": "mp3",
+          "sample_rate": "48000",
+          "channels": 2
+        },
+        {
+          "codec_name": "mjpeg"
+        }
+      ],
+      "integratedLufs": -13.66,
+      "truePeakDbTP": -3.14,
+      "loudnessRangeLu": 7.7,
+      "originalPreserved": true
+    },
+    "boss": {
+      "src": "assets/audio/bgm/boss.mp3",
+      "sourceFile": "Boss.mp3",
+      "bytes": 3835890,
+      "sha256": "79bfb4074e9ddd7b7cf4818d4815bf50e86ab22ec07d9c6f9715200453f6a22d",
+      "duration": 161.952,
+      "bitRate": 189482,
+      "streams": [
+        {
+          "codec_name": "mp3",
+          "sample_rate": "48000",
+          "channels": 2
+        },
+        {
+          "codec_name": "mjpeg"
+        }
+      ],
+      "integratedLufs": -15.02,
+      "truePeakDbTP": -3.66,
+      "loudnessRangeLu": 4.1,
+      "originalPreserved": true
+    },
+    "boss-final": {
+      "src": "assets/audio/bgm/boss-final.mp3",
+      "sourceFile": "Boss2.mp3",
+      "bytes": 4901101,
+      "sha256": "de6448b2452ce67d79b3a69595cfde99b3da654df23349e7e1621e22a2815f58",
+      "duration": 208.824,
+      "bitRate": 187760,
+      "streams": [
+        {
+          "codec_name": "mp3",
+          "sample_rate": "48000",
+          "channels": 2
+        },
+        {
+          "codec_name": "mjpeg"
+        }
+      ],
+      "integratedLufs": -14.67,
+      "truePeakDbTP": -3.75,
+      "loudnessRangeLu": 3.8,
+      "originalPreserved": true
+    }
+  }
+}

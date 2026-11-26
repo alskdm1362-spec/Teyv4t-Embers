@@ -1,0 +1,518 @@
+{
+  "provider": "PixelFX by Patch",
+  "source": "https://github.com/patch-gg/pixelfx",
+  "commit": "fe7103c36d94e02f2d7df7d8f7a341e493837cde",
+  "license": "MIT",
+  "fps": 24,
+  "render": "transparent spritesheets, no stock actor, no runtime simulation; cells capped to 160×128 with nearest-neighbor resizing",
+  "paletteVariants": {
+    "mint": [
+      "#082a32",
+      "#14565e",
+      "#278a8b",
+      "#48b8ad",
+      "#86e5ce",
+      "#c8fff0",
+      "#effff7",
+      "#ffffff"
+    ],
+    "ice": [
+      "#151a3d",
+      "#212f6b",
+      "#2c58aa",
+      "#3a8bd8",
+      "#62c8f4",
+      "#a6ecff",
+      "#dcfbff",
+      "#ffffff"
+    ],
+    "poison": [
+      "#142b18",
+      "#28551d",
+      "#4c7d28",
+      "#77af35",
+      "#a2d953",
+      "#d5f5a0",
+      "#f2ffda",
+      "#ffffff"
+    ],
+    "fire": [
+      "#351321",
+      "#7a1b26",
+      "#be3927",
+      "#ef6c28",
+      "#ffab40",
+      "#ffda83",
+      "#fff3ca",
+      "#ffffff"
+    ],
+    "gold": [
+      "#301d16",
+      "#694126",
+      "#aa7130",
+      "#d9a044",
+      "#f5ca65",
+      "#ffe9a0",
+      "#fff5d5",
+      "#ffffff"
+    ]
+  },
+  "assets": {
+    "hit": {
+      "src": "assets/pixelfx/hit.webp",
+      "grid": [
+        4,
+        6
+      ],
+      "cell": [
+        128,
+        88
+      ],
+      "frames": 23,
+      "fps": 24,
+      "pivot": [
+        0.5,
+        0.8181818181818182
+      ],
+      "source": "impacts/blunt-hit",
+      "sourceLoop": false
+    },
+    "thrust": {
+      "src": "assets/pixelfx/thrust.webp",
+      "grid": [
+        3,
+        7
+      ],
+      "cell": [
+        160,
+        62
+      ],
+      "frames": 19,
+      "fps": 24,
+      "pivot": [
+        0.5612244897959183,
+        0.5526315789473685
+      ],
+      "source": "melee/thrust",
+      "sourceLoop": false
+    },
+    "slash": {
+      "src": "assets/pixelfx/slash.webp",
+      "grid": [
+        4,
+        10
+      ],
+      "cell": [
+        160,
+        62
+      ],
+      "frames": 37,
+      "fps": 24,
+      "pivot": [
+        0.5925925925925926,
+        0.5714285714285714
+      ],
+      "source": "melee/spear-sweep",
+      "sourceLoop": false
+    },
+    "dagger": {
+      "src": "assets/pixelfx/dagger.webp",
+      "grid": [
+        5,
+        5
+      ],
+      "cell": [
+        148,
+        104
+      ],
+      "frames": 24,
+      "fps": 24,
+      "pivot": [
+        0.4864864864864865,
+        0.5769230769230769
+      ],
+      "source": "melee/dagger-flurry",
+      "sourceLoop": false
+    },
+    "poisonSlash": {
+      "src": "assets/pixelfx/poisonSlash.webp",
+      "grid": [
+        5,
+        5
+      ],
+      "cell": [
+        148,
+        104
+      ],
+      "frames": 24,
+      "fps": 24,
+      "pivot": [
+        0.4864864864864865,
+        0.5769230769230769
+      ],
+      "source": "melee/dagger-flurry",
+      "sourceLoop": false
+    },
+    "frost": {
+      "src": "assets/pixelfx/frost.webp",
+      "grid": [
+        9,
+        9
+      ],
+      "cell": [
+        140,
+        120
+      ],
+      "frames": 78,
+      "fps": 24,
+      "pivot": [
+        0.5,
+        0.8833333333333333
+      ],
+      "source": "ice/snowflake-burst",
+      "sourceLoop": false
+    },
+    "frostNova": {
+      "src": "assets/pixelfx/frostNova.webp",
+      "grid": [
+        8,
+        11
+      ],
+      "cell": [
+        160,
+        107
+      ],
+      "frames": 83,
+      "fps": 24,
+      "pivot": [
+        0.5,
+        0.78125
+      ],
+      "source": "ice/frost-nova",
+      "sourceLoop": false
+    },
+    "shatter": {
+      "src": "assets/pixelfx/shatter.webp",
+      "grid": [
+        6,
+        12
+      ],
+      "cell": [
+        160,
+        80
+      ],
+      "frames": 68,
+      "fps": 24,
+      "pivot": [
+        0.30357142857142855,
+        0.8035714285714286
+      ],
+      "source": "ice/ice-shatter",
+      "sourceLoop": false
+    },
+    "shield": {
+      "src": "assets/pixelfx/shield.webp",
+      "grid": [
+        5,
+        6
+      ],
+      "cell": [
+        148,
+        104
+      ],
+      "frames": 27,
+      "fps": 24,
+      "pivot": [
+        0.2702702702702703,
+        0.8461538461538461
+      ],
+      "source": "impacts/shield-block",
+      "sourceLoop": false
+    },
+    "windShield": {
+      "src": "assets/pixelfx/windShield.webp",
+      "grid": [
+        8,
+        8
+      ],
+      "cell": [
+        88,
+        84
+      ],
+      "frames": 58,
+      "fps": 24,
+      "pivot": [
+        0.5,
+        0.8095238095238095
+      ],
+      "source": "holy/divine-shield",
+      "sourceLoop": true
+    },
+    "buff": {
+      "src": "assets/pixelfx/buff.webp",
+      "grid": [
+        11,
+        9
+      ],
+      "cell": [
+        116,
+        128
+      ],
+      "frames": 95,
+      "fps": 24,
+      "pivot": [
+        0.5,
+        0.8727272727272727
+      ],
+      "source": "arcane/magic-circle-cast",
+      "sourceLoop": false
+    },
+    "heal": {
+      "src": "assets/pixelfx/heal.webp",
+      "grid": [
+        7,
+        11
+      ],
+      "cell": [
+        160,
+        85
+      ],
+      "frames": 71,
+      "fps": 24,
+      "pivot": [
+        0.5,
+        0.7647058823529411
+      ],
+      "source": "holy/heal-aoe",
+      "sourceLoop": false
+    },
+    "poison": {
+      "src": "assets/pixelfx/poison.webp",
+      "grid": [
+        7,
+        10
+      ],
+      "cell": [
+        160,
+        101
+      ],
+      "frames": 68,
+      "fps": 24,
+      "pivot": [
+        0.5,
+        0.8620689655172413
+      ],
+      "source": "nature/acid-splash",
+      "sourceLoop": false
+    },
+    "poisonTick": {
+      "src": "assets/pixelfx/poisonTick.webp",
+      "grid": [
+        7,
+        14
+      ],
+      "cell": [
+        160,
+        63
+      ],
+      "frames": 96,
+      "fps": 24,
+      "pivot": [
+        0.5,
+        0.86
+      ],
+      "source": "nature/poison-cloud",
+      "sourceLoop": true
+    },
+    "fire": {
+      "src": "assets/pixelfx/fire.webp",
+      "grid": [
+        8,
+        12
+      ],
+      "cell": [
+        160,
+        91
+      ],
+      "frames": 95,
+      "fps": 24,
+      "pivot": [
+        0.5,
+        0.71875
+      ],
+      "source": "fire/fire-ring",
+      "sourceLoop": false
+    },
+    "fireCharge": {
+      "src": "assets/pixelfx/fireCharge.webp",
+      "grid": [
+        6,
+        7
+      ],
+      "cell": [
+        120,
+        86
+      ],
+      "frames": 38,
+      "fps": 24,
+      "pivot": [
+        0.36666666666666664,
+        0.9302325581395349
+      ],
+      "source": "arcane/spell-charge",
+      "sourceLoop": true
+    },
+    "wind": {
+      "src": "assets/pixelfx/wind.webp",
+      "grid": [
+        6,
+        8
+      ],
+      "cell": [
+        160,
+        89
+      ],
+      "frames": 47,
+      "fps": 24,
+      "pivot": [
+        0.5,
+        0.5689655172413793
+      ],
+      "source": "melee/heavy-cleave",
+      "sourceLoop": false
+    },
+    "gale": {
+      "src": "assets/pixelfx/gale.webp",
+      "grid": [
+        7,
+        7
+      ],
+      "cell": [
+        149,
+        128
+      ],
+      "frames": 48,
+      "fps": 24,
+      "pivot": [
+        0.5,
+        0.9047619047619048
+      ],
+      "source": "nature/tornado",
+      "sourceLoop": true
+    },
+    "windCharge": {
+      "src": "assets/pixelfx/windCharge.webp",
+      "grid": [
+        6,
+        7
+      ],
+      "cell": [
+        120,
+        86
+      ],
+      "frames": 38,
+      "fps": 24,
+      "pivot": [
+        0.36666666666666664,
+        0.9302325581395349
+      ],
+      "source": "arcane/spell-charge",
+      "sourceLoop": true
+    },
+    "windBuff": {
+      "src": "assets/pixelfx/windBuff.webp",
+      "grid": [
+        11,
+        9
+      ],
+      "cell": [
+        116,
+        128
+      ],
+      "frames": 95,
+      "fps": 24,
+      "pivot": [
+        0.5,
+        0.8727272727272727
+      ],
+      "source": "arcane/magic-circle-cast",
+      "sourceLoop": false
+    },
+    "water": {
+      "src": "assets/pixelfx/water.webp",
+      "grid": [
+        6,
+        11
+      ],
+      "cell": [
+        160,
+        91
+      ],
+      "frames": 61,
+      "fps": 24,
+      "pivot": [
+        0.5,
+        0.78
+      ],
+      "source": "water/splash",
+      "sourceLoop": false
+    },
+    "exhaust": {
+      "src": "assets/pixelfx/exhaust.webp",
+      "grid": [
+        10,
+        10
+      ],
+      "cell": [
+        145,
+        128
+      ],
+      "frames": 92,
+      "fps": 24,
+      "pivot": [
+        0.5,
+        0.8306451612903226
+      ],
+      "source": "shadow/dark-explosion",
+      "sourceLoop": false
+    },
+    "reward": {
+      "src": "assets/pixelfx/reward.webp",
+      "grid": [
+        6,
+        6
+      ],
+      "cell": [
+        112,
+        108
+      ],
+      "frames": 33,
+      "fps": 24,
+      "pivot": [
+        0.5,
+        0.8703703703703703
+      ],
+      "source": "pickups/collect-burst",
+      "sourceLoop": false
+    },
+    "charge": {
+      "src": "assets/pixelfx/charge.webp",
+      "grid": [
+        6,
+        7
+      ],
+      "cell": [
+        120,
+        86
+      ],
+      "frames": 38,
+      "fps": 24,
+      "pivot": [
+        0.36666666666666664,
+        0.9302325581395349
+      ],
+      "source": "arcane/spell-charge",
+      "sourceLoop": true
+    }
+  }
+}

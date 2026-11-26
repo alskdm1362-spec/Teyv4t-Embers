@@ -1,0 +1,47 @@
+LevelUp WOFF2 package
+====================
+
+Package files
+-------------
+This ZIP contains the WOFF2 font files for LevelUp.
+
+Local webfont use
+-----------------
+Put this folder on your web server and load WEBFONT.css.
+
+<link rel="stylesheet" href="/fonts/LevelUp/WEBFONT.css">
+
+Then use the family name in your CSS:
+
+.quest-title {
+  font-family: "LevelUp", system-ui, sans-serif;
+  font-weight: 700;
+}
+
+.quest-note {
+  font-weight: 400;
+  font-style: italic;
+}
+
+CDN
+---
+Public distribution repo:
+https://github.com/hada0127/hada-type-levelup
+
+Version-pinned stylesheet (whole files):
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/hada0127/hada-type-levelup@v2026.10.21/css/levelup.css">
+
+Version-pinned sliced stylesheet (unicode-range; the browser downloads
+only the slices the page's text uses):
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/hada0127/hada-type-levelup@v2026.10.21/css/levelup-subset.css">
+
+WOFF2 ZIP package:
+https://github.com/hada0127/hada-type-levelup/releases/download/v2026.10.21/LevelUp-WOFF2.zip
+
+The example uses v2026.10.21. Keep the version pinned in production,
+then update it intentionally when you upgrade the font files.
+
+License
+-------
+LevelUp is distributed under the SIL Open Font License 1.1.
+See LICENSE.txt in this package.

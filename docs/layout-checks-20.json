@@ -1,0 +1,146 @@
+[
+  {
+    "size": "desktop",
+    "kind": "personnel",
+    "height": 588.75,
+    "outside": false,
+    "overflow": [],
+    "surface": "lobby-personnel",
+    "width": 1073.515625
+  },
+  {
+    "size": "desktop",
+    "kind": "status",
+    "height": 574.390625,
+    "outside": false,
+    "overflow": [],
+    "surface": "status",
+    "width": 1022.390625
+  },
+  {
+    "size": "desktop",
+    "kind": "shop",
+    "height": 574.390625,
+    "outside": false,
+    "overflow": [],
+    "surface": "shop",
+    "width": 1022.390625
+  },
+  {
+    "size": "desktop",
+    "kind": "formation",
+    "height": 574.390625,
+    "outside": false,
+    "overflow": [],
+    "surface": "formation",
+    "width": 1022.390625
+  },
+  {
+    "size": "landscape",
+    "kind": "personnel",
+    "height": 349.1875,
+    "outside": false,
+    "overflow": [],
+    "surface": "lobby-personnel",
+    "width": 774.625
+  },
+  {
+    "size": "landscape",
+    "kind": "status",
+    "height": 349.1875,
+    "outside": false,
+    "overflow": [],
+    "surface": "status",
+    "width": 757.796875
+  },
+  {
+    "size": "landscape",
+    "kind": "shop",
+    "height": 349.1875,
+    "outside": false,
+    "overflow": [],
+    "surface": "shop",
+    "width": 757.796875
+  },
+  {
+    "size": "landscape",
+    "kind": "formation",
+    "height": 349.1875,
+    "outside": false,
+    "overflow": [],
+    "surface": "formation",
+    "width": 757.796875
+  },
+  {
+    "size": "compact",
+    "kind": "personnel",
+    "height": 322.1875,
+    "outside": false,
+    "overflow": [],
+    "surface": "lobby-personnel",
+    "width": 586.953125
+  },
+  {
+    "size": "compact",
+    "kind": "status",
+    "height": 322.1875,
+    "outside": false,
+    "overflow": [],
+    "surface": "status",
+    "width": 574.1875
+  },
+  {
+    "size": "compact",
+    "kind": "shop",
+    "height": 322.1875,
+    "outside": false,
+    "overflow": [],
+    "surface": "shop",
+    "width": 574.1875
+  },
+  {
+    "size": "compact",
+    "kind": "formation",
+    "height": 322.1875,
+    "outside": false,
+    "overflow": [],
+    "surface": "formation",
+    "width": 574.1875
+  },
+  {
+    "size": "portrait",
+    "kind": "personnel",
+    "height": 664.1875,
+    "outside": false,
+    "overflow": [],
+    "surface": "lobby-personnel",
+    "width": 356.953125
+  },
+  {
+    "size": "portrait",
+    "kind": "status",
+    "height": 664.1875,
+    "outside": false,
+    "overflow": [],
+    "surface": "status",
+    "width": 356.953125
+  },
+  {
+    "size": "portrait",
+    "kind": "shop",
+    "height": 664.1875,
+    "outside": false,
+    "overflow": [],
+    "surface": "shop",
+    "width": 356.953125
+  },
+  {
+    "size": "portrait",
+    "kind": "formation",
+    "height": 664.1875,
+    "outside": false,
+    "overflow": [],
+    "surface": "formation",
+    "width": 356.953125
+  }
+]

@@ -1,0 +1,8 @@
+/* Camera feedback never moves hitboxes, hands or persistent HUD. */
+export class CameraFeedback{
+ constructor({enabled=()=>true}={}){this.enabled=enabled;this.frame=0;this.amount=0;this.until=0;this.start=0;}
+ hit(strength=1){if(!this.enabled())return;const field=document.querySelector('.battle-field'),game=document.querySelector('#game');if(!field||!game)return;const now=performance.now(),scale=Number.parseFloat(game.style.getPropertyValue('--scale'))||1;
+ this.amount=Math.min(3.6/scale,Math.max(this.amount,1.2+Math.min(2,strength)*.95));this.start=now;this.until=now+140+Math.min(2,strength)*18;game.dataset.shake='hit';
+ if(this.frame)return;const tick=t=>{const left=Math.max(0,(this.until-t)/(this.until-this.start));if(!left||!field.isConnected||!this.enabled()){field.style.transform='';game.style.setProperty('--camera-x','0px');game.style.setProperty('--camera-y','0px');game.dataset.shake='idle';this.frame=0;this.amount=0;return;}const wave=(t-this.start)*.085,x=Math.sin(wave)*this.amount*left*left,y=Math.cos(wave*1.3)*this.amount*.44*left*left;field.style.transform=`translate(${x}px,${y}px)`;game.style.setProperty('--camera-x',x+'px');game.style.setProperty('--camera-y',y+'px');this.frame=requestAnimationFrame(tick);};this.frame=requestAnimationFrame(tick);}
+ clear(){if(this.frame)cancelAnimationFrame(this.frame);this.frame=0;this.amount=0;const game=document.querySelector('#game'),field=document.querySelector('.battle-field');if(field)field.style.transform='';if(game){game.style.setProperty('--camera-x','0px');game.style.setProperty('--camera-y','0px');game.dataset.shake='idle';}}
+}

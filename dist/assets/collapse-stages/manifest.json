@@ -1,0 +1,71 @@
+{
+  "source_archive": "정신붕괴 일러스트 교체.zip",
+  "source_sha256": "4f4d2934fcaf676a04835ff4d82ee83995d6bbbea99ee0074c9f00210183a66a",
+  "unchanged_png": true,
+  "assets": [
+    {
+      "hero": "lohen",
+      "stage": 1,
+      "path": "assets/collapse-stages/lohen-stage-1.png",
+      "source": "로엔-붕괴 1단계.png",
+      "bytes": 1903481,
+      "sha256": "67e1ba9d3d5350a92ce29fa14d2afa6c68634c6881935f239e09339451fd7a28"
+    },
+    {
+      "hero": "lohen",
+      "stage": 2,
+      "path": "assets/collapse-stages/lohen-stage-2.png",
+      "source": "로엔-붕괴 2단계.png",
+      "bytes": 1915140,
+      "sha256": "a5c831252807f619bc3ca2864f86d7dfe34ffade1054c723ea5f1bd3232dadbe"
+    },
+    {
+      "hero": "durin",
+      "stage": 1,
+      "path": "assets/collapse-stages/durin-stage-1.png",
+      "source": "두린-붕괴 1단계.png",
+      "bytes": 2081717,
+      "sha256": "54e2db56a5329483115d636db49fc0ae62ad1bf8f670145d1f5da07c59aafd5a"
+    },
+    {
+      "hero": "durin",
+      "stage": 2,
+      "path": "assets/collapse-stages/durin-stage-2.png",
+      "source": "두린-붕괴 2단계.png",
+      "bytes": 1576943,
+      "sha256": "851ee8fec632dbb48fcdcd1df019710832c5f4b57bb90a341e4ffc1c5efad28f"
+    },
+    {
+      "hero": "illuga",
+      "stage": 1,
+      "path": "assets/collapse-stages/illuga-stage-1.png",
+      "source": "일루가-붕괴 1단계.png",
+      "bytes": 1771335,
+      "sha256": "9885f7d421cca0154ea254836b707f17016b3f04500c29e46680b51db542da12"
+    },
+    {
+      "hero": "illuga",
+      "stage": 2,
+      "path": "assets/collapse-stages/illuga-stage-2.png",
+      "source": "일루가-붕괴 2단계.png",
+      "bytes": 2031675,
+      "sha256": "1a22629dbf825e3b20a2f8d4994b2da4da423701c68ce63acf910aa99675cf83"
+    },
+    {
+      "hero": "jahoda",
+      "stage": 1,
+      "path": "assets/collapse-stages/jahoda-stage-1.png",
+      "source": "야호다-붕괴 1단계.png",
+      "bytes": 1731563,
+      "sha256": "3dd26c5a730203bab0b9c0eff30abc475b04bcef4adfd528213f17a1100f5320"
+    },
+    {
+      "hero": "jahoda",
+      "stage": 2,
+      "path": "assets/collapse-stages/jahoda-stage-2.png",
+      "source": "야호다-붕괴 2단계.png",
+      "bytes": 1598137,
+      "sha256": "b59ed409ab9f1d1bfe89167560abbfb51d89235ead16b01c4a12511693771f20"
+    }
+  ]
+}

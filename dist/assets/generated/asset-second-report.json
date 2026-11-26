@@ -1,0 +1,78 @@
+[
+  {
+    "file": "wanderer.png",
+    "size": [
+      96,
+      96
+    ],
+    "bbox": [
+      11,
+      4,
+      85,
+      92
+    ],
+    "colors_total": 61,
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "source_sheet": "enemies-second-source.png"
+  },
+  {
+    "file": "hunter.png",
+    "size": [
+      96,
+      96
+    ],
+    "bbox": [
+      4,
+      29,
+      92,
+      92
+    ],
+    "colors_total": 57,
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "source_sheet": "enemies-second-source.png"
+  },
+  {
+    "file": "mimic.png",
+    "size": [
+      96,
+      96
+    ],
+    "bbox": [
+      4,
+      19,
+      92,
+      92
+    ],
+    "colors_total": 62,
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "source_sheet": "enemies-second-source.png"
+  },
+  {
+    "file": "nightmare.png",
+    "size": [
+      96,
+      96
+    ],
+    "bbox": [
+      7,
+      4,
+      88,
+      92
+    ],
+    "colors_total": 60,
+    "alpha_extrema": [
+      0,
+      255
+    ],
+    "source_sheet": "enemies-second-source.png"
+  }
+]

@@ -1,0 +1,3085 @@
+{
+  "schema_version": 1,
+  "source_archive": "일러스트.zip",
+  "pipeline": {
+    "crop": false,
+    "background_removal": false,
+    "generation": false,
+    "resize": "Pillow LANCZOS, preserve aspect ratio and full canvas",
+    "encoding": "lossless WebP, exact RGBA preservation after resize",
+    "alpha": "original gradient preserved; no threshold applied to runtime image"
+  },
+  "characters": {
+    "lohen": {
+      "name": "로엔",
+      "partner": "바르카",
+      "assets": {
+        "battle": {
+          "hero": "lohen",
+          "key": "battle",
+          "role": "battle",
+          "role_label": "전투 이미지",
+          "file": "lohen/battle.webp",
+          "path": "assets/cast/lohen/battle.webp",
+          "source_filename": "lohen/로엔 전투.png",
+          "source_sha256": "1901927653ec1cf173a2bb4d2e66e5e9c8422cf35f8789aee0dc7d47170bc89c",
+          "source_size": [
+            1024,
+            1024
+          ],
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 145526,
+          "sha256": "0874b6ca7c875eed60816ee7e34753c954806d97a3d720f0f18bcd1bc872d256",
+          "source_alpha_bbox_16": [
+            0,
+            0,
+            767,
+            1024
+          ],
+          "alpha_bbox": [
+            0,
+            0,
+            386,
+            512
+          ],
+          "content_bbox_16": [
+            0,
+            0,
+            384,
+            512
+          ],
+          "opaque_bbox_128": [
+            0,
+            0,
+            383,
+            512
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ],
+          "alpha_roundtrip_exact": true,
+          "rgba_roundtrip_exact": true,
+          "canvas_preserved": true,
+          "cropped": false,
+          "battle_alignment": {
+            "facing": "right",
+            "recommended_anchor": "foot-band center x and opaque bottom y; retain full source canvas",
+            "normalized_content_center_x": 0.374023,
+            "normalized_ground_y": 1.0,
+            "normalized_visible_width": 0.748047,
+            "normalized_visible_height": 1.0,
+            "edge_warning": "Original hair/cloak/feet reach source boundary; no extra crop or reconstruction performed.",
+            "normalized_foot_center_x": 0.563477,
+            "foot_band_bbox_128": [
+              235,
+              471,
+              342,
+              512
+            ]
+          }
+        },
+        "cutin-1": {
+          "hero": "lohen",
+          "key": "cutin-1",
+          "role": "portrait",
+          "role_label": "기본 초상",
+          "file": "lohen/cutin-1.webp",
+          "path": "assets/cast/lohen/cutin-1.webp",
+          "source_filename": "lohen/로엔 컷인1.png",
+          "source_sha256": "ff036feb7903a73a633ef371e58f8a840562695ab66966eaacce08e8cf5b55aa",
+          "source_size": [
+            1536,
+            1024
+          ],
+          "size": [
+            1152,
+            768
+          ],
+          "bytes": 941218,
+          "sha256": "2f27505db0f7be866886d2fcc904521daa645b6897ed0813b71536d40778a707",
+          "source_alpha_bbox_16": [
+            18,
+            0,
+            1536,
+            1016
+          ],
+          "alpha_bbox": [
+            0,
+            0,
+            1152,
+            768
+          ],
+          "content_bbox_16": [
+            13,
+            0,
+            1152,
+            762
+          ],
+          "opaque_bbox_128": [
+            39,
+            0,
+            1131,
+            742
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ],
+          "alpha_roundtrip_exact": true,
+          "rgba_roundtrip_exact": true,
+          "canvas_preserved": true,
+          "cropped": false
+        },
+        "cutin-2": {
+          "hero": "lohen",
+          "key": "cutin-2",
+          "role": "ultimate",
+          "role_label": "필살기 컷인",
+          "file": "lohen/cutin-2.webp",
+          "path": "assets/cast/lohen/cutin-2.webp",
+          "source_filename": "lohen/로엔 컷인2.png",
+          "source_sha256": "4e52f1a33ecdc41d5557ca18a0a1d2ce085b0ab2296797f7744c7306d2a24086",
+          "source_size": [
+            1536,
+            1024
+          ],
+          "size": [
+            1152,
+            768
+          ],
+          "bytes": 753664,
+          "sha256": "ac10d1ff2462dbb22511422201dfe4397c38fd452ce07c73524c994e04359b2d",
+          "source_alpha_bbox_16": [
+            0,
+            1,
+            1536,
+            1024
+          ],
+          "alpha_bbox": [
+            0,
+            0,
+            1152,
+            768
+          ],
+          "content_bbox_16": [
+            0,
+            1,
+            1152,
+            768
+          ],
+          "opaque_bbox_128": [
+            30,
+            1,
+            1107,
+            768
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ],
+          "alpha_roundtrip_exact": true,
+          "rgba_roundtrip_exact": true,
+          "canvas_preserved": true,
+          "cropped": false
+        },
+        "breakdown-1": {
+          "hero": "lohen",
+          "key": "breakdown-1",
+          "role": "breakdown-cutin",
+          "role_label": "정신 붕괴 컷인",
+          "file": "lohen/breakdown-1.webp",
+          "path": "assets/cast/lohen/breakdown-1.webp",
+          "source_filename": "lohen/로엔 붕괴1.png",
+          "source_sha256": "26acd20b262f449331b7fa54b1c08392d217b3f62c3ef473b6ef626f38f68fce",
+          "source_size": [
+            1024,
+            1536
+          ],
+          "size": [
+            640,
+            960
+          ],
+          "bytes": 333936,
+          "sha256": "f4e050678575514bc88248e39e175e58f973b77bf227fa39340f6573b95b8e0d",
+          "source_alpha_bbox_16": [
+            0,
+            13,
+            1024,
+            1536
+          ],
+          "alpha_bbox": [
+            0,
+            0,
+            640,
+            960
+          ],
+          "content_bbox_16": [
+            0,
+            8,
+            640,
+            960
+          ],
+          "opaque_bbox_128": [
+            1,
+            9,
+            640,
+            960
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ],
+          "alpha_roundtrip_exact": true,
+          "rgba_roundtrip_exact": true,
+          "canvas_preserved": true,
+          "cropped": false
+        },
+        "breakdown-2": {
+          "hero": "lohen",
+          "key": "breakdown-2",
+          "role": "breakdown-portrait",
+          "role_label": "정신 붕괴 초상",
+          "file": "lohen/breakdown-2.webp",
+          "path": "assets/cast/lohen/breakdown-2.webp",
+          "source_filename": "lohen/로엔 붕괴2.png",
+          "source_sha256": "409248256d43d32cdb4acc0f2fed40a8bcb1075b7332561c6d8373e6e8e99785",
+          "source_size": [
+            1024,
+            1536
+          ],
+          "size": [
+            640,
+            960
+          ],
+          "bytes": 424656,
+          "sha256": "f3f3023332e98ce65f792e60ba1fdb1e92c15e85f9bef4755914100e258c08d2",
+          "source_alpha_bbox_16": [
+            0,
+            29,
+            1019,
+            1536
+          ],
+          "alpha_bbox": [
+            0,
+            0,
+            639,
+            960
+          ],
+          "content_bbox_16": [
+            0,
+            18,
+            637,
+            960
+          ],
+          "opaque_bbox_128": [
+            0,
+            19,
+            636,
+            960
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ],
+          "alpha_roundtrip_exact": true,
+          "rgba_roundtrip_exact": true,
+          "canvas_preserved": true,
+          "cropped": false
+        },
+        "partner-1": {
+          "hero": "lohen",
+          "key": "partner-1",
+          "role": "partner-portrait",
+          "role_label": "파트너 지원 아이콘·초상",
+          "file": "lohen/partner-1.webp",
+          "path": "assets/cast/lohen/partner-1.webp",
+          "source_filename": "lohen/바르카 컷인1.png",
+          "source_sha256": "0c04fcafbbf2a93c281d117ea599e2e865e32792a152bd2f21427d09d00a2ffe",
+          "source_size": [
+            1024,
+            1024
+          ],
+          "size": [
+            768,
+            768
+          ],
+          "bytes": 559888,
+          "sha256": "eb7f87c3abaf2fd6aaa7b060c79668e06792b7f67ec3950a78df5fecad5b7040",
+          "source_alpha_bbox_16": [
+            19,
+            0,
+            1024,
+            920
+          ],
+          "alpha_bbox": [
+            0,
+            0,
+            768,
+            768
+          ],
+          "content_bbox_16": [
+            14,
+            0,
+            768,
+            690
+          ],
+          "opaque_bbox_128": [
+            17,
+            0,
+            754,
+            667
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ],
+          "alpha_roundtrip_exact": true,
+          "rgba_roundtrip_exact": true,
+          "canvas_preserved": true,
+          "cropped": false
+        },
+        "partner-2": {
+          "hero": "lohen",
+          "key": "partner-2",
+          "role": "partner-cutin",
+          "role_label": "파트너 지원 컷인",
+          "file": "lohen/partner-2.webp",
+          "path": "assets/cast/lohen/partner-2.webp",
+          "source_filename": "lohen/바르카 컷인2.png",
+          "source_sha256": "4a1fe862bbbc8648de702db937b05126088589e001295790960daa8dc1523604",
+          "source_size": [
+            1024,
+            1024
+          ],
+          "size": [
+            768,
+            768
+          ],
+          "bytes": 567906,
+          "sha256": "69c004bffb46086a20fab3e874358b9cf016cb26aad35c14b961137dfe907ea4",
+          "source_alpha_bbox_16": [
+            0,
+            14,
+            1020,
+            991
+          ],
+          "alpha_bbox": [
+            0,
+            0,
+            767,
+            768
+          ],
+          "content_bbox_16": [
+            0,
+            11,
+            765,
+            743
+          ],
+          "opaque_bbox_128": [
+            2,
+            27,
+            758,
+            735
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ],
+          "alpha_roundtrip_exact": true,
+          "rgba_roundtrip_exact": true,
+          "canvas_preserved": true,
+          "cropped": false
+        }
+      }
+    },
+    "durin": {
+      "name": "두린",
+      "partner": "알베도",
+      "assets": {
+        "battle": {
+          "hero": "durin",
+          "key": "battle",
+          "role": "battle",
+          "role_label": "전투 이미지",
+          "file": "durin/battle.webp",
+          "path": "assets/cast/durin/battle.webp",
+          "source_filename": "durin/두린 전투.png",
+          "source_sha256": "54fa25833df3ad95e2a6cef3c14a878911c1a8d47c247154b9f8ca5e16248df5",
+          "source_size": [
+            1024,
+            1024
+          ],
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 157314,
+          "sha256": "ad3fd989a4936117c697afa0c9bab7e256300f5de62dab2243a60ec174044005",
+          "source_alpha_bbox_16": [
+            0,
+            0,
+            956,
+            1024
+          ],
+          "alpha_bbox": [
+            0,
+            0,
+            481,
+            512
+          ],
+          "content_bbox_16": [
+            0,
+            0,
+            478,
+            512
+          ],
+          "opaque_bbox_128": [
+            1,
+            0,
+            478,
+            512
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ],
+          "alpha_roundtrip_exact": true,
+          "rgba_roundtrip_exact": true,
+          "canvas_preserved": true,
+          "cropped": false,
+          "battle_alignment": {
+            "facing": "right",
+            "recommended_anchor": "foot-band center x and opaque bottom y; retain full source canvas",
+            "normalized_content_center_x": 0.467773,
+            "normalized_ground_y": 1.0,
+            "normalized_visible_width": 0.931641,
+            "normalized_visible_height": 1.0,
+            "edge_warning": "Original hair/cloak/feet reach source boundary; no extra crop or reconstruction performed.",
+            "normalized_foot_center_x": 0.740234,
+            "foot_band_bbox_128": [
+              338,
+              471,
+              420,
+              512
+            ]
+          }
+        },
+        "cutin-1": {
+          "hero": "durin",
+          "key": "cutin-1",
+          "role": "portrait",
+          "role_label": "기본 초상",
+          "file": "durin/cutin-1.webp",
+          "path": "assets/cast/durin/cutin-1.webp",
+          "source_filename": "durin/두린 컷인1.png",
+          "source_sha256": "3c74a26edca3ba15cbe3d3f3a6318c3fc008fd29dbe49606056b9d733153ac27",
+          "source_size": [
+            1536,
+            1024
+          ],
+          "size": [
+            1152,
+            768
+          ],
+          "bytes": 896956,
+          "sha256": "5338d01b21b6137ee155524347169637cb48534a3c31416b11ef4345fb172ccd",
+          "source_alpha_bbox_16": [
+            0,
+            0,
+            1536,
+            1024
+          ],
+          "alpha_bbox": [
+            0,
+            0,
+            1152,
+            768
+          ],
+          "content_bbox_16": [
+            0,
+            0,
+            1152,
+            768
+          ],
+          "opaque_bbox_128": [
+            22,
+            0,
+            1152,
+            768
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ],
+          "alpha_roundtrip_exact": true,
+          "rgba_roundtrip_exact": true,
+          "canvas_preserved": true,
+          "cropped": false
+        },
+        "cutin-2": {
+          "hero": "durin",
+          "key": "cutin-2",
+          "role": "ultimate",
+          "role_label": "필살기 컷인",
+          "file": "durin/cutin-2.webp",
+          "path": "assets/cast/durin/cutin-2.webp",
+          "source_filename": "durin/두린 컷인2.png",
+          "source_sha256": "521b4953e71d644aa753f7f372468142d0abb1c628f832f108958e2be8e7893f",
+          "source_size": [
+            1536,
+            1024
+          ],
+          "size": [
+            1152,
+            768
+          ],
+          "bytes": 969482,
+          "sha256": "4a2a61378082fc25fc97810a49731da32cfe76288d61cd0f2b9e12e0655d2aaf",
+          "source_alpha_bbox_16": [
+            51,
+            0,
+            1536,
+            1024
+          ],
+          "alpha_bbox": [
+            0,
+            0,
+            1152,
+            768
+          ],
+          "content_bbox_16": [
+            38,
+            0,
+            1152,
+            768
+          ],
+          "opaque_bbox_128": [
+            38,
+            4,
+            1139,
+            750
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ],
+          "alpha_roundtrip_exact": true,
+          "rgba_roundtrip_exact": true,
+          "canvas_preserved": true,
+          "cropped": false
+        },
+        "breakdown-1": {
+          "hero": "durin",
+          "key": "breakdown-1",
+          "role": "breakdown-cutin",
+          "role_label": "정신 붕괴 컷인",
+          "file": "durin/breakdown-1.webp",
+          "path": "assets/cast/durin/breakdown-1.webp",
+          "source_filename": "durin/두린 붕괴1.png",
+          "source_sha256": "ddf0cf21f03cb9fec3c904d707e7c431357aff6d4105fb03f3b4ba2feabaaff5",
+          "source_size": [
+            1024,
+            1536
+          ],
+          "size": [
+            640,
+            960
+          ],
+          "bytes": 351630,
+          "sha256": "4a35bf80dd7ad64d2fb8a77cd2c57b10177587f3ae46c142a34e30f1c5f640ee",
+          "source_alpha_bbox_16": [
+            0,
+            0,
+            1024,
+            1536
+          ],
+          "alpha_bbox": [
+            0,
+            0,
+            640,
+            960
+          ],
+          "content_bbox_16": [
+            0,
+            0,
+            640,
+            960
+          ],
+          "opaque_bbox_128": [
+            0,
+            1,
+            640,
+            960
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ],
+          "alpha_roundtrip_exact": true,
+          "rgba_roundtrip_exact": true,
+          "canvas_preserved": true,
+          "cropped": false
+        },
+        "breakdown-2": {
+          "hero": "durin",
+          "key": "breakdown-2",
+          "role": "breakdown-portrait",
+          "role_label": "정신 붕괴 초상",
+          "file": "durin/breakdown-2.webp",
+          "path": "assets/cast/durin/breakdown-2.webp",
+          "source_filename": "durin/두린 붕괴2.png",
+          "source_sha256": "07a78ede27de40cd94e94b7e0c111d05881df3c1b9fafe6943ba6ddefd4806c8",
+          "source_size": [
+            1024,
+            1536
+          ],
+          "size": [
+            640,
+            960
+          ],
+          "bytes": 314500,
+          "sha256": "37fbba9c04ffb9c353c66d61e7d4c9b2e0711581dbd2ae65798471b05ea6a9fb",
+          "source_alpha_bbox_16": [
+            0,
+            0,
+            1019,
+            1536
+          ],
+          "alpha_bbox": [
+            0,
+            0,
+            639,
+            960
+          ],
+          "content_bbox_16": [
+            0,
+            0,
+            637,
+            960
+          ],
+          "opaque_bbox_128": [
+            1,
+            0,
+            636,
+            960
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ],
+          "alpha_roundtrip_exact": true,
+          "rgba_roundtrip_exact": true,
+          "canvas_preserved": true,
+          "cropped": false
+        },
+        "partner-1": {
+          "hero": "durin",
+          "key": "partner-1",
+          "role": "partner-portrait",
+          "role_label": "파트너 지원 아이콘·초상",
+          "file": "durin/partner-1.webp",
+          "path": "assets/cast/durin/partner-1.webp",
+          "source_filename": "durin/알베도 컷인1.png",
+          "source_sha256": "8e29965e097bb5b711ab15005f43ec579327d5511059b66fb156b49eb4d0a12e",
+          "source_size": [
+            1024,
+            1024
+          ],
+          "size": [
+            768,
+            768
+          ],
+          "bytes": 550178,
+          "sha256": "7b4160ed2c8c1f58cf0122f052b8ffe0e0ed9ab3697f54ae1f4368fa97a37d11",
+          "source_alpha_bbox_16": [
+            0,
+            1,
+            1024,
+            1024
+          ],
+          "alpha_bbox": [
+            0,
+            0,
+            768,
+            768
+          ],
+          "content_bbox_16": [
+            0,
+            1,
+            768,
+            768
+          ],
+          "opaque_bbox_128": [
+            4,
+            21,
+            762,
+            767
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ],
+          "alpha_roundtrip_exact": true,
+          "rgba_roundtrip_exact": true,
+          "canvas_preserved": true,
+          "cropped": false
+        },
+        "partner-2": {
+          "hero": "durin",
+          "key": "partner-2",
+          "role": "partner-cutin",
+          "role_label": "파트너 지원 컷인",
+          "file": "durin/partner-2.webp",
+          "path": "assets/cast/durin/partner-2.webp",
+          "source_filename": "durin/알베도 컷인2.png",
+          "source_sha256": "044b77bb81a3b00e25f6bd0b24a81efc1fefd08d1a4d505d2a3600227ce536de",
+          "source_size": [
+            1024,
+            1024
+          ],
+          "size": [
+            768,
+            768
+          ],
+          "bytes": 512248,
+          "sha256": "ec45052a865b9f6f294dae5b3ca01bde964b9ec500554a17443a63acce1c087b",
+          "source_alpha_bbox_16": [
+            0,
+            4,
+            1024,
+            1024
+          ],
+          "alpha_bbox": [
+            0,
+            0,
+            768,
+            768
+          ],
+          "content_bbox_16": [
+            0,
+            3,
+            768,
+            768
+          ],
+          "opaque_bbox_128": [
+            0,
+            5,
+            768,
+            766
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ],
+          "alpha_roundtrip_exact": true,
+          "rgba_roundtrip_exact": true,
+          "canvas_preserved": true,
+          "cropped": false
+        }
+      }
+    },
+    "illuga": {
+      "name": "일루가",
+      "partner": "플린스",
+      "assets": {
+        "battle": {
+          "hero": "illuga",
+          "key": "battle",
+          "role": "battle",
+          "role_label": "전투 이미지",
+          "file": "illuga/battle.webp",
+          "path": "assets/cast/illuga/battle.webp",
+          "source_filename": "illuga/일루가 전투.png",
+          "source_sha256": "2c2f66cb2eb14355a6a81b2e3bba7c5381d1da11fd19eb07598cbe36328d0032",
+          "source_size": [
+            1024,
+            1024
+          ],
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 150474,
+          "sha256": "0e13e72c737444b7050693d8d334337fee45861d0563b58cad8f7dddd8cb6f1f",
+          "source_alpha_bbox_16": [
+            0,
+            0,
+            890,
+            1019
+          ],
+          "alpha_bbox": [
+            0,
+            0,
+            448,
+            512
+          ],
+          "content_bbox_16": [
+            0,
+            0,
+            445,
+            510
+          ],
+          "opaque_bbox_128": [
+            0,
+            0,
+            445,
+            509
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ],
+          "alpha_roundtrip_exact": true,
+          "rgba_roundtrip_exact": true,
+          "canvas_preserved": true,
+          "cropped": false,
+          "battle_alignment": {
+            "facing": "right",
+            "recommended_anchor": "foot-band center x and opaque bottom y; retain full source canvas",
+            "normalized_content_center_x": 0.43457,
+            "normalized_ground_y": 0.994141,
+            "normalized_visible_width": 0.869141,
+            "normalized_visible_height": 0.994141,
+            "edge_warning": "Original hair/cloak/feet reach source boundary; no extra crop or reconstruction performed.",
+            "normalized_foot_center_x": 0.573242,
+            "foot_band_bbox_128": [
+              215,
+              468,
+              372,
+              509
+            ]
+          }
+        },
+        "cutin-1": {
+          "hero": "illuga",
+          "key": "cutin-1",
+          "role": "portrait",
+          "role_label": "기본 초상",
+          "file": "illuga/cutin-1.webp",
+          "path": "assets/cast/illuga/cutin-1.webp",
+          "source_filename": "illuga/일루가 컷인1.png",
+          "source_sha256": "12b23656a245c0f04c6b18329c0fdadf498a6bf071d4627f5a8fdd7ec20aeb06",
+          "source_size": [
+            1536,
+            1024
+          ],
+          "size": [
+            1152,
+            768
+          ],
+          "bytes": 1027178,
+          "sha256": "fdb134de13d60d56127c31003b7ca2a00f67f7954d516231133fff9527f3969e",
+          "source_alpha_bbox_16": [
+            0,
+            30,
+            1536,
+            1024
+          ],
+          "alpha_bbox": [
+            0,
+            0,
+            1152,
+            768
+          ],
+          "content_bbox_16": [
+            0,
+            23,
+            1152,
+            768
+          ],
+          "opaque_bbox_128": [
+            17,
+            24,
+            1152,
+            752
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ],
+          "alpha_roundtrip_exact": true,
+          "rgba_roundtrip_exact": true,
+          "canvas_preserved": true,
+          "cropped": false
+        },
+        "cutin-2": {
+          "hero": "illuga",
+          "key": "cutin-2",
+          "role": "ultimate",
+          "role_label": "필살기 컷인",
+          "file": "illuga/cutin-2.webp",
+          "path": "assets/cast/illuga/cutin-2.webp",
+          "source_filename": "illuga/일루가 컷인2.png",
+          "source_sha256": "d35b0ff1e479f4b40cb3cccf5f4643947421fbf5ae03711a98a7ac0c6eee73d4",
+          "source_size": [
+            1536,
+            1024
+          ],
+          "size": [
+            1152,
+            768
+          ],
+          "bytes": 1024726,
+          "sha256": "ac79b67bb94c5aed3dff3059fd0571024f40e5fb25b20ec781ddf52a34678abe",
+          "source_alpha_bbox_16": [
+            13,
+            45,
+            1531,
+            1018
+          ],
+          "alpha_bbox": [
+            0,
+            0,
+            1151,
+            768
+          ],
+          "content_bbox_16": [
+            9,
+            34,
+            1148,
+            763
+          ],
+          "opaque_bbox_128": [
+            20,
+            35,
+            1126,
+            740
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ],
+          "alpha_roundtrip_exact": true,
+          "rgba_roundtrip_exact": true,
+          "canvas_preserved": true,
+          "cropped": false
+        },
+        "breakdown-1": {
+          "hero": "illuga",
+          "key": "breakdown-1",
+          "role": "breakdown-cutin",
+          "role_label": "정신 붕괴 컷인",
+          "file": "illuga/breakdown-1.webp",
+          "path": "assets/cast/illuga/breakdown-1.webp",
+          "source_filename": "illuga/일루가 붕괴1.png",
+          "source_sha256": "06b2c4c393a384c4ee389c171a53bdaa669e552e8ed90828efe2512ca93bf4aa",
+          "source_size": [
+            1024,
+            1536
+          ],
+          "size": [
+            640,
+            960
+          ],
+          "bytes": 381036,
+          "sha256": "010f667a2dcbb514c224953004783686d0551694593c3d590fa390709b0534fc",
+          "source_alpha_bbox_16": [
+            0,
+            1,
+            1024,
+            1534
+          ],
+          "alpha_bbox": [
+            0,
+            0,
+            640,
+            960
+          ],
+          "content_bbox_16": [
+            0,
+            1,
+            640,
+            959
+          ],
+          "opaque_bbox_128": [
+            0,
+            1,
+            640,
+            959
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ],
+          "alpha_roundtrip_exact": true,
+          "rgba_roundtrip_exact": true,
+          "canvas_preserved": true,
+          "cropped": false
+        },
+        "breakdown-2": {
+          "hero": "illuga",
+          "key": "breakdown-2",
+          "role": "breakdown-portrait",
+          "role_label": "정신 붕괴 초상",
+          "file": "illuga/breakdown-2.webp",
+          "path": "assets/cast/illuga/breakdown-2.webp",
+          "source_filename": "illuga/일루가 붕괴2.png",
+          "source_sha256": "a305199b28cdede26c14dbee5c921d3117564db6994d450b7e3568904e6fd2a0",
+          "source_size": [
+            1024,
+            1536
+          ],
+          "size": [
+            640,
+            960
+          ],
+          "bytes": 202820,
+          "sha256": "0500e6ed2ab30853c991acc3696d842a3f356ed02cc564322965c641a4428d10",
+          "source_alpha_bbox_16": [
+            1,
+            381,
+            1024,
+            1252
+          ],
+          "alpha_bbox": [
+            0,
+            0,
+            640,
+            960
+          ],
+          "content_bbox_16": [
+            1,
+            238,
+            640,
+            783
+          ],
+          "opaque_bbox_128": [
+            1,
+            238,
+            640,
+            782
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ],
+          "alpha_roundtrip_exact": true,
+          "rgba_roundtrip_exact": true,
+          "canvas_preserved": true,
+          "cropped": false
+        },
+        "partner-1": {
+          "hero": "illuga",
+          "key": "partner-1",
+          "role": "partner-portrait",
+          "role_label": "파트너 지원 아이콘·초상",
+          "file": "illuga/partner-1.webp",
+          "path": "assets/cast/illuga/partner-1.webp",
+          "source_filename": "illuga/플린스 컷인1.png",
+          "source_sha256": "cef815fe42a1b02b66441be6523a76ed1e840d281f3dca409c731ffb84684cf0",
+          "source_size": [
+            1024,
+            1024
+          ],
+          "size": [
+            768,
+            768
+          ],
+          "bytes": 579834,
+          "sha256": "c8368de9f188504a573d0c3ed1d7911fc34ec57a70e1d1542531888138247c1e",
+          "source_alpha_bbox_16": [
+            1,
+            6,
+            1023,
+            1024
+          ],
+          "alpha_bbox": [
+            0,
+            0,
+            768,
+            768
+          ],
+          "content_bbox_16": [
+            1,
+            4,
+            768,
+            768
+          ],
+          "opaque_bbox_128": [
+            8,
+            13,
+            767,
+            768
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ],
+          "alpha_roundtrip_exact": true,
+          "rgba_roundtrip_exact": true,
+          "canvas_preserved": true,
+          "cropped": false
+        },
+        "partner-2": {
+          "hero": "illuga",
+          "key": "partner-2",
+          "role": "partner-cutin",
+          "role_label": "파트너 지원 컷인",
+          "file": "illuga/partner-2.webp",
+          "path": "assets/cast/illuga/partner-2.webp",
+          "source_filename": "illuga/플린스 컷인2.png",
+          "source_sha256": "7fb57f9a2635d566a3afe69ddce6b3f70c710656f7e222da7e112beb06082277",
+          "source_size": [
+            1024,
+            1024
+          ],
+          "size": [
+            768,
+            768
+          ],
+          "bytes": 554840,
+          "sha256": "7101d882cef3b638ee52c5afbd528f2ca4a5fbf8942152a4a8a297c439a2dde6",
+          "source_alpha_bbox_16": [
+            1,
+            47,
+            1020,
+            1017
+          ],
+          "alpha_bbox": [
+            0,
+            0,
+            767,
+            768
+          ],
+          "content_bbox_16": [
+            1,
+            36,
+            765,
+            762
+          ],
+          "opaque_bbox_128": [
+            6,
+            52,
+            756,
+            724
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ],
+          "alpha_roundtrip_exact": true,
+          "rgba_roundtrip_exact": true,
+          "canvas_preserved": true,
+          "cropped": false
+        }
+      }
+    },
+    "jahoda": {
+      "name": "야호다",
+      "partner": "네페르",
+      "assets": {
+        "battle": {
+          "hero": "jahoda",
+          "key": "battle",
+          "role": "battle",
+          "role_label": "전투 이미지",
+          "file": "jahoda/battle.webp",
+          "path": "assets/cast/jahoda/battle.webp",
+          "source_filename": "jahoda/야호다 전투.png",
+          "source_sha256": "b5d3cc902f71ff9272a34cabf0055ffb1571a11e7f49d64fe6d448294f852462",
+          "source_size": [
+            1024,
+            1024
+          ],
+          "size": [
+            512,
+            512
+          ],
+          "bytes": 146120,
+          "sha256": "99b122c60c114c5dc28c452b96ca3e5b0efd972b271edfe5e2f3fe2f538bc0d4",
+          "source_alpha_bbox_16": [
+            1,
+            0,
+            895,
+            1024
+          ],
+          "alpha_bbox": [
+            0,
+            0,
+            450,
+            512
+          ],
+          "content_bbox_16": [
+            0,
+            0,
+            447,
+            512
+          ],
+          "opaque_bbox_128": [
+            1,
+            0,
+            447,
+            512
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ],
+          "alpha_roundtrip_exact": true,
+          "rgba_roundtrip_exact": true,
+          "canvas_preserved": true,
+          "cropped": false,
+          "battle_alignment": {
+            "facing": "right",
+            "recommended_anchor": "foot-band center x and opaque bottom y; retain full source canvas",
+            "normalized_content_center_x": 0.4375,
+            "normalized_ground_y": 1.0,
+            "normalized_visible_width": 0.871094,
+            "normalized_visible_height": 1.0,
+            "edge_warning": "Original hair/cloak/feet reach source boundary; no extra crop or reconstruction performed.",
+            "normalized_foot_center_x": 0.583008,
+            "foot_band_bbox_128": [
+              217,
+              471,
+              380,
+              512
+            ]
+          }
+        },
+        "cutin-1": {
+          "hero": "jahoda",
+          "key": "cutin-1",
+          "role": "portrait",
+          "role_label": "기본 초상",
+          "file": "jahoda/cutin-1.webp",
+          "path": "assets/cast/jahoda/cutin-1.webp",
+          "source_filename": "jahoda/야호다 컷인1.png",
+          "source_sha256": "75050c524be52669da7da609b28f8db2d5a3bb95d42e8365ac66bb53b616679a",
+          "source_size": [
+            1536,
+            1024
+          ],
+          "size": [
+            1152,
+            768
+          ],
+          "bytes": 755248,
+          "sha256": "cdb01b49ec0dead35842db004a98ae3444f6c78f0636d8420b88a12821fc0964",
+          "source_alpha_bbox_16": [
+            1,
+            2,
+            1536,
+            1024
+          ],
+          "alpha_bbox": [
+            0,
+            0,
+            1152,
+            768
+          ],
+          "content_bbox_16": [
+            1,
+            1,
+            1152,
+            768
+          ],
+          "opaque_bbox_128": [
+            16,
+            3,
+            1152,
+            767
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ],
+          "alpha_roundtrip_exact": true,
+          "rgba_roundtrip_exact": true,
+          "canvas_preserved": true,
+          "cropped": false
+        },
+        "cutin-2": {
+          "hero": "jahoda",
+          "key": "cutin-2",
+          "role": "ultimate",
+          "role_label": "필살기 컷인",
+          "file": "jahoda/cutin-2.webp",
+          "path": "assets/cast/jahoda/cutin-2.webp",
+          "source_filename": "jahoda/야호다 컷인2.png",
+          "source_sha256": "e59bda3e3684f8b3387dc0e943a98349a514baf136ee0374100214a5d2b909ae",
+          "source_size": [
+            1536,
+            1024
+          ],
+          "size": [
+            1152,
+            768
+          ],
+          "bytes": 895832,
+          "sha256": "220be26b3911a97b9c39f02f47614247ee088c0d05c543e00ded02e7a28f7ca3",
+          "source_alpha_bbox_16": [
+            0,
+            0,
+            1534,
+            1022
+          ],
+          "alpha_bbox": [
+            0,
+            0,
+            1152,
+            768
+          ],
+          "content_bbox_16": [
+            0,
+            0,
+            1150,
+            767
+          ],
+          "opaque_bbox_128": [
+            0,
+            0,
+            1136,
+            762
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ],
+          "alpha_roundtrip_exact": true,
+          "rgba_roundtrip_exact": true,
+          "canvas_preserved": true,
+          "cropped": false
+        },
+        "breakdown-1": {
+          "hero": "jahoda",
+          "key": "breakdown-1",
+          "role": "breakdown-cutin",
+          "role_label": "정신 붕괴 컷인",
+          "file": "jahoda/breakdown-1.webp",
+          "path": "assets/cast/jahoda/breakdown-1.webp",
+          "source_filename": "jahoda/야호다 붕괴1.png",
+          "source_sha256": "e005fd52e9b3c8acab97fc9b3fdd54116125f0d3cec03fbb4f4b674151001c79",
+          "source_size": [
+            1024,
+            1536
+          ],
+          "size": [
+            640,
+            960
+          ],
+          "bytes": 322404,
+          "sha256": "3991e6a6bc9f7bf24aa6b0374f3d37eb63acb57035fe017bd9cb863102a3f91c",
+          "source_alpha_bbox_16": [
+            0,
+            0,
+            1023,
+            1536
+          ],
+          "alpha_bbox": [
+            0,
+            0,
+            640,
+            960
+          ],
+          "content_bbox_16": [
+            0,
+            0,
+            639,
+            960
+          ],
+          "opaque_bbox_128": [
+            0,
+            1,
+            639,
+            960
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ],
+          "alpha_roundtrip_exact": true,
+          "rgba_roundtrip_exact": true,
+          "canvas_preserved": true,
+          "cropped": false
+        },
+        "breakdown-2": {
+          "hero": "jahoda",
+          "key": "breakdown-2",
+          "role": "breakdown-portrait",
+          "role_label": "정신 붕괴 초상",
+          "file": "jahoda/breakdown-2.webp",
+          "path": "assets/cast/jahoda/breakdown-2.webp",
+          "source_filename": "jahoda/야호다 붕괴2.png",
+          "source_sha256": "7d770935e33e260fc4080ee073a7bcd04eb184b0946a96ae427de8c7daf0b079",
+          "source_size": [
+            1024,
+            1536
+          ],
+          "size": [
+            640,
+            960
+          ],
+          "bytes": 284994,
+          "sha256": "01328fec74d3a2f811c583e9e6dba6a3e068cffa4e0079f95eee364f797370f1",
+          "source_alpha_bbox_16": [
+            0,
+            0,
+            1024,
+            1536
+          ],
+          "alpha_bbox": [
+            0,
+            0,
+            640,
+            960
+          ],
+          "content_bbox_16": [
+            0,
+            0,
+            640,
+            960
+          ],
+          "opaque_bbox_128": [
+            1,
+            0,
+            640,
+            960
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ],
+          "alpha_roundtrip_exact": true,
+          "rgba_roundtrip_exact": true,
+          "canvas_preserved": true,
+          "cropped": false
+        },
+        "partner-1": {
+          "hero": "jahoda",
+          "key": "partner-1",
+          "role": "partner-portrait",
+          "role_label": "파트너 지원 아이콘·초상",
+          "file": "jahoda/partner-1.webp",
+          "path": "assets/cast/jahoda/partner-1.webp",
+          "source_filename": "jahoda/네페르 컷인1.png",
+          "source_sha256": "ba344fa1278fda4d985aff5d80495130421f5609a5a89dc3f30d7cfee6645f8f",
+          "source_size": [
+            1024,
+            1024
+          ],
+          "size": [
+            768,
+            768
+          ],
+          "bytes": 549280,
+          "sha256": "3cdb74712007ba2f0bcb64043cc79a65bc668445b6e26ee459818b635c236c52",
+          "source_alpha_bbox_16": [
+            0,
+            4,
+            1024,
+            1017
+          ],
+          "alpha_bbox": [
+            0,
+            0,
+            768,
+            768
+          ],
+          "content_bbox_16": [
+            1,
+            3,
+            768,
+            763
+          ],
+          "opaque_bbox_128": [
+            3,
+            5,
+            768,
+            753
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ],
+          "alpha_roundtrip_exact": true,
+          "rgba_roundtrip_exact": true,
+          "canvas_preserved": true,
+          "cropped": false
+        },
+        "partner-2": {
+          "hero": "jahoda",
+          "key": "partner-2",
+          "role": "partner-cutin",
+          "role_label": "파트너 지원 컷인",
+          "file": "jahoda/partner-2.webp",
+          "path": "assets/cast/jahoda/partner-2.webp",
+          "source_filename": "jahoda/네페르 컷인2.png",
+          "source_sha256": "1ca6aa0ee424c82141e1e9f4cc60196159b2fbf000576c28eab8b08b5aa11315",
+          "source_size": [
+            1024,
+            1024
+          ],
+          "size": [
+            768,
+            768
+          ],
+          "bytes": 591042,
+          "sha256": "d0fc0ab48fb6cf4a3deb550687e1b44aced1e01ae41da08ee00f6afd5eb284ab",
+          "source_alpha_bbox_16": [
+            24,
+            10,
+            1024,
+            1024
+          ],
+          "alpha_bbox": [
+            0,
+            0,
+            768,
+            768
+          ],
+          "content_bbox_16": [
+            18,
+            7,
+            768,
+            768
+          ],
+          "opaque_bbox_128": [
+            61,
+            8,
+            768,
+            748
+          ],
+          "alpha_extrema": [
+            0,
+            255
+          ],
+          "alpha_roundtrip_exact": true,
+          "rgba_roundtrip_exact": true,
+          "canvas_preserved": true,
+          "cropped": false
+        }
+      }
+    }
+  },
+  "assets": [
+    {
+      "hero": "lohen",
+      "key": "battle",
+      "role": "battle",
+      "role_label": "전투 이미지",
+      "file": "lohen/battle.webp",
+      "path": "assets/cast/lohen/battle.webp",
+      "source_filename": "lohen/로엔 전투.png",
+      "source_sha256": "1901927653ec1cf173a2bb4d2e66e5e9c8422cf35f8789aee0dc7d47170bc89c",
+      "source_size": [
+        1024,
+        1024
+      ],
+      "size": [
+        512,
+        512
+      ],
+      "bytes": 145526,
+      "sha256": "0874b6ca7c875eed60816ee7e34753c954806d97a3d720f0f18bcd1bc872d256",
+      "source_alpha_bbox_16": [
+        0,
+        0,
+        767,
+        1024
+      ],
+      "alpha_bbox": [
+        0,
+        0,
+        386,
+        512
+      ],
+      "content_bbox_16": [
+        0,
+        0,
+        384,
+        512
+      ],
+      "opaque_bbox_128": [
+        0,
+        0,
+        383,
+        512
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_roundtrip_exact": true,
+      "rgba_roundtrip_exact": true,
+      "canvas_preserved": true,
+      "cropped": false,
+      "battle_alignment": {
+        "facing": "right",
+        "recommended_anchor": "foot-band center x and opaque bottom y; retain full source canvas",
+        "normalized_content_center_x": 0.374023,
+        "normalized_ground_y": 1.0,
+        "normalized_visible_width": 0.748047,
+        "normalized_visible_height": 1.0,
+        "edge_warning": "Original hair/cloak/feet reach source boundary; no extra crop or reconstruction performed.",
+        "normalized_foot_center_x": 0.563477,
+        "foot_band_bbox_128": [
+          235,
+          471,
+          342,
+          512
+        ]
+      }
+    },
+    {
+      "hero": "lohen",
+      "key": "cutin-1",
+      "role": "portrait",
+      "role_label": "기본 초상",
+      "file": "lohen/cutin-1.webp",
+      "path": "assets/cast/lohen/cutin-1.webp",
+      "source_filename": "lohen/로엔 컷인1.png",
+      "source_sha256": "ff036feb7903a73a633ef371e58f8a840562695ab66966eaacce08e8cf5b55aa",
+      "source_size": [
+        1536,
+        1024
+      ],
+      "size": [
+        1152,
+        768
+      ],
+      "bytes": 941218,
+      "sha256": "2f27505db0f7be866886d2fcc904521daa645b6897ed0813b71536d40778a707",
+      "source_alpha_bbox_16": [
+        18,
+        0,
+        1536,
+        1016
+      ],
+      "alpha_bbox": [
+        0,
+        0,
+        1152,
+        768
+      ],
+      "content_bbox_16": [
+        13,
+        0,
+        1152,
+        762
+      ],
+      "opaque_bbox_128": [
+        39,
+        0,
+        1131,
+        742
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_roundtrip_exact": true,
+      "rgba_roundtrip_exact": true,
+      "canvas_preserved": true,
+      "cropped": false
+    },
+    {
+      "hero": "lohen",
+      "key": "cutin-2",
+      "role": "ultimate",
+      "role_label": "필살기 컷인",
+      "file": "lohen/cutin-2.webp",
+      "path": "assets/cast/lohen/cutin-2.webp",
+      "source_filename": "lohen/로엔 컷인2.png",
+      "source_sha256": "4e52f1a33ecdc41d5557ca18a0a1d2ce085b0ab2296797f7744c7306d2a24086",
+      "source_size": [
+        1536,
+        1024
+      ],
+      "size": [
+        1152,
+        768
+      ],
+      "bytes": 753664,
+      "sha256": "ac10d1ff2462dbb22511422201dfe4397c38fd452ce07c73524c994e04359b2d",
+      "source_alpha_bbox_16": [
+        0,
+        1,
+        1536,
+        1024
+      ],
+      "alpha_bbox": [
+        0,
+        0,
+        1152,
+        768
+      ],
+      "content_bbox_16": [
+        0,
+        1,
+        1152,
+        768
+      ],
+      "opaque_bbox_128": [
+        30,
+        1,
+        1107,
+        768
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_roundtrip_exact": true,
+      "rgba_roundtrip_exact": true,
+      "canvas_preserved": true,
+      "cropped": false
+    },
+    {
+      "hero": "lohen",
+      "key": "partner-1",
+      "role": "partner-portrait",
+      "role_label": "파트너 지원 아이콘·초상",
+      "file": "lohen/partner-1.webp",
+      "path": "assets/cast/lohen/partner-1.webp",
+      "source_filename": "lohen/바르카 컷인1.png",
+      "source_sha256": "0c04fcafbbf2a93c281d117ea599e2e865e32792a152bd2f21427d09d00a2ffe",
+      "source_size": [
+        1024,
+        1024
+      ],
+      "size": [
+        768,
+        768
+      ],
+      "bytes": 559888,
+      "sha256": "eb7f87c3abaf2fd6aaa7b060c79668e06792b7f67ec3950a78df5fecad5b7040",
+      "source_alpha_bbox_16": [
+        19,
+        0,
+        1024,
+        920
+      ],
+      "alpha_bbox": [
+        0,
+        0,
+        768,
+        768
+      ],
+      "content_bbox_16": [
+        14,
+        0,
+        768,
+        690
+      ],
+      "opaque_bbox_128": [
+        17,
+        0,
+        754,
+        667
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_roundtrip_exact": true,
+      "rgba_roundtrip_exact": true,
+      "canvas_preserved": true,
+      "cropped": false
+    },
+    {
+      "hero": "lohen",
+      "key": "partner-2",
+      "role": "partner-cutin",
+      "role_label": "파트너 지원 컷인",
+      "file": "lohen/partner-2.webp",
+      "path": "assets/cast/lohen/partner-2.webp",
+      "source_filename": "lohen/바르카 컷인2.png",
+      "source_sha256": "4a1fe862bbbc8648de702db937b05126088589e001295790960daa8dc1523604",
+      "source_size": [
+        1024,
+        1024
+      ],
+      "size": [
+        768,
+        768
+      ],
+      "bytes": 567906,
+      "sha256": "69c004bffb46086a20fab3e874358b9cf016cb26aad35c14b961137dfe907ea4",
+      "source_alpha_bbox_16": [
+        0,
+        14,
+        1020,
+        991
+      ],
+      "alpha_bbox": [
+        0,
+        0,
+        767,
+        768
+      ],
+      "content_bbox_16": [
+        0,
+        11,
+        765,
+        743
+      ],
+      "opaque_bbox_128": [
+        2,
+        27,
+        758,
+        735
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_roundtrip_exact": true,
+      "rgba_roundtrip_exact": true,
+      "canvas_preserved": true,
+      "cropped": false
+    },
+    {
+      "hero": "durin",
+      "key": "battle",
+      "role": "battle",
+      "role_label": "전투 이미지",
+      "file": "durin/battle.webp",
+      "path": "assets/cast/durin/battle.webp",
+      "source_filename": "durin/두린 전투.png",
+      "source_sha256": "54fa25833df3ad95e2a6cef3c14a878911c1a8d47c247154b9f8ca5e16248df5",
+      "source_size": [
+        1024,
+        1024
+      ],
+      "size": [
+        512,
+        512
+      ],
+      "bytes": 157314,
+      "sha256": "ad3fd989a4936117c697afa0c9bab7e256300f5de62dab2243a60ec174044005",
+      "source_alpha_bbox_16": [
+        0,
+        0,
+        956,
+        1024
+      ],
+      "alpha_bbox": [
+        0,
+        0,
+        481,
+        512
+      ],
+      "content_bbox_16": [
+        0,
+        0,
+        478,
+        512
+      ],
+      "opaque_bbox_128": [
+        1,
+        0,
+        478,
+        512
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_roundtrip_exact": true,
+      "rgba_roundtrip_exact": true,
+      "canvas_preserved": true,
+      "cropped": false,
+      "battle_alignment": {
+        "facing": "right",
+        "recommended_anchor": "foot-band center x and opaque bottom y; retain full source canvas",
+        "normalized_content_center_x": 0.467773,
+        "normalized_ground_y": 1.0,
+        "normalized_visible_width": 0.931641,
+        "normalized_visible_height": 1.0,
+        "edge_warning": "Original hair/cloak/feet reach source boundary; no extra crop or reconstruction performed.",
+        "normalized_foot_center_x": 0.740234,
+        "foot_band_bbox_128": [
+          338,
+          471,
+          420,
+          512
+        ]
+      }
+    },
+    {
+      "hero": "durin",
+      "key": "cutin-1",
+      "role": "portrait",
+      "role_label": "기본 초상",
+      "file": "durin/cutin-1.webp",
+      "path": "assets/cast/durin/cutin-1.webp",
+      "source_filename": "durin/두린 컷인1.png",
+      "source_sha256": "3c74a26edca3ba15cbe3d3f3a6318c3fc008fd29dbe49606056b9d733153ac27",
+      "source_size": [
+        1536,
+        1024
+      ],
+      "size": [
+        1152,
+        768
+      ],
+      "bytes": 896956,
+      "sha256": "5338d01b21b6137ee155524347169637cb48534a3c31416b11ef4345fb172ccd",
+      "source_alpha_bbox_16": [
+        0,
+        0,
+        1536,
+        1024
+      ],
+      "alpha_bbox": [
+        0,
+        0,
+        1152,
+        768
+      ],
+      "content_bbox_16": [
+        0,
+        0,
+        1152,
+        768
+      ],
+      "opaque_bbox_128": [
+        22,
+        0,
+        1152,
+        768
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_roundtrip_exact": true,
+      "rgba_roundtrip_exact": true,
+      "canvas_preserved": true,
+      "cropped": false
+    },
+    {
+      "hero": "durin",
+      "key": "cutin-2",
+      "role": "ultimate",
+      "role_label": "필살기 컷인",
+      "file": "durin/cutin-2.webp",
+      "path": "assets/cast/durin/cutin-2.webp",
+      "source_filename": "durin/두린 컷인2.png",
+      "source_sha256": "521b4953e71d644aa753f7f372468142d0abb1c628f832f108958e2be8e7893f",
+      "source_size": [
+        1536,
+        1024
+      ],
+      "size": [
+        1152,
+        768
+      ],
+      "bytes": 969482,
+      "sha256": "4a2a61378082fc25fc97810a49731da32cfe76288d61cd0f2b9e12e0655d2aaf",
+      "source_alpha_bbox_16": [
+        51,
+        0,
+        1536,
+        1024
+      ],
+      "alpha_bbox": [
+        0,
+        0,
+        1152,
+        768
+      ],
+      "content_bbox_16": [
+        38,
+        0,
+        1152,
+        768
+      ],
+      "opaque_bbox_128": [
+        38,
+        4,
+        1139,
+        750
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_roundtrip_exact": true,
+      "rgba_roundtrip_exact": true,
+      "canvas_preserved": true,
+      "cropped": false
+    },
+    {
+      "hero": "durin",
+      "key": "partner-1",
+      "role": "partner-portrait",
+      "role_label": "파트너 지원 아이콘·초상",
+      "file": "durin/partner-1.webp",
+      "path": "assets/cast/durin/partner-1.webp",
+      "source_filename": "durin/알베도 컷인1.png",
+      "source_sha256": "8e29965e097bb5b711ab15005f43ec579327d5511059b66fb156b49eb4d0a12e",
+      "source_size": [
+        1024,
+        1024
+      ],
+      "size": [
+        768,
+        768
+      ],
+      "bytes": 550178,
+      "sha256": "7b4160ed2c8c1f58cf0122f052b8ffe0e0ed9ab3697f54ae1f4368fa97a37d11",
+      "source_alpha_bbox_16": [
+        0,
+        1,
+        1024,
+        1024
+      ],
+      "alpha_bbox": [
+        0,
+        0,
+        768,
+        768
+      ],
+      "content_bbox_16": [
+        0,
+        1,
+        768,
+        768
+      ],
+      "opaque_bbox_128": [
+        4,
+        21,
+        762,
+        767
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_roundtrip_exact": true,
+      "rgba_roundtrip_exact": true,
+      "canvas_preserved": true,
+      "cropped": false
+    },
+    {
+      "hero": "durin",
+      "key": "partner-2",
+      "role": "partner-cutin",
+      "role_label": "파트너 지원 컷인",
+      "file": "durin/partner-2.webp",
+      "path": "assets/cast/durin/partner-2.webp",
+      "source_filename": "durin/알베도 컷인2.png",
+      "source_sha256": "044b77bb81a3b00e25f6bd0b24a81efc1fefd08d1a4d505d2a3600227ce536de",
+      "source_size": [
+        1024,
+        1024
+      ],
+      "size": [
+        768,
+        768
+      ],
+      "bytes": 512248,
+      "sha256": "ec45052a865b9f6f294dae5b3ca01bde964b9ec500554a17443a63acce1c087b",
+      "source_alpha_bbox_16": [
+        0,
+        4,
+        1024,
+        1024
+      ],
+      "alpha_bbox": [
+        0,
+        0,
+        768,
+        768
+      ],
+      "content_bbox_16": [
+        0,
+        3,
+        768,
+        768
+      ],
+      "opaque_bbox_128": [
+        0,
+        5,
+        768,
+        766
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_roundtrip_exact": true,
+      "rgba_roundtrip_exact": true,
+      "canvas_preserved": true,
+      "cropped": false
+    },
+    {
+      "hero": "illuga",
+      "key": "battle",
+      "role": "battle",
+      "role_label": "전투 이미지",
+      "file": "illuga/battle.webp",
+      "path": "assets/cast/illuga/battle.webp",
+      "source_filename": "illuga/일루가 전투.png",
+      "source_sha256": "2c2f66cb2eb14355a6a81b2e3bba7c5381d1da11fd19eb07598cbe36328d0032",
+      "source_size": [
+        1024,
+        1024
+      ],
+      "size": [
+        512,
+        512
+      ],
+      "bytes": 150474,
+      "sha256": "0e13e72c737444b7050693d8d334337fee45861d0563b58cad8f7dddd8cb6f1f",
+      "source_alpha_bbox_16": [
+        0,
+        0,
+        890,
+        1019
+      ],
+      "alpha_bbox": [
+        0,
+        0,
+        448,
+        512
+      ],
+      "content_bbox_16": [
+        0,
+        0,
+        445,
+        510
+      ],
+      "opaque_bbox_128": [
+        0,
+        0,
+        445,
+        509
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_roundtrip_exact": true,
+      "rgba_roundtrip_exact": true,
+      "canvas_preserved": true,
+      "cropped": false,
+      "battle_alignment": {
+        "facing": "right",
+        "recommended_anchor": "foot-band center x and opaque bottom y; retain full source canvas",
+        "normalized_content_center_x": 0.43457,
+        "normalized_ground_y": 0.994141,
+        "normalized_visible_width": 0.869141,
+        "normalized_visible_height": 0.994141,
+        "edge_warning": "Original hair/cloak/feet reach source boundary; no extra crop or reconstruction performed.",
+        "normalized_foot_center_x": 0.573242,
+        "foot_band_bbox_128": [
+          215,
+          468,
+          372,
+          509
+        ]
+      }
+    },
+    {
+      "hero": "illuga",
+      "key": "cutin-1",
+      "role": "portrait",
+      "role_label": "기본 초상",
+      "file": "illuga/cutin-1.webp",
+      "path": "assets/cast/illuga/cutin-1.webp",
+      "source_filename": "illuga/일루가 컷인1.png",
+      "source_sha256": "12b23656a245c0f04c6b18329c0fdadf498a6bf071d4627f5a8fdd7ec20aeb06",
+      "source_size": [
+        1536,
+        1024
+      ],
+      "size": [
+        1152,
+        768
+      ],
+      "bytes": 1027178,
+      "sha256": "fdb134de13d60d56127c31003b7ca2a00f67f7954d516231133fff9527f3969e",
+      "source_alpha_bbox_16": [
+        0,
+        30,
+        1536,
+        1024
+      ],
+      "alpha_bbox": [
+        0,
+        0,
+        1152,
+        768
+      ],
+      "content_bbox_16": [
+        0,
+        23,
+        1152,
+        768
+      ],
+      "opaque_bbox_128": [
+        17,
+        24,
+        1152,
+        752
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_roundtrip_exact": true,
+      "rgba_roundtrip_exact": true,
+      "canvas_preserved": true,
+      "cropped": false
+    },
+    {
+      "hero": "illuga",
+      "key": "cutin-2",
+      "role": "ultimate",
+      "role_label": "필살기 컷인",
+      "file": "illuga/cutin-2.webp",
+      "path": "assets/cast/illuga/cutin-2.webp",
+      "source_filename": "illuga/일루가 컷인2.png",
+      "source_sha256": "d35b0ff1e479f4b40cb3cccf5f4643947421fbf5ae03711a98a7ac0c6eee73d4",
+      "source_size": [
+        1536,
+        1024
+      ],
+      "size": [
+        1152,
+        768
+      ],
+      "bytes": 1024726,
+      "sha256": "ac79b67bb94c5aed3dff3059fd0571024f40e5fb25b20ec781ddf52a34678abe",
+      "source_alpha_bbox_16": [
+        13,
+        45,
+        1531,
+        1018
+      ],
+      "alpha_bbox": [
+        0,
+        0,
+        1151,
+        768
+      ],
+      "content_bbox_16": [
+        9,
+        34,
+        1148,
+        763
+      ],
+      "opaque_bbox_128": [
+        20,
+        35,
+        1126,
+        740
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_roundtrip_exact": true,
+      "rgba_roundtrip_exact": true,
+      "canvas_preserved": true,
+      "cropped": false
+    },
+    {
+      "hero": "illuga",
+      "key": "partner-1",
+      "role": "partner-portrait",
+      "role_label": "파트너 지원 아이콘·초상",
+      "file": "illuga/partner-1.webp",
+      "path": "assets/cast/illuga/partner-1.webp",
+      "source_filename": "illuga/플린스 컷인1.png",
+      "source_sha256": "cef815fe42a1b02b66441be6523a76ed1e840d281f3dca409c731ffb84684cf0",
+      "source_size": [
+        1024,
+        1024
+      ],
+      "size": [
+        768,
+        768
+      ],
+      "bytes": 579834,
+      "sha256": "c8368de9f188504a573d0c3ed1d7911fc34ec57a70e1d1542531888138247c1e",
+      "source_alpha_bbox_16": [
+        1,
+        6,
+        1023,
+        1024
+      ],
+      "alpha_bbox": [
+        0,
+        0,
+        768,
+        768
+      ],
+      "content_bbox_16": [
+        1,
+        4,
+        768,
+        768
+      ],
+      "opaque_bbox_128": [
+        8,
+        13,
+        767,
+        768
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_roundtrip_exact": true,
+      "rgba_roundtrip_exact": true,
+      "canvas_preserved": true,
+      "cropped": false
+    },
+    {
+      "hero": "illuga",
+      "key": "partner-2",
+      "role": "partner-cutin",
+      "role_label": "파트너 지원 컷인",
+      "file": "illuga/partner-2.webp",
+      "path": "assets/cast/illuga/partner-2.webp",
+      "source_filename": "illuga/플린스 컷인2.png",
+      "source_sha256": "7fb57f9a2635d566a3afe69ddce6b3f70c710656f7e222da7e112beb06082277",
+      "source_size": [
+        1024,
+        1024
+      ],
+      "size": [
+        768,
+        768
+      ],
+      "bytes": 554840,
+      "sha256": "7101d882cef3b638ee52c5afbd528f2ca4a5fbf8942152a4a8a297c439a2dde6",
+      "source_alpha_bbox_16": [
+        1,
+        47,
+        1020,
+        1017
+      ],
+      "alpha_bbox": [
+        0,
+        0,
+        767,
+        768
+      ],
+      "content_bbox_16": [
+        1,
+        36,
+        765,
+        762
+      ],
+      "opaque_bbox_128": [
+        6,
+        52,
+        756,
+        724
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_roundtrip_exact": true,
+      "rgba_roundtrip_exact": true,
+      "canvas_preserved": true,
+      "cropped": false
+    },
+    {
+      "hero": "jahoda",
+      "key": "battle",
+      "role": "battle",
+      "role_label": "전투 이미지",
+      "file": "jahoda/battle.webp",
+      "path": "assets/cast/jahoda/battle.webp",
+      "source_filename": "jahoda/야호다 전투.png",
+      "source_sha256": "b5d3cc902f71ff9272a34cabf0055ffb1571a11e7f49d64fe6d448294f852462",
+      "source_size": [
+        1024,
+        1024
+      ],
+      "size": [
+        512,
+        512
+      ],
+      "bytes": 146120,
+      "sha256": "99b122c60c114c5dc28c452b96ca3e5b0efd972b271edfe5e2f3fe2f538bc0d4",
+      "source_alpha_bbox_16": [
+        1,
+        0,
+        895,
+        1024
+      ],
+      "alpha_bbox": [
+        0,
+        0,
+        450,
+        512
+      ],
+      "content_bbox_16": [
+        0,
+        0,
+        447,
+        512
+      ],
+      "opaque_bbox_128": [
+        1,
+        0,
+        447,
+        512
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_roundtrip_exact": true,
+      "rgba_roundtrip_exact": true,
+      "canvas_preserved": true,
+      "cropped": false,
+      "battle_alignment": {
+        "facing": "right",
+        "recommended_anchor": "foot-band center x and opaque bottom y; retain full source canvas",
+        "normalized_content_center_x": 0.4375,
+        "normalized_ground_y": 1.0,
+        "normalized_visible_width": 0.871094,
+        "normalized_visible_height": 1.0,
+        "edge_warning": "Original hair/cloak/feet reach source boundary; no extra crop or reconstruction performed.",
+        "normalized_foot_center_x": 0.583008,
+        "foot_band_bbox_128": [
+          217,
+          471,
+          380,
+          512
+        ]
+      }
+    },
+    {
+      "hero": "jahoda",
+      "key": "cutin-1",
+      "role": "portrait",
+      "role_label": "기본 초상",
+      "file": "jahoda/cutin-1.webp",
+      "path": "assets/cast/jahoda/cutin-1.webp",
+      "source_filename": "jahoda/야호다 컷인1.png",
+      "source_sha256": "75050c524be52669da7da609b28f8db2d5a3bb95d42e8365ac66bb53b616679a",
+      "source_size": [
+        1536,
+        1024
+      ],
+      "size": [
+        1152,
+        768
+      ],
+      "bytes": 755248,
+      "sha256": "cdb01b49ec0dead35842db004a98ae3444f6c78f0636d8420b88a12821fc0964",
+      "source_alpha_bbox_16": [
+        1,
+        2,
+        1536,
+        1024
+      ],
+      "alpha_bbox": [
+        0,
+        0,
+        1152,
+        768
+      ],
+      "content_bbox_16": [
+        1,
+        1,
+        1152,
+        768
+      ],
+      "opaque_bbox_128": [
+        16,
+        3,
+        1152,
+        767
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_roundtrip_exact": true,
+      "rgba_roundtrip_exact": true,
+      "canvas_preserved": true,
+      "cropped": false
+    },
+    {
+      "hero": "jahoda",
+      "key": "cutin-2",
+      "role": "ultimate",
+      "role_label": "필살기 컷인",
+      "file": "jahoda/cutin-2.webp",
+      "path": "assets/cast/jahoda/cutin-2.webp",
+      "source_filename": "jahoda/야호다 컷인2.png",
+      "source_sha256": "e59bda3e3684f8b3387dc0e943a98349a514baf136ee0374100214a5d2b909ae",
+      "source_size": [
+        1536,
+        1024
+      ],
+      "size": [
+        1152,
+        768
+      ],
+      "bytes": 895832,
+      "sha256": "220be26b3911a97b9c39f02f47614247ee088c0d05c543e00ded02e7a28f7ca3",
+      "source_alpha_bbox_16": [
+        0,
+        0,
+        1534,
+        1022
+      ],
+      "alpha_bbox": [
+        0,
+        0,
+        1152,
+        768
+      ],
+      "content_bbox_16": [
+        0,
+        0,
+        1150,
+        767
+      ],
+      "opaque_bbox_128": [
+        0,
+        0,
+        1136,
+        762
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_roundtrip_exact": true,
+      "rgba_roundtrip_exact": true,
+      "canvas_preserved": true,
+      "cropped": false
+    },
+    {
+      "hero": "jahoda",
+      "key": "partner-1",
+      "role": "partner-portrait",
+      "role_label": "파트너 지원 아이콘·초상",
+      "file": "jahoda/partner-1.webp",
+      "path": "assets/cast/jahoda/partner-1.webp",
+      "source_filename": "jahoda/네페르 컷인1.png",
+      "source_sha256": "ba344fa1278fda4d985aff5d80495130421f5609a5a89dc3f30d7cfee6645f8f",
+      "source_size": [
+        1024,
+        1024
+      ],
+      "size": [
+        768,
+        768
+      ],
+      "bytes": 549280,
+      "sha256": "3cdb74712007ba2f0bcb64043cc79a65bc668445b6e26ee459818b635c236c52",
+      "source_alpha_bbox_16": [
+        0,
+        4,
+        1024,
+        1017
+      ],
+      "alpha_bbox": [
+        0,
+        0,
+        768,
+        768
+      ],
+      "content_bbox_16": [
+        1,
+        3,
+        768,
+        763
+      ],
+      "opaque_bbox_128": [
+        3,
+        5,
+        768,
+        753
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_roundtrip_exact": true,
+      "rgba_roundtrip_exact": true,
+      "canvas_preserved": true,
+      "cropped": false
+    },
+    {
+      "hero": "jahoda",
+      "key": "partner-2",
+      "role": "partner-cutin",
+      "role_label": "파트너 지원 컷인",
+      "file": "jahoda/partner-2.webp",
+      "path": "assets/cast/jahoda/partner-2.webp",
+      "source_filename": "jahoda/네페르 컷인2.png",
+      "source_sha256": "1ca6aa0ee424c82141e1e9f4cc60196159b2fbf000576c28eab8b08b5aa11315",
+      "source_size": [
+        1024,
+        1024
+      ],
+      "size": [
+        768,
+        768
+      ],
+      "bytes": 591042,
+      "sha256": "d0fc0ab48fb6cf4a3deb550687e1b44aced1e01ae41da08ee00f6afd5eb284ab",
+      "source_alpha_bbox_16": [
+        24,
+        10,
+        1024,
+        1024
+      ],
+      "alpha_bbox": [
+        0,
+        0,
+        768,
+        768
+      ],
+      "content_bbox_16": [
+        18,
+        7,
+        768,
+        768
+      ],
+      "opaque_bbox_128": [
+        61,
+        8,
+        768,
+        748
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_roundtrip_exact": true,
+      "rgba_roundtrip_exact": true,
+      "canvas_preserved": true,
+      "cropped": false
+    }
+  ],
+  "total_files": 20,
+  "total_bytes": 12328954,
+  "source_total_bytes": 41390988,
+  "retired_assets": [
+    {
+      "hero": "lohen",
+      "key": "breakdown-1",
+      "role": "breakdown-cutin",
+      "role_label": "정신 붕괴 컷인",
+      "file": "lohen/breakdown-1.webp",
+      "path": "assets/cast/lohen/breakdown-1.webp",
+      "source_filename": "lohen/로엔 붕괴1.png",
+      "source_sha256": "26acd20b262f449331b7fa54b1c08392d217b3f62c3ef473b6ef626f38f68fce",
+      "source_size": [
+        1024,
+        1536
+      ],
+      "size": [
+        640,
+        960
+      ],
+      "bytes": 333936,
+      "sha256": "f4e050678575514bc88248e39e175e58f973b77bf227fa39340f6573b95b8e0d",
+      "source_alpha_bbox_16": [
+        0,
+        13,
+        1024,
+        1536
+      ],
+      "alpha_bbox": [
+        0,
+        0,
+        640,
+        960
+      ],
+      "content_bbox_16": [
+        0,
+        8,
+        640,
+        960
+      ],
+      "opaque_bbox_128": [
+        1,
+        9,
+        640,
+        960
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_roundtrip_exact": true,
+      "rgba_roundtrip_exact": true,
+      "canvas_preserved": true,
+      "cropped": false
+    },
+    {
+      "hero": "lohen",
+      "key": "breakdown-2",
+      "role": "breakdown-portrait",
+      "role_label": "정신 붕괴 초상",
+      "file": "lohen/breakdown-2.webp",
+      "path": "assets/cast/lohen/breakdown-2.webp",
+      "source_filename": "lohen/로엔 붕괴2.png",
+      "source_sha256": "409248256d43d32cdb4acc0f2fed40a8bcb1075b7332561c6d8373e6e8e99785",
+      "source_size": [
+        1024,
+        1536
+      ],
+      "size": [
+        640,
+        960
+      ],
+      "bytes": 424656,
+      "sha256": "f3f3023332e98ce65f792e60ba1fdb1e92c15e85f9bef4755914100e258c08d2",
+      "source_alpha_bbox_16": [
+        0,
+        29,
+        1019,
+        1536
+      ],
+      "alpha_bbox": [
+        0,
+        0,
+        639,
+        960
+      ],
+      "content_bbox_16": [
+        0,
+        18,
+        637,
+        960
+      ],
+      "opaque_bbox_128": [
+        0,
+        19,
+        636,
+        960
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_roundtrip_exact": true,
+      "rgba_roundtrip_exact": true,
+      "canvas_preserved": true,
+      "cropped": false
+    },
+    {
+      "hero": "durin",
+      "key": "breakdown-1",
+      "role": "breakdown-cutin",
+      "role_label": "정신 붕괴 컷인",
+      "file": "durin/breakdown-1.webp",
+      "path": "assets/cast/durin/breakdown-1.webp",
+      "source_filename": "durin/두린 붕괴1.png",
+      "source_sha256": "ddf0cf21f03cb9fec3c904d707e7c431357aff6d4105fb03f3b4ba2feabaaff5",
+      "source_size": [
+        1024,
+        1536
+      ],
+      "size": [
+        640,
+        960
+      ],
+      "bytes": 351630,
+      "sha256": "4a35bf80dd7ad64d2fb8a77cd2c57b10177587f3ae46c142a34e30f1c5f640ee",
+      "source_alpha_bbox_16": [
+        0,
+        0,
+        1024,
+        1536
+      ],
+      "alpha_bbox": [
+        0,
+        0,
+        640,
+        960
+      ],
+      "content_bbox_16": [
+        0,
+        0,
+        640,
+        960
+      ],
+      "opaque_bbox_128": [
+        0,
+        1,
+        640,
+        960
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_roundtrip_exact": true,
+      "rgba_roundtrip_exact": true,
+      "canvas_preserved": true,
+      "cropped": false
+    },
+    {
+      "hero": "durin",
+      "key": "breakdown-2",
+      "role": "breakdown-portrait",
+      "role_label": "정신 붕괴 초상",
+      "file": "durin/breakdown-2.webp",
+      "path": "assets/cast/durin/breakdown-2.webp",
+      "source_filename": "durin/두린 붕괴2.png",
+      "source_sha256": "07a78ede27de40cd94e94b7e0c111d05881df3c1b9fafe6943ba6ddefd4806c8",
+      "source_size": [
+        1024,
+        1536
+      ],
+      "size": [
+        640,
+        960
+      ],
+      "bytes": 314500,
+      "sha256": "37fbba9c04ffb9c353c66d61e7d4c9b2e0711581dbd2ae65798471b05ea6a9fb",
+      "source_alpha_bbox_16": [
+        0,
+        0,
+        1019,
+        1536
+      ],
+      "alpha_bbox": [
+        0,
+        0,
+        639,
+        960
+      ],
+      "content_bbox_16": [
+        0,
+        0,
+        637,
+        960
+      ],
+      "opaque_bbox_128": [
+        1,
+        0,
+        636,
+        960
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_roundtrip_exact": true,
+      "rgba_roundtrip_exact": true,
+      "canvas_preserved": true,
+      "cropped": false
+    },
+    {
+      "hero": "illuga",
+      "key": "breakdown-1",
+      "role": "breakdown-cutin",
+      "role_label": "정신 붕괴 컷인",
+      "file": "illuga/breakdown-1.webp",
+      "path": "assets/cast/illuga/breakdown-1.webp",
+      "source_filename": "illuga/일루가 붕괴1.png",
+      "source_sha256": "06b2c4c393a384c4ee389c171a53bdaa669e552e8ed90828efe2512ca93bf4aa",
+      "source_size": [
+        1024,
+        1536
+      ],
+      "size": [
+        640,
+        960
+      ],
+      "bytes": 381036,
+      "sha256": "010f667a2dcbb514c224953004783686d0551694593c3d590fa390709b0534fc",
+      "source_alpha_bbox_16": [
+        0,
+        1,
+        1024,
+        1534
+      ],
+      "alpha_bbox": [
+        0,
+        0,
+        640,
+        960
+      ],
+      "content_bbox_16": [
+        0,
+        1,
+        640,
+        959
+      ],
+      "opaque_bbox_128": [
+        0,
+        1,
+        640,
+        959
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_roundtrip_exact": true,
+      "rgba_roundtrip_exact": true,
+      "canvas_preserved": true,
+      "cropped": false
+    },
+    {
+      "hero": "illuga",
+      "key": "breakdown-2",
+      "role": "breakdown-portrait",
+      "role_label": "정신 붕괴 초상",
+      "file": "illuga/breakdown-2.webp",
+      "path": "assets/cast/illuga/breakdown-2.webp",
+      "source_filename": "illuga/일루가 붕괴2.png",
+      "source_sha256": "a305199b28cdede26c14dbee5c921d3117564db6994d450b7e3568904e6fd2a0",
+      "source_size": [
+        1024,
+        1536
+      ],
+      "size": [
+        640,
+        960
+      ],
+      "bytes": 202820,
+      "sha256": "0500e6ed2ab30853c991acc3696d842a3f356ed02cc564322965c641a4428d10",
+      "source_alpha_bbox_16": [
+        1,
+        381,
+        1024,
+        1252
+      ],
+      "alpha_bbox": [
+        0,
+        0,
+        640,
+        960
+      ],
+      "content_bbox_16": [
+        1,
+        238,
+        640,
+        783
+      ],
+      "opaque_bbox_128": [
+        1,
+        238,
+        640,
+        782
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_roundtrip_exact": true,
+      "rgba_roundtrip_exact": true,
+      "canvas_preserved": true,
+      "cropped": false
+    },
+    {
+      "hero": "jahoda",
+      "key": "breakdown-1",
+      "role": "breakdown-cutin",
+      "role_label": "정신 붕괴 컷인",
+      "file": "jahoda/breakdown-1.webp",
+      "path": "assets/cast/jahoda/breakdown-1.webp",
+      "source_filename": "jahoda/야호다 붕괴1.png",
+      "source_sha256": "e005fd52e9b3c8acab97fc9b3fdd54116125f0d3cec03fbb4f4b674151001c79",
+      "source_size": [
+        1024,
+        1536
+      ],
+      "size": [
+        640,
+        960
+      ],
+      "bytes": 322404,
+      "sha256": "3991e6a6bc9f7bf24aa6b0374f3d37eb63acb57035fe017bd9cb863102a3f91c",
+      "source_alpha_bbox_16": [
+        0,
+        0,
+        1023,
+        1536
+      ],
+      "alpha_bbox": [
+        0,
+        0,
+        640,
+        960
+      ],
+      "content_bbox_16": [
+        0,
+        0,
+        639,
+        960
+      ],
+      "opaque_bbox_128": [
+        0,
+        1,
+        639,
+        960
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_roundtrip_exact": true,
+      "rgba_roundtrip_exact": true,
+      "canvas_preserved": true,
+      "cropped": false
+    },
+    {
+      "hero": "jahoda",
+      "key": "breakdown-2",
+      "role": "breakdown-portrait",
+      "role_label": "정신 붕괴 초상",
+      "file": "jahoda/breakdown-2.webp",
+      "path": "assets/cast/jahoda/breakdown-2.webp",
+      "source_filename": "jahoda/야호다 붕괴2.png",
+      "source_sha256": "7d770935e33e260fc4080ee073a7bcd04eb184b0946a96ae427de8c7daf0b079",
+      "source_size": [
+        1024,
+        1536
+      ],
+      "size": [
+        640,
+        960
+      ],
+      "bytes": 284994,
+      "sha256": "01328fec74d3a2f811c583e9e6dba6a3e068cffa4e0079f95eee364f797370f1",
+      "source_alpha_bbox_16": [
+        0,
+        0,
+        1024,
+        1536
+      ],
+      "alpha_bbox": [
+        0,
+        0,
+        640,
+        960
+      ],
+      "content_bbox_16": [
+        0,
+        0,
+        640,
+        960
+      ],
+      "opaque_bbox_128": [
+        1,
+        0,
+        640,
+        960
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_roundtrip_exact": true,
+      "rgba_roundtrip_exact": true,
+      "canvas_preserved": true,
+      "cropped": false
+    }
+  ]
+}

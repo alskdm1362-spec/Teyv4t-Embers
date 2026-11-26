@@ -1,0 +1,48 @@
+/* The supplied effects keep their authored palettes; the cast's card frame colors stay unchanged. */
+.supplied-vfx,.collapse-atmosphere{pointer-events:none!important;contain:strict}
+.breakdown-scene .unframed-cutin{isolation:isolate}
+.breakdown-scene .cutin-art-window{z-index:1}
+.breakdown-scene .supplied-shatter{z-index:0!important}
+.card.broken{filter:drop-shadow(0 0 5px #000) drop-shadow(0 0 12px #000c)}
+/* Transparent character region, with legible information panels to its right. */
+.modern-shade:has([data-surface="status"]){background:transparent;backdrop-filter:none}
+.modern-surface[data-surface="status"]{background:linear-gradient(90deg,transparent 0%,#07101938 26%,#071019ef 35%,#071019f5 100%)}
+.modern-surface[data-surface="status"] .status-standing{background:transparent;box-shadow:none;border:0}
+.modern-surface[data-surface="status"]>.surface-header{background:none;text-shadow:0 2px 8px #000}
+.modern-surface .illustration-folder>div{display:flex;flex-direction:row;align-items:center;justify-content:flex-start;flex-wrap:wrap}
+.modern-surface .illustration-folder>div>button{flex:1 0 65px;padding:9px 12px}
+/* No surface, box, or backdrop is drawn for enlarged media. */
+.media-shade{position:fixed;inset:0;z-index:60;background:transparent;display:grid;place-items:center;backdrop-filter:none}
+.media-viewer{position:relative;isolation:isolate;width:100%;height:100dvh;display:grid;place-items:center;border:0;background:none;box-shadow:none;padding:65px 5vw 24px;overflow:hidden}
+.media-viewer>.surface-close{position:absolute;right:max(22px,env(safe-area-inset-right));top:max(15px,env(safe-area-inset-top));width:44px;height:44px;background:#07101b66;color:#f2f4f3;border:1px solid #d2e3e244;font:30px Paperlogy,sans-serif;z-index:3;cursor:pointer}
+.media-tabs{position:absolute;top:max(16px,env(safe-area-inset-top));left:50%;transform:translateX(-50%);display:flex;gap:6px;z-index:3}
+.media-tabs button{padding:10px 22px;min-height:42px;background:#09121b99;border:1px solid #d2e3e244;color:#a8b9c1;cursor:pointer}
+.media-tabs button.active{color:#fff;border-color:#cbdedc;background:#19313aab}
+.media-art{margin:0;display:flex;align-items:center;justify-content:center;width:100%;height:100%;min-height:0}
+.media-art img{display:block;max-width:100%;max-height:100%;width:auto;height:auto;object-fit:contain;filter:drop-shadow(0 4px 12px #0007)}
+.media-card.card-gallery{display:flex;justify-content:center;align-items:center;margin:0;padding:0;width:100%;height:100%}
+.media-card.card-gallery .catalog-card{width:min(320px,65vw,calc((100dvh - 110px)*.7));height:auto;aspect-ratio:156/220;transform:none!important;--card-h:450px}
+.media-card .card-cost{font-size:clamp(30px,5vh,48px)!important}
+.media-card .card-head>b{font-size:clamp(16px,2.5vh,24px)!important}
+.media-card .card-head small{font-size:clamp(11px,1.7vh,16px)!important}
+.media-card .card-head{padding-left:22%!important;min-height:20%}
+.media-card .card-desc{font-size:clamp(12px,2vh,18px)!important;max-height:none;bottom:28px!important;padding:12px 8px!important}
+.media-card .card-type{font-size:clamp(9px,1.4vh,13px)!important}
+.media-card .card-owner{display:none!important}
+.time-pack-anchor{width:220px;height:220px;margin:auto auto 25px}
+#die{position:relative;width:100%;height:100%;overflow:hidden;max-width:650px;margin:auto}
+.dice-stage{height:clamp(160px,37dvh,310px);max-width:650px;margin:auto}
+.dice-stage #die canvas{position:static!important;transform:none!important;width:100%!important;height:100%!important;display:block}
+@media(max-height:500px){.media-viewer{padding:50px 4vw 14px}.media-tabs button{padding:7px 20px;min-height:34px}.media-viewer>.surface-close{width:36px;height:36px}.media-card.card-gallery .catalog-card{width:min(240px,calc((100dvh - 65px)*.7))}.dice-stage{height:41dvh}.dice-traits{margin:4px}.dice-traits span{padding:5px 10px}.time-pack-anchor{width:160px;height:160px}}
+@media(max-width:550px) and (orientation:portrait){.modern-surface[data-surface="status"]{background:#071019e8}.media-viewer{padding:70px 8px 22px}}
+@media(prefers-reduced-motion:reduce){.collapse-atmosphere{display:none}}
+body:has([data-surface="status"],.media-viewer) #game>:is(#header,#screen,#footer){visibility:hidden}
+#die[data-renderer="canvas-fallback"] canvas{object-fit:contain}
+.status-standing{padding:0;cursor:zoom-in;min-width:0;display:block;color:inherit}
+.status-standing:focus-visible{outline:1px solid #b7d9d2;outline-offset:-4px}
+
+/* Collapse stage art is framed in CSS, preserving all eight uploaded PNGs unchanged. */
+.breakdown-scene .cutin-art{object-fit:contain;height:170%;top:2%}
+.breakdown-scene[data-collapse-stage="2"] .supplied-shatter{filter:contrast(1.3) drop-shadow(0 0 3px #e8d4ff66)}
+@media(max-width:550px) and (orientation:portrait){.breakdown-scene .cutin-art{height:100%;top:0;object-fit:contain}.media-tabs button{padding:9px 13px;font-size:12px;white-space:nowrap}}
+.breakdown-scene .skill-copy{text-shadow:0 1px 2px #000,-1px 0 #000,1px 0 #000,0 0 10px #000}

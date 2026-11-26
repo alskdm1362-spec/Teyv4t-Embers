@@ -1,0 +1,113 @@
+{
+  "source": "일러스트3(1).zip",
+  "assets": [
+    {
+      "source": "로비 배경.png",
+      "path": "assets/update25/lobby.webp",
+      "role": "lobby",
+      "sha256": "25860aa96af0d44b251c4f98900b7a6fa188ec6e371593efc37b74e638876441"
+    },
+    {
+      "source": "배경 추가/배경A-4.png",
+      "path": "assets/update25/background-a-4.webp",
+      "role": "late-background",
+      "sha256": "1aa11add41e7bd56ba8ab6b0029060f0c91c68eb9512d0351176387028e1105b"
+    },
+    {
+      "source": "배경 추가/배경A-1.png",
+      "path": "assets/update25/background-a-1.webp",
+      "role": "late-background",
+      "sha256": "fc2be46e5951d8828910c721a0ee533a82966057fd7cb9d1cf095bf4da163bc2"
+    },
+    {
+      "source": "배경 추가/배경A-2.png",
+      "path": "assets/update25/background-a-2.webp",
+      "role": "late-background",
+      "sha256": "f3fd3a24dcc0c22459ad5c4f912681b191a1566025954d82f9f544c0b208f7e0"
+    },
+    {
+      "source": "배경 추가/배경A-6.png",
+      "path": "assets/update25/background-a-6.webp",
+      "role": "late-background",
+      "sha256": "59a503f3f4917e94e1c91ea55797eba032610e0d061ba606c11a45cb2e59fb39"
+    },
+    {
+      "source": "배경 추가/배경B-3.png",
+      "path": "assets/update25/background-b-3.webp",
+      "role": "late-background",
+      "sha256": "0f7c6f2bd5d5a1270b80f5db62a554a7c8a3d6ac42f777f5e8a592cb0e38c05e"
+    },
+    {
+      "source": "배경 추가/배경B-2.png",
+      "path": "assets/update25/background-b-2.webp",
+      "role": "late-background",
+      "sha256": "63779ead3e1bef26f50386d017e3c63ac4f183e493834d4361375add3ef524c4"
+    },
+    {
+      "source": "배경 추가/배경A-3.png",
+      "path": "assets/update25/background-a-3.webp",
+      "role": "late-background",
+      "sha256": "8d0db3e5030a1b74c35399bdc73b15f2969611ba06a550fb32a25fb324f9fc4c"
+    },
+    {
+      "source": "배경 추가/배경A-5.png",
+      "path": "assets/update25/background-a-5.webp",
+      "role": "late-background",
+      "sha256": "b3aab060a5a9ab3325bbf48d05080c3099dc036afe72165ece78786394cc3c92"
+    },
+    {
+      "source": "배경 추가/배경B-1.png",
+      "path": "assets/update25/background-b-1.webp",
+      "role": "late-background",
+      "sha256": "ec99916fde7585bd2a3b79a3a308e1612fd333c9444d375763a371aea7882e7c"
+    },
+    {
+      "source": "필살기 컷인/로엔-필살기.png",
+      "path": "assets/update25/lohen-ultimate.webp",
+      "role": "ultimate",
+      "sha256": "3fa9404e59db2338584c805215be3d73c3dd2b45e5c81f1e4be04007fb4be00c"
+    },
+    {
+      "source": "필살기 컷인/야호다-필살기.png",
+      "path": "assets/update25/jahoda-ultimate.webp",
+      "role": "ultimate",
+      "sha256": "867e0d00d8afdf1e53c560d3c57757757d9ac246f8213c5b2a1bb0586f5c6c1e"
+    },
+    {
+      "source": "필살기 컷인/두린-필살기.png",
+      "path": "assets/update25/durin-ultimate.webp",
+      "role": "ultimate",
+      "sha256": "2034070860dddeda8d914a7f75a6d60e07c60f21aada66f0e626369d6ffcb356"
+    },
+    {
+      "source": "필살기 컷인/일루가-필살기.png",
+      "path": "assets/update25/illuga-ultimate.webp",
+      "role": "ultimate",
+      "sha256": "0f89466611af13670f3b1e0efaf9e483471970851aea397aca05e039e40cede0"
+    },
+    {
+      "source": "정신붕괴 일러스트 교체2/일루가-붕괴 1단계.png",
+      "path": "assets/update25/illuga-collapse-1.webp",
+      "role": "collapse-cutin",
+      "sha256": "c719b0a515fb9f7ca0bca8b13035e3876cae0d27dd1d034d1feac9928ff23229"
+    },
+    {
+      "source": "정신붕괴 일러스트 교체2/일루가-붕괴 2단계.png",
+      "path": "assets/update25/illuga-collapse-2.webp",
+      "role": "collapse-cutin",
+      "sha256": "81ff696889cc64ae190cb8680d38ef4907f5145891c2a9c7aa976b51137a2f0e"
+    },
+    {
+      "source": "정신붕괴 일러스트 교체2/로엔-붕괴 2단계.png",
+      "path": "assets/update25/lohen-collapse-2.webp",
+      "role": "collapse-cutin",
+      "sha256": "41a33562374d622cf8997473a29cb86481ae0fb32cc3f8c60dcd4549dd918583"
+    },
+    {
+      "source": "정신붕괴 일러스트 교체2/두린-붕괴 2단계.png",
+      "path": "assets/update25/durin-collapse-2.webp",
+      "role": "collapse-cutin",
+      "sha256": "6fbfe072b5db911abb0d2a51e8caac703ffd3fbc36cc982bc944fec8ca994374"
+    }
+  ]
+}

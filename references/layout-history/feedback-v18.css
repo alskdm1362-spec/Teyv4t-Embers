@@ -1,0 +1,457 @@
+/* v0.18 Unified Lobby Tactical UI, Fixed Refine Card Size, Kirara-Grade Proportional Standing/Dialogue, CZN Personnel Viewer */
+
+/* 1. Fix Lobby Menu Clickability (ensure #header never blocks lobby topbar) */
+body.in-lobby #header {
+  display: none !important;
+  pointer-events: none !important;
+}
+
+.lobby-topbar {
+  position: relative;
+  z-index: 30;
+  pointer-events: auto;
+}
+
+.lobby-topbar button {
+  position: relative;
+  z-index: 31;
+  pointer-events: auto;
+}
+
+/* 2. Lock Card Size in Refine / Epiphany Cutin (no size distortion) */
+.refine-cutin-stage {
+  animation: refineFadeIn 0.32s cubic-bezier(0.16, 1, 0.3, 1) forwards !important;
+}
+
+.refine-cutin-card {
+  transform: none !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.refine-cutin-card .catalog-card.card-frame,
+.refine-cutin-card .card {
+  width: 156px !important;
+  height: 228px !important;
+  min-width: 156px !important;
+  max-width: 156px !important;
+  flex: none !important;
+  transform: none !important;
+}
+
+@media (max-height: 500px) {
+  .refine-cutin-card .catalog-card.card-frame,
+  .refine-cutin-card .card {
+    width: 120px !important;
+    height: 176px !important;
+    min-width: 120px !important;
+    max-width: 120px !important;
+  }
+}
+
+@keyframes refineFadeIn {
+  0% { opacity: 0; transform: translateY(10px); }
+  100% { opacity: 1; transform: translateY(0); }
+}
+
+/* 3. Kirara-Grade Viewport-Proportional Standing Illustrations & Dialogue Boxes */
+.lobby-main {
+  height: calc(100dvh - 110px);
+  min-height: 0;
+  grid-template-columns: minmax(220px, 38%) minmax(0, 1fr) !important;
+  gap: 4vw !important;
+  align-items: stretch !important;
+}
+
+.lobby-character {
+  position: relative;
+  height: 100%;
+  min-height: 0 !important;
+  overflow: visible;
+  display: flex;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.lobby-standing {
+  height: 65dvh !important;
+  max-height: 88% !important;
+  width: 100% !important;
+  object-fit: contain !important;
+  object-position: center bottom !important;
+}
+
+.lobby-speech {
+  position: absolute;
+  left: 0;
+  right: -6%;
+  bottom: 4%;
+  max-width: none !important;
+  padding: clamp(10px, 1.9dvh, 20px) clamp(12px, 2vw, 22px) !important;
+  background: rgba(11, 16, 26, 0.9) !important;
+  border: 1px solid rgba(112, 213, 206, 0.44) !important;
+  border-left: 3px solid #70d5ce !important;
+  border-radius: 2px !important;
+  z-index: 6;
+}
+
+.lobby-speech small {
+  font-size: clamp(10px, 1.35dvh, 12px) !important;
+}
+
+.lobby-speech p {
+  font-size: clamp(11px, 1.75dvh, 14px) !important;
+  line-height: 1.6 !important;
+}
+
+/* Apply same Kirara-grade proportional scaling to Story/Join/Care standing & dialogue */
+.story-dialogue .actor-hero img,
+.story-dialogue .actor-partner img {
+  height: 65dvh;
+  max-height: 85%;
+  object-fit: contain;
+  object-position: center bottom;
+}
+
+.story-dialogue .dialogue-box {
+  padding: clamp(10px, 2dvh, 20px) clamp(14px, 2.4vw, 24px) !important;
+  background: rgba(11, 16, 26, 0.92) !important;
+  border: 1px solid rgba(154, 213, 255, 0.28) !important;
+  border-left: 3px solid #70d5ce !important;
+  border-radius: 2px !important;
+}
+
+.story-dialogue .dialogue-box > strong {
+  font-size: clamp(13px, 2.1dvh, 17px) !important;
+  color: #70d5ce !important;
+}
+
+.story-dialogue .dialogue-box p {
+  font-size: clamp(11px, 1.8dvh, 15px) !important;
+  line-height: 1.62 !important;
+}
+
+@media (max-height: 550px) and (orientation: landscape) {
+  .lobby-scene { padding: 10px 16px 12px !important; }
+  .lobby-main { height: calc(100dvh - 74px); gap: 3vw !important; grid-template-columns: 32% 1fr !important; }
+  .lobby-standing { height: 65dvh !important; }
+  .lobby-speech { padding: 10px 12px !important; bottom: 2% !important; }
+  .lobby-speech p { font-size: 11px !important; }
+  .lobby-tile { padding: 11px 14px !important; }
+  .lobby-tile.tile-expedition { padding: 13px 16px !important; }
+  .lobby-tile strong { font-size: 14px !important; }
+  .lobby-tile p { font-size: 11px !important; }
+}
+
+@media (orientation: portrait) {
+  .lobby-main {
+    display: flex !important;
+    flex-direction: column;
+    height: auto;
+    gap: 14px !important;
+  }
+  .lobby-character {
+    height: 30dvh;
+    justify-content: flex-start;
+  }
+  .lobby-standing {
+    width: 46% !important;
+    height: 100% !important;
+    object-position: left bottom !important;
+  }
+  .lobby-speech {
+    left: 42% !important;
+    right: 0 !important;
+    bottom: 8% !important;
+    padding: 10px 12px !important;
+  }
+}
+
+/* 4. Unify All Buttons, Modals & Typography to Lobby Tactical Dark Style */
+.modal.modern-surface,
+.content-card {
+  background: linear-gradient(155deg, rgba(16, 22, 34, 0.96), rgba(9, 13, 21, 0.98)) !important;
+  border: 1px solid rgba(154, 213, 255, 0.26) !important;
+  border-top: 2px solid #70d5ce !important;
+  border-radius: 2px !important;
+  color: #eef4fc !important;
+}
+
+.modern-surface .surface-header {
+  border-bottom: 1px solid rgba(154, 213, 255, 0.18) !important;
+  padding-bottom: 10px !important;
+}
+
+.modern-surface .surface-kicker {
+  color: #70d5ce !important;
+  font-size: 10px !important;
+  letter-spacing: 0.14em !important;
+}
+
+.modern-surface .surface-header h2 {
+  font-size: clamp(17px, 2.4dvh, 22px) !important;
+  color: #f4f8ff !important;
+}
+
+.modern-surface button:not(.catalog-card):not(.card):not(.care-standing):not(.status-standing):not(.surface-close):not(.czn-roster-btn):not(.enemy):not(.ability-button),
+.content-card button,
+.battle-top button,
+.combat-feed button,
+.hub-record-btn {
+  background: linear-gradient(125deg, rgba(22, 32, 50, 0.94), rgba(12, 17, 28, 0.96)) !important;
+  border: 1px solid rgba(154, 213, 255, 0.3) !important;
+  border-radius: 2px !important;
+  color: #eef4fc !important;
+  font-size: clamp(11px, 1.55dvh, 13px) !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.01em;
+  transition: border-color 0.15s ease, background 0.15s ease, transform 0.12s ease;
+}
+
+.modern-surface button.primary:not(.catalog-card),
+.content-card button.primary {
+  background: linear-gradient(120deg, rgba(26, 72, 86, 0.95), rgba(14, 28, 42, 0.98)) !important;
+  border-color: rgba(112, 213, 206, 0.72) !important;
+  border-left: 3px solid #70d5ce !important;
+  color: #ffffff !important;
+}
+
+.modern-surface button.active:not(.catalog-card) {
+  background: rgba(112, 213, 206, 0.2) !important;
+  border-color: #70d5ce !important;
+  color: #ffffff !important;
+}
+
+.modern-surface button:hover:not(:disabled):not(.catalog-card):not(.card):not(.surface-close),
+.content-card button:hover:not(:disabled) {
+  border-color: rgba(154, 213, 255, 0.85) !important;
+  background: linear-gradient(125deg, rgba(32, 48, 74, 0.96), rgba(16, 24, 38, 0.98)) !important;
+}
+
+.modern-surface .data-row,
+.modern-surface .record-row {
+  background: rgba(15, 22, 34, 0.88) !important;
+  border: 1px solid rgba(154, 213, 255, 0.18) !important;
+  border-left: 3px solid rgba(112, 213, 206, 0.55) !important;
+  border-radius: 2px !important;
+}
+
+.modern-surface .data-row strong,
+.modern-surface .record-row strong {
+  font-size: clamp(13px, 1.8dvh, 15px) !important;
+  color: #f2f7ff !important;
+}
+
+.modern-surface .data-row p,
+.modern-surface .record-row p {
+  font-size: clamp(11px, 1.55dvh, 13px) !important;
+  color: #b7c5d8 !important;
+}
+
+/* 5. CZN-Style Dedicated Lobby Personnel & Partner Inspector */
+.modal.modern-surface[data-surface="lobby-personnel"] {
+  width: min(1180px, 97vw);
+}
+
+.czn-personnel {
+  display: grid;
+  grid-template-columns: 168px minmax(220px, 34%) minmax(0, 1fr);
+  gap: 2.2vw;
+  height: calc(100dvh - 145px);
+  min-height: 360px;
+}
+
+.czn-roster {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  overflow-y: auto;
+  padding-right: 4px;
+}
+
+.czn-roster-btn {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  width: 100%;
+  padding: 8px 10px;
+  text-align: left;
+  background: rgba(14, 20, 32, 0.88);
+  border: 1px solid rgba(154, 213, 255, 0.18);
+  border-left: 3px solid var(--accent, #70d5ce);
+  color: #dfe9f6;
+  cursor: pointer;
+}
+
+.czn-roster-btn.active {
+  background: linear-gradient(120deg, rgba(28, 46, 68, 0.96), rgba(14, 20, 32, 0.96));
+  border-color: var(--accent, #70d5ce);
+  box-shadow: 0 0 14px rgba(112, 213, 206, 0.22);
+}
+
+.czn-roster-btn img {
+  width: 38px;
+  height: 38px;
+  object-fit: cover;
+  object-position: 50% 18%;
+  border-radius: 2px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+}
+
+.czn-roster-btn strong {
+  display: block;
+  font-size: 13px;
+  color: #f4f8ff;
+}
+
+.czn-roster-btn small {
+  display: block;
+  font-size: 10px;
+  color: #9ab0c8;
+}
+
+.czn-stage {
+  position: relative;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: center;
+  background: radial-gradient(circle at 50% 45%, color-mix(in srgb, var(--accent, #70d5ce) 18%, transparent), rgba(8, 12, 20, 0.72) 72%);
+  border: 1px solid rgba(154, 213, 255, 0.16);
+  overflow: hidden;
+  padding: 10px;
+}
+
+.czn-mode-toggle {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  right: 10px;
+  z-index: 4;
+  display: flex;
+  gap: 6px;
+}
+
+.czn-mode-toggle button {
+  flex: 1;
+  padding: 6px 8px !important;
+}
+
+.czn-stage-art {
+  height: 62dvh;
+  max-height: 82%;
+  width: 100%;
+  object-fit: contain;
+  object-position: center bottom;
+  filter: drop-shadow(0 12px 26px rgba(0, 0, 0, 0.72));
+}
+
+.czn-nameplate {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  padding: clamp(10px, 1.8dvh, 16px) 14px;
+  background: linear-gradient(180deg, rgba(10, 14, 22, 0.15), rgba(9, 13, 22, 0.94) 36%);
+  border-top: 1px solid rgba(154, 213, 255, 0.18);
+}
+
+.czn-nameplate small {
+  font-size: 10px;
+  letter-spacing: 0.12em;
+  color: var(--accent, #70d5ce);
+  display: block;
+}
+
+.czn-nameplate h3 {
+  margin: 2px 0 4px;
+  font-size: clamp(17px, 2.5dvh, 22px);
+  color: #ffffff;
+}
+
+.czn-nameplate p {
+  margin: 0;
+  font-size: clamp(11px, 1.5dvh, 12px);
+  color: #c2d0e2;
+}
+
+.czn-inspector {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  height: 100%;
+  overflow: hidden;
+}
+
+.czn-tabs {
+  display: flex;
+  gap: 8px;
+  margin-bottom: 12px;
+  flex-shrink: 0;
+}
+
+.czn-tabs button {
+  flex: 1;
+  padding: 8px 10px !important;
+}
+
+.czn-body {
+  flex: 1;
+  overflow-y: auto;
+  padding-right: 4px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.czn-stat-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 8px;
+}
+
+.czn-stat-cell {
+  padding: 10px;
+  background: rgba(14, 20, 32, 0.9);
+  border: 1px solid rgba(154, 213, 255, 0.18);
+}
+
+.czn-stat-cell small {
+  display: block;
+  font-size: 10px;
+  color: #93a6be;
+}
+
+.czn-stat-cell strong {
+  display: block;
+  margin-top: 3px;
+  font-size: 15px;
+  color: #f4f8ff;
+}
+
+@media (max-height: 550px) and (orientation: landscape) {
+  .czn-personnel {
+    grid-template-columns: 132px 30% 1fr;
+    height: calc(100dvh - 96px);
+    min-height: 0;
+    gap: 14px;
+  }
+  .czn-stage-art { height: 58dvh; }
+}
+
+@media (orientation: portrait) {
+  .czn-personnel {
+    grid-template-columns: 1fr;
+    height: auto;
+    gap: 12px;
+  }
+  .czn-roster {
+    flex-direction: row;
+    overflow-x: auto;
+  }
+  .czn-roster-btn { min-width: 120px; }
+  .czn-stage { height: 32dvh; }
+  .czn-stage-art { height: 100%; }
+}

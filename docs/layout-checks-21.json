@@ -1,0 +1,57 @@
+[
+  {
+    "size": "compact",
+    "view": "menu",
+    "allButtonsInside": true,
+    "bounds": {
+      "bottom": 340.09375,
+      "height": 322.1875,
+      "left": 31.90625,
+      "right": 606.09375,
+      "top": 17.90625,
+      "width": 574.1875,
+      "x": 31.90625,
+      "y": 17.90625
+    },
+    "scroll": 0,
+    "viewport": [
+      638,
+      358
+    ]
+  },
+  {
+    "size": "landscape",
+    "view": "menu",
+    "allButtonsInside": true,
+    "bounds": {
+      "bottom": 368.59375,
+      "height": 349.1875,
+      "left": 42.09375,
+      "right": 799.890625,
+      "top": 19.40625,
+      "width": 757.796875,
+      "x": 42.09375,
+      "y": 19.40625
+    },
+    "scroll": 0,
+    "viewport": [
+      842,
+      388
+    ]
+  },
+  {
+    "size": "portrait",
+    "view": "menu",
+    "bounds": {
+      "bottom": 701.09375,
+      "height": 664.1875,
+      "left": 15.515625,
+      "right": 372.46875,
+      "top": 36.90625,
+      "width": 356.953125,
+      "x": 15.515625,
+      "y": 36.90625
+    },
+    "scroll": 0
+  }
+]

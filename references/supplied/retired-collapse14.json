@@ -1,0 +1,17 @@
+{
+  "replaced_by": "dist/assets/collapse-stages/manifest.json",
+  "retired_runtime_paths": [
+    "assets/cast/lohen/breakdown-1.webp",
+    "assets/cast/lohen/breakdown-2.webp",
+    "assets/cast/durin/breakdown-1.webp",
+    "assets/cast/durin/breakdown-2.webp",
+    "assets/cast/illuga/breakdown-1.webp",
+    "assets/cast/illuga/breakdown-2.webp",
+    "assets/cast/jahoda/breakdown-1.webp",
+    "assets/cast/jahoda/breakdown-2.webp",
+    "assets/generated/breakdown-contact-sheet.jpg",
+    "assets/generated/breakdown-source.png",
+    "assets/generated/breakdown-report.json"
+  ],
+  "scope": "Cutins only; standing, portraits and card illustrations restored in 0.15."
+}

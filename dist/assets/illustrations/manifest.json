@@ -1,0 +1,3058 @@
+{
+  "schema_version": 1,
+  "source_label": "일러스트2",
+  "pipeline": {
+    "crop": false,
+    "new_generation": false,
+    "retouch": false,
+    "color_adjustment": false,
+    "resize": "LANCZOS preserve full canvas and aspect ratio",
+    "portraits": "lossless WebP RGBA exact after resize",
+    "cards": "RGB WebP quality95; discard near-opaque source alpha252..255",
+    "backgrounds": "RGB WebP quality94; original full canvas"
+  },
+  "portraits": {
+    "lohen": {
+      "role": "standing-portrait",
+      "file": "assets/illustrations/portraits/lohen.webp",
+      "path": "assets/illustrations/portraits/lohen.webp",
+      "source_filename": "스탠딩 일러스트/lohen.png",
+      "source_sha256": "57c9e73fbcedb98791ac3576003b5b086a7cad4055188f22e216a715fc2b6c3e",
+      "source_size": [
+        832,
+        1216
+      ],
+      "source_mode": "RGBA",
+      "source_alpha_extrema": [
+        0,
+        255
+      ],
+      "size": [
+        640,
+        935
+      ],
+      "mode": "RGBA",
+      "bytes": 461806,
+      "sha256": "7091ee2ca38de91b3aeee42d05ce0fc4e40f6091f44523d3e16847fe8421712c",
+      "cropped": false,
+      "full_canvas_preserved": true,
+      "encoding": {
+        "lossless": true,
+        "quality": 100,
+        "method": 4,
+        "exact": true
+      },
+      "rgba_roundtrip_exact": true,
+      "alpha_bbox": [
+        0,
+        0,
+        638,
+        935
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "hero": "lohen",
+      "label": "로엔"
+    },
+    "durin": {
+      "role": "standing-portrait",
+      "file": "assets/illustrations/portraits/durin.webp",
+      "path": "assets/illustrations/portraits/durin.webp",
+      "source_filename": "스탠딩 일러스트/durin.png",
+      "source_sha256": "44b2f1b729c3c9057ccf5e55de04f134055d43de827a6ddf2a738e094a760d7a",
+      "source_size": [
+        832,
+        1216
+      ],
+      "source_mode": "RGBA",
+      "source_alpha_extrema": [
+        0,
+        255
+      ],
+      "size": [
+        640,
+        935
+      ],
+      "mode": "RGBA",
+      "bytes": 429742,
+      "sha256": "5083b4775f957ded8a9479c4be274920347c1e40d846399ac117ec7ad72f5def",
+      "cropped": false,
+      "full_canvas_preserved": true,
+      "encoding": {
+        "lossless": true,
+        "quality": 100,
+        "method": 4,
+        "exact": true
+      },
+      "rgba_roundtrip_exact": true,
+      "alpha_bbox": [
+        0,
+        0,
+        634,
+        935
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "hero": "durin",
+      "label": "두린"
+    },
+    "illuga": {
+      "role": "standing-portrait",
+      "file": "assets/illustrations/portraits/illuga.webp",
+      "path": "assets/illustrations/portraits/illuga.webp",
+      "source_filename": "스탠딩 일러스트/illuga.png",
+      "source_sha256": "04d7dcb80917f9abb3c6c08a49ac4afcf6aba8e2021100d2d3c64b92ae5274d7",
+      "source_size": [
+        832,
+        1216
+      ],
+      "source_mode": "RGBA",
+      "source_alpha_extrema": [
+        0,
+        255
+      ],
+      "size": [
+        640,
+        935
+      ],
+      "mode": "RGBA",
+      "bytes": 458854,
+      "sha256": "7c8378b0431317fb4f90c96123cf332d03590bebdb6358c847712a18bfc54f9e",
+      "cropped": false,
+      "full_canvas_preserved": true,
+      "encoding": {
+        "lossless": true,
+        "quality": 100,
+        "method": 4,
+        "exact": true
+      },
+      "rgba_roundtrip_exact": true,
+      "alpha_bbox": [
+        0,
+        0,
+        640,
+        935
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "hero": "illuga",
+      "label": "일루가"
+    },
+    "jahoda": {
+      "role": "standing-portrait",
+      "file": "assets/illustrations/portraits/jahoda.webp",
+      "path": "assets/illustrations/portraits/jahoda.webp",
+      "source_filename": "스탠딩 일러스트/jahoda.png",
+      "source_sha256": "37e434af53a82ce12e227a9c85ae78f2022cdab7e485de2087aa74529bd23f60",
+      "source_size": [
+        832,
+        1216
+      ],
+      "source_mode": "RGBA",
+      "source_alpha_extrema": [
+        0,
+        255
+      ],
+      "size": [
+        640,
+        935
+      ],
+      "mode": "RGBA",
+      "bytes": 379260,
+      "sha256": "bbc253f4a458d13aabde4f0071cda10c3e5d755b6a5aafb7066dc17d43d0e37d",
+      "cropped": false,
+      "full_canvas_preserved": true,
+      "encoding": {
+        "lossless": true,
+        "quality": 100,
+        "method": 4,
+        "exact": true
+      },
+      "rgba_roundtrip_exact": true,
+      "alpha_bbox": [
+        0,
+        0,
+        640,
+        935
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "hero": "jahoda",
+      "label": "야호다"
+    },
+    "varka": {
+      "role": "standing-portrait",
+      "file": "assets/illustrations/portraits/varka.webp",
+      "path": "assets/illustrations/portraits/varka.webp",
+      "source_filename": "스탠딩 일러스트/varka.png",
+      "source_sha256": "f3d16e0fa543a6830b7587b573fbb824f0558a9787524ddf9e3dcb6fc88b7e5a",
+      "source_size": [
+        832,
+        1216
+      ],
+      "source_mode": "RGBA",
+      "source_alpha_extrema": [
+        0,
+        255
+      ],
+      "size": [
+        640,
+        935
+      ],
+      "mode": "RGBA",
+      "bytes": 450882,
+      "sha256": "f8f3c4c150cc0a37414793aa220950f8fed3d0aa12fe7ae1c4719f0ad4548b78",
+      "cropped": false,
+      "full_canvas_preserved": true,
+      "encoding": {
+        "lossless": true,
+        "quality": 100,
+        "method": 4,
+        "exact": true
+      },
+      "rgba_roundtrip_exact": true,
+      "alpha_bbox": [
+        0,
+        0,
+        565,
+        935
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "hero": "varka",
+      "label": "바르카"
+    }
+  },
+  "cards": {
+    "lohen": {
+      "skills": [
+        {
+          "role": "skill-card",
+          "file": "assets/illustrations/cards/lohen/skill-1.webp",
+          "path": "assets/illustrations/cards/lohen/skill-1.webp",
+          "source_filename": "카드 일러스트/스킬카드/로엔1.png",
+          "source_sha256": "778e72b01a06d919dfe09ca4598e4b30e163b3f331a847d22eddbd6e5e0b53cc",
+          "source_size": [
+            832,
+            1216
+          ],
+          "source_mode": "RGBA",
+          "source_alpha_extrema": [
+            254,
+            255
+          ],
+          "size": [
+            416,
+            608
+          ],
+          "mode": "RGB",
+          "bytes": 79090,
+          "sha256": "40d9ae8d29185fb200ca96eb841adab867fc23c31c35b79b5d15c6ff7d4afedf",
+          "cropped": false,
+          "full_canvas_preserved": true,
+          "encoding": {
+            "quality": 95,
+            "method": 5
+          },
+          "rgba_roundtrip_exact": null,
+          "rgb_mean_absolute_encoding_error": 1.9889,
+          "hero": "lohen",
+          "index": 1,
+          "assignment": "provided index preserved; app maps to existing card"
+        },
+        {
+          "role": "skill-card",
+          "file": "assets/illustrations/cards/lohen/skill-2.webp",
+          "path": "assets/illustrations/cards/lohen/skill-2.webp",
+          "source_filename": "카드 일러스트/스킬카드/로엔2.png",
+          "source_sha256": "782273b3df816510e78f67d5371a5f2c2fda686d1d71f0de4b2e570e027da37c",
+          "source_size": [
+            832,
+            1216
+          ],
+          "source_mode": "RGBA",
+          "source_alpha_extrema": [
+            254,
+            255
+          ],
+          "size": [
+            416,
+            608
+          ],
+          "mode": "RGB",
+          "bytes": 75698,
+          "sha256": "78274870ed49e790aaa58d6dbc7601ef91d66b7a8469c02e625eb38fcb2d9cd8",
+          "cropped": false,
+          "full_canvas_preserved": true,
+          "encoding": {
+            "quality": 95,
+            "method": 5
+          },
+          "rgba_roundtrip_exact": null,
+          "rgb_mean_absolute_encoding_error": 1.9847,
+          "hero": "lohen",
+          "index": 2,
+          "assignment": "provided index preserved; app maps to existing card"
+        },
+        {
+          "role": "skill-card",
+          "file": "assets/illustrations/cards/lohen/skill-3.webp",
+          "path": "assets/illustrations/cards/lohen/skill-3.webp",
+          "source_filename": "카드 일러스트/스킬카드/로엔3.png",
+          "source_sha256": "47dfc369f7b112e4428e6c465c63168c0f6923bbe6d4ff964b873f868769e9dc",
+          "source_size": [
+            832,
+            1216
+          ],
+          "source_mode": "RGBA",
+          "source_alpha_extrema": [
+            254,
+            255
+          ],
+          "size": [
+            416,
+            608
+          ],
+          "mode": "RGB",
+          "bytes": 89402,
+          "sha256": "08a4ccf82f47ff878c18352500d759cf67370ff79ab1d0751c7bbb04b9561432",
+          "cropped": false,
+          "full_canvas_preserved": true,
+          "encoding": {
+            "quality": 95,
+            "method": 5
+          },
+          "rgba_roundtrip_exact": null,
+          "rgb_mean_absolute_encoding_error": 2.1774,
+          "hero": "lohen",
+          "index": 3,
+          "assignment": "provided index preserved; app maps to existing card"
+        },
+        {
+          "role": "skill-card",
+          "file": "assets/illustrations/cards/lohen/skill-4.webp",
+          "path": "assets/illustrations/cards/lohen/skill-4.webp",
+          "source_filename": "카드 일러스트/스킬카드/로엔4.png",
+          "source_sha256": "0e6f073b50435bce093691ec20eba9c942359e9f1ea0ea7c4f9a26209503e1e5",
+          "source_size": [
+            832,
+            1216
+          ],
+          "source_mode": "RGBA",
+          "source_alpha_extrema": [
+            254,
+            255
+          ],
+          "size": [
+            416,
+            608
+          ],
+          "mode": "RGB",
+          "bytes": 84390,
+          "sha256": "14e887e5c8af2aeeb50b9ca10126bc034ec589e24ca053fe645286d99ccfb12b",
+          "cropped": false,
+          "full_canvas_preserved": true,
+          "encoding": {
+            "quality": 95,
+            "method": 5
+          },
+          "rgba_roundtrip_exact": null,
+          "rgb_mean_absolute_encoding_error": 2.1637,
+          "hero": "lohen",
+          "index": 4,
+          "assignment": "provided index preserved; app maps to existing card"
+        },
+        {
+          "role": "skill-card",
+          "file": "assets/illustrations/cards/lohen/skill-5.webp",
+          "path": "assets/illustrations/cards/lohen/skill-5.webp",
+          "source_filename": "카드 일러스트/스킬카드/로엔5.png",
+          "source_sha256": "5dad154b7238069388822f2daa406128b6949fa54aca8abaf97160411c5f5939",
+          "source_size": [
+            832,
+            1216
+          ],
+          "source_mode": "RGBA",
+          "source_alpha_extrema": [
+            254,
+            255
+          ],
+          "size": [
+            416,
+            608
+          ],
+          "mode": "RGB",
+          "bytes": 85346,
+          "sha256": "a777d8a95e462355805a5b98a3be7806c4acb885b71c592321ac675cbdd17dc6",
+          "cropped": false,
+          "full_canvas_preserved": true,
+          "encoding": {
+            "quality": 95,
+            "method": 5
+          },
+          "rgba_roundtrip_exact": null,
+          "rgb_mean_absolute_encoding_error": 2.3034,
+          "hero": "lohen",
+          "index": 5,
+          "assignment": "provided index preserved; app maps to existing card"
+        },
+        {
+          "role": "skill-card",
+          "file": "assets/illustrations/cards/lohen/skill-6.webp",
+          "path": "assets/illustrations/cards/lohen/skill-6.webp",
+          "source_filename": "카드 일러스트/스킬카드/로엔6.png",
+          "source_sha256": "91a1a7cedf2312ce9b323edd5df557d5e048efeb2a54674f4f7c54f01c34032d",
+          "source_size": [
+            832,
+            1216
+          ],
+          "source_mode": "RGBA",
+          "source_alpha_extrema": [
+            254,
+            255
+          ],
+          "size": [
+            416,
+            608
+          ],
+          "mode": "RGB",
+          "bytes": 84924,
+          "sha256": "3fb95c162303fccc3b13a45b40a4e7f73cb0ed63ea72deab28dd6c8997265f3a",
+          "cropped": false,
+          "full_canvas_preserved": true,
+          "encoding": {
+            "quality": 95,
+            "method": 5
+          },
+          "rgba_roundtrip_exact": null,
+          "rgb_mean_absolute_encoding_error": 2.161,
+          "hero": "lohen",
+          "index": 6,
+          "assignment": "provided index preserved; app maps to existing card"
+        },
+        {
+          "role": "skill-card",
+          "file": "assets/illustrations/cards/lohen/skill-7.webp",
+          "path": "assets/illustrations/cards/lohen/skill-7.webp",
+          "source_filename": "카드 일러스트/스킬카드/로엔7.png",
+          "source_sha256": "0ee3f898e9e60398943a8e74d69eed523592c1ba22a98445373818fa2a82301e",
+          "source_size": [
+            832,
+            1216
+          ],
+          "source_mode": "RGBA",
+          "source_alpha_extrema": [
+            254,
+            255
+          ],
+          "size": [
+            416,
+            608
+          ],
+          "mode": "RGB",
+          "bytes": 71590,
+          "sha256": "97bd3917fe1d13972fed68a4c8470126f4d5da7624e20af54b3133165c87d271",
+          "cropped": false,
+          "full_canvas_preserved": true,
+          "encoding": {
+            "quality": 95,
+            "method": 5
+          },
+          "rgba_roundtrip_exact": null,
+          "rgb_mean_absolute_encoding_error": 1.6631,
+          "hero": "lohen",
+          "index": 7,
+          "assignment": "provided index preserved; app maps to existing card"
+        }
+      ],
+      "collapse": [
+        {
+          "role": "collapse-card",
+          "file": "assets/illustrations/cards/lohen/collapse-1.webp",
+          "path": "assets/illustrations/cards/lohen/collapse-1.webp",
+          "source_filename": "카드 일러스트/붕괴 카드/로엔1.png",
+          "source_sha256": "13e24658345c975d50bf2b4fc671e0299e69ea473863e4d87a7c9957abeff6fb",
+          "source_size": [
+            1472,
+            1472
+          ],
+          "source_mode": "RGBA",
+          "source_alpha_extrema": [
+            254,
+            255
+          ],
+          "size": [
+            512,
+            512
+          ],
+          "mode": "RGB",
+          "bytes": 92538,
+          "sha256": "c1f92123ecff5a047a1609e75d33c931fd754cf3efabbcc1e7bbac0dd8c85cc4",
+          "cropped": false,
+          "full_canvas_preserved": true,
+          "encoding": {
+            "quality": 95,
+            "method": 5
+          },
+          "rgba_roundtrip_exact": null,
+          "rgb_mean_absolute_encoding_error": 2.7617,
+          "hero": "lohen",
+          "index": 1
+        },
+        {
+          "role": "collapse-card",
+          "file": "assets/illustrations/cards/lohen/collapse-2.webp",
+          "path": "assets/illustrations/cards/lohen/collapse-2.webp",
+          "source_filename": "카드 일러스트/붕괴 카드/로엔2.png",
+          "source_sha256": "cf3ecf8dcccb3199e5084a1027961343664d31511aaa018af96e06cf66135c34",
+          "source_size": [
+            1472,
+            1472
+          ],
+          "source_mode": "RGBA",
+          "source_alpha_extrema": [
+            254,
+            255
+          ],
+          "size": [
+            512,
+            512
+          ],
+          "mode": "RGB",
+          "bytes": 91998,
+          "sha256": "5caeb86e575cb56a9dee651690c121f822de235229219ce4b2867b8029aab27b",
+          "cropped": false,
+          "full_canvas_preserved": true,
+          "encoding": {
+            "quality": 95,
+            "method": 5
+          },
+          "rgba_roundtrip_exact": null,
+          "rgb_mean_absolute_encoding_error": 3.2686,
+          "hero": "lohen",
+          "index": 2
+        }
+      ]
+    },
+    "durin": {
+      "skills": [
+        {
+          "role": "skill-card",
+          "file": "assets/illustrations/cards/durin/skill-1.webp",
+          "path": "assets/illustrations/cards/durin/skill-1.webp",
+          "source_filename": "카드 일러스트/스킬카드/두린1.png",
+          "source_sha256": "91c806b60ae3269a421566809168dd9514d42fac52cb44e5baeced20d6439619",
+          "source_size": [
+            832,
+            1216
+          ],
+          "source_mode": "RGBA",
+          "source_alpha_extrema": [
+            254,
+            255
+          ],
+          "size": [
+            416,
+            608
+          ],
+          "mode": "RGB",
+          "bytes": 79194,
+          "sha256": "d22823c9eca31a6dc244b01201c5d1ec37f90df156b90091232adc23610e8456",
+          "cropped": false,
+          "full_canvas_preserved": true,
+          "encoding": {
+            "quality": 95,
+            "method": 5
+          },
+          "rgba_roundtrip_exact": null,
+          "rgb_mean_absolute_encoding_error": 1.9177,
+          "hero": "durin",
+          "index": 1,
+          "assignment": "provided index preserved; app maps to existing card"
+        },
+        {
+          "role": "skill-card",
+          "file": "assets/illustrations/cards/durin/skill-2.webp",
+          "path": "assets/illustrations/cards/durin/skill-2.webp",
+          "source_filename": "카드 일러스트/스킬카드/두린2.png",
+          "source_sha256": "7fafee9236a72969412b225b00164d4c3c46cf1e8749dc0100be1ac7a8022a09",
+          "source_size": [
+            832,
+            1216
+          ],
+          "source_mode": "RGBA",
+          "source_alpha_extrema": [
+            254,
+            255
+          ],
+          "size": [
+            416,
+            608
+          ],
+          "mode": "RGB",
+          "bytes": 90082,
+          "sha256": "584371fcf4584cd496412b0a50818eefaa52885d2d6425cd354005ec0ab48f29",
+          "cropped": false,
+          "full_canvas_preserved": true,
+          "encoding": {
+            "quality": 95,
+            "method": 5
+          },
+          "rgba_roundtrip_exact": null,
+          "rgb_mean_absolute_encoding_error": 2.5887,
+          "hero": "durin",
+          "index": 2,
+          "assignment": "provided index preserved; app maps to existing card"
+        },
+        {
+          "role": "skill-card",
+          "file": "assets/illustrations/cards/durin/skill-3.webp",
+          "path": "assets/illustrations/cards/durin/skill-3.webp",
+          "source_filename": "카드 일러스트/스킬카드/두린3.png",
+          "source_sha256": "876242f03ed042d181b13dcf47200ab12658f8571cdaa71f361b41ae73304f6c",
+          "source_size": [
+            832,
+            1216
+          ],
+          "source_mode": "RGBA",
+          "source_alpha_extrema": [
+            254,
+            255
+          ],
+          "size": [
+            416,
+            608
+          ],
+          "mode": "RGB",
+          "bytes": 90194,
+          "sha256": "753bd7fa9baf570a884c0f1e0e7f92de283a61b800c6b834b6df5cdd0d993201",
+          "cropped": false,
+          "full_canvas_preserved": true,
+          "encoding": {
+            "quality": 95,
+            "method": 5
+          },
+          "rgba_roundtrip_exact": null,
+          "rgb_mean_absolute_encoding_error": 2.5307,
+          "hero": "durin",
+          "index": 3,
+          "assignment": "provided index preserved; app maps to existing card"
+        },
+        {
+          "role": "skill-card",
+          "file": "assets/illustrations/cards/durin/skill-4.webp",
+          "path": "assets/illustrations/cards/durin/skill-4.webp",
+          "source_filename": "카드 일러스트/스킬카드/두린4.png",
+          "source_sha256": "170b3cebbab0bb1ffd710da64da76a56fb0c5ce53e4ea2687fd10995dd0001ce",
+          "source_size": [
+            832,
+            1216
+          ],
+          "source_mode": "RGBA",
+          "source_alpha_extrema": [
+            254,
+            255
+          ],
+          "size": [
+            416,
+            608
+          ],
+          "mode": "RGB",
+          "bytes": 83142,
+          "sha256": "3fb2eff4aecdd9c59bdb3de6e3dd2218101b71ed62a2b38bdf13b88b7e90dc2c",
+          "cropped": false,
+          "full_canvas_preserved": true,
+          "encoding": {
+            "quality": 95,
+            "method": 5
+          },
+          "rgba_roundtrip_exact": null,
+          "rgb_mean_absolute_encoding_error": 2.2089,
+          "hero": "durin",
+          "index": 4,
+          "assignment": "provided index preserved; app maps to existing card"
+        },
+        {
+          "role": "skill-card",
+          "file": "assets/illustrations/cards/durin/skill-5.webp",
+          "path": "assets/illustrations/cards/durin/skill-5.webp",
+          "source_filename": "카드 일러스트/스킬카드/두린5.png",
+          "source_sha256": "1cde06865fd8335b3babea436257b792b8896ef93a470a551dd6db666ca6b0d9",
+          "source_size": [
+            832,
+            1216
+          ],
+          "source_mode": "RGBA",
+          "source_alpha_extrema": [
+            254,
+            255
+          ],
+          "size": [
+            416,
+            608
+          ],
+          "mode": "RGB",
+          "bytes": 82694,
+          "sha256": "652f30f8ef2bda199d743ef216b64998ae52fb75b5238967d8c3462b9facd3a7",
+          "cropped": false,
+          "full_canvas_preserved": true,
+          "encoding": {
+            "quality": 95,
+            "method": 5
+          },
+          "rgba_roundtrip_exact": null,
+          "rgb_mean_absolute_encoding_error": 2.1141,
+          "hero": "durin",
+          "index": 5,
+          "assignment": "provided index preserved; app maps to existing card"
+        },
+        {
+          "role": "skill-card",
+          "file": "assets/illustrations/cards/durin/skill-6.webp",
+          "path": "assets/illustrations/cards/durin/skill-6.webp",
+          "source_filename": "카드 일러스트/스킬카드/두린6.png",
+          "source_sha256": "a0e35a2a6034447eef5c6b17b37c1db76ed2475d8374066a33e76b4d82224f57",
+          "source_size": [
+            832,
+            1216
+          ],
+          "source_mode": "RGBA",
+          "source_alpha_extrema": [
+            254,
+            255
+          ],
+          "size": [
+            416,
+            608
+          ],
+          "mode": "RGB",
+          "bytes": 85366,
+          "sha256": "7c814312b78cf8ce2ac895c8aeebd24bebf0f59e6abd8e23eca5dd3828a3b068",
+          "cropped": false,
+          "full_canvas_preserved": true,
+          "encoding": {
+            "quality": 95,
+            "method": 5
+          },
+          "rgba_roundtrip_exact": null,
+          "rgb_mean_absolute_encoding_error": 2.1904,
+          "hero": "durin",
+          "index": 6,
+          "assignment": "provided index preserved; app maps to existing card"
+        },
+        {
+          "role": "skill-card",
+          "file": "assets/illustrations/cards/durin/skill-7.webp",
+          "path": "assets/illustrations/cards/durin/skill-7.webp",
+          "source_filename": "카드 일러스트/스킬카드/두린7.png",
+          "source_sha256": "a4f41dfb4172c5e568130c374fa7762e36d76b2cca6bf09be57a13c8ed92438f",
+          "source_size": [
+            832,
+            1216
+          ],
+          "source_mode": "RGBA",
+          "source_alpha_extrema": [
+            254,
+            255
+          ],
+          "size": [
+            416,
+            608
+          ],
+          "mode": "RGB",
+          "bytes": 90592,
+          "sha256": "c08ca404db6f54cd7158e2155d1895ef7cde5382cc774238366670e246957b70",
+          "cropped": false,
+          "full_canvas_preserved": true,
+          "encoding": {
+            "quality": 95,
+            "method": 5
+          },
+          "rgba_roundtrip_exact": null,
+          "rgb_mean_absolute_encoding_error": 2.1303,
+          "hero": "durin",
+          "index": 7,
+          "assignment": "provided index preserved; app maps to existing card"
+        }
+      ],
+      "collapse": [
+        {
+          "role": "collapse-card",
+          "file": "assets/illustrations/cards/durin/collapse-1.webp",
+          "path": "assets/illustrations/cards/durin/collapse-1.webp",
+          "source_filename": "카드 일러스트/붕괴 카드/두린1.png",
+          "source_sha256": "3dc8088d7bc3fd46f62adc3f9f2435e84965594e2f73b61d5244859adc879496",
+          "source_size": [
+            1472,
+            1472
+          ],
+          "source_mode": "RGBA",
+          "source_alpha_extrema": [
+            254,
+            255
+          ],
+          "size": [
+            512,
+            512
+          ],
+          "mode": "RGB",
+          "bytes": 85256,
+          "sha256": "14995514978aa0183dcc63e8a14556e3164af20c4cdc96f5f55ec285448b973c",
+          "cropped": false,
+          "full_canvas_preserved": true,
+          "encoding": {
+            "quality": 95,
+            "method": 5
+          },
+          "rgba_roundtrip_exact": null,
+          "rgb_mean_absolute_encoding_error": 2.3044,
+          "hero": "durin",
+          "index": 1
+        },
+        {
+          "role": "collapse-card",
+          "file": "assets/illustrations/cards/durin/collapse-2.webp",
+          "path": "assets/illustrations/cards/durin/collapse-2.webp",
+          "source_filename": "카드 일러스트/붕괴 카드/두린2.png",
+          "source_sha256": "ec9ef2e38b5cba57f93bc08065dbc1746a015fe7bfccad170ad5b7cfe687d745",
+          "source_size": [
+            1472,
+            1472
+          ],
+          "source_mode": "RGBA",
+          "source_alpha_extrema": [
+            254,
+            255
+          ],
+          "size": [
+            512,
+            512
+          ],
+          "mode": "RGB",
+          "bytes": 86858,
+          "sha256": "5a3d06649af9749ea2b1cc9a29a0b2dd2ef4a5318320c6365b62ec22727f2b16",
+          "cropped": false,
+          "full_canvas_preserved": true,
+          "encoding": {
+            "quality": 95,
+            "method": 5
+          },
+          "rgba_roundtrip_exact": null,
+          "rgb_mean_absolute_encoding_error": 2.3701,
+          "hero": "durin",
+          "index": 2
+        }
+      ]
+    },
+    "illuga": {
+      "skills": [
+        {
+          "role": "skill-card",
+          "file": "assets/illustrations/cards/illuga/skill-1.webp",
+          "path": "assets/illustrations/cards/illuga/skill-1.webp",
+          "source_filename": "카드 일러스트/스킬카드/일루가1.png",
+          "source_sha256": "cc8480aff35849e559303fafa022e1349260600f2159016ff04f5bcfdc96b6bd",
+          "source_size": [
+            832,
+            1216
+          ],
+          "source_mode": "RGBA",
+          "source_alpha_extrema": [
+            254,
+            255
+          ],
+          "size": [
+            416,
+            608
+          ],
+          "mode": "RGB",
+          "bytes": 73348,
+          "sha256": "45e94edd67ab28a02c15cac4da92ab074a0e2ffafba032b2d06bf6f665ff21c3",
+          "cropped": false,
+          "full_canvas_preserved": true,
+          "encoding": {
+            "quality": 95,
+            "method": 5
+          },
+          "rgba_roundtrip_exact": null,
+          "rgb_mean_absolute_encoding_error": 1.5402,
+          "hero": "illuga",
+          "index": 1,
+          "assignment": "provided index preserved; app maps to existing card"
+        },
+        {
+          "role": "skill-card",
+          "file": "assets/illustrations/cards/illuga/skill-2.webp",
+          "path": "assets/illustrations/cards/illuga/skill-2.webp",
+          "source_filename": "카드 일러스트/스킬카드/일루가2.png",
+          "source_sha256": "62c4d575f70af04bb16efa0cfef85d6e6909ecfac5732bfe58db9d0e1f1a8c05",
+          "source_size": [
+            832,
+            1216
+          ],
+          "source_mode": "RGBA",
+          "source_alpha_extrema": [
+            254,
+            255
+          ],
+          "size": [
+            416,
+            608
+          ],
+          "mode": "RGB",
+          "bytes": 84112,
+          "sha256": "81753a463bbdf08dccf60328cb2a7afbdcd23dcaf1bfedb05fa2c45cbf6779e6",
+          "cropped": false,
+          "full_canvas_preserved": true,
+          "encoding": {
+            "quality": 95,
+            "method": 5
+          },
+          "rgba_roundtrip_exact": null,
+          "rgb_mean_absolute_encoding_error": 2.0018,
+          "hero": "illuga",
+          "index": 2,
+          "assignment": "provided index preserved; app maps to existing card"
+        },
+        {
+          "role": "skill-card",
+          "file": "assets/illustrations/cards/illuga/skill-3.webp",
+          "path": "assets/illustrations/cards/illuga/skill-3.webp",
+          "source_filename": "카드 일러스트/스킬카드/일루가3.png",
+          "source_sha256": "66751b9ed22f46a350728a12b58a79e379217763fb116cc31a6b684fa8d3678e",
+          "source_size": [
+            832,
+            1216
+          ],
+          "source_mode": "RGBA",
+          "source_alpha_extrema": [
+            254,
+            255
+          ],
+          "size": [
+            416,
+            608
+          ],
+          "mode": "RGB",
+          "bytes": 77462,
+          "sha256": "eedd4776a07a722e30acc49b3e67a248141bada806f09bea632b07fed97479a0",
+          "cropped": false,
+          "full_canvas_preserved": true,
+          "encoding": {
+            "quality": 95,
+            "method": 5
+          },
+          "rgba_roundtrip_exact": null,
+          "rgb_mean_absolute_encoding_error": 1.6752,
+          "hero": "illuga",
+          "index": 3,
+          "assignment": "provided index preserved; app maps to existing card"
+        },
+        {
+          "role": "skill-card",
+          "file": "assets/illustrations/cards/illuga/skill-4.webp",
+          "path": "assets/illustrations/cards/illuga/skill-4.webp",
+          "source_filename": "카드 일러스트/스킬카드/일루가4.png",
+          "source_sha256": "c1341ee2812ebfa47985923bbf38e2536f7a3eea53735f32fbc026b8e4678106",
+          "source_size": [
+            832,
+            1216
+          ],
+          "source_mode": "RGBA",
+          "source_alpha_extrema": [
+            254,
+            255
+          ],
+          "size": [
+            416,
+            608
+          ],
+          "mode": "RGB",
+          "bytes": 91562,
+          "sha256": "7719a09e157bf3d0df0dd8f3756bbc8a157fdb2648c31a093f820c7a85ac7ca7",
+          "cropped": false,
+          "full_canvas_preserved": true,
+          "encoding": {
+            "quality": 95,
+            "method": 5
+          },
+          "rgba_roundtrip_exact": null,
+          "rgb_mean_absolute_encoding_error": 2.1746,
+          "hero": "illuga",
+          "index": 4,
+          "assignment": "provided index preserved; app maps to existing card"
+        },
+        {
+          "role": "skill-card",
+          "file": "assets/illustrations/cards/illuga/skill-5.webp",
+          "path": "assets/illustrations/cards/illuga/skill-5.webp",
+          "source_filename": "카드 일러스트/스킬카드/일루가5.png",
+          "source_sha256": "71cc58b9cba47467c1e8f89ea26ffdf00263d3ae3b682889639d00982a9f35f7",
+          "source_size": [
+            832,
+            1216
+          ],
+          "source_mode": "RGBA",
+          "source_alpha_extrema": [
+            254,
+            255
+          ],
+          "size": [
+            416,
+            608
+          ],
+          "mode": "RGB",
+          "bytes": 67060,
+          "sha256": "7883f4d109f1268c3af05debecf33d9c9e51c97fb9e4ae81b097cd0b44e30a79",
+          "cropped": false,
+          "full_canvas_preserved": true,
+          "encoding": {
+            "quality": 95,
+            "method": 5
+          },
+          "rgba_roundtrip_exact": null,
+          "rgb_mean_absolute_encoding_error": 1.4783,
+          "hero": "illuga",
+          "index": 5,
+          "assignment": "provided index preserved; app maps to existing card"
+        },
+        {
+          "role": "skill-card",
+          "file": "assets/illustrations/cards/illuga/skill-6.webp",
+          "path": "assets/illustrations/cards/illuga/skill-6.webp",
+          "source_filename": "카드 일러스트/스킬카드/일루가6.png",
+          "source_sha256": "ba43f1c63e5f6fa280dc9c41d2edcbb848ffccfc5174e90008f10a3e675aafd2",
+          "source_size": [
+            832,
+            1216
+          ],
+          "source_mode": "RGBA",
+          "source_alpha_extrema": [
+            254,
+            255
+          ],
+          "size": [
+            416,
+            608
+          ],
+          "mode": "RGB",
+          "bytes": 73550,
+          "sha256": "63d6e06b259e426519c9a37fad95196d51bb0eaf08b63f88d20fc0ad52fe2d78",
+          "cropped": false,
+          "full_canvas_preserved": true,
+          "encoding": {
+            "quality": 95,
+            "method": 5
+          },
+          "rgba_roundtrip_exact": null,
+          "rgb_mean_absolute_encoding_error": 1.477,
+          "hero": "illuga",
+          "index": 6,
+          "assignment": "provided index preserved; app maps to existing card"
+        },
+        {
+          "role": "skill-card",
+          "file": "assets/illustrations/cards/illuga/skill-7.webp",
+          "path": "assets/illustrations/cards/illuga/skill-7.webp",
+          "source_filename": "카드 일러스트/스킬카드/일루가7.png",
+          "source_sha256": "29be08012b1aba0fa4dfd015b9701b81332af90cf987ba260ed6e4d99031ae53",
+          "source_size": [
+            832,
+            1216
+          ],
+          "source_mode": "RGBA",
+          "source_alpha_extrema": [
+            254,
+            255
+          ],
+          "size": [
+            416,
+            608
+          ],
+          "mode": "RGB",
+          "bytes": 80346,
+          "sha256": "88a2babb3b10f198207d9bfc01b22e33b84946b70061cdb869ab9f6a4c8691db",
+          "cropped": false,
+          "full_canvas_preserved": true,
+          "encoding": {
+            "quality": 95,
+            "method": 5
+          },
+          "rgba_roundtrip_exact": null,
+          "rgb_mean_absolute_encoding_error": 1.7077,
+          "hero": "illuga",
+          "index": 7,
+          "assignment": "provided index preserved; app maps to existing card"
+        }
+      ],
+      "collapse": [
+        {
+          "role": "collapse-card",
+          "file": "assets/illustrations/cards/illuga/collapse-1.webp",
+          "path": "assets/illustrations/cards/illuga/collapse-1.webp",
+          "source_filename": "카드 일러스트/붕괴 카드/일루가1.png",
+          "source_sha256": "d14f22d7470646e6813c2c3b4b62c4308022c7d3373cfc7799f562dfbed9c1eb",
+          "source_size": [
+            1472,
+            1472
+          ],
+          "source_mode": "RGBA",
+          "source_alpha_extrema": [
+            254,
+            255
+          ],
+          "size": [
+            512,
+            512
+          ],
+          "mode": "RGB",
+          "bytes": 92326,
+          "sha256": "506487bb9203c18120d629126c5752fcdb5250b9103447d6a50e7871498f7b48",
+          "cropped": false,
+          "full_canvas_preserved": true,
+          "encoding": {
+            "quality": 95,
+            "method": 5
+          },
+          "rgba_roundtrip_exact": null,
+          "rgb_mean_absolute_encoding_error": 2.6532,
+          "hero": "illuga",
+          "index": 1
+        },
+        {
+          "role": "collapse-card",
+          "file": "assets/illustrations/cards/illuga/collapse-2.webp",
+          "path": "assets/illustrations/cards/illuga/collapse-2.webp",
+          "source_filename": "카드 일러스트/붕괴 카드/일루가2.png",
+          "source_sha256": "04a39794b3dd33172466223b33c42ac8838edbd9bd50ac6ed7cc6a933d104fd3",
+          "source_size": [
+            1472,
+            1472
+          ],
+          "source_mode": "RGBA",
+          "source_alpha_extrema": [
+            254,
+            255
+          ],
+          "size": [
+            512,
+            512
+          ],
+          "mode": "RGB",
+          "bytes": 88334,
+          "sha256": "9d02853b3ec69ef2fb4389abd22c292ba66901a0376394e109cf78458d603a39",
+          "cropped": false,
+          "full_canvas_preserved": true,
+          "encoding": {
+            "quality": 95,
+            "method": 5
+          },
+          "rgba_roundtrip_exact": null,
+          "rgb_mean_absolute_encoding_error": 2.2791,
+          "hero": "illuga",
+          "index": 2
+        }
+      ]
+    },
+    "jahoda": {
+      "skills": [
+        {
+          "role": "skill-card",
+          "file": "assets/illustrations/cards/jahoda/skill-1.webp",
+          "path": "assets/illustrations/cards/jahoda/skill-1.webp",
+          "source_filename": "카드 일러스트/스킬카드/야호다1.png",
+          "source_sha256": "7dcd1b88e3cbade1cbaa7f876bfc0ae8651286aeca008c4c49d5a3283b97fdc9",
+          "source_size": [
+            832,
+            1216
+          ],
+          "source_mode": "RGBA",
+          "source_alpha_extrema": [
+            253,
+            255
+          ],
+          "size": [
+            416,
+            608
+          ],
+          "mode": "RGB",
+          "bytes": 72968,
+          "sha256": "b5824526368d8fd2597ef4233db20ee0d0bf134adc4259880a0a4de56315ea2d",
+          "cropped": false,
+          "full_canvas_preserved": true,
+          "encoding": {
+            "quality": 95,
+            "method": 5
+          },
+          "rgba_roundtrip_exact": null,
+          "rgb_mean_absolute_encoding_error": 1.7293,
+          "hero": "jahoda",
+          "index": 1,
+          "assignment": "provided index preserved; app maps to existing card"
+        },
+        {
+          "role": "skill-card",
+          "file": "assets/illustrations/cards/jahoda/skill-2.webp",
+          "path": "assets/illustrations/cards/jahoda/skill-2.webp",
+          "source_filename": "카드 일러스트/스킬카드/야호다2.png",
+          "source_sha256": "c8a073de35c2742906bd6b9fd3f7223bd73aca27ef742a26695d295b3c65a9b1",
+          "source_size": [
+            832,
+            1216
+          ],
+          "source_mode": "RGBA",
+          "source_alpha_extrema": [
+            254,
+            255
+          ],
+          "size": [
+            416,
+            608
+          ],
+          "mode": "RGB",
+          "bytes": 73190,
+          "sha256": "ec99131ded9e7ea9b344fab82cd4fbe4276bdfac56b6b2ef9bd13f6af906dd18",
+          "cropped": false,
+          "full_canvas_preserved": true,
+          "encoding": {
+            "quality": 95,
+            "method": 5
+          },
+          "rgba_roundtrip_exact": null,
+          "rgb_mean_absolute_encoding_error": 1.7113,
+          "hero": "jahoda",
+          "index": 2,
+          "assignment": "provided index preserved; app maps to existing card"
+        },
+        {
+          "role": "skill-card",
+          "file": "assets/illustrations/cards/jahoda/skill-3.webp",
+          "path": "assets/illustrations/cards/jahoda/skill-3.webp",
+          "source_filename": "카드 일러스트/스킬카드/야호다3.png",
+          "source_sha256": "0bfa6b65e07ef211b2b3ad768671dc0c3476fc76976e1cf90fd0b2eacdbc8429",
+          "source_size": [
+            832,
+            1216
+          ],
+          "source_mode": "RGBA",
+          "source_alpha_extrema": [
+            254,
+            255
+          ],
+          "size": [
+            416,
+            608
+          ],
+          "mode": "RGB",
+          "bytes": 78392,
+          "sha256": "aae846fe1f2a693b85936c5fddf98c49cbd7428cb6b8254b368adfe10adc97b3",
+          "cropped": false,
+          "full_canvas_preserved": true,
+          "encoding": {
+            "quality": 95,
+            "method": 5
+          },
+          "rgba_roundtrip_exact": null,
+          "rgb_mean_absolute_encoding_error": 2.1768,
+          "hero": "jahoda",
+          "index": 3,
+          "assignment": "provided index preserved; app maps to existing card"
+        },
+        {
+          "role": "skill-card",
+          "file": "assets/illustrations/cards/jahoda/skill-4.webp",
+          "path": "assets/illustrations/cards/jahoda/skill-4.webp",
+          "source_filename": "카드 일러스트/스킬카드/야호다4.png",
+          "source_sha256": "972956cb3e22a90f7215ee9e6b210bce3200040e3446990ac8ae485e8c526f18",
+          "source_size": [
+            832,
+            1216
+          ],
+          "source_mode": "RGBA",
+          "source_alpha_extrema": [
+            254,
+            255
+          ],
+          "size": [
+            416,
+            608
+          ],
+          "mode": "RGB",
+          "bytes": 74510,
+          "sha256": "34b87f12e3d98452dab42af6f78c83fdeba2cf50b94068b0b1d551d46d5e966a",
+          "cropped": false,
+          "full_canvas_preserved": true,
+          "encoding": {
+            "quality": 95,
+            "method": 5
+          },
+          "rgba_roundtrip_exact": null,
+          "rgb_mean_absolute_encoding_error": 1.8462,
+          "hero": "jahoda",
+          "index": 4,
+          "assignment": "provided index preserved; app maps to existing card"
+        },
+        {
+          "role": "skill-card",
+          "file": "assets/illustrations/cards/jahoda/skill-5.webp",
+          "path": "assets/illustrations/cards/jahoda/skill-5.webp",
+          "source_filename": "카드 일러스트/스킬카드/야호다5.png",
+          "source_sha256": "aa3bcf3b7ba8bf1a4c728ba4cd59f8e54c2415a0802316e7408140aebf7dd034",
+          "source_size": [
+            832,
+            1216
+          ],
+          "source_mode": "RGBA",
+          "source_alpha_extrema": [
+            254,
+            255
+          ],
+          "size": [
+            416,
+            608
+          ],
+          "mode": "RGB",
+          "bytes": 81978,
+          "sha256": "780d96ddb5590174ce16e74bd7ce02af5c8686879e85e839996c402ce5f3e85c",
+          "cropped": false,
+          "full_canvas_preserved": true,
+          "encoding": {
+            "quality": 95,
+            "method": 5
+          },
+          "rgba_roundtrip_exact": null,
+          "rgb_mean_absolute_encoding_error": 2.2121,
+          "hero": "jahoda",
+          "index": 5,
+          "assignment": "provided index preserved; app maps to existing card"
+        },
+        {
+          "role": "skill-card",
+          "file": "assets/illustrations/cards/jahoda/skill-6.webp",
+          "path": "assets/illustrations/cards/jahoda/skill-6.webp",
+          "source_filename": "카드 일러스트/스킬카드/야호다6.png",
+          "source_sha256": "cfc8d3d98574e1a71656e10c9014acc3becbaa7dd47be643a88493c51c6644d2",
+          "source_size": [
+            832,
+            1216
+          ],
+          "source_mode": "RGBA",
+          "source_alpha_extrema": [
+            254,
+            255
+          ],
+          "size": [
+            416,
+            608
+          ],
+          "mode": "RGB",
+          "bytes": 83604,
+          "sha256": "06772f364aacd4661388f31409748a4500b974d8b519c2aa1d696f8177cc4849",
+          "cropped": false,
+          "full_canvas_preserved": true,
+          "encoding": {
+            "quality": 95,
+            "method": 5
+          },
+          "rgba_roundtrip_exact": null,
+          "rgb_mean_absolute_encoding_error": 1.8854,
+          "hero": "jahoda",
+          "index": 6,
+          "assignment": "provided index preserved; app maps to existing card"
+        },
+        {
+          "role": "skill-card",
+          "file": "assets/illustrations/cards/jahoda/skill-7.webp",
+          "path": "assets/illustrations/cards/jahoda/skill-7.webp",
+          "source_filename": "카드 일러스트/스킬카드/야호다7.png",
+          "source_sha256": "faf013c7014cbd702fb867c0494203d8790e4e6154ecc96e7938668485374b50",
+          "source_size": [
+            832,
+            1216
+          ],
+          "source_mode": "RGBA",
+          "source_alpha_extrema": [
+            254,
+            255
+          ],
+          "size": [
+            416,
+            608
+          ],
+          "mode": "RGB",
+          "bytes": 68766,
+          "sha256": "9513c63a8c1de0de5fe52be3b053e438c5d1e95545c71fb7bf1c121cec7f2e3c",
+          "cropped": false,
+          "full_canvas_preserved": true,
+          "encoding": {
+            "quality": 95,
+            "method": 5
+          },
+          "rgba_roundtrip_exact": null,
+          "rgb_mean_absolute_encoding_error": 1.7714,
+          "hero": "jahoda",
+          "index": 7,
+          "assignment": "provided index preserved; app maps to existing card"
+        }
+      ],
+      "collapse": [
+        {
+          "role": "collapse-card",
+          "file": "assets/illustrations/cards/jahoda/collapse-1.webp",
+          "path": "assets/illustrations/cards/jahoda/collapse-1.webp",
+          "source_filename": "카드 일러스트/붕괴 카드/야호다1.png",
+          "source_sha256": "786d08976917201febf32d34d68799bfdd8c01696de8ad6963593af332bd2086",
+          "source_size": [
+            1472,
+            1472
+          ],
+          "source_mode": "RGBA",
+          "source_alpha_extrema": [
+            254,
+            255
+          ],
+          "size": [
+            512,
+            512
+          ],
+          "mode": "RGB",
+          "bytes": 87330,
+          "sha256": "a7e876e9637de2e31c53732ae86996af51358bcec5bdcd6dac3fd8108c138cc8",
+          "cropped": false,
+          "full_canvas_preserved": true,
+          "encoding": {
+            "quality": 95,
+            "method": 5
+          },
+          "rgba_roundtrip_exact": null,
+          "rgb_mean_absolute_encoding_error": 2.3126,
+          "hero": "jahoda",
+          "index": 1
+        },
+        {
+          "role": "collapse-card",
+          "file": "assets/illustrations/cards/jahoda/collapse-2.webp",
+          "path": "assets/illustrations/cards/jahoda/collapse-2.webp",
+          "source_filename": "카드 일러스트/붕괴 카드/야호다2.png",
+          "source_sha256": "1f4741223558213c5dae2128d3903c9ee2344442a46f4858d5245b9cda81ef53",
+          "source_size": [
+            1472,
+            1472
+          ],
+          "source_mode": "RGBA",
+          "source_alpha_extrema": [
+            252,
+            255
+          ],
+          "size": [
+            512,
+            512
+          ],
+          "mode": "RGB",
+          "bytes": 81690,
+          "sha256": "a546e5faeea50316cc58641c8978486d4bb12d1d0e36d56b41250fced45bf212",
+          "cropped": false,
+          "full_canvas_preserved": true,
+          "encoding": {
+            "quality": 95,
+            "method": 5
+          },
+          "rgba_roundtrip_exact": null,
+          "rgb_mean_absolute_encoding_error": 2.2843,
+          "hero": "jahoda",
+          "index": 2
+        }
+      ]
+    }
+  },
+  "backgrounds": {
+    "late-a": {
+      "role": "late-background",
+      "file": "assets/backgrounds/late-a.webp",
+      "path": "assets/backgrounds/late-a.webp",
+      "source_filename": "배경/A.png",
+      "source_sha256": "1f7274236e8934da300160cd9a55b64c74660073c9201e0706e38ab0ca76d21d",
+      "source_size": [
+        1920,
+        1088
+      ],
+      "source_mode": "RGBA",
+      "source_alpha_extrema": [
+        254,
+        255
+      ],
+      "size": [
+        1920,
+        1088
+      ],
+      "mode": "RGB",
+      "bytes": 600614,
+      "sha256": "5232b8a276ab38f49a20086d9da7319c5ebcdad77683cb7e1598a14a0b33aaa1",
+      "cropped": false,
+      "full_canvas_preserved": true,
+      "encoding": {
+        "quality": 94,
+        "method": 5
+      },
+      "rgba_roundtrip_exact": null,
+      "rgb_mean_absolute_encoding_error": 2.1001,
+      "stage_scope": "late campaign only",
+      "key": "late-a"
+    },
+    "late-b": {
+      "role": "late-background",
+      "file": "assets/backgrounds/late-b.webp",
+      "path": "assets/backgrounds/late-b.webp",
+      "source_filename": "배경/B.png",
+      "source_sha256": "9dc64ef2309cebf46a89402606153994a9706b51315375d5bbf7c5c7fba384f9",
+      "source_size": [
+        1920,
+        1088
+      ],
+      "source_mode": "RGBA",
+      "source_alpha_extrema": [
+        254,
+        255
+      ],
+      "size": [
+        1920,
+        1088
+      ],
+      "mode": "RGB",
+      "bytes": 622566,
+      "sha256": "2c21086ccc081fe1f39be13e69d24217d03acc2b7620d643ace9a802e48e89c3",
+      "cropped": false,
+      "full_canvas_preserved": true,
+      "encoding": {
+        "quality": 94,
+        "method": 5
+      },
+      "rgba_roundtrip_exact": null,
+      "rgb_mean_absolute_encoding_error": 2.9703,
+      "stage_scope": "late campaign only",
+      "key": "late-b"
+    }
+  },
+  "assets": [
+    {
+      "role": "standing-portrait",
+      "file": "assets/illustrations/portraits/lohen.webp",
+      "path": "assets/illustrations/portraits/lohen.webp",
+      "source_filename": "스탠딩 일러스트/lohen.png",
+      "source_sha256": "57c9e73fbcedb98791ac3576003b5b086a7cad4055188f22e216a715fc2b6c3e",
+      "source_size": [
+        832,
+        1216
+      ],
+      "source_mode": "RGBA",
+      "source_alpha_extrema": [
+        0,
+        255
+      ],
+      "size": [
+        640,
+        935
+      ],
+      "mode": "RGBA",
+      "bytes": 461806,
+      "sha256": "7091ee2ca38de91b3aeee42d05ce0fc4e40f6091f44523d3e16847fe8421712c",
+      "cropped": false,
+      "full_canvas_preserved": true,
+      "encoding": {
+        "lossless": true,
+        "quality": 100,
+        "method": 4,
+        "exact": true
+      },
+      "rgba_roundtrip_exact": true,
+      "alpha_bbox": [
+        0,
+        0,
+        638,
+        935
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "hero": "lohen",
+      "label": "로엔"
+    },
+    {
+      "role": "standing-portrait",
+      "file": "assets/illustrations/portraits/durin.webp",
+      "path": "assets/illustrations/portraits/durin.webp",
+      "source_filename": "스탠딩 일러스트/durin.png",
+      "source_sha256": "44b2f1b729c3c9057ccf5e55de04f134055d43de827a6ddf2a738e094a760d7a",
+      "source_size": [
+        832,
+        1216
+      ],
+      "source_mode": "RGBA",
+      "source_alpha_extrema": [
+        0,
+        255
+      ],
+      "size": [
+        640,
+        935
+      ],
+      "mode": "RGBA",
+      "bytes": 429742,
+      "sha256": "5083b4775f957ded8a9479c4be274920347c1e40d846399ac117ec7ad72f5def",
+      "cropped": false,
+      "full_canvas_preserved": true,
+      "encoding": {
+        "lossless": true,
+        "quality": 100,
+        "method": 4,
+        "exact": true
+      },
+      "rgba_roundtrip_exact": true,
+      "alpha_bbox": [
+        0,
+        0,
+        634,
+        935
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "hero": "durin",
+      "label": "두린"
+    },
+    {
+      "role": "standing-portrait",
+      "file": "assets/illustrations/portraits/illuga.webp",
+      "path": "assets/illustrations/portraits/illuga.webp",
+      "source_filename": "스탠딩 일러스트/illuga.png",
+      "source_sha256": "04d7dcb80917f9abb3c6c08a49ac4afcf6aba8e2021100d2d3c64b92ae5274d7",
+      "source_size": [
+        832,
+        1216
+      ],
+      "source_mode": "RGBA",
+      "source_alpha_extrema": [
+        0,
+        255
+      ],
+      "size": [
+        640,
+        935
+      ],
+      "mode": "RGBA",
+      "bytes": 458854,
+      "sha256": "7c8378b0431317fb4f90c96123cf332d03590bebdb6358c847712a18bfc54f9e",
+      "cropped": false,
+      "full_canvas_preserved": true,
+      "encoding": {
+        "lossless": true,
+        "quality": 100,
+        "method": 4,
+        "exact": true
+      },
+      "rgba_roundtrip_exact": true,
+      "alpha_bbox": [
+        0,
+        0,
+        640,
+        935
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "hero": "illuga",
+      "label": "일루가"
+    },
+    {
+      "role": "standing-portrait",
+      "file": "assets/illustrations/portraits/jahoda.webp",
+      "path": "assets/illustrations/portraits/jahoda.webp",
+      "source_filename": "스탠딩 일러스트/jahoda.png",
+      "source_sha256": "37e434af53a82ce12e227a9c85ae78f2022cdab7e485de2087aa74529bd23f60",
+      "source_size": [
+        832,
+        1216
+      ],
+      "source_mode": "RGBA",
+      "source_alpha_extrema": [
+        0,
+        255
+      ],
+      "size": [
+        640,
+        935
+      ],
+      "mode": "RGBA",
+      "bytes": 379260,
+      "sha256": "bbc253f4a458d13aabde4f0071cda10c3e5d755b6a5aafb7066dc17d43d0e37d",
+      "cropped": false,
+      "full_canvas_preserved": true,
+      "encoding": {
+        "lossless": true,
+        "quality": 100,
+        "method": 4,
+        "exact": true
+      },
+      "rgba_roundtrip_exact": true,
+      "alpha_bbox": [
+        0,
+        0,
+        640,
+        935
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "hero": "jahoda",
+      "label": "야호다"
+    },
+    {
+      "role": "standing-portrait",
+      "file": "assets/illustrations/portraits/varka.webp",
+      "path": "assets/illustrations/portraits/varka.webp",
+      "source_filename": "스탠딩 일러스트/varka.png",
+      "source_sha256": "f3d16e0fa543a6830b7587b573fbb824f0558a9787524ddf9e3dcb6fc88b7e5a",
+      "source_size": [
+        832,
+        1216
+      ],
+      "source_mode": "RGBA",
+      "source_alpha_extrema": [
+        0,
+        255
+      ],
+      "size": [
+        640,
+        935
+      ],
+      "mode": "RGBA",
+      "bytes": 450882,
+      "sha256": "f8f3c4c150cc0a37414793aa220950f8fed3d0aa12fe7ae1c4719f0ad4548b78",
+      "cropped": false,
+      "full_canvas_preserved": true,
+      "encoding": {
+        "lossless": true,
+        "quality": 100,
+        "method": 4,
+        "exact": true
+      },
+      "rgba_roundtrip_exact": true,
+      "alpha_bbox": [
+        0,
+        0,
+        565,
+        935
+      ],
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "hero": "varka",
+      "label": "바르카"
+    },
+    {
+      "role": "skill-card",
+      "file": "assets/illustrations/cards/lohen/skill-1.webp",
+      "path": "assets/illustrations/cards/lohen/skill-1.webp",
+      "source_filename": "카드 일러스트/스킬카드/로엔1.png",
+      "source_sha256": "778e72b01a06d919dfe09ca4598e4b30e163b3f331a847d22eddbd6e5e0b53cc",
+      "source_size": [
+        832,
+        1216
+      ],
+      "source_mode": "RGBA",
+      "source_alpha_extrema": [
+        254,
+        255
+      ],
+      "size": [
+        416,
+        608
+      ],
+      "mode": "RGB",
+      "bytes": 79090,
+      "sha256": "40d9ae8d29185fb200ca96eb841adab867fc23c31c35b79b5d15c6ff7d4afedf",
+      "cropped": false,
+      "full_canvas_preserved": true,
+      "encoding": {
+        "quality": 95,
+        "method": 5
+      },
+      "rgba_roundtrip_exact": null,
+      "rgb_mean_absolute_encoding_error": 1.9889,
+      "hero": "lohen",
+      "index": 1,
+      "assignment": "provided index preserved; app maps to existing card"
+    },
+    {
+      "role": "skill-card",
+      "file": "assets/illustrations/cards/lohen/skill-2.webp",
+      "path": "assets/illustrations/cards/lohen/skill-2.webp",
+      "source_filename": "카드 일러스트/스킬카드/로엔2.png",
+      "source_sha256": "782273b3df816510e78f67d5371a5f2c2fda686d1d71f0de4b2e570e027da37c",
+      "source_size": [
+        832,
+        1216
+      ],
+      "source_mode": "RGBA",
+      "source_alpha_extrema": [
+        254,
+        255
+      ],
+      "size": [
+        416,
+        608
+      ],
+      "mode": "RGB",
+      "bytes": 75698,
+      "sha256": "78274870ed49e790aaa58d6dbc7601ef91d66b7a8469c02e625eb38fcb2d9cd8",
+      "cropped": false,
+      "full_canvas_preserved": true,
+      "encoding": {
+        "quality": 95,
+        "method": 5
+      },
+      "rgba_roundtrip_exact": null,
+      "rgb_mean_absolute_encoding_error": 1.9847,
+      "hero": "lohen",
+      "index": 2,
+      "assignment": "provided index preserved; app maps to existing card"
+    },
+    {
+      "role": "skill-card",
+      "file": "assets/illustrations/cards/lohen/skill-3.webp",
+      "path": "assets/illustrations/cards/lohen/skill-3.webp",
+      "source_filename": "카드 일러스트/스킬카드/로엔3.png",
+      "source_sha256": "47dfc369f7b112e4428e6c465c63168c0f6923bbe6d4ff964b873f868769e9dc",
+      "source_size": [
+        832,
+        1216
+      ],
+      "source_mode": "RGBA",
+      "source_alpha_extrema": [
+        254,
+        255
+      ],
+      "size": [
+        416,
+        608
+      ],
+      "mode": "RGB",
+      "bytes": 89402,
+      "sha256": "08a4ccf82f47ff878c18352500d759cf67370ff79ab1d0751c7bbb04b9561432",
+      "cropped": false,
+      "full_canvas_preserved": true,
+      "encoding": {
+        "quality": 95,
+        "method": 5
+      },
+      "rgba_roundtrip_exact": null,
+      "rgb_mean_absolute_encoding_error": 2.1774,
+      "hero": "lohen",
+      "index": 3,
+      "assignment": "provided index preserved; app maps to existing card"
+    },
+    {
+      "role": "skill-card",
+      "file": "assets/illustrations/cards/lohen/skill-4.webp",
+      "path": "assets/illustrations/cards/lohen/skill-4.webp",
+      "source_filename": "카드 일러스트/스킬카드/로엔4.png",
+      "source_sha256": "0e6f073b50435bce093691ec20eba9c942359e9f1ea0ea7c4f9a26209503e1e5",
+      "source_size": [
+        832,
+        1216
+      ],
+      "source_mode": "RGBA",
+      "source_alpha_extrema": [
+        254,
+        255
+      ],
+      "size": [
+        416,
+        608
+      ],
+      "mode": "RGB",
+      "bytes": 84390,
+      "sha256": "14e887e5c8af2aeeb50b9ca10126bc034ec589e24ca053fe645286d99ccfb12b",
+      "cropped": false,
+      "full_canvas_preserved": true,
+      "encoding": {
+        "quality": 95,
+        "method": 5
+      },
+      "rgba_roundtrip_exact": null,
+      "rgb_mean_absolute_encoding_error": 2.1637,
+      "hero": "lohen",
+      "index": 4,
+      "assignment": "provided index preserved; app maps to existing card"
+    },
+    {
+      "role": "skill-card",
+      "file": "assets/illustrations/cards/lohen/skill-5.webp",
+      "path": "assets/illustrations/cards/lohen/skill-5.webp",
+      "source_filename": "카드 일러스트/스킬카드/로엔5.png",
+      "source_sha256": "5dad154b7238069388822f2daa406128b6949fa54aca8abaf97160411c5f5939",
+      "source_size": [
+        832,
+        1216
+      ],
+      "source_mode": "RGBA",
+      "source_alpha_extrema": [
+        254,
+        255
+      ],
+      "size": [
+        416,
+        608
+      ],
+      "mode": "RGB",
+      "bytes": 85346,
+      "sha256": "a777d8a95e462355805a5b98a3be7806c4acb885b71c592321ac675cbdd17dc6",
+      "cropped": false,
+      "full_canvas_preserved": true,
+      "encoding": {
+        "quality": 95,
+        "method": 5
+      },
+      "rgba_roundtrip_exact": null,
+      "rgb_mean_absolute_encoding_error": 2.3034,
+      "hero": "lohen",
+      "index": 5,
+      "assignment": "provided index preserved; app maps to existing card"
+    },
+    {
+      "role": "skill-card",
+      "file": "assets/illustrations/cards/lohen/skill-6.webp",
+      "path": "assets/illustrations/cards/lohen/skill-6.webp",
+      "source_filename": "카드 일러스트/스킬카드/로엔6.png",
+      "source_sha256": "91a1a7cedf2312ce9b323edd5df557d5e048efeb2a54674f4f7c54f01c34032d",
+      "source_size": [
+        832,
+        1216
+      ],
+      "source_mode": "RGBA",
+      "source_alpha_extrema": [
+        254,
+        255
+      ],
+      "size": [
+        416,
+        608
+      ],
+      "mode": "RGB",
+      "bytes": 84924,
+      "sha256": "3fb95c162303fccc3b13a45b40a4e7f73cb0ed63ea72deab28dd6c8997265f3a",
+      "cropped": false,
+      "full_canvas_preserved": true,
+      "encoding": {
+        "quality": 95,
+        "method": 5
+      },
+      "rgba_roundtrip_exact": null,
+      "rgb_mean_absolute_encoding_error": 2.161,
+      "hero": "lohen",
+      "index": 6,
+      "assignment": "provided index preserved; app maps to existing card"
+    },
+    {
+      "role": "skill-card",
+      "file": "assets/illustrations/cards/lohen/skill-7.webp",
+      "path": "assets/illustrations/cards/lohen/skill-7.webp",
+      "source_filename": "카드 일러스트/스킬카드/로엔7.png",
+      "source_sha256": "0ee3f898e9e60398943a8e74d69eed523592c1ba22a98445373818fa2a82301e",
+      "source_size": [
+        832,
+        1216
+      ],
+      "source_mode": "RGBA",
+      "source_alpha_extrema": [
+        254,
+        255
+      ],
+      "size": [
+        416,
+        608
+      ],
+      "mode": "RGB",
+      "bytes": 71590,
+      "sha256": "97bd3917fe1d13972fed68a4c8470126f4d5da7624e20af54b3133165c87d271",
+      "cropped": false,
+      "full_canvas_preserved": true,
+      "encoding": {
+        "quality": 95,
+        "method": 5
+      },
+      "rgba_roundtrip_exact": null,
+      "rgb_mean_absolute_encoding_error": 1.6631,
+      "hero": "lohen",
+      "index": 7,
+      "assignment": "provided index preserved; app maps to existing card"
+    },
+    {
+      "role": "collapse-card",
+      "file": "assets/illustrations/cards/lohen/collapse-1.webp",
+      "path": "assets/illustrations/cards/lohen/collapse-1.webp",
+      "source_filename": "카드 일러스트/붕괴 카드/로엔1.png",
+      "source_sha256": "13e24658345c975d50bf2b4fc671e0299e69ea473863e4d87a7c9957abeff6fb",
+      "source_size": [
+        1472,
+        1472
+      ],
+      "source_mode": "RGBA",
+      "source_alpha_extrema": [
+        254,
+        255
+      ],
+      "size": [
+        512,
+        512
+      ],
+      "mode": "RGB",
+      "bytes": 92538,
+      "sha256": "c1f92123ecff5a047a1609e75d33c931fd754cf3efabbcc1e7bbac0dd8c85cc4",
+      "cropped": false,
+      "full_canvas_preserved": true,
+      "encoding": {
+        "quality": 95,
+        "method": 5
+      },
+      "rgba_roundtrip_exact": null,
+      "rgb_mean_absolute_encoding_error": 2.7617,
+      "hero": "lohen",
+      "index": 1
+    },
+    {
+      "role": "collapse-card",
+      "file": "assets/illustrations/cards/lohen/collapse-2.webp",
+      "path": "assets/illustrations/cards/lohen/collapse-2.webp",
+      "source_filename": "카드 일러스트/붕괴 카드/로엔2.png",
+      "source_sha256": "cf3ecf8dcccb3199e5084a1027961343664d31511aaa018af96e06cf66135c34",
+      "source_size": [
+        1472,
+        1472
+      ],
+      "source_mode": "RGBA",
+      "source_alpha_extrema": [
+        254,
+        255
+      ],
+      "size": [
+        512,
+        512
+      ],
+      "mode": "RGB",
+      "bytes": 91998,
+      "sha256": "5caeb86e575cb56a9dee651690c121f822de235229219ce4b2867b8029aab27b",
+      "cropped": false,
+      "full_canvas_preserved": true,
+      "encoding": {
+        "quality": 95,
+        "method": 5
+      },
+      "rgba_roundtrip_exact": null,
+      "rgb_mean_absolute_encoding_error": 3.2686,
+      "hero": "lohen",
+      "index": 2
+    },
+    {
+      "role": "skill-card",
+      "file": "assets/illustrations/cards/durin/skill-1.webp",
+      "path": "assets/illustrations/cards/durin/skill-1.webp",
+      "source_filename": "카드 일러스트/스킬카드/두린1.png",
+      "source_sha256": "91c806b60ae3269a421566809168dd9514d42fac52cb44e5baeced20d6439619",
+      "source_size": [
+        832,
+        1216
+      ],
+      "source_mode": "RGBA",
+      "source_alpha_extrema": [
+        254,
+        255
+      ],
+      "size": [
+        416,
+        608
+      ],
+      "mode": "RGB",
+      "bytes": 79194,
+      "sha256": "d22823c9eca31a6dc244b01201c5d1ec37f90df156b90091232adc23610e8456",
+      "cropped": false,
+      "full_canvas_preserved": true,
+      "encoding": {
+        "quality": 95,
+        "method": 5
+      },
+      "rgba_roundtrip_exact": null,
+      "rgb_mean_absolute_encoding_error": 1.9177,
+      "hero": "durin",
+      "index": 1,
+      "assignment": "provided index preserved; app maps to existing card"
+    },
+    {
+      "role": "skill-card",
+      "file": "assets/illustrations/cards/durin/skill-2.webp",
+      "path": "assets/illustrations/cards/durin/skill-2.webp",
+      "source_filename": "카드 일러스트/스킬카드/두린2.png",
+      "source_sha256": "7fafee9236a72969412b225b00164d4c3c46cf1e8749dc0100be1ac7a8022a09",
+      "source_size": [
+        832,
+        1216
+      ],
+      "source_mode": "RGBA",
+      "source_alpha_extrema": [
+        254,
+        255
+      ],
+      "size": [
+        416,
+        608
+      ],
+      "mode": "RGB",
+      "bytes": 90082,
+      "sha256": "584371fcf4584cd496412b0a50818eefaa52885d2d6425cd354005ec0ab48f29",
+      "cropped": false,
+      "full_canvas_preserved": true,
+      "encoding": {
+        "quality": 95,
+        "method": 5
+      },
+      "rgba_roundtrip_exact": null,
+      "rgb_mean_absolute_encoding_error": 2.5887,
+      "hero": "durin",
+      "index": 2,
+      "assignment": "provided index preserved; app maps to existing card"
+    },
+    {
+      "role": "skill-card",
+      "file": "assets/illustrations/cards/durin/skill-3.webp",
+      "path": "assets/illustrations/cards/durin/skill-3.webp",
+      "source_filename": "카드 일러스트/스킬카드/두린3.png",
+      "source_sha256": "876242f03ed042d181b13dcf47200ab12658f8571cdaa71f361b41ae73304f6c",
+      "source_size": [
+        832,
+        1216
+      ],
+      "source_mode": "RGBA",
+      "source_alpha_extrema": [
+        254,
+        255
+      ],
+      "size": [
+        416,
+        608
+      ],
+      "mode": "RGB",
+      "bytes": 90194,
+      "sha256": "753bd7fa9baf570a884c0f1e0e7f92de283a61b800c6b834b6df5cdd0d993201",
+      "cropped": false,
+      "full_canvas_preserved": true,
+      "encoding": {
+        "quality": 95,
+        "method": 5
+      },
+      "rgba_roundtrip_exact": null,
+      "rgb_mean_absolute_encoding_error": 2.5307,
+      "hero": "durin",
+      "index": 3,
+      "assignment": "provided index preserved; app maps to existing card"
+    },
+    {
+      "role": "skill-card",
+      "file": "assets/illustrations/cards/durin/skill-4.webp",
+      "path": "assets/illustrations/cards/durin/skill-4.webp",
+      "source_filename": "카드 일러스트/스킬카드/두린4.png",
+      "source_sha256": "170b3cebbab0bb1ffd710da64da76a56fb0c5ce53e4ea2687fd10995dd0001ce",
+      "source_size": [
+        832,
+        1216
+      ],
+      "source_mode": "RGBA",
+      "source_alpha_extrema": [
+        254,
+        255
+      ],
+      "size": [
+        416,
+        608
+      ],
+      "mode": "RGB",
+      "bytes": 83142,
+      "sha256": "3fb2eff4aecdd9c59bdb3de6e3dd2218101b71ed62a2b38bdf13b88b7e90dc2c",
+      "cropped": false,
+      "full_canvas_preserved": true,
+      "encoding": {
+        "quality": 95,
+        "method": 5
+      },
+      "rgba_roundtrip_exact": null,
+      "rgb_mean_absolute_encoding_error": 2.2089,
+      "hero": "durin",
+      "index": 4,
+      "assignment": "provided index preserved; app maps to existing card"
+    },
+    {
+      "role": "skill-card",
+      "file": "assets/illustrations/cards/durin/skill-5.webp",
+      "path": "assets/illustrations/cards/durin/skill-5.webp",
+      "source_filename": "카드 일러스트/스킬카드/두린5.png",
+      "source_sha256": "1cde06865fd8335b3babea436257b792b8896ef93a470a551dd6db666ca6b0d9",
+      "source_size": [
+        832,
+        1216
+      ],
+      "source_mode": "RGBA",
+      "source_alpha_extrema": [
+        254,
+        255
+      ],
+      "size": [
+        416,
+        608
+      ],
+      "mode": "RGB",
+      "bytes": 82694,
+      "sha256": "652f30f8ef2bda199d743ef216b64998ae52fb75b5238967d8c3462b9facd3a7",
+      "cropped": false,
+      "full_canvas_preserved": true,
+      "encoding": {
+        "quality": 95,
+        "method": 5
+      },
+      "rgba_roundtrip_exact": null,
+      "rgb_mean_absolute_encoding_error": 2.1141,
+      "hero": "durin",
+      "index": 5,
+      "assignment": "provided index preserved; app maps to existing card"
+    },
+    {
+      "role": "skill-card",
+      "file": "assets/illustrations/cards/durin/skill-6.webp",
+      "path": "assets/illustrations/cards/durin/skill-6.webp",
+      "source_filename": "카드 일러스트/스킬카드/두린6.png",
+      "source_sha256": "a0e35a2a6034447eef5c6b17b37c1db76ed2475d8374066a33e76b4d82224f57",
+      "source_size": [
+        832,
+        1216
+      ],
+      "source_mode": "RGBA",
+      "source_alpha_extrema": [
+        254,
+        255
+      ],
+      "size": [
+        416,
+        608
+      ],
+      "mode": "RGB",
+      "bytes": 85366,
+      "sha256": "7c814312b78cf8ce2ac895c8aeebd24bebf0f59e6abd8e23eca5dd3828a3b068",
+      "cropped": false,
+      "full_canvas_preserved": true,
+      "encoding": {
+        "quality": 95,
+        "method": 5
+      },
+      "rgba_roundtrip_exact": null,
+      "rgb_mean_absolute_encoding_error": 2.1904,
+      "hero": "durin",
+      "index": 6,
+      "assignment": "provided index preserved; app maps to existing card"
+    },
+    {
+      "role": "skill-card",
+      "file": "assets/illustrations/cards/durin/skill-7.webp",
+      "path": "assets/illustrations/cards/durin/skill-7.webp",
+      "source_filename": "카드 일러스트/스킬카드/두린7.png",
+      "source_sha256": "a4f41dfb4172c5e568130c374fa7762e36d76b2cca6bf09be57a13c8ed92438f",
+      "source_size": [
+        832,
+        1216
+      ],
+      "source_mode": "RGBA",
+      "source_alpha_extrema": [
+        254,
+        255
+      ],
+      "size": [
+        416,
+        608
+      ],
+      "mode": "RGB",
+      "bytes": 90592,
+      "sha256": "c08ca404db6f54cd7158e2155d1895ef7cde5382cc774238366670e246957b70",
+      "cropped": false,
+      "full_canvas_preserved": true,
+      "encoding": {
+        "quality": 95,
+        "method": 5
+      },
+      "rgba_roundtrip_exact": null,
+      "rgb_mean_absolute_encoding_error": 2.1303,
+      "hero": "durin",
+      "index": 7,
+      "assignment": "provided index preserved; app maps to existing card"
+    },
+    {
+      "role": "collapse-card",
+      "file": "assets/illustrations/cards/durin/collapse-1.webp",
+      "path": "assets/illustrations/cards/durin/collapse-1.webp",
+      "source_filename": "카드 일러스트/붕괴 카드/두린1.png",
+      "source_sha256": "3dc8088d7bc3fd46f62adc3f9f2435e84965594e2f73b61d5244859adc879496",
+      "source_size": [
+        1472,
+        1472
+      ],
+      "source_mode": "RGBA",
+      "source_alpha_extrema": [
+        254,
+        255
+      ],
+      "size": [
+        512,
+        512
+      ],
+      "mode": "RGB",
+      "bytes": 85256,
+      "sha256": "14995514978aa0183dcc63e8a14556e3164af20c4cdc96f5f55ec285448b973c",
+      "cropped": false,
+      "full_canvas_preserved": true,
+      "encoding": {
+        "quality": 95,
+        "method": 5
+      },
+      "rgba_roundtrip_exact": null,
+      "rgb_mean_absolute_encoding_error": 2.3044,
+      "hero": "durin",
+      "index": 1
+    },
+    {
+      "role": "collapse-card",
+      "file": "assets/illustrations/cards/durin/collapse-2.webp",
+      "path": "assets/illustrations/cards/durin/collapse-2.webp",
+      "source_filename": "카드 일러스트/붕괴 카드/두린2.png",
+      "source_sha256": "ec9ef2e38b5cba57f93bc08065dbc1746a015fe7bfccad170ad5b7cfe687d745",
+      "source_size": [
+        1472,
+        1472
+      ],
+      "source_mode": "RGBA",
+      "source_alpha_extrema": [
+        254,
+        255
+      ],
+      "size": [
+        512,
+        512
+      ],
+      "mode": "RGB",
+      "bytes": 86858,
+      "sha256": "5a3d06649af9749ea2b1cc9a29a0b2dd2ef4a5318320c6365b62ec22727f2b16",
+      "cropped": false,
+      "full_canvas_preserved": true,
+      "encoding": {
+        "quality": 95,
+        "method": 5
+      },
+      "rgba_roundtrip_exact": null,
+      "rgb_mean_absolute_encoding_error": 2.3701,
+      "hero": "durin",
+      "index": 2
+    },
+    {
+      "role": "skill-card",
+      "file": "assets/illustrations/cards/illuga/skill-1.webp",
+      "path": "assets/illustrations/cards/illuga/skill-1.webp",
+      "source_filename": "카드 일러스트/스킬카드/일루가1.png",
+      "source_sha256": "cc8480aff35849e559303fafa022e1349260600f2159016ff04f5bcfdc96b6bd",
+      "source_size": [
+        832,
+        1216
+      ],
+      "source_mode": "RGBA",
+      "source_alpha_extrema": [
+        254,
+        255
+      ],
+      "size": [
+        416,
+        608
+      ],
+      "mode": "RGB",
+      "bytes": 73348,
+      "sha256": "45e94edd67ab28a02c15cac4da92ab074a0e2ffafba032b2d06bf6f665ff21c3",
+      "cropped": false,
+      "full_canvas_preserved": true,
+      "encoding": {
+        "quality": 95,
+        "method": 5
+      },
+      "rgba_roundtrip_exact": null,
+      "rgb_mean_absolute_encoding_error": 1.5402,
+      "hero": "illuga",
+      "index": 1,
+      "assignment": "provided index preserved; app maps to existing card"
+    },
+    {
+      "role": "skill-card",
+      "file": "assets/illustrations/cards/illuga/skill-2.webp",
+      "path": "assets/illustrations/cards/illuga/skill-2.webp",
+      "source_filename": "카드 일러스트/스킬카드/일루가2.png",
+      "source_sha256": "62c4d575f70af04bb16efa0cfef85d6e6909ecfac5732bfe58db9d0e1f1a8c05",
+      "source_size": [
+        832,
+        1216
+      ],
+      "source_mode": "RGBA",
+      "source_alpha_extrema": [
+        254,
+        255
+      ],
+      "size": [
+        416,
+        608
+      ],
+      "mode": "RGB",
+      "bytes": 84112,
+      "sha256": "81753a463bbdf08dccf60328cb2a7afbdcd23dcaf1bfedb05fa2c45cbf6779e6",
+      "cropped": false,
+      "full_canvas_preserved": true,
+      "encoding": {
+        "quality": 95,
+        "method": 5
+      },
+      "rgba_roundtrip_exact": null,
+      "rgb_mean_absolute_encoding_error": 2.0018,
+      "hero": "illuga",
+      "index": 2,
+      "assignment": "provided index preserved; app maps to existing card"
+    },
+    {
+      "role": "skill-card",
+      "file": "assets/illustrations/cards/illuga/skill-3.webp",
+      "path": "assets/illustrations/cards/illuga/skill-3.webp",
+      "source_filename": "카드 일러스트/스킬카드/일루가3.png",
+      "source_sha256": "66751b9ed22f46a350728a12b58a79e379217763fb116cc31a6b684fa8d3678e",
+      "source_size": [
+        832,
+        1216
+      ],
+      "source_mode": "RGBA",
+      "source_alpha_extrema": [
+        254,
+        255
+      ],
+      "size": [
+        416,
+        608
+      ],
+      "mode": "RGB",
+      "bytes": 77462,
+      "sha256": "eedd4776a07a722e30acc49b3e67a248141bada806f09bea632b07fed97479a0",
+      "cropped": false,
+      "full_canvas_preserved": true,
+      "encoding": {
+        "quality": 95,
+        "method": 5
+      },
+      "rgba_roundtrip_exact": null,
+      "rgb_mean_absolute_encoding_error": 1.6752,
+      "hero": "illuga",
+      "index": 3,
+      "assignment": "provided index preserved; app maps to existing card"
+    },
+    {
+      "role": "skill-card",
+      "file": "assets/illustrations/cards/illuga/skill-4.webp",
+      "path": "assets/illustrations/cards/illuga/skill-4.webp",
+      "source_filename": "카드 일러스트/스킬카드/일루가4.png",
+      "source_sha256": "c1341ee2812ebfa47985923bbf38e2536f7a3eea53735f32fbc026b8e4678106",
+      "source_size": [
+        832,
+        1216
+      ],
+      "source_mode": "RGBA",
+      "source_alpha_extrema": [
+        254,
+        255
+      ],
+      "size": [
+        416,
+        608
+      ],
+      "mode": "RGB",
+      "bytes": 91562,
+      "sha256": "7719a09e157bf3d0df0dd8f3756bbc8a157fdb2648c31a093f820c7a85ac7ca7",
+      "cropped": false,
+      "full_canvas_preserved": true,
+      "encoding": {
+        "quality": 95,
+        "method": 5
+      },
+      "rgba_roundtrip_exact": null,
+      "rgb_mean_absolute_encoding_error": 2.1746,
+      "hero": "illuga",
+      "index": 4,
+      "assignment": "provided index preserved; app maps to existing card"
+    },
+    {
+      "role": "skill-card",
+      "file": "assets/illustrations/cards/illuga/skill-5.webp",
+      "path": "assets/illustrations/cards/illuga/skill-5.webp",
+      "source_filename": "카드 일러스트/스킬카드/일루가5.png",
+      "source_sha256": "71cc58b9cba47467c1e8f89ea26ffdf00263d3ae3b682889639d00982a9f35f7",
+      "source_size": [
+        832,
+        1216
+      ],
+      "source_mode": "RGBA",
+      "source_alpha_extrema": [
+        254,
+        255
+      ],
+      "size": [
+        416,
+        608
+      ],
+      "mode": "RGB",
+      "bytes": 67060,
+      "sha256": "7883f4d109f1268c3af05debecf33d9c9e51c97fb9e4ae81b097cd0b44e30a79",
+      "cropped": false,
+      "full_canvas_preserved": true,
+      "encoding": {
+        "quality": 95,
+        "method": 5
+      },
+      "rgba_roundtrip_exact": null,
+      "rgb_mean_absolute_encoding_error": 1.4783,
+      "hero": "illuga",
+      "index": 5,
+      "assignment": "provided index preserved; app maps to existing card"
+    },
+    {
+      "role": "skill-card",
+      "file": "assets/illustrations/cards/illuga/skill-6.webp",
+      "path": "assets/illustrations/cards/illuga/skill-6.webp",
+      "source_filename": "카드 일러스트/스킬카드/일루가6.png",
+      "source_sha256": "ba43f1c63e5f6fa280dc9c41d2edcbb848ffccfc5174e90008f10a3e675aafd2",
+      "source_size": [
+        832,
+        1216
+      ],
+      "source_mode": "RGBA",
+      "source_alpha_extrema": [
+        254,
+        255
+      ],
+      "size": [
+        416,
+        608
+      ],
+      "mode": "RGB",
+      "bytes": 73550,
+      "sha256": "63d6e06b259e426519c9a37fad95196d51bb0eaf08b63f88d20fc0ad52fe2d78",
+      "cropped": false,
+      "full_canvas_preserved": true,
+      "encoding": {
+        "quality": 95,
+        "method": 5
+      },
+      "rgba_roundtrip_exact": null,
+      "rgb_mean_absolute_encoding_error": 1.477,
+      "hero": "illuga",
+      "index": 6,
+      "assignment": "provided index preserved; app maps to existing card"
+    },
+    {
+      "role": "skill-card",
+      "file": "assets/illustrations/cards/illuga/skill-7.webp",
+      "path": "assets/illustrations/cards/illuga/skill-7.webp",
+      "source_filename": "카드 일러스트/스킬카드/일루가7.png",
+      "source_sha256": "29be08012b1aba0fa4dfd015b9701b81332af90cf987ba260ed6e4d99031ae53",
+      "source_size": [
+        832,
+        1216
+      ],
+      "source_mode": "RGBA",
+      "source_alpha_extrema": [
+        254,
+        255
+      ],
+      "size": [
+        416,
+        608
+      ],
+      "mode": "RGB",
+      "bytes": 80346,
+      "sha256": "88a2babb3b10f198207d9bfc01b22e33b84946b70061cdb869ab9f6a4c8691db",
+      "cropped": false,
+      "full_canvas_preserved": true,
+      "encoding": {
+        "quality": 95,
+        "method": 5
+      },
+      "rgba_roundtrip_exact": null,
+      "rgb_mean_absolute_encoding_error": 1.7077,
+      "hero": "illuga",
+      "index": 7,
+      "assignment": "provided index preserved; app maps to existing card"
+    },
+    {
+      "role": "collapse-card",
+      "file": "assets/illustrations/cards/illuga/collapse-1.webp",
+      "path": "assets/illustrations/cards/illuga/collapse-1.webp",
+      "source_filename": "카드 일러스트/붕괴 카드/일루가1.png",
+      "source_sha256": "d14f22d7470646e6813c2c3b4b62c4308022c7d3373cfc7799f562dfbed9c1eb",
+      "source_size": [
+        1472,
+        1472
+      ],
+      "source_mode": "RGBA",
+      "source_alpha_extrema": [
+        254,
+        255
+      ],
+      "size": [
+        512,
+        512
+      ],
+      "mode": "RGB",
+      "bytes": 92326,
+      "sha256": "506487bb9203c18120d629126c5752fcdb5250b9103447d6a50e7871498f7b48",
+      "cropped": false,
+      "full_canvas_preserved": true,
+      "encoding": {
+        "quality": 95,
+        "method": 5
+      },
+      "rgba_roundtrip_exact": null,
+      "rgb_mean_absolute_encoding_error": 2.6532,
+      "hero": "illuga",
+      "index": 1
+    },
+    {
+      "role": "collapse-card",
+      "file": "assets/illustrations/cards/illuga/collapse-2.webp",
+      "path": "assets/illustrations/cards/illuga/collapse-2.webp",
+      "source_filename": "카드 일러스트/붕괴 카드/일루가2.png",
+      "source_sha256": "04a39794b3dd33172466223b33c42ac8838edbd9bd50ac6ed7cc6a933d104fd3",
+      "source_size": [
+        1472,
+        1472
+      ],
+      "source_mode": "RGBA",
+      "source_alpha_extrema": [
+        254,
+        255
+      ],
+      "size": [
+        512,
+        512
+      ],
+      "mode": "RGB",
+      "bytes": 88334,
+      "sha256": "9d02853b3ec69ef2fb4389abd22c292ba66901a0376394e109cf78458d603a39",
+      "cropped": false,
+      "full_canvas_preserved": true,
+      "encoding": {
+        "quality": 95,
+        "method": 5
+      },
+      "rgba_roundtrip_exact": null,
+      "rgb_mean_absolute_encoding_error": 2.2791,
+      "hero": "illuga",
+      "index": 2
+    },
+    {
+      "role": "skill-card",
+      "file": "assets/illustrations/cards/jahoda/skill-1.webp",
+      "path": "assets/illustrations/cards/jahoda/skill-1.webp",
+      "source_filename": "카드 일러스트/스킬카드/야호다1.png",
+      "source_sha256": "7dcd1b88e3cbade1cbaa7f876bfc0ae8651286aeca008c4c49d5a3283b97fdc9",
+      "source_size": [
+        832,
+        1216
+      ],
+      "source_mode": "RGBA",
+      "source_alpha_extrema": [
+        253,
+        255
+      ],
+      "size": [
+        416,
+        608
+      ],
+      "mode": "RGB",
+      "bytes": 72968,
+      "sha256": "b5824526368d8fd2597ef4233db20ee0d0bf134adc4259880a0a4de56315ea2d",
+      "cropped": false,
+      "full_canvas_preserved": true,
+      "encoding": {
+        "quality": 95,
+        "method": 5
+      },
+      "rgba_roundtrip_exact": null,
+      "rgb_mean_absolute_encoding_error": 1.7293,
+      "hero": "jahoda",
+      "index": 1,
+      "assignment": "provided index preserved; app maps to existing card"
+    },
+    {
+      "role": "skill-card",
+      "file": "assets/illustrations/cards/jahoda/skill-2.webp",
+      "path": "assets/illustrations/cards/jahoda/skill-2.webp",
+      "source_filename": "카드 일러스트/스킬카드/야호다2.png",
+      "source_sha256": "c8a073de35c2742906bd6b9fd3f7223bd73aca27ef742a26695d295b3c65a9b1",
+      "source_size": [
+        832,
+        1216
+      ],
+      "source_mode": "RGBA",
+      "source_alpha_extrema": [
+        254,
+        255
+      ],
+      "size": [
+        416,
+        608
+      ],
+      "mode": "RGB",
+      "bytes": 73190,
+      "sha256": "ec99131ded9e7ea9b344fab82cd4fbe4276bdfac56b6b2ef9bd13f6af906dd18",
+      "cropped": false,
+      "full_canvas_preserved": true,
+      "encoding": {
+        "quality": 95,
+        "method": 5
+      },
+      "rgba_roundtrip_exact": null,
+      "rgb_mean_absolute_encoding_error": 1.7113,
+      "hero": "jahoda",
+      "index": 2,
+      "assignment": "provided index preserved; app maps to existing card"
+    },
+    {
+      "role": "skill-card",
+      "file": "assets/illustrations/cards/jahoda/skill-3.webp",
+      "path": "assets/illustrations/cards/jahoda/skill-3.webp",
+      "source_filename": "카드 일러스트/스킬카드/야호다3.png",
+      "source_sha256": "0bfa6b65e07ef211b2b3ad768671dc0c3476fc76976e1cf90fd0b2eacdbc8429",
+      "source_size": [
+        832,
+        1216
+      ],
+      "source_mode": "RGBA",
+      "source_alpha_extrema": [
+        254,
+        255
+      ],
+      "size": [
+        416,
+        608
+      ],
+      "mode": "RGB",
+      "bytes": 78392,
+      "sha256": "aae846fe1f2a693b85936c5fddf98c49cbd7428cb6b8254b368adfe10adc97b3",
+      "cropped": false,
+      "full_canvas_preserved": true,
+      "encoding": {
+        "quality": 95,
+        "method": 5
+      },
+      "rgba_roundtrip_exact": null,
+      "rgb_mean_absolute_encoding_error": 2.1768,
+      "hero": "jahoda",
+      "index": 3,
+      "assignment": "provided index preserved; app maps to existing card"
+    },
+    {
+      "role": "skill-card",
+      "file": "assets/illustrations/cards/jahoda/skill-4.webp",
+      "path": "assets/illustrations/cards/jahoda/skill-4.webp",
+      "source_filename": "카드 일러스트/스킬카드/야호다4.png",
+      "source_sha256": "972956cb3e22a90f7215ee9e6b210bce3200040e3446990ac8ae485e8c526f18",
+      "source_size": [
+        832,
+        1216
+      ],
+      "source_mode": "RGBA",
+      "source_alpha_extrema": [
+        254,
+        255
+      ],
+      "size": [
+        416,
+        608
+      ],
+      "mode": "RGB",
+      "bytes": 74510,
+      "sha256": "34b87f12e3d98452dab42af6f78c83fdeba2cf50b94068b0b1d551d46d5e966a",
+      "cropped": false,
+      "full_canvas_preserved": true,
+      "encoding": {
+        "quality": 95,
+        "method": 5
+      },
+      "rgba_roundtrip_exact": null,
+      "rgb_mean_absolute_encoding_error": 1.8462,
+      "hero": "jahoda",
+      "index": 4,
+      "assignment": "provided index preserved; app maps to existing card"
+    },
+    {
+      "role": "skill-card",
+      "file": "assets/illustrations/cards/jahoda/skill-5.webp",
+      "path": "assets/illustrations/cards/jahoda/skill-5.webp",
+      "source_filename": "카드 일러스트/스킬카드/야호다5.png",
+      "source_sha256": "aa3bcf3b7ba8bf1a4c728ba4cd59f8e54c2415a0802316e7408140aebf7dd034",
+      "source_size": [
+        832,
+        1216
+      ],
+      "source_mode": "RGBA",
+      "source_alpha_extrema": [
+        254,
+        255
+      ],
+      "size": [
+        416,
+        608
+      ],
+      "mode": "RGB",
+      "bytes": 81978,
+      "sha256": "780d96ddb5590174ce16e74bd7ce02af5c8686879e85e839996c402ce5f3e85c",
+      "cropped": false,
+      "full_canvas_preserved": true,
+      "encoding": {
+        "quality": 95,
+        "method": 5
+      },
+      "rgba_roundtrip_exact": null,
+      "rgb_mean_absolute_encoding_error": 2.2121,
+      "hero": "jahoda",
+      "index": 5,
+      "assignment": "provided index preserved; app maps to existing card"
+    },
+    {
+      "role": "skill-card",
+      "file": "assets/illustrations/cards/jahoda/skill-6.webp",
+      "path": "assets/illustrations/cards/jahoda/skill-6.webp",
+      "source_filename": "카드 일러스트/스킬카드/야호다6.png",
+      "source_sha256": "cfc8d3d98574e1a71656e10c9014acc3becbaa7dd47be643a88493c51c6644d2",
+      "source_size": [
+        832,
+        1216
+      ],
+      "source_mode": "RGBA",
+      "source_alpha_extrema": [
+        254,
+        255
+      ],
+      "size": [
+        416,
+        608
+      ],
+      "mode": "RGB",
+      "bytes": 83604,
+      "sha256": "06772f364aacd4661388f31409748a4500b974d8b519c2aa1d696f8177cc4849",
+      "cropped": false,
+      "full_canvas_preserved": true,
+      "encoding": {
+        "quality": 95,
+        "method": 5
+      },
+      "rgba_roundtrip_exact": null,
+      "rgb_mean_absolute_encoding_error": 1.8854,
+      "hero": "jahoda",
+      "index": 6,
+      "assignment": "provided index preserved; app maps to existing card"
+    },
+    {
+      "role": "skill-card",
+      "file": "assets/illustrations/cards/jahoda/skill-7.webp",
+      "path": "assets/illustrations/cards/jahoda/skill-7.webp",
+      "source_filename": "카드 일러스트/스킬카드/야호다7.png",
+      "source_sha256": "faf013c7014cbd702fb867c0494203d8790e4e6154ecc96e7938668485374b50",
+      "source_size": [
+        832,
+        1216
+      ],
+      "source_mode": "RGBA",
+      "source_alpha_extrema": [
+        254,
+        255
+      ],
+      "size": [
+        416,
+        608
+      ],
+      "mode": "RGB",
+      "bytes": 68766,
+      "sha256": "9513c63a8c1de0de5fe52be3b053e438c5d1e95545c71fb7bf1c121cec7f2e3c",
+      "cropped": false,
+      "full_canvas_preserved": true,
+      "encoding": {
+        "quality": 95,
+        "method": 5
+      },
+      "rgba_roundtrip_exact": null,
+      "rgb_mean_absolute_encoding_error": 1.7714,
+      "hero": "jahoda",
+      "index": 7,
+      "assignment": "provided index preserved; app maps to existing card"
+    },
+    {
+      "role": "collapse-card",
+      "file": "assets/illustrations/cards/jahoda/collapse-1.webp",
+      "path": "assets/illustrations/cards/jahoda/collapse-1.webp",
+      "source_filename": "카드 일러스트/붕괴 카드/야호다1.png",
+      "source_sha256": "786d08976917201febf32d34d68799bfdd8c01696de8ad6963593af332bd2086",
+      "source_size": [
+        1472,
+        1472
+      ],
+      "source_mode": "RGBA",
+      "source_alpha_extrema": [
+        254,
+        255
+      ],
+      "size": [
+        512,
+        512
+      ],
+      "mode": "RGB",
+      "bytes": 87330,
+      "sha256": "a7e876e9637de2e31c53732ae86996af51358bcec5bdcd6dac3fd8108c138cc8",
+      "cropped": false,
+      "full_canvas_preserved": true,
+      "encoding": {
+        "quality": 95,
+        "method": 5
+      },
+      "rgba_roundtrip_exact": null,
+      "rgb_mean_absolute_encoding_error": 2.3126,
+      "hero": "jahoda",
+      "index": 1
+    },
+    {
+      "role": "collapse-card",
+      "file": "assets/illustrations/cards/jahoda/collapse-2.webp",
+      "path": "assets/illustrations/cards/jahoda/collapse-2.webp",
+      "source_filename": "카드 일러스트/붕괴 카드/야호다2.png",
+      "source_sha256": "1f4741223558213c5dae2128d3903c9ee2344442a46f4858d5245b9cda81ef53",
+      "source_size": [
+        1472,
+        1472
+      ],
+      "source_mode": "RGBA",
+      "source_alpha_extrema": [
+        252,
+        255
+      ],
+      "size": [
+        512,
+        512
+      ],
+      "mode": "RGB",
+      "bytes": 81690,
+      "sha256": "a546e5faeea50316cc58641c8978486d4bb12d1d0e36d56b41250fced45bf212",
+      "cropped": false,
+      "full_canvas_preserved": true,
+      "encoding": {
+        "quality": 95,
+        "method": 5
+      },
+      "rgba_roundtrip_exact": null,
+      "rgb_mean_absolute_encoding_error": 2.2843,
+      "hero": "jahoda",
+      "index": 2
+    },
+    {
+      "role": "late-background",
+      "file": "assets/backgrounds/late-a.webp",
+      "path": "assets/backgrounds/late-a.webp",
+      "source_filename": "배경/A.png",
+      "source_sha256": "1f7274236e8934da300160cd9a55b64c74660073c9201e0706e38ab0ca76d21d",
+      "source_size": [
+        1920,
+        1088
+      ],
+      "source_mode": "RGBA",
+      "source_alpha_extrema": [
+        254,
+        255
+      ],
+      "size": [
+        1920,
+        1088
+      ],
+      "mode": "RGB",
+      "bytes": 600614,
+      "sha256": "5232b8a276ab38f49a20086d9da7319c5ebcdad77683cb7e1598a14a0b33aaa1",
+      "cropped": false,
+      "full_canvas_preserved": true,
+      "encoding": {
+        "quality": 94,
+        "method": 5
+      },
+      "rgba_roundtrip_exact": null,
+      "rgb_mean_absolute_encoding_error": 2.1001,
+      "stage_scope": "late campaign only",
+      "key": "late-a"
+    },
+    {
+      "role": "late-background",
+      "file": "assets/backgrounds/late-b.webp",
+      "path": "assets/backgrounds/late-b.webp",
+      "source_filename": "배경/B.png",
+      "source_sha256": "9dc64ef2309cebf46a89402606153994a9706b51315375d5bbf7c5c7fba384f9",
+      "source_size": [
+        1920,
+        1088
+      ],
+      "source_mode": "RGBA",
+      "source_alpha_extrema": [
+        254,
+        255
+      ],
+      "size": [
+        1920,
+        1088
+      ],
+      "mode": "RGB",
+      "bytes": 622566,
+      "sha256": "2c21086ccc081fe1f39be13e69d24217d03acc2b7620d643ace9a802e48e89c3",
+      "cropped": false,
+      "full_canvas_preserved": true,
+      "encoding": {
+        "quality": 94,
+        "method": 5
+      },
+      "rgba_roundtrip_exact": null,
+      "rgb_mean_absolute_encoding_error": 2.9703,
+      "stage_scope": "late campaign only",
+      "key": "late-b"
+    }
+  ],
+  "reference_only_monsters": {
+    "runtime": false,
+    "location": "references/monsters/manifest.json",
+    "count": 14
+  },
+  "total_files": 43,
+  "total_bytes": 6362606,
+  "source_total_bytes": 94053302
+}

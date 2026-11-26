@@ -1,0 +1,219 @@
+{
+  "generator": "built-in ImageGen",
+  "generation_date": "2026-11-15",
+  "recovery": "deterministic recovery from original sheets; no new generation",
+  "status": "alpha/palette/bounds/contact sheet inspected; in-game review separate",
+  "filter": "nearest",
+  "battle_canvas": [
+    96,
+    96
+  ],
+  "battle_pivot": [
+    0.5,
+    0.9583333333333334
+  ],
+  "animation_frames": 1,
+  "assets": [
+    {
+      "id": "mitya",
+      "file": "mitya.png",
+      "source": "heroes-source.png",
+      "fan_interpretation": true,
+      "facing": "right"
+    },
+    {
+      "id": "jahoda",
+      "file": "jahoda.png",
+      "source": "heroes-source.png",
+      "fan_interpretation": true,
+      "facing": "right"
+    },
+    {
+      "id": "illuga",
+      "file": "illuga.png",
+      "source": "heroes-source.png",
+      "fan_interpretation": true,
+      "facing": "right"
+    },
+    {
+      "id": "rifthound",
+      "file": "rifthound.png",
+      "source": "enemies-source.png",
+      "fan_interpretation": true,
+      "facing": "left"
+    },
+    {
+      "id": "angler",
+      "file": "angler.png",
+      "source": "enemies-source.png",
+      "fan_interpretation": true,
+      "facing": "left"
+    },
+    {
+      "id": "primus",
+      "file": "primus.png",
+      "source": "enemies-source.png",
+      "fan_interpretation": true,
+      "facing": "left"
+    },
+    {
+      "id": "sentinel",
+      "file": "sentinel.png",
+      "source": "enemies-source.png",
+      "fan_interpretation": true,
+      "facing": "left"
+    },
+    {
+      "id": "wanderer",
+      "file": "wanderer.png",
+      "source": "enemies-second-source.png",
+      "fan_interpretation": true,
+      "facing": "left"
+    },
+    {
+      "id": "hunter",
+      "file": "hunter.png",
+      "source": "enemies-second-source.png",
+      "fan_interpretation": true,
+      "facing": "left"
+    },
+    {
+      "id": "mimic",
+      "file": "mimic.png",
+      "source": "enemies-second-source.png",
+      "fan_interpretation": true,
+      "facing": "left"
+    },
+    {
+      "id": "nightmare",
+      "file": "nightmare.png",
+      "source": "enemies-second-source.png",
+      "fan_interpretation": true,
+      "facing": "left"
+    },
+    {
+      "id": "lohen-break",
+      "file": "lohen-break.png",
+      "source": "breakdown-source.png",
+      "fan_interpretation": true,
+      "role": "mental breakdown cutin"
+    },
+    {
+      "id": "mitya-break",
+      "file": "mitya-break.png",
+      "source": "breakdown-source.png",
+      "fan_interpretation": true,
+      "role": "mental breakdown cutin"
+    },
+    {
+      "id": "illuga-break",
+      "file": "illuga-break.png",
+      "source": "breakdown-source.png",
+      "fan_interpretation": true,
+      "role": "mental breakdown cutin"
+    },
+    {
+      "id": "jahoda-break",
+      "file": "jahoda-break.png",
+      "source": "breakdown-source.png",
+      "fan_interpretation": true,
+      "role": "mental breakdown cutin"
+    }
+  ],
+  "source_sha256": {
+    "breakdown-source.png": "53c4d7f08d41b4ecf8a55e4e27df86c8d4cad5a0d5eb549b6657432446408d34",
+    "heroes-source.png": "3d4737cdb8275b0474e4b1f3707006b016926edb43a8ebfe518522fe391afb7d",
+    "enemies-second-source.png": "b9a22deff35733611c34292400bf3879ba905dd5b3913f88ee3a04ec01c73de1",
+    "enemies-source.png": "5527c55425a7ded893bd3dad17fe8a02cc450c6bd3a5fce944f2499f5d367bfd"
+  },
+  "variants": [
+    {
+      "file": "angler.png",
+      "sha256": "a219480c6b9fa5de4952545530c418597586748b1521ce0526c0419e1f1013cb"
+    },
+    {
+      "file": "hunter.png",
+      "sha256": "6c68c97c2c8adf751003929ee7462bd6a789e84919cafd29b9b8eea601d07619"
+    },
+    {
+      "file": "illuga-break.png",
+      "sha256": "dc864aa87e7897e2007b2abd6fbe49daee5551dfd92d3b9c6c9d2ce86b8bbb3f"
+    },
+    {
+      "file": "illuga-portrait.png",
+      "sha256": "a5af274e3db3cb88b10578e06834f83ac9f06f0c6360c4486c2ee8e2f1d76c1d"
+    },
+    {
+      "file": "illuga-standing.png",
+      "sha256": "4204c0a2adad79a8c332b441a8da069c76bf10f9b6edfed327580c75bff5f153"
+    },
+    {
+      "file": "illuga.png",
+      "sha256": "b94132b855b9c2f4d6e38034fc2f92ab848e990106f9af6a946a68bfaea7bdad"
+    },
+    {
+      "file": "jahoda-break.png",
+      "sha256": "ec34871c851e62af393485efe451e10d87e446c4e65e6243fbbb2e3d1c9aaf91"
+    },
+    {
+      "file": "jahoda-portrait.png",
+      "sha256": "cd4d1e2e9a60dba0c290d2372655e44e14e521726eb0c7b42047c2095d1864ac"
+    },
+    {
+      "file": "jahoda-standing.png",
+      "sha256": "009e20b661dc6f499dee3e9aa5ad7decc0787481c82886afe9fe676be83bf060"
+    },
+    {
+      "file": "jahoda.png",
+      "sha256": "377ec116a6517e33f7492f5b6a803dcaf21d492a6b16f1e3035941b6891ac46d"
+    },
+    {
+      "file": "lohen-break.png",
+      "sha256": "2d3882bfeb68101f58ce8e9d2bc181da44714c661b2dbf891664fbe2deeb40c3"
+    },
+    {
+      "file": "mimic.png",
+      "sha256": "6c16fdb65d543b9cc07592cb589f16bcfa97ad12632071b7eadbf6050d8fc013"
+    },
+    {
+      "file": "mitya-break.png",
+      "sha256": "14d744bc6d2aeabfd6980780312418ceb20d4464bc9803b058849a4108ab7e20"
+    },
+    {
+      "file": "mitya-portrait.png",
+      "sha256": "dbb0ed4b0c00ba11d5ede8317465a91cf84c78fba6665ae82cd1372d18812ff9"
+    },
+    {
+      "file": "mitya-standing.png",
+      "sha256": "c1dfef8905577ecc838d8046174f3c90c98e9ac1fcb3689655e4c4a015281b85"
+    },
+    {
+      "file": "mitya.png",
+      "sha256": "b994010304fabdbe65c73f65f1e4b504f98bb7bdfe3df7df552d8e7ab1f94b27"
+    },
+    {
+      "file": "nightmare-large.png",
+      "sha256": "53ffd1cf936a5d7f1e5e59dceb8d79426a11f96c66c62b12e13fa992618f2c46"
+    },
+    {
+      "file": "nightmare.png",
+      "sha256": "ab95aad57b0bf622e378df14121a21c06235dc9a522093877ee96435e9771595"
+    },
+    {
+      "file": "primus.png",
+      "sha256": "cabb7d59bb11d2fdb23bbfe236eaec0177e489f1e917b75b091eb27ee70edaee"
+    },
+    {
+      "file": "rifthound.png",
+      "sha256": "1a1b6803b353f061566175814c76eae573aeb800fc3f1a23ae33d91c9b25409d"
+    },
+    {
+      "file": "sentinel.png",
+      "sha256": "0c959e6c82ffc3570e355661e88608a9f8127ed5a725c2db099cf1eefe6d5726"
+    },
+    {
+      "file": "wanderer.png",
+      "sha256": "8f9b7f5c7457afa665cf1dbdcc69823656336b33b5edba6e4a0bb19624e81773"
+    }
+  ]
+}

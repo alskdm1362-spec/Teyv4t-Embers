@@ -1,0 +1,7 @@
+export const FEEDBACK_SCHEMA='teyvat-embers-feedback-v1';
+export function feedbackEntry(fields,context,state,now=new Date().toISOString()){
+ const title=String(fields.title||'').trim(),actual=String(fields.actual||'').trim();if(!title||!actual)throw Error('제목과 현재 모습 / 재현 방법을 적어주세요.');return {id:fields.id||crypto.randomUUID(),createdAt:fields.createdAt||now,updatedAt:now,title:title.slice(0,140),actual:actual.slice(0,20000),expected:String(fields.expected||'').slice(0,20000),category:String(fields.category||'기타').slice(0,80),priority:['normal','high','blocker','idea'].includes(fields.priority)?fields.priority:'normal',status:fields.status==='resolved'?'resolved':'open',context:context||null,save:fields.includeSave?state:null};
+}
+export function feedbackDocument(entries,draft=null){return {schema:FEEDBACK_SCHEMA,game:'티바트 방어전 · 잔불',version:'0.10',exportedAt:new Date().toISOString(),entries,draft};}
+export function importFeedback(text){const d=JSON.parse(text);if(d.schema!==FEEDBACK_SCHEMA||!Array.isArray(d.entries)||d.entries.length>1000)throw Error('잔불 테스트 페이지에서 내보낸 피드백 JSON을 선택하세요.');const entries=d.entries.map(e=>feedbackEntry({...e,includeSave:!!e.save},e.context,e.save,e.updatedAt||new Date().toISOString()));return {entries,draft:d.draft&&typeof d.draft==='object'?d.draft:null};}
+export function mergeFeedback(current,incoming){const byId=new Map(current.map(e=>[e.id,e]));for(const e of incoming){const old=byId.get(e.id);if(!old||String(e.updatedAt)>String(old.updatedAt))byId.set(e.id,e);}return [...byId.values()];}

@@ -1,0 +1,2540 @@
+{
+  "schema_version": 1,
+  "source_archive": {
+    "filename": "일러스트3.zip",
+    "sha256": "35eec9f41a8d5969277f2345b96d264a7fb61f6bb4fc03f3d4ee83539706a0f8",
+    "bytes": 56863891,
+    "member_images": 56
+  },
+  "additional_sources": [
+    "main.png",
+    "teyvat_defense_embers_logo.png"
+  ],
+  "pipeline": {
+    "crop": false,
+    "generation": false,
+    "retouch": false,
+    "background_edit": false,
+    "palette_edit": false,
+    "resize": "LANCZOS, full canvas and aspect ratio retained",
+    "alpha": "retain RGBA, no threshold or background removal",
+    "color_encoding": "lossless except large scene and title-main quality94"
+  },
+  "path_map": {
+    "standing": {
+      "albedo": {
+        "normal": "assets/illustrations3/standing/albedo.webp"
+      },
+      "durin": {
+        "collapse": "assets/illustrations3/standing/durin-collapse.webp",
+        "normal": "assets/illustrations3/standing/durin.webp"
+      },
+      "flins": {
+        "normal": "assets/illustrations3/standing/flins.webp"
+      },
+      "illuga": {
+        "collapse": "assets/illustrations3/standing/illuga-collapse.webp",
+        "normal": "assets/illustrations3/standing/illuga.webp"
+      },
+      "jahoda": {
+        "collapse": "assets/illustrations3/standing/jahoda-collapse.webp",
+        "normal": "assets/illustrations3/standing/jahoda.webp"
+      },
+      "kirara": {
+        "normal": "assets/illustrations3/standing/kirara.webp"
+      },
+      "lohen": {
+        "collapse": "assets/illustrations3/standing/lohen-collapse.webp",
+        "normal": "assets/illustrations3/standing/lohen.webp"
+      },
+      "nefer": {
+        "normal": "assets/illustrations3/standing/nefer.webp"
+      },
+      "varka": {
+        "normal": "assets/illustrations3/standing/varka.webp"
+      }
+    },
+    "partnerCards": {
+      "nefer": {
+        "card": "assets/illustrations3/partner-cards/nefer.webp"
+      },
+      "varka": {
+        "card": "assets/illustrations3/partner-cards/varka.webp"
+      },
+      "albedo": {
+        "card": "assets/illustrations3/partner-cards/albedo.webp"
+      },
+      "flins": {
+        "card": "assets/illustrations3/partner-cards/flins.webp"
+      }
+    },
+    "injuries": {
+      "durin": {
+        "eye-card": "assets/illustrations3/injuries/durin/eye-card.webp",
+        "eye-cutin": "assets/illustrations3/injuries/durin/eye-cutin.webp",
+        "leg-cutin": "assets/illustrations3/injuries/durin/leg-cutin.webp",
+        "arm-cutin": "assets/illustrations3/injuries/durin/arm-cutin.webp"
+      },
+      "illuga": {
+        "eye-card": "assets/illustrations3/injuries/illuga/eye-card.webp",
+        "eye-cutin": "assets/illustrations3/injuries/illuga/eye-cutin.webp",
+        "leg-cutin": "assets/illustrations3/injuries/illuga/leg-cutin.webp",
+        "arm-cutin": "assets/illustrations3/injuries/illuga/arm-cutin.webp"
+      },
+      "jahoda": {
+        "eye-card": "assets/illustrations3/injuries/jahoda/eye-card.webp",
+        "eye-cutin": "assets/illustrations3/injuries/jahoda/eye-cutin.webp",
+        "leg-cutin": "assets/illustrations3/injuries/jahoda/leg-cutin.webp",
+        "arm-cutin": "assets/illustrations3/injuries/jahoda/arm-cutin.webp"
+      },
+      "lohen": {
+        "eye-card": "assets/illustrations3/injuries/lohen/eye-card.webp",
+        "eye-cutin": "assets/illustrations3/injuries/lohen/eye-cutin.webp",
+        "leg-cutin": "assets/illustrations3/injuries/lohen/leg-cutin.webp",
+        "arm-cutin": "assets/illustrations3/injuries/lohen/arm-cutin.webp"
+      }
+    },
+    "skillPortraits": {
+      "albedo": {
+        "portrait": "assets/illustrations3/skill-portraits/albedo.webp"
+      },
+      "durin": {
+        "portrait": "assets/illustrations3/skill-portraits/durin.webp"
+      },
+      "flins": {
+        "portrait": "assets/illustrations3/skill-portraits/flins.webp"
+      },
+      "illuga": {
+        "portrait": "assets/illustrations3/skill-portraits/illuga.webp"
+      },
+      "jahoda": {
+        "portrait": "assets/illustrations3/skill-portraits/jahoda.webp"
+      },
+      "lohen": {
+        "portrait": "assets/illustrations3/skill-portraits/lohen.webp"
+      },
+      "nefer": {
+        "portrait": "assets/illustrations3/skill-portraits/nefer.webp"
+      },
+      "varka": {
+        "portrait": "assets/illustrations3/skill-portraits/varka.webp"
+      }
+    },
+    "battleCollapse": {
+      "durin": {
+        "battle": "assets/illustrations3/battle-collapse/durin.webp"
+      },
+      "illuga": {
+        "battle": "assets/illustrations3/battle-collapse/illuga.webp"
+      },
+      "jahoda": {
+        "battle": "assets/illustrations3/battle-collapse/jahoda.webp"
+      },
+      "lohen": {
+        "battle": "assets/illustrations3/battle-collapse/lohen.webp"
+      }
+    },
+    "portraits": {
+      "durin": {
+        "collapse": "assets/illustrations3/portraits/durin-collapse.webp",
+        "normal": "assets/illustrations3/portraits/durin.webp"
+      },
+      "illuga": {
+        "collapse": "assets/illustrations3/portraits/illuga-collapse.webp",
+        "normal": "assets/illustrations3/portraits/illuga.webp"
+      },
+      "jahoda": {
+        "collapse": "assets/illustrations3/portraits/jahoda-collapse.webp",
+        "normal": "assets/illustrations3/portraits/jahoda.webp"
+      },
+      "lohen": {
+        "collapse": "assets/illustrations3/portraits/lohen-collapse.webp",
+        "normal": "assets/illustrations3/portraits/lohen.webp"
+      }
+    },
+    "scenes": {
+      "party-base": "assets/illustrations3/scenes/party-base.webp",
+      "tutorial-1": "assets/illustrations3/scenes/tutorial-1.webp",
+      "tutorial-2": "assets/illustrations3/scenes/tutorial-2.webp"
+    },
+    "title": {
+      "main": "assets/illustrations3/title-main.webp",
+      "logo": "assets/illustrations3/title-logo.webp"
+    }
+  },
+  "assets": [
+    {
+      "group": "standing",
+      "entity": "albedo",
+      "key": "normal",
+      "role": "normal-standing",
+      "path": "assets/illustrations3/standing/albedo.webp",
+      "file": "standing/albedo.webp",
+      "source_filename": "스탠딩 일러스트/albedo.png",
+      "source_container": "일러스트3.zip",
+      "source_sha256": "c75b3c3bf5bf6835d2c32eed71ebbde209642af3c9efa433a29a6fae8350ff8b",
+      "source_size": [
+        832,
+        1216
+      ],
+      "size": [
+        624,
+        912
+      ],
+      "bytes": 305742,
+      "sha256": "73415006e44ecf03bafd0eb466937c5d9bd0c753ca222ea3120e308f419e7665",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        46,
+        180,
+        530,
+        910
+      ],
+      "alpha_roundtrip_exact": true,
+      "rgba_roundtrip_exact": true,
+      "encoding": {
+        "format": "webp",
+        "lossless": true,
+        "quality": 100
+      },
+      "full_canvas_preserved": true,
+      "cropped": false,
+      "visual_facing": "near-front three-quarter, face slightly toward screen right",
+      "horizontal_flip_applied": false
+    },
+    {
+      "group": "standing",
+      "entity": "durin",
+      "key": "collapse",
+      "role": "collapse-standing",
+      "path": "assets/illustrations3/standing/durin-collapse.webp",
+      "file": "standing/durin-collapse.webp",
+      "source_filename": "스탠딩 일러스트/durin-붕괴.png",
+      "source_container": "일러스트3.zip",
+      "source_sha256": "3d59fb2fa5595ceb4f28917990d307d47aed1f6b00ee545f5226b02023ea4d2f",
+      "source_size": [
+        832,
+        1216
+      ],
+      "size": [
+        624,
+        912
+      ],
+      "bytes": 403198,
+      "sha256": "a173ec295e08931e704061f626d2346270e58a1acf5cc3982d32d23175e15e73",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        1,
+        114,
+        624,
+        910
+      ],
+      "alpha_roundtrip_exact": true,
+      "rgba_roundtrip_exact": true,
+      "encoding": {
+        "format": "webp",
+        "lossless": true,
+        "quality": 100
+      },
+      "full_canvas_preserved": true,
+      "cropped": false
+    },
+    {
+      "group": "standing",
+      "entity": "durin",
+      "key": "normal",
+      "role": "normal-standing",
+      "path": "assets/illustrations3/standing/durin.webp",
+      "file": "standing/durin.webp",
+      "source_filename": "스탠딩 일러스트/durin.png",
+      "source_container": "일러스트3.zip",
+      "source_sha256": "1c33379dfcfe7ae49d9355439b423bfd9f0a449ea724ce78bac87fd347b16401",
+      "source_size": [
+        832,
+        1216
+      ],
+      "size": [
+        624,
+        912
+      ],
+      "bytes": 383774,
+      "sha256": "f66307546c4c23a7ea47bdaaa4a302b87ba0a5e735687c729c86c71967274698",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        22,
+        103,
+        596,
+        910
+      ],
+      "alpha_roundtrip_exact": true,
+      "rgba_roundtrip_exact": true,
+      "encoding": {
+        "format": "webp",
+        "lossless": true,
+        "quality": 100
+      },
+      "full_canvas_preserved": true,
+      "cropped": false
+    },
+    {
+      "group": "standing",
+      "entity": "flins",
+      "key": "normal",
+      "role": "normal-standing",
+      "path": "assets/illustrations3/standing/flins.webp",
+      "file": "standing/flins.webp",
+      "source_filename": "스탠딩 일러스트/flins.png",
+      "source_container": "일러스트3.zip",
+      "source_sha256": "016f4e396f62e543fc7896c4206515206dacca34f4f925e09612bf83b0d4de63",
+      "source_size": [
+        832,
+        1216
+      ],
+      "size": [
+        624,
+        912
+      ],
+      "bytes": 430262,
+      "sha256": "18689d3a9645616ea1dea01696458409b5b924ac7ead42680f80dba02c0e2534",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        0,
+        0,
+        622,
+        910
+      ],
+      "alpha_roundtrip_exact": true,
+      "rgba_roundtrip_exact": true,
+      "encoding": {
+        "format": "webp",
+        "lossless": true,
+        "quality": 100
+      },
+      "full_canvas_preserved": true,
+      "cropped": false,
+      "visual_facing": "near-front three-quarter, face slightly toward screen left",
+      "horizontal_flip_applied": false
+    },
+    {
+      "group": "standing",
+      "entity": "illuga",
+      "key": "collapse",
+      "role": "collapse-standing",
+      "path": "assets/illustrations3/standing/illuga-collapse.webp",
+      "file": "standing/illuga-collapse.webp",
+      "source_filename": "스탠딩 일러스트/illuga-붕괴.png",
+      "source_container": "일러스트3.zip",
+      "source_sha256": "44f89867f0201cf54eff0e8ead997d1820e83878c1f0e1aa6bfec0888b518477",
+      "source_size": [
+        832,
+        1216
+      ],
+      "size": [
+        624,
+        912
+      ],
+      "bytes": 278372,
+      "sha256": "65759e8e6e55ebc9e72c7b017197f814cb4c39c383ccaf6c98fd1fc41f7f83e5",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        59,
+        176,
+        562,
+        910
+      ],
+      "alpha_roundtrip_exact": true,
+      "rgba_roundtrip_exact": true,
+      "encoding": {
+        "format": "webp",
+        "lossless": true,
+        "quality": 100
+      },
+      "full_canvas_preserved": true,
+      "cropped": false
+    },
+    {
+      "group": "standing",
+      "entity": "illuga",
+      "key": "normal",
+      "role": "normal-standing",
+      "path": "assets/illustrations3/standing/illuga.webp",
+      "file": "standing/illuga.webp",
+      "source_filename": "스탠딩 일러스트/illuga.png",
+      "source_container": "일러스트3.zip",
+      "source_sha256": "1dbd5416e8b37955328d8d060c5ce41429244c8ff1838e3003a29f2ed77b4217",
+      "source_size": [
+        832,
+        1216
+      ],
+      "size": [
+        624,
+        912
+      ],
+      "bytes": 348912,
+      "sha256": "57f79bed6e020fb16fe856898116e37a318aca14975c435c35c8cba58585303e",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        51,
+        185,
+        615,
+        910
+      ],
+      "alpha_roundtrip_exact": true,
+      "rgba_roundtrip_exact": true,
+      "encoding": {
+        "format": "webp",
+        "lossless": true,
+        "quality": 100
+      },
+      "full_canvas_preserved": true,
+      "cropped": false
+    },
+    {
+      "group": "standing",
+      "entity": "jahoda",
+      "key": "collapse",
+      "role": "collapse-standing",
+      "path": "assets/illustrations3/standing/jahoda-collapse.webp",
+      "file": "standing/jahoda-collapse.webp",
+      "source_filename": "스탠딩 일러스트/jahoda-붕괴.png",
+      "source_container": "일러스트3.zip",
+      "source_sha256": "e0603cada73edf01e8c23a14a2669e207336d676fa65228ef461e15e12d584f7",
+      "source_size": [
+        832,
+        1216
+      ],
+      "size": [
+        624,
+        912
+      ],
+      "bytes": 282988,
+      "sha256": "febe196aea0e61c35509539c4cf8c8ebf4bae9ebc6b0175b7151f6429b198932",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        56,
+        211,
+        583,
+        910
+      ],
+      "alpha_roundtrip_exact": true,
+      "rgba_roundtrip_exact": true,
+      "encoding": {
+        "format": "webp",
+        "lossless": true,
+        "quality": 100
+      },
+      "full_canvas_preserved": true,
+      "cropped": false
+    },
+    {
+      "group": "standing",
+      "entity": "jahoda",
+      "key": "normal",
+      "role": "normal-standing",
+      "path": "assets/illustrations3/standing/jahoda.webp",
+      "file": "standing/jahoda.webp",
+      "source_filename": "스탠딩 일러스트/jahoda.png",
+      "source_container": "일러스트3.zip",
+      "source_sha256": "d6bca7891ba5f18f8c756e2bcc1bc7ab7642c4a5e52c731e257d12f8d13b825e",
+      "source_size": [
+        832,
+        1216
+      ],
+      "size": [
+        624,
+        912
+      ],
+      "bytes": 308596,
+      "sha256": "cc295dde5d454514c1ea4a9fc13765e5cf10d1c31a9f0e459e9a47ef4904366c",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        73,
+        217,
+        602,
+        910
+      ],
+      "alpha_roundtrip_exact": true,
+      "rgba_roundtrip_exact": true,
+      "encoding": {
+        "format": "webp",
+        "lossless": true,
+        "quality": 100
+      },
+      "full_canvas_preserved": true,
+      "cropped": false
+    },
+    {
+      "group": "standing",
+      "entity": "kirara",
+      "key": "normal",
+      "role": "shopkeeper-standing",
+      "path": "assets/illustrations3/standing/kirara.webp",
+      "file": "standing/kirara.webp",
+      "source_filename": "스탠딩 일러스트/kirara.png",
+      "source_container": "일러스트3.zip",
+      "source_sha256": "c6b5308b93d4066d12cc879573f0a5892ce29e3d8e69edaca4592259081297bb",
+      "source_size": [
+        832,
+        1216
+      ],
+      "size": [
+        624,
+        912
+      ],
+      "bytes": 423958,
+      "sha256": "805eab786d78fb01052b2700a569b0e95b5218e6f927b849b960c7f5be654128",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        0,
+        0,
+        624,
+        912
+      ],
+      "alpha_roundtrip_exact": true,
+      "rgba_roundtrip_exact": true,
+      "encoding": {
+        "format": "webp",
+        "lossless": true,
+        "quality": 100
+      },
+      "full_canvas_preserved": true,
+      "cropped": false
+    },
+    {
+      "group": "standing",
+      "entity": "lohen",
+      "key": "collapse",
+      "role": "collapse-standing",
+      "path": "assets/illustrations3/standing/lohen-collapse.webp",
+      "file": "standing/lohen-collapse.webp",
+      "source_filename": "스탠딩 일러스트/lohen-붕괴.png",
+      "source_container": "일러스트3.zip",
+      "source_sha256": "fcb08b392113b1041bed313373f5337b5fe1ca58a10d44319dd73c69ba07d919",
+      "source_size": [
+        832,
+        1216
+      ],
+      "size": [
+        624,
+        912
+      ],
+      "bytes": 327432,
+      "sha256": "f0d3ae86f364d09d9c579fa3655a7aa28432203a937de292bf50976d98e550a4",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        61,
+        160,
+        590,
+        910
+      ],
+      "alpha_roundtrip_exact": true,
+      "rgba_roundtrip_exact": true,
+      "encoding": {
+        "format": "webp",
+        "lossless": true,
+        "quality": 100
+      },
+      "full_canvas_preserved": true,
+      "cropped": false
+    },
+    {
+      "group": "standing",
+      "entity": "lohen",
+      "key": "normal",
+      "role": "normal-standing",
+      "path": "assets/illustrations3/standing/lohen.webp",
+      "file": "standing/lohen.webp",
+      "source_filename": "스탠딩 일러스트/lohen.png",
+      "source_container": "일러스트3.zip",
+      "source_sha256": "24b8e505c584717618c911d4acfcccc6973ce743088645ab1965e4092cd39054",
+      "source_size": [
+        832,
+        1216
+      ],
+      "size": [
+        624,
+        912
+      ],
+      "bytes": 371416,
+      "sha256": "d02d60f4ca1764e515c51f2482c791e67844cef3a5d1c2350f23f29c6fc7dd97",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        67,
+        172,
+        620,
+        910
+      ],
+      "alpha_roundtrip_exact": true,
+      "rgba_roundtrip_exact": true,
+      "encoding": {
+        "format": "webp",
+        "lossless": true,
+        "quality": 100
+      },
+      "full_canvas_preserved": true,
+      "cropped": false
+    },
+    {
+      "group": "standing",
+      "entity": "nefer",
+      "key": "normal",
+      "role": "normal-standing",
+      "path": "assets/illustrations3/standing/nefer.webp",
+      "file": "standing/nefer.webp",
+      "source_filename": "스탠딩 일러스트/nefer.png",
+      "source_container": "일러스트3.zip",
+      "source_sha256": "55cef721eb90240cbc4cfcfd75b4c62901368f5c55aee444580425cbe821f265",
+      "source_size": [
+        832,
+        1216
+      ],
+      "size": [
+        624,
+        912
+      ],
+      "bytes": 438600,
+      "sha256": "c9d898586d0253919c3c81cdad1a3b5e2252401db2a4e6caf7317896ca7cd1a0",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        19,
+        46,
+        612,
+        910
+      ],
+      "alpha_roundtrip_exact": true,
+      "rgba_roundtrip_exact": true,
+      "encoding": {
+        "format": "webp",
+        "lossless": true,
+        "quality": 100
+      },
+      "full_canvas_preserved": true,
+      "cropped": false,
+      "visual_facing": "near-front three-quarter, face slightly toward screen left",
+      "horizontal_flip_applied": false
+    },
+    {
+      "group": "standing",
+      "entity": "varka",
+      "key": "normal",
+      "role": "normal-standing",
+      "path": "assets/illustrations3/standing/varka.webp",
+      "file": "standing/varka.webp",
+      "source_filename": "스탠딩 일러스트/varka.png",
+      "source_container": "일러스트3.zip",
+      "source_sha256": "7187b077a0b20eb4ae05368e0e44570f9783f18be25aaa5145a55419e536fa1f",
+      "source_size": [
+        832,
+        1216
+      ],
+      "size": [
+        624,
+        912
+      ],
+      "bytes": 467420,
+      "sha256": "ee55ad8c4981e98bfcb7f8d6579e79503c6ebb46ba8e34caf55213849fb70c74",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        0,
+        0,
+        551,
+        910
+      ],
+      "alpha_roundtrip_exact": true,
+      "rgba_roundtrip_exact": true,
+      "encoding": {
+        "format": "webp",
+        "lossless": true,
+        "quality": 100
+      },
+      "full_canvas_preserved": true,
+      "cropped": false,
+      "visual_facing": "near-front three-quarter, face slightly toward screen right",
+      "horizontal_flip_applied": false
+    },
+    {
+      "group": "partnerCards",
+      "entity": "nefer",
+      "key": "card",
+      "role": "partner-card",
+      "path": "assets/illustrations3/partner-cards/nefer.webp",
+      "file": "partner-cards/nefer.webp",
+      "source_filename": "파트너 카드/네페르.png",
+      "source_container": "일러스트3.zip",
+      "source_sha256": "c99e730e547258cb572389678e392f64f6986708744d541a5bb26da76d56c515",
+      "source_size": [
+        832,
+        1216
+      ],
+      "size": [
+        416,
+        608
+      ],
+      "bytes": 323030,
+      "sha256": "45e2368b674df903337e626d3d42ecb97148b8339b7cf50f60c1ae3d03dfd27e",
+      "alpha_extrema": [
+        254,
+        255
+      ],
+      "alpha_bbox": [
+        0,
+        0,
+        416,
+        608
+      ],
+      "alpha_roundtrip_exact": true,
+      "rgba_roundtrip_exact": true,
+      "encoding": {
+        "format": "webp",
+        "lossless": true,
+        "quality": 100
+      },
+      "full_canvas_preserved": true,
+      "cropped": false
+    },
+    {
+      "group": "partnerCards",
+      "entity": "varka",
+      "key": "card",
+      "role": "partner-card",
+      "path": "assets/illustrations3/partner-cards/varka.webp",
+      "file": "partner-cards/varka.webp",
+      "source_filename": "파트너 카드/바르카.png",
+      "source_container": "일러스트3.zip",
+      "source_sha256": "9c9fbfd726068523bf02eca87deff7163eaa3c6d52b08a1949837866b5eea826",
+      "source_size": [
+        832,
+        1216
+      ],
+      "size": [
+        416,
+        608
+      ],
+      "bytes": 311420,
+      "sha256": "321dfe6cd1e60dff03540b028b64c644f4d8f5406172e5c7060001dc8e401911",
+      "alpha_extrema": [
+        254,
+        255
+      ],
+      "alpha_bbox": [
+        0,
+        0,
+        416,
+        608
+      ],
+      "alpha_roundtrip_exact": true,
+      "rgba_roundtrip_exact": true,
+      "encoding": {
+        "format": "webp",
+        "lossless": true,
+        "quality": 100
+      },
+      "full_canvas_preserved": true,
+      "cropped": false
+    },
+    {
+      "group": "partnerCards",
+      "entity": "albedo",
+      "key": "card",
+      "role": "partner-card",
+      "path": "assets/illustrations3/partner-cards/albedo.webp",
+      "file": "partner-cards/albedo.webp",
+      "source_filename": "파트너 카드/알베도.png",
+      "source_container": "일러스트3.zip",
+      "source_sha256": "4481e7f57098416b46142fbb41a94d1f9532b08ad11386ca244281cdc25841a4",
+      "source_size": [
+        832,
+        1216
+      ],
+      "size": [
+        416,
+        608
+      ],
+      "bytes": 289434,
+      "sha256": "016c9aba5a96c6268d6728b780ff642a7ca0cf1cb2f3e8da3fa86a955eefc3b5",
+      "alpha_extrema": [
+        254,
+        255
+      ],
+      "alpha_bbox": [
+        0,
+        0,
+        416,
+        608
+      ],
+      "alpha_roundtrip_exact": true,
+      "rgba_roundtrip_exact": true,
+      "encoding": {
+        "format": "webp",
+        "lossless": true,
+        "quality": 100
+      },
+      "full_canvas_preserved": true,
+      "cropped": false
+    },
+    {
+      "group": "partnerCards",
+      "entity": "flins",
+      "key": "card",
+      "role": "partner-card",
+      "path": "assets/illustrations3/partner-cards/flins.webp",
+      "file": "partner-cards/flins.webp",
+      "source_filename": "파트너 카드/플린스.png",
+      "source_container": "일러스트3.zip",
+      "source_sha256": "f826e79d95a17242d7200dcf7bf88e2e2c73251117d051b2827a3e82f2aa965d",
+      "source_size": [
+        832,
+        1216
+      ],
+      "size": [
+        416,
+        608
+      ],
+      "bytes": 320458,
+      "sha256": "bee568c6a0dcee5263f386f907cde5d50c75e3a7032a8c2b4abf9e841ad14a8d",
+      "alpha_extrema": [
+        254,
+        255
+      ],
+      "alpha_bbox": [
+        0,
+        0,
+        416,
+        608
+      ],
+      "alpha_roundtrip_exact": true,
+      "rgba_roundtrip_exact": true,
+      "encoding": {
+        "format": "webp",
+        "lossless": true,
+        "quality": 100
+      },
+      "full_canvas_preserved": true,
+      "cropped": false
+    },
+    {
+      "group": "injuries",
+      "entity": "durin",
+      "key": "eye-card",
+      "role": "eye-loss-card",
+      "path": "assets/illustrations3/injuries/durin/eye-card.webp",
+      "file": "injuries/durin/eye-card.webp",
+      "source_filename": "결손 일러스트/durin-눈 결손 카드.png",
+      "source_container": "일러스트3.zip",
+      "source_sha256": "863189568ff0894c7e78d0f9c3c0763d1e8f4e63d1198a3483d918e0427b55e2",
+      "source_size": [
+        832,
+        1216
+      ],
+      "size": [
+        416,
+        608
+      ],
+      "bytes": 277224,
+      "sha256": "bce4b5fbe7360fec5f3b909f08be779034cd4c707659dbf83bd77865812b810d",
+      "alpha_extrema": [
+        254,
+        255
+      ],
+      "alpha_bbox": [
+        0,
+        0,
+        416,
+        608
+      ],
+      "alpha_roundtrip_exact": true,
+      "rgba_roundtrip_exact": true,
+      "encoding": {
+        "format": "webp",
+        "lossless": true,
+        "quality": 100
+      },
+      "full_canvas_preserved": true,
+      "cropped": false
+    },
+    {
+      "group": "injuries",
+      "entity": "durin",
+      "key": "eye-cutin",
+      "role": "eye-cutin",
+      "path": "assets/illustrations3/injuries/durin/eye-cutin.webp",
+      "file": "injuries/durin/eye-cutin.webp",
+      "source_filename": "결손 일러스트/durin-눈 결손 컷인.png",
+      "source_container": "일러스트3.zip",
+      "source_sha256": "5c22d1103c5265e1c836b4487f5a7e2f10308f166b930c237fde5e52043690c1",
+      "source_size": [
+        1216,
+        832
+      ],
+      "size": [
+        912,
+        624
+      ],
+      "bytes": 469014,
+      "sha256": "77965512693821bda1a25ed3d5f7d41e9908a6e199f974ad290acc608d3d75c2",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        0,
+        0,
+        912,
+        624
+      ],
+      "alpha_roundtrip_exact": true,
+      "rgba_roundtrip_exact": true,
+      "encoding": {
+        "format": "webp",
+        "lossless": true,
+        "quality": 100
+      },
+      "full_canvas_preserved": true,
+      "cropped": false
+    },
+    {
+      "group": "injuries",
+      "entity": "durin",
+      "key": "leg-cutin",
+      "role": "leg-cutin",
+      "path": "assets/illustrations3/injuries/durin/leg-cutin.webp",
+      "file": "injuries/durin/leg-cutin.webp",
+      "source_filename": "결손 일러스트/durin-다리 결손 컷인.png",
+      "source_container": "일러스트3.zip",
+      "source_sha256": "c9370f5b8dd1792b7a5421b676195fb67ec5229e01c264a4435ebb2cfeda71dc",
+      "source_size": [
+        1216,
+        832
+      ],
+      "size": [
+        912,
+        624
+      ],
+      "bytes": 650084,
+      "sha256": "6a0226c424dbd7f672b9ca4ce0e50f15fea2a63bbbeeac751a88086a29e57319",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        0,
+        0,
+        903,
+        624
+      ],
+      "alpha_roundtrip_exact": true,
+      "rgba_roundtrip_exact": true,
+      "encoding": {
+        "format": "webp",
+        "lossless": true,
+        "quality": 100
+      },
+      "full_canvas_preserved": true,
+      "cropped": false
+    },
+    {
+      "group": "injuries",
+      "entity": "durin",
+      "key": "arm-cutin",
+      "role": "arm-cutin",
+      "path": "assets/illustrations3/injuries/durin/arm-cutin.webp",
+      "file": "injuries/durin/arm-cutin.webp",
+      "source_filename": "결손 일러스트/durin-팔 결손 컷인.png",
+      "source_container": "일러스트3.zip",
+      "source_sha256": "efb919d498d08fe2a6f63aef4b52710b6923370135bcf3532ee36454ad88400b",
+      "source_size": [
+        1216,
+        832
+      ],
+      "size": [
+        912,
+        624
+      ],
+      "bytes": 597454,
+      "sha256": "7cca3152863de8c095a7e12afbd0f6dd13d16a6c46b2b89f43880ba167992345",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        0,
+        0,
+        912,
+        624
+      ],
+      "alpha_roundtrip_exact": true,
+      "rgba_roundtrip_exact": true,
+      "encoding": {
+        "format": "webp",
+        "lossless": true,
+        "quality": 100
+      },
+      "full_canvas_preserved": true,
+      "cropped": false
+    },
+    {
+      "group": "injuries",
+      "entity": "illuga",
+      "key": "eye-card",
+      "role": "eye-loss-card",
+      "path": "assets/illustrations3/injuries/illuga/eye-card.webp",
+      "file": "injuries/illuga/eye-card.webp",
+      "source_filename": "결손 일러스트/illuga-눈 결손 카드.png",
+      "source_container": "일러스트3.zip",
+      "source_sha256": "079b458b2e0a441faf3726253e679ca9c21d24545c0ca50519c6509a69c53c9c",
+      "source_size": [
+        832,
+        1216
+      ],
+      "size": [
+        416,
+        608
+      ],
+      "bytes": 291866,
+      "sha256": "877f1f33fa1444a9caf0b0c798cc09ff4245dfcbb058acab6c2a47780b15eae9",
+      "alpha_extrema": [
+        254,
+        255
+      ],
+      "alpha_bbox": [
+        0,
+        0,
+        416,
+        608
+      ],
+      "alpha_roundtrip_exact": true,
+      "rgba_roundtrip_exact": true,
+      "encoding": {
+        "format": "webp",
+        "lossless": true,
+        "quality": 100
+      },
+      "full_canvas_preserved": true,
+      "cropped": false
+    },
+    {
+      "group": "injuries",
+      "entity": "illuga",
+      "key": "eye-cutin",
+      "role": "eye-cutin",
+      "path": "assets/illustrations3/injuries/illuga/eye-cutin.webp",
+      "file": "injuries/illuga/eye-cutin.webp",
+      "source_filename": "결손 일러스트/illuga-눈 결손 컷인.png",
+      "source_container": "일러스트3.zip",
+      "source_sha256": "f7b53af12df08a9fe577cbd9de8dc826a51cfcfd9fd14588d3174ae41c0d52c9",
+      "source_size": [
+        1216,
+        832
+      ],
+      "size": [
+        912,
+        624
+      ],
+      "bytes": 369334,
+      "sha256": "58f24f50b5750aecab43aaf53a48976796ba9e1e319fdac81170de05bcf2bdea",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        0,
+        0,
+        910,
+        624
+      ],
+      "alpha_roundtrip_exact": true,
+      "rgba_roundtrip_exact": true,
+      "encoding": {
+        "format": "webp",
+        "lossless": true,
+        "quality": 100
+      },
+      "full_canvas_preserved": true,
+      "cropped": false
+    },
+    {
+      "group": "injuries",
+      "entity": "illuga",
+      "key": "leg-cutin",
+      "role": "leg-cutin",
+      "path": "assets/illustrations3/injuries/illuga/leg-cutin.webp",
+      "file": "injuries/illuga/leg-cutin.webp",
+      "source_filename": "결손 일러스트/illuga-다리 결손 컷인.png",
+      "source_container": "일러스트3.zip",
+      "source_sha256": "d1e38ef469cfe2464dcd3d3343992e1f89ae23a8e349a5bcbaa6a4d651b18914",
+      "source_size": [
+        1216,
+        832
+      ],
+      "size": [
+        912,
+        624
+      ],
+      "bytes": 551640,
+      "sha256": "5d0c05a03265cc2d46d397fb4756ea1a6c9d13337e94a94eb7d8941d9089d38f",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        0,
+        0,
+        911,
+        624
+      ],
+      "alpha_roundtrip_exact": true,
+      "rgba_roundtrip_exact": true,
+      "encoding": {
+        "format": "webp",
+        "lossless": true,
+        "quality": 100
+      },
+      "full_canvas_preserved": true,
+      "cropped": false
+    },
+    {
+      "group": "injuries",
+      "entity": "illuga",
+      "key": "arm-cutin",
+      "role": "arm-cutin",
+      "path": "assets/illustrations3/injuries/illuga/arm-cutin.webp",
+      "file": "injuries/illuga/arm-cutin.webp",
+      "source_filename": "결손 일러스트/illuga-팔 결손 컷인.png",
+      "source_container": "일러스트3.zip",
+      "source_sha256": "bcd52d7908ffa4facf7753c64727b6c21dbf1388582582afed20c33c0ba4d3aa",
+      "source_size": [
+        1216,
+        832
+      ],
+      "size": [
+        912,
+        624
+      ],
+      "bytes": 458624,
+      "sha256": "aacd4d84600a3c23bc0cfd201b4a037ebf89c46a2609d7591331678d97873806",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        0,
+        0,
+        912,
+        624
+      ],
+      "alpha_roundtrip_exact": true,
+      "rgba_roundtrip_exact": true,
+      "encoding": {
+        "format": "webp",
+        "lossless": true,
+        "quality": 100
+      },
+      "full_canvas_preserved": true,
+      "cropped": false
+    },
+    {
+      "group": "injuries",
+      "entity": "jahoda",
+      "key": "eye-card",
+      "role": "eye-loss-card",
+      "path": "assets/illustrations3/injuries/jahoda/eye-card.webp",
+      "file": "injuries/jahoda/eye-card.webp",
+      "source_filename": "결손 일러스트/jahoda-눈 결손 카드.png",
+      "source_container": "일러스트3.zip",
+      "source_sha256": "758a87ca42b2b0abe8ca5eb7d5415f5ededc3b2bd6b3818b9396f53bdcc2a20f",
+      "source_size": [
+        832,
+        1216
+      ],
+      "size": [
+        416,
+        608
+      ],
+      "bytes": 299474,
+      "sha256": "92a7dc53b023708c71e25286f862a6b1db91175c3330aea24a0ee228720e38d7",
+      "alpha_extrema": [
+        254,
+        255
+      ],
+      "alpha_bbox": [
+        0,
+        0,
+        416,
+        608
+      ],
+      "alpha_roundtrip_exact": true,
+      "rgba_roundtrip_exact": true,
+      "encoding": {
+        "format": "webp",
+        "lossless": true,
+        "quality": 100
+      },
+      "full_canvas_preserved": true,
+      "cropped": false
+    },
+    {
+      "group": "injuries",
+      "entity": "jahoda",
+      "key": "eye-cutin",
+      "role": "eye-cutin",
+      "path": "assets/illustrations3/injuries/jahoda/eye-cutin.webp",
+      "file": "injuries/jahoda/eye-cutin.webp",
+      "source_filename": "결손 일러스트/jahoda-눈 결손 컷인.png",
+      "source_container": "일러스트3.zip",
+      "source_sha256": "e31ea9b2479779bcbebff402c75daf08f2366551d247b205ee4054e828f5d06e",
+      "source_size": [
+        1216,
+        832
+      ],
+      "size": [
+        912,
+        624
+      ],
+      "bytes": 434426,
+      "sha256": "94d6c288e88c758a4ddb1e1184b7889b62a64c5afd347b71fcf61a9dc8022946",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        0,
+        4,
+        897,
+        617
+      ],
+      "alpha_roundtrip_exact": true,
+      "rgba_roundtrip_exact": true,
+      "encoding": {
+        "format": "webp",
+        "lossless": true,
+        "quality": 100
+      },
+      "full_canvas_preserved": true,
+      "cropped": false
+    },
+    {
+      "group": "injuries",
+      "entity": "jahoda",
+      "key": "leg-cutin",
+      "role": "leg-cutin",
+      "path": "assets/illustrations3/injuries/jahoda/leg-cutin.webp",
+      "file": "injuries/jahoda/leg-cutin.webp",
+      "source_filename": "결손 일러스트/jahoda-다리 결손 컷인.png",
+      "source_container": "일러스트3.zip",
+      "source_sha256": "440d26edc9ce63a6a83e4a3272021faee35f1ee54039442ad0b05f4f1a0a7d5c",
+      "source_size": [
+        1216,
+        832
+      ],
+      "size": [
+        912,
+        624
+      ],
+      "bytes": 500022,
+      "sha256": "46088a93ac2f03ff7435e3832b14e5b90c7363a781462a109cd6f3ecb8460317",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        0,
+        0,
+        911,
+        624
+      ],
+      "alpha_roundtrip_exact": true,
+      "rgba_roundtrip_exact": true,
+      "encoding": {
+        "format": "webp",
+        "lossless": true,
+        "quality": 100
+      },
+      "full_canvas_preserved": true,
+      "cropped": false
+    },
+    {
+      "group": "injuries",
+      "entity": "jahoda",
+      "key": "arm-cutin",
+      "role": "arm-cutin",
+      "path": "assets/illustrations3/injuries/jahoda/arm-cutin.webp",
+      "file": "injuries/jahoda/arm-cutin.webp",
+      "source_filename": "결손 일러스트/jahoda-팔 결손 컷인.png",
+      "source_container": "일러스트3.zip",
+      "source_sha256": "916fd4b69b6fb8ac76c5c79f8b303aab9c4f3a548f0039de6dd32c13ce300fef",
+      "source_size": [
+        1216,
+        832
+      ],
+      "size": [
+        912,
+        624
+      ],
+      "bytes": 624334,
+      "sha256": "7f6cbfa7dd30f27624a740417bd95029a83592224f87bb7ea2ff0406fc171b13",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        0,
+        0,
+        912,
+        624
+      ],
+      "alpha_roundtrip_exact": true,
+      "rgba_roundtrip_exact": true,
+      "encoding": {
+        "format": "webp",
+        "lossless": true,
+        "quality": 100
+      },
+      "full_canvas_preserved": true,
+      "cropped": false
+    },
+    {
+      "group": "injuries",
+      "entity": "lohen",
+      "key": "eye-card",
+      "role": "eye-loss-card",
+      "path": "assets/illustrations3/injuries/lohen/eye-card.webp",
+      "file": "injuries/lohen/eye-card.webp",
+      "source_filename": "결손 일러스트/lohen-눈 결손 카드.png",
+      "source_container": "일러스트3.zip",
+      "source_sha256": "a873c7b42332b6118c353981da05d32cbf9ec8f1737dbdbaed4c0800d2c6bc08",
+      "source_size": [
+        832,
+        1216
+      ],
+      "size": [
+        416,
+        608
+      ],
+      "bytes": 288884,
+      "sha256": "0f9b9bd546fdf4136a4a76a7025054e48129787b1fae223ad1d50c8acd99194c",
+      "alpha_extrema": [
+        254,
+        255
+      ],
+      "alpha_bbox": [
+        0,
+        0,
+        416,
+        608
+      ],
+      "alpha_roundtrip_exact": true,
+      "rgba_roundtrip_exact": true,
+      "encoding": {
+        "format": "webp",
+        "lossless": true,
+        "quality": 100
+      },
+      "full_canvas_preserved": true,
+      "cropped": false
+    },
+    {
+      "group": "injuries",
+      "entity": "lohen",
+      "key": "eye-cutin",
+      "role": "eye-cutin",
+      "path": "assets/illustrations3/injuries/lohen/eye-cutin.webp",
+      "file": "injuries/lohen/eye-cutin.webp",
+      "source_filename": "결손 일러스트/lohen-눈 결손 컷인.png",
+      "source_container": "일러스트3.zip",
+      "source_sha256": "89818a21942188ac73f153f97b144c346b7df1f02bb1afddafc4baca38083370",
+      "source_size": [
+        1216,
+        832
+      ],
+      "size": [
+        912,
+        624
+      ],
+      "bytes": 484326,
+      "sha256": "b5901607572fe13ca83aa28db8410e8768a03986f60e3bf1ec2a85f5801f04f7",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        0,
+        0,
+        912,
+        624
+      ],
+      "alpha_roundtrip_exact": true,
+      "rgba_roundtrip_exact": true,
+      "encoding": {
+        "format": "webp",
+        "lossless": true,
+        "quality": 100
+      },
+      "full_canvas_preserved": true,
+      "cropped": false
+    },
+    {
+      "group": "injuries",
+      "entity": "lohen",
+      "key": "leg-cutin",
+      "role": "leg-cutin",
+      "path": "assets/illustrations3/injuries/lohen/leg-cutin.webp",
+      "file": "injuries/lohen/leg-cutin.webp",
+      "source_filename": "결손 일러스트/lohen-다리 결손 컷인.png",
+      "source_container": "일러스트3.zip",
+      "source_sha256": "cf5a6e33e94176d294771de1caeb04ae0f838ff1e25a49dafe1748ab1e900fb7",
+      "source_size": [
+        1216,
+        832
+      ],
+      "size": [
+        912,
+        624
+      ],
+      "bytes": 445816,
+      "sha256": "4fbdad8addf8189dff8b6659876c8af6e476e1a49da1522b657c80c5a10c433a",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        0,
+        0,
+        912,
+        624
+      ],
+      "alpha_roundtrip_exact": true,
+      "rgba_roundtrip_exact": true,
+      "encoding": {
+        "format": "webp",
+        "lossless": true,
+        "quality": 100
+      },
+      "full_canvas_preserved": true,
+      "cropped": false
+    },
+    {
+      "group": "injuries",
+      "entity": "lohen",
+      "key": "arm-cutin",
+      "role": "arm-cutin",
+      "path": "assets/illustrations3/injuries/lohen/arm-cutin.webp",
+      "file": "injuries/lohen/arm-cutin.webp",
+      "source_filename": "결손 일러스트/lohen-팔 결손 컷인.png",
+      "source_container": "일러스트3.zip",
+      "source_sha256": "6c73add9ffd1c3ae1add3269a66bdafbd89965245dfbc9bd11f2e6e421762468",
+      "source_size": [
+        1216,
+        832
+      ],
+      "size": [
+        912,
+        624
+      ],
+      "bytes": 626894,
+      "sha256": "1085ce580acc4476b4103766c9017a1d7051ec615c4d237276a6db06dc6901bb",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        0,
+        0,
+        906,
+        624
+      ],
+      "alpha_roundtrip_exact": true,
+      "rgba_roundtrip_exact": true,
+      "encoding": {
+        "format": "webp",
+        "lossless": true,
+        "quality": 100
+      },
+      "full_canvas_preserved": true,
+      "cropped": false
+    },
+    {
+      "group": "skillPortraits",
+      "entity": "albedo",
+      "key": "portrait",
+      "role": "skill-portrait-banner",
+      "path": "assets/illustrations3/skill-portraits/albedo.webp",
+      "file": "skill-portraits/albedo.webp",
+      "source_filename": "스킬 초상화/albedo.png",
+      "source_container": "일러스트3.zip",
+      "source_sha256": "cb7509cfdba06d2ef55b7765395ba915fbf65ebb1cd000ba140d73f15a841590",
+      "source_size": [
+        400,
+        300
+      ],
+      "size": [
+        400,
+        300
+      ],
+      "bytes": 153876,
+      "sha256": "0af49b4b1fbac343dbb976a22a1f54a2fa81e840040a81b1f201154f48f67ba8",
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "alpha_bbox": [
+        0,
+        0,
+        400,
+        300
+      ],
+      "alpha_roundtrip_exact": true,
+      "rgba_roundtrip_exact": true,
+      "encoding": {
+        "format": "webp",
+        "lossless": true,
+        "quality": 100
+      },
+      "full_canvas_preserved": true,
+      "cropped": false
+    },
+    {
+      "group": "skillPortraits",
+      "entity": "durin",
+      "key": "portrait",
+      "role": "skill-portrait-banner",
+      "path": "assets/illustrations3/skill-portraits/durin.webp",
+      "file": "skill-portraits/durin.webp",
+      "source_filename": "스킬 초상화/durin.png",
+      "source_container": "일러스트3.zip",
+      "source_sha256": "c03a78e846c07fdb9beb146dfe0431123cadd6d47624a5d868bceca99645163e",
+      "source_size": [
+        400,
+        300
+      ],
+      "size": [
+        400,
+        300
+      ],
+      "bytes": 137434,
+      "sha256": "d02a44b208c270f3d45dd04760a58cfb9058fa83294ea2e375b180c2c4f06e42",
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "alpha_bbox": [
+        0,
+        0,
+        400,
+        300
+      ],
+      "alpha_roundtrip_exact": true,
+      "rgba_roundtrip_exact": true,
+      "encoding": {
+        "format": "webp",
+        "lossless": true,
+        "quality": 100
+      },
+      "full_canvas_preserved": true,
+      "cropped": false
+    },
+    {
+      "group": "skillPortraits",
+      "entity": "flins",
+      "key": "portrait",
+      "role": "skill-portrait-banner",
+      "path": "assets/illustrations3/skill-portraits/flins.webp",
+      "file": "skill-portraits/flins.webp",
+      "source_filename": "스킬 초상화/flins.png",
+      "source_container": "일러스트3.zip",
+      "source_sha256": "d8cbf9889f330965d6df846adab2df2da65280324b2afc0a7fc2d8933cd45254",
+      "source_size": [
+        400,
+        300
+      ],
+      "size": [
+        400,
+        300
+      ],
+      "bytes": 156762,
+      "sha256": "f06d468677d5bcefb6cd6eb5b96e02051cadfe8bd727884c8fb5d1de43880ab6",
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "alpha_bbox": [
+        0,
+        0,
+        400,
+        300
+      ],
+      "alpha_roundtrip_exact": true,
+      "rgba_roundtrip_exact": true,
+      "encoding": {
+        "format": "webp",
+        "lossless": true,
+        "quality": 100
+      },
+      "full_canvas_preserved": true,
+      "cropped": false
+    },
+    {
+      "group": "skillPortraits",
+      "entity": "illuga",
+      "key": "portrait",
+      "role": "skill-portrait-banner",
+      "path": "assets/illustrations3/skill-portraits/illuga.webp",
+      "file": "skill-portraits/illuga.webp",
+      "source_filename": "스킬 초상화/illuga.png",
+      "source_container": "일러스트3.zip",
+      "source_sha256": "bf2c1fa3bc4b94e170c17ddf19d734ed3631352e3c763977ab55e6ef8e07857b",
+      "source_size": [
+        400,
+        300
+      ],
+      "size": [
+        400,
+        300
+      ],
+      "bytes": 121640,
+      "sha256": "e659b4abc6d354eca251cc5b02fbab0f6a56ac5128963454d728594ce2626ac2",
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "alpha_bbox": [
+        0,
+        0,
+        400,
+        300
+      ],
+      "alpha_roundtrip_exact": true,
+      "rgba_roundtrip_exact": true,
+      "encoding": {
+        "format": "webp",
+        "lossless": true,
+        "quality": 100
+      },
+      "full_canvas_preserved": true,
+      "cropped": false
+    },
+    {
+      "group": "skillPortraits",
+      "entity": "jahoda",
+      "key": "portrait",
+      "role": "skill-portrait-banner",
+      "path": "assets/illustrations3/skill-portraits/jahoda.webp",
+      "file": "skill-portraits/jahoda.webp",
+      "source_filename": "스킬 초상화/jahoda.png",
+      "source_container": "일러스트3.zip",
+      "source_sha256": "7e572eb0fbd5c1f7cb6fe13ac70f253dc36c140cd36e83fbcce7b663add0adc6",
+      "source_size": [
+        400,
+        300
+      ],
+      "size": [
+        400,
+        300
+      ],
+      "bytes": 152884,
+      "sha256": "b552bed20741e29bb3075be6265a6c19cb55786d75414cf1ae18937bac2e1a11",
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "alpha_bbox": [
+        0,
+        0,
+        400,
+        300
+      ],
+      "alpha_roundtrip_exact": true,
+      "rgba_roundtrip_exact": true,
+      "encoding": {
+        "format": "webp",
+        "lossless": true,
+        "quality": 100
+      },
+      "full_canvas_preserved": true,
+      "cropped": false
+    },
+    {
+      "group": "skillPortraits",
+      "entity": "lohen",
+      "key": "portrait",
+      "role": "skill-portrait-banner",
+      "path": "assets/illustrations3/skill-portraits/lohen.webp",
+      "file": "skill-portraits/lohen.webp",
+      "source_filename": "스킬 초상화/lohen.png",
+      "source_container": "일러스트3.zip",
+      "source_sha256": "e88340950c51efef93412341d2c69c6c46b9cc155c9693f7c0a6ed73867be396",
+      "source_size": [
+        400,
+        300
+      ],
+      "size": [
+        400,
+        300
+      ],
+      "bytes": 149420,
+      "sha256": "8d04ff93c7faf9ab52fbf69421790e1c9a6af655bdfecfdf25ab31768d4231fc",
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "alpha_bbox": [
+        0,
+        0,
+        400,
+        300
+      ],
+      "alpha_roundtrip_exact": true,
+      "rgba_roundtrip_exact": true,
+      "encoding": {
+        "format": "webp",
+        "lossless": true,
+        "quality": 100
+      },
+      "full_canvas_preserved": true,
+      "cropped": false
+    },
+    {
+      "group": "skillPortraits",
+      "entity": "nefer",
+      "key": "portrait",
+      "role": "skill-portrait-banner",
+      "path": "assets/illustrations3/skill-portraits/nefer.webp",
+      "file": "skill-portraits/nefer.webp",
+      "source_filename": "스킬 초상화/nefer.png",
+      "source_container": "일러스트3.zip",
+      "source_sha256": "8eb8d80cd922d0c68dc31e8c2a8e0925e2096dec954302dcd8cc1ea5126fc716",
+      "source_size": [
+        400,
+        300
+      ],
+      "size": [
+        400,
+        300
+      ],
+      "bytes": 178362,
+      "sha256": "048a8779094694d3bba70cc774996c1d6359e82a041b70dd22465b4bba0bd326",
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "alpha_bbox": [
+        0,
+        0,
+        400,
+        300
+      ],
+      "alpha_roundtrip_exact": true,
+      "rgba_roundtrip_exact": true,
+      "encoding": {
+        "format": "webp",
+        "lossless": true,
+        "quality": 100
+      },
+      "full_canvas_preserved": true,
+      "cropped": false
+    },
+    {
+      "group": "skillPortraits",
+      "entity": "varka",
+      "key": "portrait",
+      "role": "skill-portrait-banner",
+      "path": "assets/illustrations3/skill-portraits/varka.webp",
+      "file": "skill-portraits/varka.webp",
+      "source_filename": "스킬 초상화/varka.png",
+      "source_container": "일러스트3.zip",
+      "source_sha256": "449dbfb0f65df81aaa92f8c698e615a9c4ca7af49e9d342f0661551715210f19",
+      "source_size": [
+        400,
+        300
+      ],
+      "size": [
+        400,
+        300
+      ],
+      "bytes": 150012,
+      "sha256": "ad9ad9e606317ca1ffc75affa9291a06b64d6f6f56ca53ca3500679f4ab5c5f2",
+      "alpha_extrema": [
+        255,
+        255
+      ],
+      "alpha_bbox": [
+        0,
+        0,
+        400,
+        300
+      ],
+      "alpha_roundtrip_exact": true,
+      "rgba_roundtrip_exact": true,
+      "encoding": {
+        "format": "webp",
+        "lossless": true,
+        "quality": 100
+      },
+      "full_canvas_preserved": true,
+      "cropped": false
+    },
+    {
+      "group": "battleCollapse",
+      "entity": "durin",
+      "key": "battle",
+      "role": "collapse-battle-sd",
+      "path": "assets/illustrations3/battle-collapse/durin.webp",
+      "file": "battle-collapse/durin.webp",
+      "source_filename": "추가 인게임 리소스/durin-붕괴.png",
+      "source_container": "일러스트3.zip",
+      "source_sha256": "3094b240261d3fee278b03afb356b0d855195b0d8afa9e0386f88cb20ee5db25",
+      "source_size": [
+        1024,
+        1024
+      ],
+      "size": [
+        512,
+        512
+      ],
+      "bytes": 164926,
+      "sha256": "24b8435fac18d47b0169c554ed8b29ed31c4ad446ac9985f4063ceb90d13e4f2",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        0,
+        0,
+        512,
+        512
+      ],
+      "alpha_roundtrip_exact": true,
+      "rgba_roundtrip_exact": true,
+      "encoding": {
+        "format": "webp",
+        "lossless": true,
+        "quality": 100
+      },
+      "full_canvas_preserved": true,
+      "cropped": false,
+      "battle_alignment": {
+        "facing": "right",
+        "normalized_ground_y": 1.0,
+        "normalized_foot_center_x": 0.564453,
+        "no_crop": true
+      }
+    },
+    {
+      "group": "battleCollapse",
+      "entity": "illuga",
+      "key": "battle",
+      "role": "collapse-battle-sd",
+      "path": "assets/illustrations3/battle-collapse/illuga.webp",
+      "file": "battle-collapse/illuga.webp",
+      "source_filename": "추가 인게임 리소스/illuga-붕괴.png",
+      "source_container": "일러스트3.zip",
+      "source_sha256": "04780b9596a21278394959b9a1142408408982b9d077a1f0d7fbd0168db8ba36",
+      "source_size": [
+        1024,
+        1024
+      ],
+      "size": [
+        512,
+        512
+      ],
+      "bytes": 175888,
+      "sha256": "1f6deabdd9621e8f38991d477dd4043de8deed4d0d43a8fc5c7dcf10d063a278",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        0,
+        0,
+        512,
+        512
+      ],
+      "alpha_roundtrip_exact": true,
+      "rgba_roundtrip_exact": true,
+      "encoding": {
+        "format": "webp",
+        "lossless": true,
+        "quality": 100
+      },
+      "full_canvas_preserved": true,
+      "cropped": false,
+      "battle_alignment": {
+        "facing": "right",
+        "normalized_ground_y": 1.0,
+        "normalized_foot_center_x": 0.568359,
+        "no_crop": true
+      }
+    },
+    {
+      "group": "battleCollapse",
+      "entity": "jahoda",
+      "key": "battle",
+      "role": "collapse-battle-sd",
+      "path": "assets/illustrations3/battle-collapse/jahoda.webp",
+      "file": "battle-collapse/jahoda.webp",
+      "source_filename": "추가 인게임 리소스/jahoda-붕괴.png",
+      "source_container": "일러스트3.zip",
+      "source_sha256": "376da43e78ee478cd3d3ed875eed2f73cbfc8970f92456cba59038c99ac5b077",
+      "source_size": [
+        1024,
+        1024
+      ],
+      "size": [
+        512,
+        512
+      ],
+      "bytes": 128890,
+      "sha256": "5d3461a8b283137954861e42699fec752fa245c9493bc86a4aa929075190248e",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        0,
+        0,
+        467,
+        512
+      ],
+      "alpha_roundtrip_exact": true,
+      "rgba_roundtrip_exact": true,
+      "encoding": {
+        "format": "webp",
+        "lossless": true,
+        "quality": 100
+      },
+      "full_canvas_preserved": true,
+      "cropped": false,
+      "battle_alignment": {
+        "facing": "right",
+        "normalized_ground_y": 1.0,
+        "normalized_foot_center_x": 0.520508,
+        "no_crop": true
+      }
+    },
+    {
+      "group": "battleCollapse",
+      "entity": "lohen",
+      "key": "battle",
+      "role": "collapse-battle-sd",
+      "path": "assets/illustrations3/battle-collapse/lohen.webp",
+      "file": "battle-collapse/lohen.webp",
+      "source_filename": "추가 인게임 리소스/lohen-붕괴.png",
+      "source_container": "일러스트3.zip",
+      "source_sha256": "5ced6ba958e504904422fbb3df84be22c3c24649d1215e09d015a9d4d8a3e8e6",
+      "source_size": [
+        1024,
+        1024
+      ],
+      "size": [
+        512,
+        512
+      ],
+      "bytes": 151800,
+      "sha256": "c960af210d66391f45d20a32613ee075849b76163499e4f01c3e2c32cc4994e1",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        0,
+        0,
+        512,
+        512
+      ],
+      "alpha_roundtrip_exact": true,
+      "rgba_roundtrip_exact": true,
+      "encoding": {
+        "format": "webp",
+        "lossless": true,
+        "quality": 100
+      },
+      "full_canvas_preserved": true,
+      "cropped": false,
+      "battle_alignment": {
+        "facing": "right",
+        "normalized_ground_y": 1.0,
+        "normalized_foot_center_x": 0.571289,
+        "no_crop": true
+      }
+    },
+    {
+      "group": "portraits",
+      "entity": "durin",
+      "key": "collapse",
+      "role": "collapse-face-portrait",
+      "path": "assets/illustrations3/portraits/durin-collapse.webp",
+      "file": "portraits/durin-collapse.webp",
+      "source_filename": "초상화/durin-붕괴.png",
+      "source_container": "일러스트3.zip",
+      "source_sha256": "bdc54ce931747bfc87ad5c28917fa0a5ecec42025802922ec8e708c3ed16813f",
+      "source_size": [
+        300,
+        300
+      ],
+      "size": [
+        300,
+        300
+      ],
+      "bytes": 102494,
+      "sha256": "46552dcdef209bd906832b8be8db12a5ffaadfa8d44de2d06730136015fb27a6",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        0,
+        0,
+        300,
+        300
+      ],
+      "alpha_roundtrip_exact": true,
+      "rgba_roundtrip_exact": true,
+      "encoding": {
+        "format": "webp",
+        "lossless": true,
+        "quality": 100
+      },
+      "full_canvas_preserved": true,
+      "cropped": false
+    },
+    {
+      "group": "portraits",
+      "entity": "durin",
+      "key": "normal",
+      "role": "normal-face-portrait",
+      "path": "assets/illustrations3/portraits/durin.webp",
+      "file": "portraits/durin.webp",
+      "source_filename": "초상화/durin.png",
+      "source_container": "일러스트3.zip",
+      "source_sha256": "4739caf51d2b9341caf23b105839fe52c3c551771ce009660358a891005f015c",
+      "source_size": [
+        300,
+        300
+      ],
+      "size": [
+        300,
+        300
+      ],
+      "bytes": 100116,
+      "sha256": "123117e09e4b0105ff43fbb10de223f5dbed502754cbfd49dc066733347b0b9a",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        0,
+        0,
+        300,
+        300
+      ],
+      "alpha_roundtrip_exact": true,
+      "rgba_roundtrip_exact": true,
+      "encoding": {
+        "format": "webp",
+        "lossless": true,
+        "quality": 100
+      },
+      "full_canvas_preserved": true,
+      "cropped": false
+    },
+    {
+      "group": "portraits",
+      "entity": "illuga",
+      "key": "collapse",
+      "role": "collapse-face-portrait",
+      "path": "assets/illustrations3/portraits/illuga-collapse.webp",
+      "file": "portraits/illuga-collapse.webp",
+      "source_filename": "초상화/illuga-붕괴.png",
+      "source_container": "일러스트3.zip",
+      "source_sha256": "1b7fc2e660ae684433e092f342fdb1230165e2087d0bce3cd86788d6878717cc",
+      "source_size": [
+        300,
+        300
+      ],
+      "size": [
+        300,
+        300
+      ],
+      "bytes": 88682,
+      "sha256": "e6aad595d8b604588ba2fc15fa667a45c5991448770c5792b4eecf83d7e7bf30",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        0,
+        0,
+        300,
+        300
+      ],
+      "alpha_roundtrip_exact": true,
+      "rgba_roundtrip_exact": true,
+      "encoding": {
+        "format": "webp",
+        "lossless": true,
+        "quality": 100
+      },
+      "full_canvas_preserved": true,
+      "cropped": false
+    },
+    {
+      "group": "portraits",
+      "entity": "illuga",
+      "key": "normal",
+      "role": "normal-face-portrait",
+      "path": "assets/illustrations3/portraits/illuga.webp",
+      "file": "portraits/illuga.webp",
+      "source_filename": "초상화/illuga.png",
+      "source_container": "일러스트3.zip",
+      "source_sha256": "203dd9264ec78ca7bc1697ab57e8947e43cad66649272cdcc63f06a303ce61fa",
+      "source_size": [
+        300,
+        300
+      ],
+      "size": [
+        300,
+        300
+      ],
+      "bytes": 88504,
+      "sha256": "f580ac237362594d9a2dcf02d12dc5613b3932eaafd573cb98538a62f85d9b56",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        0,
+        0,
+        300,
+        300
+      ],
+      "alpha_roundtrip_exact": true,
+      "rgba_roundtrip_exact": true,
+      "encoding": {
+        "format": "webp",
+        "lossless": true,
+        "quality": 100
+      },
+      "full_canvas_preserved": true,
+      "cropped": false
+    },
+    {
+      "group": "portraits",
+      "entity": "jahoda",
+      "key": "collapse",
+      "role": "collapse-face-portrait",
+      "path": "assets/illustrations3/portraits/jahoda-collapse.webp",
+      "file": "portraits/jahoda-collapse.webp",
+      "source_filename": "초상화/jahoda-붕괴.png",
+      "source_container": "일러스트3.zip",
+      "source_sha256": "cfb9e14fb133cce4a7184d19ac78390608bfabf8b190e7bed1611027ddc92524",
+      "source_size": [
+        300,
+        300
+      ],
+      "size": [
+        300,
+        300
+      ],
+      "bytes": 101750,
+      "sha256": "28a741ffe97e47785de4458755d7a561b0eef8187c2c7a132b44ae82a167e160",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        0,
+        0,
+        300,
+        300
+      ],
+      "alpha_roundtrip_exact": true,
+      "rgba_roundtrip_exact": true,
+      "encoding": {
+        "format": "webp",
+        "lossless": true,
+        "quality": 100
+      },
+      "full_canvas_preserved": true,
+      "cropped": false
+    },
+    {
+      "group": "portraits",
+      "entity": "jahoda",
+      "key": "normal",
+      "role": "normal-face-portrait",
+      "path": "assets/illustrations3/portraits/jahoda.webp",
+      "file": "portraits/jahoda.webp",
+      "source_filename": "초상화/jahoda.png",
+      "source_container": "일러스트3.zip",
+      "source_sha256": "3d2cebd2a285c8ee1f99f9576b6d3bdd20c8f595c44753d323699c2238ec4b6e",
+      "source_size": [
+        300,
+        300
+      ],
+      "size": [
+        300,
+        300
+      ],
+      "bytes": 113928,
+      "sha256": "06b6c6f0f8321ea0bdeff1c0019c35f8ff52f2c5857048821ee42ab797099443",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        0,
+        0,
+        300,
+        300
+      ],
+      "alpha_roundtrip_exact": true,
+      "rgba_roundtrip_exact": true,
+      "encoding": {
+        "format": "webp",
+        "lossless": true,
+        "quality": 100
+      },
+      "full_canvas_preserved": true,
+      "cropped": false
+    },
+    {
+      "group": "portraits",
+      "entity": "lohen",
+      "key": "collapse",
+      "role": "collapse-face-portrait",
+      "path": "assets/illustrations3/portraits/lohen-collapse.webp",
+      "file": "portraits/lohen-collapse.webp",
+      "source_filename": "초상화/lohen-붕괴.png",
+      "source_container": "일러스트3.zip",
+      "source_sha256": "cccc053c7f4198f31b32581f238d915bc99b300344f0716fe93498b194dfee85",
+      "source_size": [
+        300,
+        300
+      ],
+      "size": [
+        300,
+        300
+      ],
+      "bytes": 107560,
+      "sha256": "2c2406d851b4b4526227639c1f43050266bd6bf7e23f8136cc6ecbd1ff055894",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        0,
+        0,
+        300,
+        300
+      ],
+      "alpha_roundtrip_exact": true,
+      "rgba_roundtrip_exact": true,
+      "encoding": {
+        "format": "webp",
+        "lossless": true,
+        "quality": 100
+      },
+      "full_canvas_preserved": true,
+      "cropped": false
+    },
+    {
+      "group": "portraits",
+      "entity": "lohen",
+      "key": "normal",
+      "role": "normal-face-portrait",
+      "path": "assets/illustrations3/portraits/lohen.webp",
+      "file": "portraits/lohen.webp",
+      "source_filename": "초상화/lohen.png",
+      "source_container": "일러스트3.zip",
+      "source_sha256": "2bc8e588c70962882a11533e2bbad345a84efd54aa12d7f88440f0a4eb0357fa",
+      "source_size": [
+        300,
+        300
+      ],
+      "size": [
+        300,
+        300
+      ],
+      "bytes": 118766,
+      "sha256": "58e82b05a78350d0003a8cd2f1223d5aef94bfc5a32ac0094b96787d1e39fa38",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        0,
+        0,
+        300,
+        300
+      ],
+      "alpha_roundtrip_exact": true,
+      "rgba_roundtrip_exact": true,
+      "encoding": {
+        "format": "webp",
+        "lossless": true,
+        "quality": 100
+      },
+      "full_canvas_preserved": true,
+      "cropped": false
+    },
+    {
+      "group": "scenes",
+      "entity": null,
+      "key": "party-base",
+      "role": "base-party-scene",
+      "path": "assets/illustrations3/scenes/party-base.webp",
+      "file": "scenes/party-base.webp",
+      "source_filename": "거점 편성.png",
+      "source_container": "일러스트3.zip",
+      "source_sha256": "56d638f5aa47fb3fdf6ff79d833a67855dc03112869bfed22f86e747d3438bdd",
+      "source_size": [
+        1920,
+        1088
+      ],
+      "size": [
+        1440,
+        816
+      ],
+      "bytes": 424298,
+      "sha256": "4edada90d86b720b496801995101e232592edebe3b6dedf8143026152b4ea873",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        0,
+        0,
+        1440,
+        816
+      ],
+      "alpha_roundtrip_exact": true,
+      "rgba_roundtrip_exact": false,
+      "encoding": {
+        "format": "webp",
+        "lossless": false,
+        "quality": 94
+      },
+      "full_canvas_preserved": true,
+      "cropped": false,
+      "rgb_mean_absolute_encoding_error": 2.0633
+    },
+    {
+      "group": "scenes",
+      "entity": null,
+      "key": "tutorial-1",
+      "role": "tutorial-scene",
+      "path": "assets/illustrations3/scenes/tutorial-1.webp",
+      "file": "scenes/tutorial-1.webp",
+      "source_filename": "튜토리얼 컷신1.png",
+      "source_container": "일러스트3.zip",
+      "source_sha256": "cc2d496648b007f31960b7232f0c61b04eddee5de13b870e6771ae44c33930dc",
+      "source_size": [
+        1920,
+        1088
+      ],
+      "size": [
+        1440,
+        816
+      ],
+      "bytes": 403764,
+      "sha256": "923a7ad33ea8ddf7cc1f5e190098f73329a791cd5c3b65efbc55e706d9ce0f77",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        0,
+        0,
+        1440,
+        816
+      ],
+      "alpha_roundtrip_exact": true,
+      "rgba_roundtrip_exact": false,
+      "encoding": {
+        "format": "webp",
+        "lossless": false,
+        "quality": 94
+      },
+      "full_canvas_preserved": true,
+      "cropped": false,
+      "rgb_mean_absolute_encoding_error": 1.9788
+    },
+    {
+      "group": "scenes",
+      "entity": null,
+      "key": "tutorial-2",
+      "role": "tutorial-scene",
+      "path": "assets/illustrations3/scenes/tutorial-2.webp",
+      "file": "scenes/tutorial-2.webp",
+      "source_filename": "튜토리얼 컷신2.png",
+      "source_container": "일러스트3.zip",
+      "source_sha256": "f2f1abcfb8e9566d7228655918964dba13f4e4ff05d6c7d7b5a577ac91591f29",
+      "source_size": [
+        1920,
+        1088
+      ],
+      "size": [
+        1440,
+        816
+      ],
+      "bytes": 323326,
+      "sha256": "3dedc0396811f73b390ba846cec4754d76b857f66e20e93cb019acfc183022b1",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        0,
+        0,
+        1436,
+        816
+      ],
+      "alpha_roundtrip_exact": true,
+      "rgba_roundtrip_exact": false,
+      "encoding": {
+        "format": "webp",
+        "lossless": false,
+        "quality": 94
+      },
+      "full_canvas_preserved": true,
+      "cropped": false,
+      "rgb_mean_absolute_encoding_error": 1.5981
+    },
+    {
+      "group": "title",
+      "entity": null,
+      "key": "main",
+      "role": "title-main",
+      "path": "assets/illustrations3/title-main.webp",
+      "file": "title-main.webp",
+      "source_filename": "main.png",
+      "source_container": "attachment",
+      "source_sha256": "b3ada43399df0b9b6ff3b085f09db769e29748902504d81488cad85a39091afb",
+      "source_size": [
+        1920,
+        1088
+      ],
+      "size": [
+        1920,
+        1088
+      ],
+      "bytes": 325430,
+      "sha256": "f59947189fb7b95d4ac6c36e0776f1e6419a5741c2fa93138f93fc25b1cafb66",
+      "alpha_extrema": [
+        254,
+        255
+      ],
+      "alpha_bbox": [
+        0,
+        0,
+        1920,
+        1088
+      ],
+      "alpha_roundtrip_exact": true,
+      "rgba_roundtrip_exact": false,
+      "encoding": {
+        "format": "webp",
+        "lossless": false,
+        "quality": 94
+      },
+      "full_canvas_preserved": true,
+      "cropped": false,
+      "rgb_mean_absolute_encoding_error": 1.3516
+    },
+    {
+      "group": "title",
+      "entity": null,
+      "key": "logo",
+      "role": "title-logo",
+      "path": "assets/illustrations3/title-logo.webp",
+      "file": "title-logo.webp",
+      "source_filename": "teyvat_defense_embers_logo.png",
+      "source_container": "attachment",
+      "source_sha256": "05c57540d2e3a9299936b46de51126e4b314c2a2a8d21b6fc441d83be9d81f9c",
+      "source_size": [
+        1376,
+        768
+      ],
+      "size": [
+        1376,
+        768
+      ],
+      "bytes": 140530,
+      "sha256": "8e99a213ff1e640ddc12e6cc2be22ed98ed8980537514450b1d56911a7843012",
+      "alpha_extrema": [
+        0,
+        255
+      ],
+      "alpha_bbox": [
+        203,
+        198,
+        1223,
+        547
+      ],
+      "alpha_roundtrip_exact": true,
+      "rgba_roundtrip_exact": true,
+      "encoding": {
+        "format": "webp",
+        "lossless": true,
+        "quality": 100
+      },
+      "full_canvas_preserved": true,
+      "cropped": false
+    }
+  ],
+  "total_files": 58,
+  "total_bytes": 17645470,
+  "source_total_bytes": 61951526,
+  "usage_recommendations": {
+    "hudFace": "portraits/<hero>.webp and portraits/<hero>-collapse.webp; dedicated 300x300 tight face art",
+    "supportDock": "skill-portraits/<partner>.webp; 400x300 action-face banner, display crop permitted in app",
+    "statusWindow": "standing/<hero>.webp and standing/<hero>-collapse.webp; retain full standing canvas",
+    "mentalCarePartner": "standing/<partner>.webp; near-front three-quarter pose",
+    "battleCollapse": "battle-collapse/<hero>.webp; only while collapsed; normal battle SD unchanged",
+    "legacyAssets": "Existing normal battle SD and ultimate/mental-breakdown cutins untouched by this asset task"
+  },
+  "display_cautions": [
+    "Some standing originals contain a narrow dark vertical trace near left canvas edge. Preserved without retouch; app may constrain display viewport if needed.",
+    "Provided standing and face/skill portrait are different resources; do not replace normal battle SD with standing art.",
+    "Transparent scene art is not a flat full-frame background; composite in UI without editing the source image.",
+    "Title logo retains original 1376x768 canvas and alpha; visible wordmark occupies only part of that canvas."
+  ]
+}

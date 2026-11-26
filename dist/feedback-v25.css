@@ -1,0 +1,67 @@
+/* Compact the existing reference composition, keeping its left-to-right order. */
+.file-panel{inset:5% 9% 8% 21%;border-radius:8px;background:linear-gradient(135deg,#14222aef,#101c27ef);border-color:#91b5ac50;box-shadow:0 18px 70px #0005}
+.file-heading{top:8.5%;padding-bottom:2vh;border-color:#b3c6c14d;font-weight:500}
+.file-heading:after{height:3px;bottom:-2px;background:#b6cfc3;width:13%}
+.file-tabs{width:8.5%;top:27%;gap:3.5vh}
+.personnel-file .file-tabs button{padding:1.1vh .8vw;font-size:clamp(12px,1.2vw,23px)!important;border-radius:3px;border-left:2px solid transparent!important;transition:background .18s,color .18s}
+.personnel-file .file-tabs button.current{background:linear-gradient(90deg,#739b9138,transparent)!important;border-left-color:#b9d5c5!important;color:#e9f2e8}
+.personnel-file .file-back{border:1px solid #9fbdb263!important;background:#13242ddb!important;border-radius:4px;top:8%}
+.file-content{left:36%;right:12%;top:19%;bottom:12%}
+.file-profile>small{display:block;line-height:1.55;letter-spacing:0;font-size:clamp(10px,.95vw,18px)}
+.file-profile dl{margin-top:7vh}
+.file-support{bottom:7%;width:48%}
+.file-view footer button,.file-view.is-variants>button{background:#213b42;color:#dfede5;border-color:#8fb7ad77;border-radius:4px;transition:background .18s,border-color .18s}
+.file-view footer button:hover,.file-view.is-variants>button:hover{background:#34534f;border-color:#c5dacf}
+.file-view footer button:focus-visible,.file-view.is-variants>button:focus-visible{outline:2px solid #c5dacf;outline-offset:3px}
+.file-card-groups{inset:3% 23% 0 0}
+.file-row.card-gallery{width:min(100%,78vh)}
+.file-card-groups section{height:48%}
+.feed-drawer{top:20%;bottom:auto;transform:none;max-height:28%;z-index:120;background:linear-gradient(#07131be8 55%,#07131b00);mask-image:linear-gradient(#000 65%,transparent);padding-bottom:22px;border-left:0;scrollbar-width:none;pointer-events:auto}
+.feed-drawer ul{margin:0;padding:0 12px 20px}
+/* Arrival adds local light and a caption without covering the scenery. */
+button.arrival-scene,button.arrival-scene:hover,button.arrival-scene:focus{background:transparent!important;box-shadow:none;backdrop-filter:none}
+.arrival-light{opacity:.35;mix-blend-mode:screen}
+.arrival-caption{width:auto;min-width:40%;padding:14px 35px 18px;bottom:3%;background:radial-gradient(ellipse,#08131ba8,transparent 72%);text-shadow:0 2px 6px #000}
+.arrival-standing{height:82%;bottom:12%}
+/* Tutorial and care share the same full-viewport stage as the join dialogue. */
+.modal.modern-surface[data-surface="care-dialogue"]{width:100vw;height:100dvh;padding:0;max-height:none}
+[data-surface="care-dialogue"]>.surface-content{height:100%;padding:0;overflow:hidden}
+[data-surface="care-dialogue"] .visual-dialogue{height:100%;width:100%}
+[data-surface="care-dialogue"] .dialogue-actors{inset:0}
+[data-surface="care-dialogue"] .dialogue-actor,.tutorial-conversation .dialogue-actor{height:96%;width:40%;top:0;object-fit:contain;object-position:center top}
+[data-surface="care-dialogue"] .actor-hero,.tutorial-conversation .actor-hero{left:34%}
+[data-surface="care-dialogue"] .partner-left .actor-partner,.tutorial-conversation.partner-left .actor-partner{left:12%;right:auto;top:0;height:96%;width:40%}
+[data-surface="care-dialogue"] .partner-right .actor-partner{right:8%;left:auto;top:0;height:96%;width:40%}
+[data-surface="care-dialogue"] .partner-right .actor-hero{left:20%}
+[data-surface="care-dialogue"] .dialogue-box,.tutorial-conversation .dialogue-box{left:10%;right:10%;bottom:4%;padding:20px 30px;background:#0a1423b3}
+[data-surface="care-dialogue"] .dialogue-box p,.tutorial-conversation .dialogue-box p{font-size:20px;line-height:1.7;min-height:44px;max-height:29dvh;margin:14px 0 18px;overflow:auto}
+.card-effect-reader{width:min(88vw,1100px);height:78vh;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:5vw;align-items:center;color:#e5ede8}
+.card-effect-reader .card-gallery{display:flex;justify-content:end;padding:0}
+.card-effect-reader .card.catalog-card{width:min(100%,43vh);height:auto;aspect-ratio:.7;transform:none}
+.card-effect-reader article{max-height:100%;overflow:auto;scrollbar-width:none}
+.card-effect-reader article>p{font-size:clamp(14px,1.5vw,22px);line-height:1.85;white-space:normal}
+.card-effect-reader article>button{background:#213b42;color:#dfede5;border:1px solid #8fb7ad77;border-radius:4px;padding:10px 20px;margin:8px}
+.media-shade:has(.card-effect-reader){background:#050c16c4;backdrop-filter:blur(12px)}
+@media(max-height:550px) and (orientation:landscape){
+ [data-surface="care-dialogue"] .dialogue-box,.tutorial-conversation .dialogue-box{padding:10px 18px}
+ [data-surface="care-dialogue"] .dialogue-box p,.tutorial-conversation .dialogue-box p{font-size:14px;max-height:28dvh;min-height:24px;margin:5px 0 8px;line-height:1.65}
+ [data-surface="care-dialogue"] .dialogue-box>strong,.tutorial-conversation .dialogue-box>strong{font-size:16px}
+ [data-surface="care-dialogue"] .dialogue-controls button,.tutorial-conversation .dialogue-controls button{min-height:34px;font-size:11px;padding:7px 10px}
+ .arrival-caption{padding:5px 24px 10px}.arrival-caption h2{margin:4px 0}
+}
+@media(orientation:portrait){
+ .file-panel{inset:6% 3% 6% 15%}.file-heading{top:8%}.file-back{top:7%!important}.file-tabs{top:17%;width:75%;gap:3%}.file-content{left:19%;right:6%;top:25%;bottom:10%}.file-support{width:90%;bottom:7%}.file-card-groups{right:0;bottom:24%}.file-card-groups section{height:auto}
+ [data-surface="care-dialogue"] .dialogue-actor,.tutorial-conversation .dialogue-actor{width:74%;height:80%;top:10%}
+ [data-surface="care-dialogue"] .actor-hero,.tutorial-conversation .actor-hero{left:28%}
+ [data-surface="care-dialogue"] .partner-left .actor-partner,.tutorial-conversation.partner-left .actor-partner{left:-7%;width:74%;height:80%;top:10%}
+ [data-surface="care-dialogue"] .partner-right .actor-partner{right:-7%;width:74%;height:80%;top:10%}
+ [data-surface="care-dialogue"] .partner-right .actor-hero{left:0}
+ .card-effect-reader{grid-template-columns:1fr;grid-template-rows:52% 1fr;height:80vh;gap:3vh}.card-effect-reader .card-gallery{height:100%;justify-content:center}.card-effect-reader .card.catalog-card{height:100%;width:auto}
+}
+/* Supplied panorama behind the existing lobby controls. */
+body .command-home{background-image:url('assets/update25/lobby.webp')}
+.command-home:before{background:linear-gradient(90deg,#07121bbb,transparent 40%,transparent 62%,#06111bbd),linear-gradient(0deg,#05111eb3,transparent 55%,#07111b55)}
+/* This supplied lobby panorama already contains Lohen and Varka. */
+.command-home .home-character{display:none}
+.file-support{width:42%}
+@media(orientation:portrait){.file-support{width:82%}}
