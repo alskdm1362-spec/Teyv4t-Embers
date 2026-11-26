@@ -92,7 +92,7 @@ function layer(parent,cls,z){const c=document.createElement('canvas');c.classNam
  * options: {type, stage, hold (seconds, freeze for QA), short}. Runs until the cut-in is removed.
  */
 export function collapseScene(root,{type='despair',stage=1,hold,short=false}={}){
- if(!root?.isConnected)return;const T=COLLAPSE_THEMES[type]||COLLAPSE_THEMES.despair,r=root.getBoundingClientRect(),w=r.width,h=r.height,dpr=Math.min(2,devicePixelRatio||1);
+ if(!root?.isConnected)return;const T=COLLAPSE_THEMES[type]||COLLAPSE_THEMES.despair,r=root.getBoundingClientRect(),w=r.width,h=r.height,dpr=Math.min(1.25,devicePixelRatio||1);
  root.dataset.breakdown=type;const back=layer(root,'collapse-back',0),front=layer(root,'collapse-front',2);root.prepend(back);const win=root.querySelector('.cutin-art-window');(win?win.after(front):root.append(front));
  for(const cv of [back,front]){cv.width=Math.round(w*dpr);cv.height=Math.round(h*dpr);}
  const scene=SCENES[type]?.(T,w,h,stage)||SCENES.despair(T,w,h,stage),bc=back.getContext('2d'),fc=front.getContext('2d'),start=performance.now();

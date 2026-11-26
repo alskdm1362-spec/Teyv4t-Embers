@@ -21,7 +21,11 @@ export const VFX_COLORS=Object.freeze({
  glint:{core:'#ffffff',main:'#fff3c2',deep:'#ffbf4a',spark:'#ffffff'},
  heal:{core:'#fff8e6',main:'#ffb04a',deep:'#e0521c',spark:'#ffe39a'},
 });
-const glowCache=new Map();
+const glowCache=new Map(),flameCache=new Map();
+// One pre-rendered flame tongue per colour set; particles only scale and rotate it.
+function flameSprite(cs){const k=cs.join();if(flameCache.has(k))return flameCache.get(k);const c=document.createElement('canvas');c.width=44;c.height=112;const g=c.getContext('2d'),h=80,w=20;g.translate(22,80);
+ const gr=g.createRadialGradient(0,-h*.05,0,0,-h*.2,h*.95);gr.addColorStop(0,rgba(cs[0],1));gr.addColorStop(.35,rgba(cs[1],.95));gr.addColorStop(.7,rgba(cs[2],.6));gr.addColorStop(1,rgba(cs[2],0));g.fillStyle=gr;
+ g.beginPath();g.moveTo(0,-h);g.bezierCurveTo(w*.6,-h*.55,w*1.1,-h*.1,w,h*.15);g.arc(0,h*.15,w,0,Math.PI);g.bezierCurveTo(-w*1.1,-h*.1,-w*.6,-h*.55,0,-h);g.fill();flameCache.set(k,c);return c;}
 function glow(color,soft=.55){const k=color+soft;if(glowCache.has(k))return glowCache.get(k);const c=document.createElement('canvas');c.width=c.height=128;const g=c.getContext('2d'),gr=g.createRadialGradient(64,64,0,64,64,64);
  gr.addColorStop(0,rgba(color,1));gr.addColorStop(soft*.35,rgba(color,.55));gr.addColorStop(soft,rgba(color,.16));gr.addColorStop(1,rgba(color,0));g.fillStyle=gr;g.fillRect(0,0,128,128);glowCache.set(k,c);return c;}
 
@@ -34,9 +38,7 @@ class Particle{constructor(o){Object.assign(this,{x:0,y:0,vx:0,vy:0,ay:0,drag:2,
   if(this.kind==='shard'){c.save();c.translate(this.x,this.y);c.rotate(this.rot);c.fillStyle=col;c.beginPath();c.moveTo(0,-sz);c.lineTo(sz*.35,0);c.lineTo(0,sz*.7);c.lineTo(-sz*.3,0);c.closePath();c.fill();c.restore();c.globalCompositeOperation='lighter';c.globalAlpha=a*.5;c.drawImage(glow(col),this.x-sz*1.5,this.y-sz*1.5,sz*3,sz*3);return;}
   if(this.kind==='smoke'){c.save();c.translate(this.x,this.y);c.rotate(this.rot);const g=c.createRadialGradient(0,0,0,0,0,sz);g.addColorStop(0,rgba(col,.9));g.addColorStop(.6,rgba(col,.45));g.addColorStop(1,rgba(col,0));c.fillStyle=g;c.beginPath();c.ellipse(0,0,sz,sz*.82,0,0,TAU);c.fill();c.restore();return;}
   if(this.kind==='glint'){drawGlint(c,this.x,this.y,sz,col,this.rot);return;}
-  if(this.kind==='flame'){const h=sz*(2.1+.5*Math.sin(this.age*31+this.rot)),w=sz*(.42+.1*Math.sin(this.age*23+this.rot*2));c.save();c.translate(this.x,this.y);c.rotate(Math.atan2(this.vx,-this.vy)*.6);
-   const g=c.createRadialGradient(0,-h*.05,0,0,-h*.2,h*.95),cs=this.cols;g.addColorStop(0,rgba(cs[0],1));g.addColorStop(.35,rgba(cs[1],.95));g.addColorStop(.7,rgba(cs[2],.6));g.addColorStop(1,rgba(cs[2],0));c.fillStyle=g;
-   c.beginPath();c.moveTo(0,-h);c.bezierCurveTo(w*.6,-h*.55,w*1.1,-h*.1,w,h*.15);c.arc(0,h*.15,w,0,Math.PI);c.bezierCurveTo(-w*1.1,-h*.1,-w*.6,-h*.55,0,-h);c.fill();c.restore();return;}
+  if(this.kind==='flame'){const h=sz*(2.1+.5*Math.sin(this.age*31+this.rot)),w=sz*(.42+.1*Math.sin(this.age*23+this.rot*2));c.save();c.translate(this.x,this.y);c.rotate(Math.atan2(this.vx,-this.vy)*.6);c.drawImage(flameSprite(this.cols),-w*1.1,-h,w*2.2,h*1.4);c.restore();return;}
   c.drawImage(glow(col),this.x-sz,this.y-sz,sz*2,sz*2);}
 }
 function drawGlint(c,x,y,r,col,rot=0){c.save();c.translate(x,y);c.rotate(rot);c.globalCompositeOperation='lighter';for(const [L,w] of [[r,r*.09],[r*.55,r*.07]]){for(let k=0;k<2;k++){c.save();c.rotate(k*Math.PI/2+(L<r?Math.PI/4:0));const g=c.createLinearGradient(-L,0,L,0);g.addColorStop(0,rgba(col,0));g.addColorStop(.5,rgba('#ffffff',1));g.addColorStop(1,rgba(col,0));c.fillStyle=g;c.beginPath();c.moveTo(-L,0);c.quadraticCurveTo(0,-w,L,0);c.quadraticCurveTo(0,w,-L,0);c.fill();c.restore();}}
@@ -76,7 +78,7 @@ const FX={
     c.save();c.translate(x,y);c.rotate(ang);c.globalCompositeOperation='lighter';c.fillStyle=cols.core;c.beginPath();c.moveTo(10*s,0);c.lineTo(-8*s,-3*s);c.lineTo(-8*s,3*s);c.closePath();c.fill();c.restore();}
    else{const v=(t-hits[i]);flash(c,tx,ty,55*s,cols.main,1-v/.25);drawGlint(c,tx,ty,60*s*(1-v/.3),cols.main,i);ring(c,tx,ty,14*s+70*s*out3(v/.35),6*s,cols.core,1-v/.35,.5);}}}};},
  // Durin: black-and-red fire that wraps the target and climbs.
- hellfire(cols,{big=false}){let last=0;const D=big?1.5:1.05;return {dur:D+.6,spawn(sys,t,R,s){const S=s*(big?1.6:1);while(last<Math.min(t,D)){last+=1/160;const a=R()*TAU,d=(big?46:30)*S*Math.sqrt(R());const x=Math.cos(a)*d,y=Math.sin(a)*d*.45+20*S;
+ hellfire(cols,{big=false}){let last=0;const D=big?1.5:1.05;return {dur:D+.6,spawn(sys,t,R,s){const S=s*(big?1.6:1);while(last<Math.min(t,D)){last+=1/100;const a=R()*TAU,d=(big?46:30)*S*Math.sqrt(R());const x=Math.cos(a)*d,y=Math.sin(a)*d*.45+20*S;
    sys.add(new Particle({x,y,vx:(R()-.5)*40*S,vy:-(150+R()*150)*S,drag:1.8,life:.5+R()*.35,size:(13+R()*11)*S,size1:2*S,kind:'flame',cols:R()<.25?['#ffb070','#ff3a14','#8a0606']:['#ff4a20','#b80c0a','#300104'],alpha:.72,blend:'lighter',rot:R()*9}));
    if(R()<.6)sys.add(new Particle({x:x*.9,y,vx:(R()-.5)*30*S,vy:-(140+R()*130)*S,drag:1.8,life:.55+R()*.4,size:(17+R()*13)*S,size1:3*S,kind:'flame',cols:['#000000','#0c0006','#3a0410'],blend:'source-over',alpha:.9,rot:R()*9}));if(R()<.25)sys.add(new Particle({x,y:y-20*S,vx:(R()-.5)*20*S,vy:-(90+R()*80)*S,drag:1.2,life:.9+R()*.4,size:(16+R()*14)*S,size1:30*S,color:'#0a0206',kind:'smoke',blend:'source-over',alpha:.55,rot:R()*TAU}));
    if(R()<.18)sys.add(new Particle({x,y,vx:(R()-.5)*120*S,vy:-(220+R()*200)*S,drag:1,ay:-60*S,life:.9+R()*.6,size:3*S,kind:'spark',color:'#ff8a3a',stretch:.04}));}},
@@ -174,7 +176,7 @@ export class BattleVFX{
   this.run(L);await new Promise(r=>setTimeout(r,hold/speed));
  }
  async run(L){if(L.running)return;L.running=true;let last=performance.now();
-  while(L.fx.length){await new Promise(r=>requestAnimationFrame(r));const now=performance.now(),dt=Math.min(.05,(now-last)/1000);last=now;const dpr=Math.min(2,devicePixelRatio||1),W=Math.round(innerWidth*dpr),H=Math.round(innerHeight*dpr);
+  while(L.fx.length){await new Promise(r=>requestAnimationFrame(r));const now=performance.now(),dt=Math.min(.05,(now-last)/1000);last=now;const dpr=Math.min(1.25,devicePixelRatio||1),W=Math.round(innerWidth*dpr),H=Math.round(innerHeight*dpr);
    if(L.canvas.width!==W||L.canvas.height!==H){L.canvas.width=W;L.canvas.height=H;}const c=L.ctx;c.setTransform(1,0,0,1,0,0);c.clearRect(0,0,W,H);
    for(const e of L.fx){const t=(now-e.born)/1000*e.speed;if(t<0)continue;e.t=t;c.setTransform(dpr,0,0,dpr,0,0);c.translate(e.x,e.y);if(e.flip)c.scale(-1,1);
     e.fx.spawn?.(e.sys,t,e.R,e.s);e.sys.step(dt*e.speed);c.save();e.fx.draw(c,t,e.s);c.restore();c.save();e.sys.draw(c);c.restore();c.globalAlpha=1;c.globalCompositeOperation='source-over';}
