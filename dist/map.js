@@ -61,5 +61,5 @@ export function depthScale(s){
  if(s.mode==='challenge')return {hp:1.3+.08*(s.challengeStage||0),damage:1.3};
  if(s.mode==='farm')return {hp:1.1,damage:1.1};
  if(s.mode!=='route'||s.node<MAP_START)return {hp:1,damage:1};
- const t=Math.min(1,(s.node-MAP_START)/15);return {hp:1.08+.35*t,damage:1.08+.25*t};
+ const t=Math.min(1,(s.node-MAP_START)/15);return {hp:1.1+.4*t,damage:1.1+.3*t};
 }
