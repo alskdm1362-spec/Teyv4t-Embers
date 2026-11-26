@@ -15,7 +15,7 @@ function battle(key,branch=null){
 }
 function play(s,uid='one'){const c=s.battle.hand.find(x=>x.uid===uid),d=cardInfo(s,c);return go(s,{type:'play',uid,target:d.target==='ally'?'lohen':s.battle.enemies[0].id});}
 test('all 28 ordinary cards have four distinct tactics and every branch resolves legally',()=>{
- assert.equal(Object.keys(INSIGHTS).length,28);
+ assert.equal(Object.keys(INSIGHTS).length,44);
  for(const [key,paths]of Object.entries(INSIGHTS)){
   assert.deepEqual(Object.keys(paths),INSIGHT_BRANCHES);assert.equal(new Set(Object.values(paths).map(p=>p.title)).size,4);
   for(const branch of INSIGHT_BRANCHES){const s=battle(key,branch),info=cardInfo(s,s.battle.hand[0]);assert.ok(Number.isFinite(info.cost)&&info.cost>=0);assert.ok(Number.isFinite(info.amount));assert.match(info.desc,new RegExp(paths[branch].title));play(s);assert.ok(s.hp>=0&&s.hp<=s.maxHp);assert.ok(s.battle.ap>=0&&s.battle.ap<=6);const cards=['hand','draw','discard','exhaust'].flatMap(z=>s.battle[z]);assert.equal(new Set(cards.map(c=>c.uid)).size,cards.length);}
@@ -56,7 +56,7 @@ test('equipment shown before an event is the equipment granted after confirming,
  let checked=0;for(let seed=1;seed<60;seed++){const s=createGame(seed,{tutorial:false});s.phase='event';s.eventOffer=rollEventOffer(s);const c=s.eventOffer.choices.find(c=>c.benefit.kind==='equipment');if(!c)continue;const expected=c.benefit.item;assert.ok(EQUIPMENT[expected]);const loaded=hydrate(serialize(s));go(loaded,{type:'event',choice:c.id});assert.equal(loaded.eventResult.item,expected);assert.ok(loaded.inventory.includes(expected));checked++;}assert.ok(checked>20);
 });
 test('reward and route preserve the battlefield until actually entering the next stage',()=>{
- const s=battle('d_wave');for(const e of s.battle.enemies)e.hp=1;play(s);assert.equal(s.phase,'reward');const battleSnapshot=serialize(s.battle);go(s,{type:'claimReward'});if(s.phase==='refine')go(s,{type:'skipUpgrade'});assert.equal(s.phase,'travel');assert.equal(serialize(s.battle),battleSnapshot);go(s,{type:'travel',id:'return-base'});assert.equal(s.phase,'base');assert.equal(s.battle,null);
+ const s=battle('d_wave');for(const e of s.battle.enemies)e.hp=1;play(s);assert.equal(s.phase,'reward');const battleSnapshot=serialize(s.battle);go(s,{type:'claimReward'});if(s.phase==='cardReward')go(s,{type:'skipCard'});if(s.phase==='refine')go(s,{type:'skipUpgrade'});assert.equal(s.phase,'travel');assert.equal(serialize(s.battle),battleSnapshot);go(s,{type:'travel',id:'return-base'});assert.equal(s.phase,'base');assert.equal(s.battle,null);
 });
 test('ultimate and generated skill cards resolve existing unused illustrations without changing standing resources',()=>{
  for(const id of ['lohen','durin','illuga','jahoda'])assert.ok(fs.existsSync(new URL('../dist/'+ultimateCardArtwork(id),import.meta.url)));

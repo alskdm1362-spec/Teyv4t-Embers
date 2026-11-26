@@ -1,0 +1,182 @@
+/* v0.26 — sharp dark UI (Chaos Zero Nightmare–inspired): cut corners, thin aged-metal lines,
+   character-colour accents and translucent black windows. Visual properties only: layout,
+   positions and sizes stay with the earlier sheets unless a rule below fixes an overlap. */
+:root{
+ --ui-cut:10px;--ui-cut-s:7px;
+ --ui-line:#cdb68a73;--ui-line-strong:#e8d3a3;--ui-line-dim:#cdb68a33;
+ --ui-panel:linear-gradient(165deg,#111a25f0 0%,#070b12f2 62%,#0b0f17f5 100%);
+ --ui-panel-soft:linear-gradient(165deg,#0f1822d9,#06090fd9);
+ --ui-ink:#eee6d4;--ui-ink-dim:#a9b1b3;--ui-gold:#e3cc97;--ui-teal:#86d8d0;--ui-red:#e0607a;
+ --ui-clip:polygon(var(--ui-cut) 0,100% 0,100% calc(100% - var(--ui-cut)),calc(100% - var(--ui-cut)) 100%,0 100%,0 var(--ui-cut));
+ --ui-clip-s:polygon(var(--ui-cut-s) 0,100% 0,100% calc(100% - var(--ui-cut-s)),calc(100% - var(--ui-cut-s)) 100%,0 100%,0 var(--ui-cut-s));
+}
+
+/* ---------- Buttons ---------- */
+:where(button.primary,button.flat,button.small,.dialogue-controls button,.field-reward-actions button,.card-reward-actions button,.tutorial-note button,.pause-menu button,.ending-actions button,.defeat-actions button,.refinement-scene>button,.event-removal>button){
+ position:relative;clip-path:var(--ui-clip-s);border:1px solid var(--ui-line)!important;border-radius:0!important;
+ background:linear-gradient(135deg,transparent 4.3px,var(--ui-line) 4.3px 5.3px,transparent 5.3px) top left/9px 9px no-repeat,
+  linear-gradient(-45deg,transparent 4.3px,var(--ui-line) 4.3px 5.3px,transparent 5.3px) bottom right/9px 9px no-repeat,
+  linear-gradient(180deg,#18222ee6,#0a0f17f0)!important;
+ color:var(--ui-ink)!important;letter-spacing:.04em;font-weight:500;box-shadow:inset 0 1px 0 #ffffff0d!important;
+ transition:filter .15s,background .15s,border-color .15s,transform .12s;
+}
+:where(button.primary,button.flat,button.small,.dialogue-controls button,.field-reward-actions button,.card-reward-actions button,.tutorial-note button,.pause-menu button,.ending-actions button,.defeat-actions button,.refinement-scene>button,.event-removal>button):hover:not(:disabled){border-color:var(--ui-line-strong)!important;filter:brightness(1.18)}
+:where(button.primary,button.flat,button.small,.dialogue-controls button,.field-reward-actions button,.card-reward-actions button,.tutorial-note button,.pause-menu button):active:not(:disabled){transform:translateY(1px)}
+button.primary{
+ background:linear-gradient(135deg,transparent 4.3px,#fff3d0 4.3px 5.3px,transparent 5.3px) top left/9px 9px no-repeat,
+  linear-gradient(-45deg,transparent 4.3px,#fff3d0 4.3px 5.3px,transparent 5.3px) bottom right/9px 9px no-repeat,
+  linear-gradient(180deg,#f1e2bb 0%,#cdb17a 55%,#b39461 100%)!important;
+ border-color:#f6e7c2!important;color:#1b1409!important;font-weight:700;text-shadow:none!important;
+ box-shadow:inset 0 1px 0 #fff9,0 0 18px #e3cc9733!important;
+}
+button.primary:disabled,button.flat:disabled,button.small:disabled{filter:grayscale(.7) brightness(.6);cursor:default}
+:is(button.primary,button.flat,button.small):focus-visible{outline:none;box-shadow:0 0 0 2px #0b0f17,0 0 0 3px var(--ui-teal)!important}
+/* Close buttons: a small cut-corner square instead of a bare glyph */
+.surface-close,.modern-surface .surface-close{clip-path:var(--ui-clip-s);border:1px solid var(--ui-line-dim)!important;background:#0a0f17cc!important}
+.surface-close:hover,.modern-surface .surface-close:hover{border-color:var(--ui-line-strong)!important;background:#1a2430!important}
+
+/* ---------- Windows ---------- */
+.modal.modern-surface,.modal{
+ clip-path:var(--ui-clip);background:
+  linear-gradient(135deg,transparent 6.4px,var(--ui-line) 6.4px 7.5px,transparent 7.5px) top left/14px 14px no-repeat,
+  linear-gradient(-45deg,transparent 6.4px,var(--ui-line) 6.4px 7.5px,transparent 7.5px) bottom right/14px 14px no-repeat,
+  var(--ui-panel)!important;
+ border:1px solid var(--ui-line-dim)!important;box-shadow:0 30px 90px #000c,inset 0 1px 0 #ffffff0a!important;
+}
+.modern-surface>.surface-header{border-bottom:1px solid var(--ui-line-dim)!important;position:relative}
+.modern-surface>.surface-header::after{content:'';position:absolute;left:0;bottom:-1px;width:64px;height:1px;background:var(--ui-gold)}
+.surface-header .surface-kicker,.eyebrow{color:var(--ui-gold)!important;letter-spacing:.32em!important}
+:is(.dialogue-box,.tutorial-note,.event-narrative,.travel-minimap,.merchant-line,.field-loot,.recruit-response){
+ clip-path:var(--ui-clip);background:
+  linear-gradient(135deg,transparent 6.4px,var(--ui-line) 6.4px 7.5px,transparent 7.5px) top left/14px 14px no-repeat,
+  linear-gradient(-45deg,transparent 6.4px,var(--ui-line) 6.4px 7.5px,transparent 7.5px) bottom right/14px 14px no-repeat,
+  var(--ui-panel-soft)!important;
+ border:1px solid var(--ui-line-dim)!important;
+}
+.dialogue-box>strong,.visual-dialogue .dialogue-box>strong{color:var(--ui-gold);letter-spacing:.06em}
+.tutorial-note{border-color:var(--ui-line)!important;box-shadow:0 10px 40px #000b,0 0 0 1px #00000080!important}
+.tutorial-note strong{color:var(--ui-gold)!important}
+
+/* Choice tiles: routes, events, recruit options, hub nodes */
+:is(.field-route-choice,.event-decision,.falcon-choice){
+ clip-path:var(--ui-clip);border:1px solid var(--ui-line-dim)!important;border-left:2px solid var(--tile-accent,var(--ui-teal))!important;
+ background:linear-gradient(-45deg,transparent 6.4px,var(--ui-line) 6.4px 7.5px,transparent 7.5px) bottom right/14px 14px no-repeat,
+  linear-gradient(100deg,#132029e8,#080d14d9)!important;
+ transition:filter .15s,border-color .15s,transform .15s;
+}
+:is(.field-route-choice,.event-decision,.falcon-choice):hover:not(:disabled){filter:brightness(1.15);border-color:var(--ui-line)!important;transform:translateX(2px)}
+.event-choice-wrap.selected .event-decision{border-color:var(--ui-line-strong)!important;box-shadow:inset 0 0 0 1px #e3cc9755,0 0 22px #e3cc9722!important}
+.field-route-choice:has(.route-choice-symbol){--tile-accent:var(--ui-teal)}
+.field-route-choice em{display:block;margin-top:4px;font-size:12px;font-style:normal;color:var(--ui-ink-dim);line-height:1.35}
+.hub-node{clip-path:none}
+.hub-node>svg,.hub-node>.icon{filter:drop-shadow(0 0 6px #e3cc9744)}
+.hub-node:disabled{opacity:.42}
+
+/* Toast: a slim notice under the HUD, not a button-like box at the bottom */
+#toast{top:8px;bottom:auto!important;transform:translateX(-50%) translateY(-8px)!important;padding:8px 22px 8px 18px!important;font-size:13px!important;
+ background:linear-gradient(90deg,#0b111acc,#0b111af2 20%,#0b111af2 80%,#0b111acc)!important;border:0!important;border-left:2px solid var(--ui-gold)!important;
+ clip-path:polygon(0 0,100% 0,calc(100% - 9px) 100%,0 100%);color:var(--ui-ink);pointer-events:none!important}
+#toast.show{transform:translateX(-50%)!important}
+
+/* ---------- Overlap fixes ---------- */
+/* Refinement / card reward headings sat under the top HUD on short landscape screens. */
+
+.refinement-scene>.eyebrow,.refinement-scene>h2{position:relative;z-index:1}
+/* Hub arrow label wrapped as “스테이 / 지”. */
+.hub-arrow span,.hub-arrow small{white-space:nowrap}
+/* The tutorial skip now lives inside the note. */
+.tutorial-note-actions{display:flex;flex-wrap:wrap;align-items:center;justify-content:flex-end;gap:8px;margin-top:4px}
+.tutorial-note-actions .tutorial-skip-near{order:-1;margin-right:auto;min-height:0!important;padding:6px 10px!important;font-size:11px!important;background:transparent!important;border:0!important;clip-path:none;color:var(--ui-ink-dim)!important;text-decoration:underline;text-underline-offset:3px;box-shadow:none!important}
+.tutorial-callout{width:330px}
+/* Long awakening text was clipped inside small catalogue cards and repeated below them. */
+.discard-gallery .card-choice>p{display:none}
+.discard-gallery .catalog-card :is(.card-desc,.card-body p,.card-text){font-size:10.5px!important;line-height:1.28!important}
+/* Faction/ward tag sat on the selection ring under each enemy. */
+.enemy>.ward{transform:translateY(12px)}
+/* Damage numbers stay legible when they pass over the intent box. */
+.floating-number{z-index:66;text-shadow:0 2px 2px #000,0 0 10px #000,0 0 3px #000!important}
+/* Story stand-ins (e.g. Varka's hair) sat behind the shared HP number and made it unreadable. */
+.team-health [data-hp-number]{text-shadow:0 0 2px #000,0 0 6px #000,0 0 12px #000c}
+.team-health{background:linear-gradient(90deg,#05080ecc,#05080e99 70%,transparent);padding-right:14px}
+
+/* ---------- Card reward ---------- */
+.card-reward-scene .card-choice{position:relative;transition:opacity .2s,transform .2s,filter .2s}
+.card-reward-scene .card-choice.muted{opacity:.45;filter:saturate(.6)}
+.card-reward-scene .card-choice.selected{transform:translateY(-6px)}
+.card-reward-scene .card-choice.selected .catalog-card{box-shadow:0 0 0 2px var(--owner),0 0 28px color-mix(in srgb,var(--owner) 55%,transparent)}
+.card-choice-owner{display:block;text-align:center;margin-bottom:6px;font-size:12px;letter-spacing:.18em;color:var(--owner)}
+.card-reward-actions{display:flex;justify-content:center;gap:12px;margin-top:14px;flex-wrap:wrap}
+.card-reward-actions button{min-width:180px;min-height:42px}
+
+/* ---------- Events ---------- */
+.event-dice-line{color:var(--ui-gold)!important}
+.event-mystery-line{color:#c8a6e8!important;font-style:italic}
+.event-roll{margin:6px 0;font-size:13px;color:var(--ui-ink-dim)}
+.event-roll.success{color:#9fe0c4}.event-roll.fail{color:#f08ea2}
+
+/* ---------- Camp conversation ---------- */
+.care-stress{display:block;width:100%;height:4px;margin-top:6px;background:#ffffff14;clip-path:polygon(0 0,100% 0,calc(100% - 3px) 100%,0 100%)}
+.care-stress b{display:block;height:100%;background:linear-gradient(90deg,#8bc9d3,#e0607a)}
+
+/* ---------- Expedition map ---------- */
+.expedition-map{width:100%;height:auto;overflow:visible;font-family:Paperlogy,sans-serif}
+.expedition-map .map-edge{fill:none;stroke:#8aa2a84d;stroke-width:1.4;stroke-dasharray:3 4}
+.expedition-map .map-edge.walked{stroke:var(--ui-gold);stroke-dasharray:none;stroke-width:2}
+.expedition-map .map-node circle{fill:#101a24;stroke:#7d8f95;stroke-width:1.2}
+.expedition-map .map-node text{fill:#c9d2d0;font-size:12px;text-anchor:middle;pointer-events:none}
+.expedition-map .map-elite circle{stroke:#d9768c}.expedition-map .map-elite text{fill:#f0a0b2}
+.expedition-map .map-event circle{stroke:#a993d6}.expedition-map .map-event text{fill:#cdbdf0}
+.expedition-map .map-camp circle{stroke:#e4b26a}.expedition-map .map-camp text{fill:#f1cf94}
+.expedition-map .map-base circle{fill:#1b2530;stroke:var(--ui-gold);stroke-width:1.6}.expedition-map .map-base text{fill:var(--ui-gold)}
+.expedition-map .map-boss circle{fill:#2a0f18;stroke:var(--ui-red);stroke-width:2}.expedition-map .map-boss text{fill:#ff9db0;font-size:14px}
+.map-legend .map-boss b{border-color:var(--ui-red);color:#ff9db0}
+.expedition-map .map-node.passed{opacity:.3}
+.expedition-map .map-node.visited circle{fill:#2a2418;stroke:var(--ui-gold)}
+.expedition-map .map-node.current circle{fill:var(--ui-gold);stroke:#fff6dc;stroke-width:2;filter:drop-shadow(0 0 6px #e3cc97)}
+.expedition-map .map-node.current text{fill:#1b1409;font-weight:700}
+.expedition-map .map-node.available circle{stroke:var(--ui-teal);stroke-width:2;animation:map-pulse 1.6s ease-in-out infinite}
+.expedition-map .map-node.available[data-action]{cursor:pointer}
+.expedition-map .map-node.available[data-action]:hover circle{fill:#173238}
+@keyframes map-pulse{50%{filter:drop-shadow(0 0 7px #86d8d0)}}
+@media (prefers-reduced-motion:reduce){.expedition-map .map-node.available circle{animation:none}}
+.travel-minimap.map-preview{padding:12px 14px 6px}
+.travel-minimap.map-preview svg{height:auto!important}
+.travel-minimap.map-preview .expedition-map .map-node text{font-size:11px}
+.map-full{display:flex;flex-direction:column;gap:12px}
+.map-legend{display:flex;flex-wrap:wrap;gap:6px 18px;font-size:12px;color:var(--ui-ink-dim)}
+.map-legend b{display:inline-grid;place-items:center;width:20px;height:20px;margin-right:6px;border:1px solid #7d8f95;border-radius:50%;font-size:11px;font-weight:400;color:#c9d2d0}
+.map-legend .map-elite b{border-color:#d9768c;color:#f0a0b2}.map-legend .map-event b{border-color:#a993d6;color:#cdbdf0}.map-legend .map-camp b{border-color:#e4b26a;color:#f1cf94}.map-legend .map-base b{border-color:var(--ui-gold);color:var(--ui-gold)}.map-legend .legend-current b{background:var(--ui-gold);border-color:#fff6dc;color:var(--ui-gold)}
+
+/* ---------- Lobby legibility ---------- */
+.lobby-scene .home-progress{padding:16px 20px;background:linear-gradient(100deg,#060a10d9,#060a10a6 70%,transparent)!important;clip-path:var(--ui-clip)}
+.lobby-scene .home-progress dd small,.lobby-scene .home-progress dt{color:#d6dbd7!important}
+.lobby-scene .home-actions{padding:14px;background:radial-gradient(ellipse at center,#05080ecc 0%,#05080e8c 55%,transparent 75%)}
+.lobby-scene .home-action{text-shadow:0 1px 4px #000,0 0 10px #000}
+.lobby-scene .home-heading img{filter:drop-shadow(0 2px 6px #000c) drop-shadow(0 0 14px #000a)}
+
+@media (max-height:500px) and (orientation:landscape){
+ .card-reward-actions{margin-top:8px}.card-reward-actions button{min-height:36px;min-width:150px}
+ .field-route-choice em{font-size:11px;margin-top:2px}
+ #toast{top:6px}
+ .tutorial-callout{width:300px}
+}
+/* The lobby keeps its 16:9 canvas; on wider phones the side bars now show a blurred extension of the art. */
+#viewport:has(.command-home)::before{content:'';position:absolute;inset:-30px;background:url('assets/update25/lobby.webp') center/cover;filter:blur(22px) brightness(.4) saturate(.8);z-index:0;pointer-events:none}
+#viewport:has(.command-home)>#game{z-index:1}
+/* Awakening and card-reward screens: the party HUD is not needed there and collided with the title. */
+#game:has(.refinement-scene) #header .party-hud{opacity:0;pointer-events:none}
+.event-narrative{padding:14px 22px!important}
+
+/* Tabs read as tabs: no box, a gold underline on the active one. */
+:is(.shop-tabs,.modal-tabs)>button{clip-path:none!important;background:transparent!important;border:0!important;border-bottom:1px solid transparent!important;color:var(--ui-ink-dim)!important;box-shadow:none!important;padding-left:10px!important;padding-right:10px!important}
+:is(.shop-tabs,.modal-tabs)>button.active{color:var(--ui-ink)!important;border-bottom-color:var(--ui-gold)!important}
+:is(.shop-tabs,.modal-tabs)>button:hover:not(.active){color:var(--ui-ink)!important}
+@media (max-height:400px) and (orientation:landscape){
+ .card-reward-scene{padding-top:10px!important}
+ .card-reward-scene .eyebrow{font-size:9px;margin:0}
+ .card-reward-scene h2{font-size:21px!important;margin:2px 0!important}
+ .card-reward-scene>p{font-size:11px;margin:2px 0 4px!important}
+ .card-reward-scene .card-gallery{zoom:.8}
+ .card-choice-owner{margin-bottom:3px;font-size:11px}
+ .card-reward-actions{margin-top:4px}.card-reward-actions button{min-height:32px;font-size:12px;padding:6px 12px}
+}

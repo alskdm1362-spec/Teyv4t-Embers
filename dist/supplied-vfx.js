@@ -1,4 +1,7 @@
 import {intersectBounds} from './visual-bounds.js';
+// The supplied VFX pack is kept byte-for-byte (its hash is pinned). Some of its particles
+// shrink past zero on their last frame; clamp the radius so canvas does not throw.
+if(typeof CanvasRenderingContext2D!=='undefined'&&!CanvasRenderingContext2D.prototype.arc.__embersClamp){const arc=CanvasRenderingContext2D.prototype.arc;const safe=function(x,y,r,...rest){return arc.call(this,x,y,Math.max(0,r),...rest);};safe.__embersClamp=true;CanvasRenderingContext2D.prototype.arc=safe;}
 import './vendor/game-vfx-pack.js';
 import {BespokeVFX} from './vfx.js';
 export const CAST_VFX={lohen:{attack:'spearThrust',ultimate:'daggerThrow',guard:'guardSky'},illuga:{attack:'spearSlash',ultimate:'goldenLightBeam',guard:'guardGold'},jahoda:{attack:'kickSweep',ultimate:'glintSparkle',guard:'guardCyanPink'},durin:{attack:'darkFireMagic',ultimate:'dragonWingFlap',guard:'guardDarkRed'}};

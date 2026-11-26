@@ -1,4 +1,5 @@
-import {STARTERS,DISCOVERIES,NEW_CARDS} from './awakening.js';
+import {STARTERS,DISCOVERIES,NEW_CARDS,REWARD_POOL} from './awakening.js';
+import {ensureMap,depthScale} from './map.js';
 /* Teyvat: Oath of Embers — fan-game rules, independent of rendering. */
 import {INSIGHTS,INSIGHT_BRANCHES,insightSpec,compatibleSparkIds,effectDescription} from './card-insights.js';
 export {INSIGHTS,INSIGHT_BRANCHES} from './card-insights.js';
@@ -101,6 +102,8 @@ export const ROUTE=[
 ROUTE.push(...EXTRA_ROUTE);
 const LEGACY_STARTERS={lohen:['l_strike','l_strike','l_strike','l_guard','l_pierce','l_aim'],durin:['d_strike','d_strike','d_guard','d_wave','d_wave','d_charge'],illuga:['i_strike','i_strike','i_guard','i_guard','i_counter','i_cover'],jahoda:['j_strike','j_strike','j_guard','j_guard','j_draw','j_energy']};
 export const PARTS=['eyes','leftArm','rightArm','leftLeg','rightLeg'];
+// v0.26: damage that gets past the shared shield also weighs on the targeted hero's mind.
+export const STRESS_PER_DAMAGE=.75;
 export const PART_NAMES={eyes:'눈',leftArm:'왼팔',rightArm:'오른팔',leftLeg:'왼다리',rightLeg:'오른다리'};
 export const BODY_STAGES=['평소','경상','중상','결손'];
 const clone=x=>JSON.parse(JSON.stringify(x));
@@ -142,7 +145,7 @@ export function hydrate(json){
  return s;
 }
 function normalizeSave(s){
- s.version=3;s.inventory??=[];s.baseId??='route-7';s.careUsed??=false;s.upgradeOffer??=null;s.careDialogue??=null;
+ s.version=3;ensureMap(s,ROUTE);s.inventory??=[];s.baseId??='route-7';s.careUsed??=false;s.upgradeOffer??=null;s.careDialogue??=null;
  const equipped=Object.values(s.heroes).flatMap(h=>Object.values(h.equipment||{})).filter(Boolean);for(const key of new Set(equipped)){while(s.inventory.filter(x=>x===key).length<equipped.filter(x=>x===key).length)s.inventory.push(key);}
  s.mainFrontStarted??=s.node>7||s.battlesWon>2;
  s.removalCount=Math.max(0,s.removalCount||0);s.tutorial??={active:false,completed:true,chapter:2,step:'complete'};if(s.tutorial.step==='partner-intro')s.tutorial.step='partner-select';
@@ -151,7 +154,7 @@ function normalizeSave(s){
  if(s.checkpoint)normalizeSave(s.checkpoint);
  s.collection??={unlocked:['lohen'],codex:[],cutins:[],endings:[],records:[],raid:{bossKind:'nightmare',bossName:'천상의 왕좌 · 메타트론',bossMaxHp:240,totalDamage:0,clears:0,recordStats:{}}};s.collection.records??=[];s.collection.raid??={bossKind:'nightmare',bossName:'천상의 왕좌 · 메타트론',bossMaxHp:240,totalDamage:0,clears:0,recordStats:{}};s.collection.raid.bossName=RAID_BOSS_DEFAULT.bossName;s.collection.raid.recordStats??={};for(const h of Object.values(s.heroes||{}))h.sparks??={};
 }
-export function ownedDeck(s,owner){return [...(s.heroes[owner].legacyLoadout?LEGACY_STARTERS:STARTERS)[owner].map((key,index)=>({owner,key,uid:`${owner}-${key}-${index}`})),...(s.heroes[owner].acquired||[]).map(key=>({owner,key,uid:owner+"-awaken-"+key})),...(s.heroes[owner].curses||[]).map(c=>({...c,owner}))].filter(c=>!(s.heroes[owner].removedCards||[]).includes(c.uid));}
+export function ownedDeck(s,owner){return [...(s.heroes[owner].legacyLoadout?LEGACY_STARTERS:STARTERS)[owner].map((key,index)=>({owner,key,uid:`${owner}-${key}-${index}`})),...(s.heroes[owner].acquired||[]).map((key,i,all)=>{const n=all.slice(0,i).filter(k=>k===key).length;return {owner,key,uid:owner+"-awaken-"+key+(n?'-'+(n+1):'')};}),...(s.heroes[owner].curses||[]).map(c=>({...c,owner}))].filter(c=>!(s.heroes[owner].removedCards||[]).includes(c.uid));}
 export function removalCost(s){return 25+15*(s.removalCount||0);}
 export function armEffectRate(h){return Math.max(.6,1-.2*[h.body.leftArm,h.body.rightArm].filter(n=>n>=2).length);}
 export function injuryChance(h,special=false){return Math.min(.8,(special ? .35 : 0)+.15*[h.body.leftLeg,h.body.rightLeg].filter(n=>n>=2).length);}
@@ -213,7 +216,7 @@ export function cardInfo(s,c){
  if(spec)desc+=` [${spec.title}]`;if(sparkInfo)desc+=` [${sparkInfo.badge}: ${sparkInfo.desc}]`;
  const actual={...form,amount,cost,desc:desc.trim(),effects,upgraded:!!branch,branch,spark:sparkId,sparkName:sparkInfo?.name||null,effectiveKey,injuryRate:rate,blurred:h.body.eyes===2};return blind?{...actual,name:'실명',desc:'??',displayCost:'?',upgraded:false,blind:true,target:'none',type:'blind',actual}:actual;
 }
-function makeEnemy(s,kind,index){const d=ENEMIES[kind];return {id:`${kind}-${index}`,kind,name:d.name,hp:d.hp+Math.max(0,s.temporal)*3,maxHp:d.hp+Math.max(0,s.temporal)*3,ward:d.ward||0,hitWard:d.hits||0,turn:0,stun:0,vulnerable:0,observed:null,observedCount:0,echo:false,intent:null};}
+function makeEnemy(s,kind,index){const d=ENEMIES[kind],hp=Math.round(d.hp*depthScale(s).hp)+Math.max(0,s.temporal)*3;return {id:`${kind}-${index}`,kind,name:d.name,hp,maxHp:hp,ward:d.ward||0,hitWard:d.hits||0,turn:0,stun:0,vulnerable:0,observed:null,observedCount:0,echo:false,intent:null};}
 function plans(s){
  const b=s.battle,targets=active(s);if(!targets.length)return;
  for(const e of livingEnemies(s)){
@@ -231,6 +234,7 @@ function plans(s){
    intent={...intent,name:e.turn%3===0?'타락한 별의 전개':e.turn%3===2?'별의 심판':'침묵의 검출',damage:e.turn%3===2?(stars?24:6):10,stress:e.turn%3===2?(stars?20:3):8,stars:e.turn%3===0,injury:e.turn%3===2&&stars>0};
   }
   if(e.kind==='star')intent={...intent,name:'심판에 힘을 보냄',damage:0};
+  {const scale=depthScale(s);if(intent.damage>0)intent.damage=Math.round(intent.damage*scale.damage);if(intent.stress>0)intent.stress=Math.round(intent.stress*(1+(scale.damage-1)*.5));if(s.encounterType==='elite'&&intent.damage>=10)intent.injury=true;}
   if(intent.damage>0){const h=s.heroes[intent.target];intent.damage=Math.ceil(intent.damage*(1+.25*[h.body.leftLeg,h.body.rightLeg].filter(n=>n===3).length));}
   if(e.stun)intent={...intent,name:'균형 붕괴 · 행동 중단',damage:0,stress:0,stunned:true,summon:false,stars:false,injury:false,corrosion:0};
   e.intent=intent;
@@ -263,7 +267,7 @@ export function healingNeeds(s){
  return {hp,injured,retired,mental,needed:hp>0||injured.length>0||retired.length>0||mental};
 }
 function restoreBodies(s){s.hp=Math.min(s.maxHp,s.hp+20);for(const h of Object.values(s.heroes)){h.body=Object.fromEntries(PARTS.map(p=>[p,0]));h.retired=false;}}
-export function rollEventOffer(s){const offer=clone(choose(s,EVENTS));for(const c of offer.choices){const premium=c.benefit.elite||c.benefit.kind==='gold'&&c.benefit.amount>=40;if(!premium)c.cost=clone(choose(s,[{},{},{hp:6},{stress:7}]));if(c.benefit.kind==='equipment'&&!c.benefit.item)c.benefit.item=gearDrop(s,!!c.benefit.elite);}return offer;}
+export function rollEventOffer(s){const seen=s.seenEvents||[],fresh=EVENTS.filter(e=>!seen.includes(e.id)),offer=clone(choose(s,fresh.length?fresh:EVENTS));s.seenEvents=fresh.length?[...seen,offer.id]:[offer.id];for(const c of offer.choices){const premium=c.benefit?.elite||c.benefit?.kind==='gold'&&c.benefit.amount>=40;if(!premium&&!c.dice&&!c.mystery&&!Object.keys(c.cost||{}).length)c.cost=clone(choose(s,[{},{},{hp:6},{stress:7}]));if(c.benefit?.kind==='equipment'&&!c.benefit.item)c.benefit.item=gearDrop(s,!!c.benefit.elite);}return offer;}
 function enterNode(s,events){
  const n=currentNode(s);s.eventResult=null;s.lastReward=null;s.eventOffer=null;if(n.type==='event')s.eventOffer=rollEventOffer(s);if(n.type==='camp'){s.campActions=[];s.upgradeOffer=random(s)<LOOT_RULES.baseRefinement?makeUpgradeOffer(s,'camp','camp'):null;}if(n.type==='recruit')s.recruitLine=0;
  if(n.type==='battle'||n.type==='elite')return beginBattle(s,n.enemies,events);
@@ -334,7 +338,7 @@ function checkVictory(s,events){
  if(s.phase!=='battle'||livingEnemies(s).length)return;
  if(s.mode==='raid'&&s.raidRun){settleRaid(s,events,'victory');return;}
  const reward=12+(s.party.includes('jahoda')?4:0)+(s.mode==='challenge'?8:0);s.battlesWon++;s.support=Math.min(6,s.support+1);
- const elite=currentNode(s).type==='elite'||s.mode==='challenge',loot=s.tutorial?.active?{}:rollLoot(s,elite);s.phase='reward';s.lastReward={gold:reward+(elite?12:0),xp:10,pending:true,...loot};emit(events,'victory',`전투 승리 · 보급품을 수령하거나 넘어갈 수 있습니다.`);if(s.tutorial?.active){settleReward(s,false,events);s.node=s.tutorial.chapter===1?1:3;s.selectedStage=null;s.battle=null;s.tutorial.step='recruit';enterNode(s,events);}
+ const elite=currentNode(s).type==='elite'||s.mode==='challenge',loot=s.tutorial?.active?{}:rollLoot(s,elite);s.phase='reward';s.lastReward={gold:reward+(elite?12:0),xp:10,pending:true,...loot,cardOffer:s.tutorial?.active?null:makeCardOffer(s,elite?'elite':'battle','travel')};emit(events,'victory',`전투 승리 · 보급품을 수령하거나 넘어갈 수 있습니다.`);if(s.tutorial?.active){settleReward(s,false,events);s.node=s.tutorial.chapter===1?1:3;s.selectedStage=null;s.battle=null;s.tutorial.step='recruit';enterNode(s,events);}
 }
 function attackBonus(s,id){const h=s.heroes[id],item=EQUIPMENT[h.equipment.weapon];let value=(h.level-1)*2+(item?.attack||0)+(h.buffs.firstAttack?(item?.firstAttack||0):0);value=Math.floor(value*armEffectRate(h));return value;}
 function pushUndo(s){
@@ -472,7 +476,7 @@ function endTurn(s,events){
   const blocked=Math.min(s.shield,it.damage||0);s.shield-=blocked;const taken=Math.max(0,(it.damage||0)-blocked);s.hp=Math.max(0,s.hp-taken);
   if(it.damage)emit(events,'enemyAttack',`${e.name} · ${it.name}: 피해 ${taken}`,{enemy:e.id,hero:it.target,amount:taken,blocked});
   if(blocked)for(const id of active(s)){const h=s.heroes[id];if(h.buffs.counterReady){h.buffs.counter=h.buffs.counterReady;delete h.buffs.counterReady;}}
-  if(it.stress&&(!it.damage||taken>0))stress(s,it.target,it.stress,events,it.tag);
+  const mental=(it.stress&&(!it.damage||taken>0)?it.stress:0)+Math.ceil(taken*STRESS_PER_DAMAGE);if(mental)stress(s,it.target,mental,events,it.tag);
   if(it.corrosion)b.corrosion=Math.max(b.corrosion,it.corrosion);
   if(taken>0&&injuryChance(s.heroes[it.target],!!it.injury)>0&&random(s)<injuryChance(s.heroes[it.target],!!it.injury))injury(s,it.target,null,events);
   if(it.summon&&livingEnemies(s).filter(x=>x.kind==='angler').length<2){const angler=makeEnemy(s,'angler',b.turn*10);b.enemies.push(angler);if(!s.collection.codex.includes('angler'))s.collection.codex.push('angler');emit(events,'summon','어둠의 낚시꾼이 나타납니다.');}
@@ -499,7 +503,7 @@ function selectStage(s,id,events){
  (s.journey??=[]).push({id:choice.id,name:choice.name,node:choice.node??s.node,mode:choice.mode,stage:choice.stage});s.journey=s.journey.slice(-30);s.battle=null;
  if(choice.type==='ending'){s.phase='ending';if(!s.collection.endings.includes('first-front'))s.collection.endings.push('first-front');s.claimedEnding=true;emit(events,'ending','첫 전선에 다시 바람이 흐릅니다.');return;}
  if(choice.mode==='challenge'){s.challengeStage=choice.stage;s.selectedStage=null;s.hp=Math.min(s.maxHp,s.hp+25);beginBattle(s,choice.enemies,events);return;}
- if(choice.id==='return-base'){returnFromFarm(s);saveCheckpoint(s,false);}else{s.mode=choice.mode;s.node=choice.node;s.selectedStage={...choice};enterNode(s,events);}
+ if(choice.id==='return-base'){returnFromFarm(s);saveCheckpoint(s,false);}else{s.mode=choice.mode;s.node=choice.node;if(choice.lane!==undefined)s.lane=choice.lane;s.selectedStage={...choice};enterNode(s,events);}
  emit(events,'travel',`${choice.name}에 도착했습니다.`);
 }
 function rewardAdvance(s,events){
@@ -517,8 +521,17 @@ function availableDiscoveries(s,owner){
  return DISCOVERIES[owner].filter(key=>!known.has(key));
 }
 function learnCard(s,owner,key){
- s.heroes[owner].acquired.push(key);
- return {owner,key,uid:owner+'-awaken-'+key};
+ const n=s.heroes[owner].acquired.filter(k=>k===key).length;s.heroes[owner].acquired.push(key);
+ return {owner,key,uid:owner+'-awaken-'+key+(n?'-'+(n+1):'')};
+}
+// v0.26: after a won battle the party is offered three cards (or may skip).
+export function makeCardOffer(s,source='battle',returnPhase='travel'){
+ const copies=(owner,key)=>ownedDeck(s,owner).filter(c=>c.key===key).length;
+ const pool=active(s).flatMap(owner=>(REWARD_POOL[owner]||[]).filter(key=>CARDS[key]&&copies(owner,key)<2).map(key=>({owner,key})));
+ const shuffled=shuffle(s,pool),picked=[],same=(a,b)=>a.owner===b.owner&&a.key===b.key;
+ for(const c of shuffled)if(picked.length<3&&!picked.some(x=>x.owner===c.owner))picked.push(c);
+ for(const c of shuffled)if(picked.length<3&&!picked.some(x=>same(x,c)))picked.push(c);
+ return picked.length?{id:`${source}-${s.node}-${s.rng}`,source,returnPhase,candidates:picked}:null;
 }
 function battleAwakening(s,owner,events){
  if(s.phase!=='battle'||s.tutorial?.active||s.battle.awakened||s.heroes[owner].breakdown)return;
@@ -545,12 +558,25 @@ export function makeUpgradeOffer(s,source='event',returnPhase='reward'){
 }
 function gearDrop(s,elite=false){const keys=Object.keys(EQUIPMENT).filter(key=>(EQUIPMENT[key].rarity==='elite')===elite);return choose(s,keys);}
 export function rollLoot(s,elite=false){return {elite,equipment:random(s)<(elite?LOOT_RULES.eliteEquipment:LOOT_RULES.normalEquipment)?[gearDrop(s,elite&&random(s)<LOOT_RULES.eliteRarity)]:[],upgradeOffer:random(s)<(elite?LOOT_RULES.eliteUpgrade:LOOT_RULES.normalUpgrade)?makeUpgradeOffer(s,elite?'elite':'loot','travel'):null};}
-function returnFromFarm(s){const loc=s.farmReturn||{node:7,mode:'route',selectedStage:null};s.mode=loc.mode;s.node=loc.node;s.selectedStage=loc.selectedStage;s.farmReturn=null;s.phase='base';s.battle=null;s.upgradeOffer=null;}
+function returnFromFarm(s){const loc=s.farmReturn||{node:7,mode:'route',selectedStage:null};s.mode=loc.mode;s.node=loc.node;if(loc.lane!==undefined)s.lane=loc.lane;s.selectedStage=loc.selectedStage;s.farmReturn=null;s.phase='base';s.battle=null;s.upgradeOffer=null;}
 function finishRecruit(s,events){s.recruitNotice=null;s.battle=null;if(s.tutorial?.active){s.selectedStage=null;if(s.party.length<3){s.node=2;beginBattle(s,['trainingSlime','trainingSlime'],events);}else{s.tutorial={...s.tutorial,active:false,completed:true,step:'complete'};s.node=7;enterNode(s,events);}}else{s.phase='reward';s.lastReward=null;}}
-function resolveEvent(s,id,events){const choice=s.eventOffer?.choices.find(c=>c.id===id);if(!choice)reject('사건의 선택지를 확인하세요.');const {benefit:b,cost}=choice;s.eventResult={title:s.eventOffer.name,choice:choice.label,benefit:clone(b),cost:clone(cost)};s.lastReward=null;s.phase='reward';s.eventOffer=null;
- s.hp=Math.max(0,s.hp-(cost.hp||0));if(cost.stress)for(const id of s.party)stress(s,id,cost.stress,events);if(cost.curse){const hero=choose(s,s.party);for(let i=0;i<cost.curse;i++)s.heroes[hero].curses.push({key:'curse_echo',uid:`curse-${s.rng}-${s.node}-${s.heroes[hero].curses.length}`});}
+function applyEventCost(s,cost,events){
+ s.hp=Math.max(0,s.hp-(cost.hp||0));if(cost.gold)s.gold=Math.max(0,s.gold-cost.gold);if(cost.stress)for(const id of s.party)stress(s,id,cost.stress,events);
+ if(cost.curse){const hero=choose(s,s.party);for(let i=0;i<cost.curse;i++)s.heroes[hero].curses.push({key:'curse_echo',uid:`curse-${s.rng}-${s.node}-${s.heroes[hero].curses.length}`});}
+ for(let i=0;i<(cost.injury||0);i++){const targets=active(s);if(targets.length)injury(s,choose(s,targets),null,events);}
+}
+function resolveEvent(s,id,events){const choice=s.eventOffer?.choices.find(c=>c.id===id);if(!choice)reject('사건의 선택지를 확인하세요.');if(!choice.dice&&!choice.mystery&&(choice.cost?.gold||0)>s.gold)reject('모라가 부족합니다.');
+ let b=choice.benefit,cost=choice.cost||{};const result={title:s.eventOffer.name,choice:choice.label,benefit:clone(b||{}),cost:clone(cost)};
+ if(choice.dice){const die=1+Math.floor(random(s)*20),bonus=(s.party.includes('jahoda')?2:0)+(choice.dice.hero&&s.party.includes(choice.dice.hero)?2:0),total=die+bonus,success=total>=choice.dice.dc;Object.assign(result,{die,roll:die,bonus,total,dc:choice.dice.dc,target:choice.dice.dc,success});if(!success){b={kind:'none'};cost={...cost,...(choice.fail||{})};result.benefit=clone(b);result.cost=clone(cost);}}
+ if(choice.mystery){const outcome=choose(s,choice.mystery);b=outcome.benefit;cost=outcome.cost||{};result.benefit=clone(b);result.cost=clone(cost);result.revealed=true;}
+ s.eventResult=result;s.lastReward=null;s.phase='reward';s.eventOffer=null;
+ applyEventCost(s,cost,events);
  if(b.kind==='gold')s.gold+=b.amount;if(b.kind==='equipment'){const key=b.item||gearDrop(s,!!b.elite);s.inventory.push(key);s.eventResult.item=key;}if(b.kind==='upgrade'){s.upgradeOffer=makeUpgradeOffer(s,'event','reward');if(s.upgradeOffer)s.phase='refine';else{s.gold+=15;s.eventResult.fallback='각성 가능한 카드가 없어 15모라를 받았습니다.';}}if(b.kind==='remove'){s.removalOffer={source:'event'};s.phase='eventRemove';}
- emit(events,'event',choice.label,{benefit:b,cost});if(s.hp<=0)defeat(s,events);
+ if(b.kind==='heal'){const n=Math.min(b.amount,s.maxHp-s.hp);s.hp+=n;s.eventResult.healed=n;}
+ if(b.kind==='calm')for(const id of s.party){const h=s.heroes[id];if(!h.breakdown)h.stress=Math.max(0,h.stress-b.amount);}
+ if(b.kind==='support')s.support=Math.min(6,s.support+b.amount);
+ if(b.kind==='card'){s.cardOffer=makeCardOffer(s,'event','reward');if(s.cardOffer)s.phase='cardReward';else{s.gold+=15;s.eventResult.fallback='고를 수 있는 카드가 없어 15모라를 받았습니다.';}}
+ emit(events,choice.dice?'dice':'event',choice.label,{benefit:b,cost,...(choice.dice?result:{})});if(s.hp<=0)defeat(s,events);
 }
 function perform(s,a,events){
  if(['arrival','joinDialogue'].includes(s.phase)&&!['ackRecruit','joinNext','skipJoinDialogue','newGame'].includes(a.type))reject('합류 대화를 마친 뒤 진행하세요.');if(s.careDialogue&&!['careNext','calm','cancelCare','newGame'].includes(a.type))reject('정신 안정 대화를 마치거나 닫아 주세요.');
@@ -563,7 +589,7 @@ function perform(s,a,events){
   case 'ackRecruit':if(s.phase==='arrival'&&s.recruitNotice?.flow==='story'){s.phase='joinDialogue';s.recruitNotice.line=0;break;}if(!s.recruitNotice)reject('확인할 지원 응답이 없습니다.');const hero=s.recruitNotice.hero;s.recruitNotice=null;if(s.checkpoint?.recruitNotice?.hero===hero)s.checkpoint.recruitNotice=null;break;
   case 'start':if(s.phase!=='title')reject('이미 시작한 원정입니다.');enterNode(s,events);break;
   case 'advance':rewardAdvance(s,events);break;
-  case 'claimReward':if(s.phase!=='reward')reject('받을 보상이 없습니다.');settleReward(s,!!a.skip,events);s.phase='travel';if(!a.skip&&s.lastReward?.upgradeOffer){s.upgradeOffer=clone(s.lastReward.upgradeOffer);s.upgradeOffer.returnPhase='travel';s.phase='refine';}break;
+  case 'claimReward':if(s.phase!=='reward')reject('받을 보상이 없습니다.');settleReward(s,!!a.skip,events);s.phase='travel';if(!a.skip&&s.lastReward?.cardOffer){s.cardOffer={...clone(s.lastReward.cardOffer),then:s.lastReward.upgradeOffer?'refine':'travel'};s.phase='cardReward';break;}if(!a.skip&&s.lastReward?.upgradeOffer){s.upgradeOffer=clone(s.lastReward.upgradeOffer);s.upgradeOffer.returnPhase='travel';s.phase='refine';}break;
   case 'travel':selectStage(s,a.id,events);break;
   case 'recruitDialogue':if(s.phase!=='recruit')reject('지금은 지원 요청 대화가 아닙니다.');s.recruitLine=Math.min(4,(s.recruitLine||0)+1);break;
   case 'recruit':{
@@ -579,9 +605,10 @@ function perform(s,a,events){
    s.phase='reward';break;
   }
   case 'camp':{
-   if(s.phase!=='camp'||!['rest','prepare'].includes(a.choice))reject('야영의 선택지를 확인하세요.');if((s.campActions||[]).includes(a.choice))reject('이번 야영에서 이미 선택한 행동입니다.');(s.campActions??=[]).push(a.choice);s.lastReward=null;
-   if(a.choice==='rest'){s.hp=Math.min(s.maxHp,s.hp+25);for(const id of s.party){const h=s.heroes[id];h.stress=Math.max(0,h.stress-25);}emit(events,'camp','따뜻한 불빛과 함께 체력과 정신을 추슬렀습니다.');}
-   else{s.support=Math.min(6,s.support+2);s.gold+=10;for(const id of s.party)s.heroes[id].stress=Math.max(0,s.heroes[id].stress-10);emit(events,'camp','장비를 점검하고 다음 전투의 지원을 준비했습니다.');}break;
+   if(s.phase!=='camp'||!['rest','prepare','calm'].includes(a.choice))reject('야영의 선택지를 확인하세요.');if((s.campActions||[]).length)reject('야영에서는 한 가지 행동만 고를 수 있습니다.');if(a.choice==='calm'&&(!s.party.includes(a.hero)||s.heroes[a.hero].retired))reject('함께 이야기할 동료를 고르세요.');(s.campActions??=[]).push(a.choice);s.lastReward=null;
+   if(a.choice==='rest'){s.hp=Math.min(s.maxHp,s.hp+25);for(const id of s.party){const h=s.heroes[id];h.stress=Math.max(0,h.stress-8);}emit(events,'camp','불빛 곁에서 몸을 쉬었습니다. 체력 +25 · 정신 부담 -8.');}
+   else if(a.choice==='calm'){const h=s.heroes[a.hero];h.stress=Math.max(0,h.stress-30);emit(events,'camp',`${HEROES[a.hero].name}와 밤새 이야기를 나눴습니다. 정신 부담 -30.`,{hero:a.hero});}
+   else{s.support=Math.min(6,s.support+2);s.gold+=10;for(const id of s.party)s.heroes[id].stress=Math.max(0,s.heroes[id].stress-4);emit(events,'camp','장비를 점검하고 다음 전투의 지원을 준비했습니다.');}break;
   }
   case 'play':{const owner=s.battle?.hand.find(c=>c.uid===a.uid)?.owner;play(s,a,events);if(owner)battleAwakening(s,owner,events);break;}
   case 'discard':{
@@ -594,6 +621,15 @@ function perform(s,a,events){
   case 'removeCard':{if(!['base','camp'].includes(s.phase))reject('상점에서 카드를 제거할 수 있습니다.');if(!s.party.includes(a.hero))reject('편성된 전투원을 선택하세요.');const deck=ownedDeck(s,a.hero),c=deck.find(c=>c.uid===a.uid);if(!c)reject('보유한 카드를 선택하세요.');if(deck.length<=3)reject('전투원마다 최소 3장의 카드를 유지해야 합니다.');const cost=removalCost(s);if(s.gold<cost)reject('모라가 부족합니다.');s.gold-=cost;(s.heroes[a.hero].removedCards??=[]).push(c.uid);s.removalCount=(s.removalCount||0)+1;saveCheckpoint(s);emit(events,'removeCard',`${CARDS[c.key].name} 한 장을 제거했습니다.`,{hero:a.hero,uid:c.uid,cost});break;}
   case 'upgrade':{
    const o=s.upgradeOffer;if(!o||!['base','camp','refine'].includes(s.phase)||!o.candidates.some(c=>c.owner===a.hero&&c.key===a.card)||!s.party.includes(a.hero)||!insightSpec(a.card,a.branch))reject('제시된 세 카드 중 하나를 선택하세요.');if(s.heroes[a.hero].upgrades[a.card])reject('이미 강화한 카드입니다.');if(availableDiscoveries(s,a.hero).includes(a.card))learnCard(s,a.hero,a.card);s.heroes[a.hero].upgrades[a.card]=a.branch;const picked=o.candidates.find(c=>c.owner===a.hero&&c.key===a.card);if(picked?.spark&&picked.sparkBranch===a.branch){(s.heroes[a.hero].sparks??={})[a.card]=picked.spark;emit(events,'spark',`${HEROES[a.hero].name} · ${CARDS[a.card].name} ${SPARK_EFFECTS[picked.spark].name}`,{hero:a.hero,card:a.card,spark:picked.spark});}s.upgradeOffer=null;if(s.phase==='refine')s.phase=o.returnPhase;saveCheckpoint(s);emit(events,'upgrade',`${CARDS[a.card].name} · 강화 ${a.branch}`,{hero:a.hero,card:a.card});break;
+  }
+  case 'pickCard':case 'skipCard':{
+   const o=s.cardOffer;if(s.phase!=='cardReward'||!o)reject('고를 카드 보상이 없습니다.');
+   if(a.type==='pickCard'){const c=o.candidates.find(c=>c.owner===a.hero&&c.key===a.card);if(!c||!s.party.includes(c.owner))reject('제시된 세 장 중 하나를 고르세요.');learnCard(s,c.owner,c.key);emit(events,'cardReward',`${HEROES[c.owner].name} · ${CARDS[c.key].name} 획득`,{hero:c.owner,card:c.key});}
+   else emit(events,'cardRewardSkipped','카드를 더하지 않고 덱을 유지합니다.');
+   s.cardOffer=null;
+   if(o.source==='event'){s.phase='reward';break;}
+   if(o.then==='refine'&&s.lastReward?.upgradeOffer){s.upgradeOffer=clone(s.lastReward.upgradeOffer);s.upgradeOffer.returnPhase='travel';s.phase='refine';}else s.phase='travel';
+   break;
   }
   case 'skipUpgrade':{if(!s.upgradeOffer)reject('남은 각성 기회가 없습니다.');const phase=s.upgradeOffer.returnPhase;s.upgradeOffer=null;if(s.phase==='refine')s.phase=phase;saveCheckpoint(s);break;}
   case 'eventRemoveCard':{if(s.phase!=='eventRemove'||!s.removalOffer)reject('제거할 기회가 없습니다.');if(!a.skip){const deck=s.party.includes(a.hero)&&ownedDeck(s,a.hero),c=deck&&deck.find(c=>c.uid===a.uid);if(!c||deck.length<=3)reject('최소 세 장을 남기고 제거하세요.');s.heroes[a.hero].removedCards.push(c.uid);emit(events,'removeCard',`${CARDS[c.key].name} 한 장을 제거했습니다.`,{hero:a.hero,uid:c.uid});}s.removalOffer=null;s.phase='reward';break;}
@@ -614,10 +650,10 @@ function perform(s,a,events){
    const d=s.careDialogue;if(!canCare(s,a.hero)||d?.hero!==a.hero||d.line<CARE_SCRIPT[a.hero].length-1)reject('선택한 파트너와 대화를 마쳐 주세요.');s.heroes[a.hero].stress=0;s.heroes[a.hero].breakdown=null;s.careUsed=true;s.careDialogue=null;saveCheckpoint(s);emit(events,'calm',`${HEROES[a.hero].partnerName}와 대화를 마쳤습니다. 붕괴 극복 · 정신 부담 0.`,{hero:a.hero});break;
   }
   case 'farm':{
-   if(s.phase!=='base')reject('거점에서 이전 지역으로 출발할 수 있습니다.');saveCheckpoint(s);s.farmReturn={node:s.node,mode:s.mode,selectedStage:clone(s.selectedStage||null)};s.upgradeOffer=null;s.mode='farm';s.selectedStage=null;s.lastReward=null;s.farmCount++;beginBattle(s,s.farmCount%2?['hound','wanderer']:['hunter','breacher'],events);break;
+   if(s.phase!=='base')reject('거점에서 이전 지역으로 출발할 수 있습니다.');saveCheckpoint(s);s.farmReturn={node:s.node,mode:s.mode,lane:s.lane??1,selectedStage:clone(s.selectedStage||null)};s.upgradeOffer=null;s.mode='farm';s.selectedStage=null;s.lastReward=null;s.farmCount++;beginBattle(s,s.farmCount%2?['hound','wanderer']:['hunter','breacher'],events);break;
   }
   case 'challenge':{
-   if(s.phase!=='base')reject('거점에서 도전 구간으로 출발할 수 있습니다.');if(s.node===7)s.mainFrontStarted=true;saveCheckpoint(s);s.upgradeOffer=null;if(s.node<ROUTE.length-1){s.mode='route';s.node++;s.selectedStage=null;enterNode(s,events);break;}s.mode='challenge';s.selectedStage=null;s.lastReward=null;s.challengeStage=0;beginBattle(s,['nightmare'],events);break;
+   if(s.phase!=='base')reject('거점에서 도전 구간으로 출발할 수 있습니다.');if(s.node===7)s.mainFrontStarted=true;saveCheckpoint(s);s.upgradeOffer=null;if(s.node<ROUTE.length-1){s.mode='route';s.selectedStage=null;s.lastReward=null;s.eventResult=null;s.phase='travel';emit(events,'travel','다음 지점을 지도에서 고르세요.');break;}s.mode='challenge';s.selectedStage=null;s.lastReward=null;s.challengeStage=0;beginBattle(s,['nightmare'],events);break;
   }
   case 'restart':{
    if(!['defeat','ending'].includes(s.phase))reject('전멸 또는 클리어 후 거점으로 돌아갈 수 있습니다.');const clearedThisCampaign=!!s.claimedEnding||s.phase==='ending',collection=clone(s.collection),retries=s.retries+(s.phase==='defeat'?1:0),checkpoint=clone(s.checkpoint);if(!checkpoint)reject('복원할 거점이 없습니다.');const restored=clone(checkpoint);for(const k of Object.keys(s))delete s[k];Object.assign(s,restored,{checkpoint,claimedEnding:clearedThisCampaign||!!restored.claimedEnding,retries,temporal:Math.min(2,Math.max(0,retries-1)),collection,history:[]});

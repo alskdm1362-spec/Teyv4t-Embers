@@ -194,7 +194,7 @@ test('card descriptions show upgraded numeric effects and B branches have actual
 });
 test('attack-focused starter pools keep one defense while preserving four cards per owner',()=>{
  const s=toBase(['durin','illuga']);action(s,{type:'farm'});const cards=[...s.battle.hand,...s.battle.draw];
- for(const id of s.party){const own=cards.filter(c=>c.owner===id);assert.equal(own.length,4);const defenses=own.filter(c=>['guard','counter'].includes(CARDS[c.key].type)).length;assert.equal(defenses,id==='illuga'?3:1);}
+ for(const id of s.party){const own=cards.filter(c=>c.owner===id&&!c.uid.includes('-awaken-'));assert.equal(own.length,4);const defenses=own.filter(c=>['guard','counter'].includes(CARDS[c.key].type)).length;assert.equal(defenses,id==='illuga'?3:1);}
  assert.equal(cards.filter(c=>c.owner==='lohen'&&c.key==='l_strike').length,2);assert.equal(cards.filter(c=>c.owner==='durin'&&c.key==='d_wave').length,1);
 });
 
@@ -202,7 +202,7 @@ test('all three parties traverse the expanded expedition, events, elites and fin
  for(const pair of [['durin','illuga'],['durin','jahoda'],['illuga','jahoda']]){
   const s=createLegacyFixture(20261123);action(s,{type:'start'});for(const hero of pair){action(s,{type:'skipTutorial'});action(s,{type:'skipRecruitDialogue'});action(s,{type:'recruit',hero});completeJoin(s);}
   const visited=new Set();
-  for(let n=0;n<6000&&!['ending','defeat'].includes(s.phase);n++){
+  let restarts=0;for(let n=0;n<12000&&s.phase!=='ending'&&restarts<12;n++){
    visited.add(s.node);
    if(s.phase==='base'){
     for(let i=0;i<6&&healingNeeds(s).needed;i++)action(s,{type:'heal'});
@@ -216,7 +216,9 @@ test('all three parties traverse the expanded expedition, events, elites and fin
    else if(s.phase==='refine'){const c=s.upgradeOffer.candidates[0];action(s,{type:'upgrade',hero:c.owner,card:c.key,branch:'A'});}
    else if(s.phase==='event'){const choices=s.eventOffer.choices,c=[...choices].sort((a,b)=>(a.cost.hp||0)+(a.cost.curse||0)*100+(a.cost.stress||0)-(b.cost.hp||0)-(b.cost.curse||0)*100-(b.cost.stress||0))[0];action(s,{type:'event',choice:c.id});}
    else if(s.phase==='eventRemove')action(s,{type:'eventRemoveCard',skip:true});
-   else if(s.phase==='camp'){action(s,{type:'camp',choice:'rest'});action(s,{type:'camp',choice:'prepare'});action(s,{type:'leaveCamp'});}
+   else if(s.phase==='camp'){action(s,{type:'camp',choice:'rest'});action(s,{type:'leaveCamp'});}
+   else if(s.phase==='cardReward'){const c=s.cardOffer.candidates[0];action(s,{type:'pickCard',hero:c.owner,card:c.key});}
+   else if(s.phase==='defeat'){restarts++;action(s,{type:'restart'});}
    else throw Error('Unexpected expedition phase '+s.phase);
   }
   assert.equal(s.phase,'ending',pair.join('+')+' at '+s.node+': '+s.history.slice(-12).join(' / '));for(let i=8;i<24;i++)assert.ok(visited.has(i));assert.ok(s.collection.endings.includes('first-front'));

@@ -1,4 +1,5 @@
 /* Stable, read-only travel choices. Main story gates cannot be skipped. */
+import {mapChoices,MAP_START} from './map.js';
 export function stageChoices(s,route){
  if(s.mode==='farm')return [{id:'return-base',type:'base',name:'생명의 거점',description:'부상을 유지한 채 귀환합니다. 회복은 불꽃에서 선택합니다.',node:7,mode:'route'}];
  if(s.mode==='challenge'){
@@ -6,6 +7,7 @@ export function stageChoices(s,route){
   if(stage>=3)return [{id:'front-ending',type:'ending',name:'남겨진 불씨',description:'확보한 전선의 기록을 남깁니다.',mode:'challenge',stage}];
   return [{id:'front-'+stage,type:'boss',name:['그윽한 균열','영역의 관측자','타락한 별의 파수'][stage],description:stage===1?'관측을 끊으며 영역 수호자를 돌파합니다.':'별을 파괴하고 파수꾼의 심판을 저지합니다.',mode:'challenge',stage,enemies:stage===1?['keeper']:['sentinel']}];
  }
+ if(s.node>=MAP_START-1&&s.node<route.length-1)return mapChoices(s,route);
  const node=Math.min(route.length-1,s.node+1),n=route[node],choices=[{...n,id:`route-${node}-a`,node,mode:'route'}];
  const alternatives={
   2:{type:'battle',name:'침묵한 감시로',description:'배회자 둘의 잔향을 끊으며 우회합니다.',enemies:['wanderer','wanderer']},
