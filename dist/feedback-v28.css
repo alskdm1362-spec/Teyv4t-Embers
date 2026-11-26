@@ -456,3 +456,24 @@ button.primary:hover:not(:disabled){filter:none;color:#fff3d6!important;box-shad
 .shop-showcase .shop-detail{align-self:center;max-height:100%;overflow:auto}
 .shop-v28[data-state="idle"] .shop-backdrop{height:86%;width:52%;top:2%}
 @media (max-height:500px) and (orientation:landscape){.showcase-capsule{width:84px}.shop-showcase{column-gap:10px}}
+
+/* ---------- v0.33 collapse cut-in: themed backdrop behind the cut-out art, graded title ---------- */
+.breakdown-scene{background:#000}
+.breakdown-scene .unframed-cutin[data-breakdown]{background:none}
+.breakdown-scene .unframed-cutin[data-breakdown] .cutin-art-window{z-index:1}
+.breakdown-scene .unframed-cutin[data-breakdown] .skill-copy{z-index:3}
+.breakdown-scene [data-breakdown] .cutin-art{filter:drop-shadow(0 0 2px var(--rim)) drop-shadow(0 0 26px var(--rim-soft)) contrast(1.04)}
+.breakdown-scene [data-breakdown="despair"]{--rim:#c9d0ff;--rim-soft:#6f72ff88;--ttl:#e9ecff;--ttl-glow:#6f72ff}
+.breakdown-scene [data-breakdown="panic"]{--rim:#f3c4ff;--rim-soft:#b452d688;--ttl:#ffd9fb;--ttl-glow:#b452d6}
+.breakdown-scene [data-breakdown="frenzy"]{--rim:#ffc9b8;--rim-soft:#ff2a2a88;--ttl:#ffe0d6;--ttl-glow:#ff2a2a}
+.breakdown-scene [data-breakdown="distrust"]{--rim:#c4ffe6;--rim-soft:#2fe0a088;--ttl:#dcfff0;--ttl-glow:#2fe0a0}
+.breakdown-scene [data-breakdown] .skill-copy{left:5%;bottom:9%}
+.breakdown-scene [data-breakdown] .skill-copy h2{color:var(--ttl);font-size:84px;letter-spacing:14px;transform:skew(-6deg);
+ text-shadow:0 0 2px #fff,0 0 18px var(--ttl-glow),0 0 42px var(--ttl-glow),3px 3px 0 #000a;animation:collapse-title .7s cubic-bezier(.2,.8,.2,1) both .15s}
+.breakdown-scene [data-breakdown] .skill-copy small{color:var(--rim);letter-spacing:.3em}
+.breakdown-scene [data-breakdown] .skill-copy p{color:#e8e6f0;text-shadow:0 1px 6px #000;max-width:30vw}
+.breakdown-scene [data-breakdown="despair"] .skill-copy h2{-webkit-mask-image:linear-gradient(115deg,#000 46%,#0006 47%,#000 49%,#000 72%,#0005 73%,#000 75%)}
+.breakdown-scene [data-breakdown="frenzy"] .skill-copy h2{animation:collapse-title .5s cubic-bezier(.2,.8,.2,1) both .1s,frenzy-shake .09s steps(2) infinite .6s}
+@keyframes collapse-title{from{opacity:0;transform:skew(-6deg) translateX(-30px);filter:blur(6px)}to{opacity:1;transform:skew(-6deg);filter:none}}
+@keyframes frenzy-shake{0%{translate:1px 0}50%{translate:-1px 1px}}
+@media (max-height:500px) and (orientation:landscape){.breakdown-scene [data-breakdown] .skill-copy h2{font-size:46px;letter-spacing:8px}}
