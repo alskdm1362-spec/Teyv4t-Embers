@@ -368,3 +368,50 @@ button.primary:hover:not(:disabled){filter:none;color:#fff3d6!important;box-shad
 .shop-v28 .removal-gallery{justify-content:flex-start!important;gap:12px!important}
 #overlay .raid-v28 .raid-panel>header{display:block;text-align:left}#overlay .raid-v28 .raid-panel>header h2{text-align:left}
 .shop-shelf{mask-image:linear-gradient(90deg,#000 86%,transparent)}
+
+/* ---------- 10. v0.30 battle sprites (pose canvases, feet at bottom centre) ---------- */
+.in-battle .fighter .sprite{image-rendering:auto;scale:var(--sprite-scale,1);transform-origin:50% 100%;pointer-events:none}
+.in-battle .fighter.collapsed .sprite{scale:var(--collapse-scale,1)}
+.in-battle .enemy .sprite{image-rendering:auto}
+
+/* v0.30 monsters: painted art (not pixel sprites) sized per creature with --es. The feet stay
+   on the same line; large creatures grow upward behind the name plate. */
+.in-battle .enemy[data-look]{--enemy-h:172px;--enemy-w:210px}
+.in-battle .enemy[data-look] .sprite{position:relative;z-index:0;width:calc(var(--enemy-w) * var(--es,1));height:calc(var(--enemy-h) * var(--es,1));max-width:none;
+ margin:calc(64px + var(--enemy-h) * (1 - var(--es,1))) calc(var(--enemy-w) * (1 - var(--es,1)) / 2 - 6px) 0;object-fit:contain;object-position:center bottom;image-rendering:auto;opacity:1;
+ filter:drop-shadow(0 10px 10px #000a) drop-shadow(0 0 14px #a96caa30)}
+.in-battle .enemy[data-realm="celestial"] .sprite{filter:drop-shadow(0 10px 10px #000a) drop-shadow(0 0 16px #f3dfa640)}
+.in-battle .enemy[data-look] .enemy-head{position:relative;z-index:2}
+.in-battle .enemy.enemy-hit[data-look] .sprite{filter:brightness(1.9) drop-shadow(0 0 12px #b4faff)!important}
+@media (max-height:500px) and (orientation:landscape){.in-battle .enemy[data-look]{--enemy-h:124px;--enemy-w:150px}.in-battle .enemy[data-look] .sprite{margin-top:calc(54px + var(--enemy-h) * (1 - var(--es,1)))}}
+/* Codex enemy grid with names */
+.modern-surface .enemy-archive-grid{display:grid!important;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.modern-surface .enemy-archive-grid>button{display:flex;flex-direction:column;align-items:center;gap:2px;height:auto;min-height:0;padding:10px 8px!important;
+ background:radial-gradient(ellipse at 50% 40%,#a96caa2e,transparent 65%),#0a1119d9!important}
+.modern-surface .enemy-archive-grid>button[data-realm="celestial"]{background:radial-gradient(ellipse at 50% 40%,#f3dfa62a,transparent 65%),#0a1119d9!important}
+.modern-surface .enemy-archive-grid img{width:100%;height:120px;object-fit:contain;image-rendering:auto}
+.modern-surface .enemy-archive-grid span{font-size:13px;color:var(--ui-ink);text-align:center}
+.modern-surface .enemy-archive-grid small{font-size:10.5px;color:var(--ui-ink-dim)}
+.enemy-guide-art img{image-rendering:auto!important;object-fit:contain}
+.enemy-guide .enemy-note{color:var(--ui-gold);font-size:.95em}
+/* v0.30 shop: the party list opens only after an item is picked */
+.shop-pick-hint{display:flex;align-items:center;gap:16px;margin-top:auto;padding:18px 22px;border:1px dashed var(--ui-line-dim);clip-path:var(--ui-clip-s);background:#05080ebf}
+.shop-pick-hint strong{font-size:16px;color:var(--ui-ink)}.shop-pick-hint p{margin:4px 0 0;font-size:13px;color:var(--ui-ink-dim)}
+.shop-idle{flex:1;justify-content:flex-end}
+.shop-party-open{animation:shop-open .28s cubic-bezier(.2,.8,.2,1) both}
+.shop-party-open>h4{margin:2px 0 2px;font-size:12px;font-weight:500;letter-spacing:.2em;color:var(--ui-gold)}
+.shop-party-open>.shop-hero{animation:shop-open .3s cubic-bezier(.2,.8,.2,1) both}
+.shop-party-open>.shop-hero:nth-of-type(2){animation-delay:50ms}.shop-party-open>.shop-hero:nth-of-type(3){animation-delay:100ms}
+@keyframes shop-open{from{opacity:0;transform:translateX(18px)}to{opacity:1;transform:none}}
+@media (max-height:500px) and (orientation:landscape){.shop-pick-hint{padding:8px 12px}.shop-pick-hint p{font-size:11px}.shop-party-open>h4{display:none}}
+/* v0.30 awakening preview inside the card viewer: same spread as 고유 카드 */
+.file-view.is-branch>h2 .file-branch-count{margin-left:auto;padding-right:1.2vw;font-size:.6em;color:var(--ui-ink-dim);letter-spacing:.1em}
+.file-branch-origin{display:flex!important;flex-direction:column;align-items:center;gap:.6vh;opacity:.78}
+.file-branch-origin>small{font-size:clamp(10px,.9vw,16px);color:var(--ui-ink-dim);letter-spacing:.14em}
+.file-terms>.file-branch-effect{border-left-color:var(--ui-gold)!important;background:linear-gradient(100deg,#2a2214f0,#0a1119e6)!important}
+.file-branch-effect p{white-space:pre-line}
+.file-branch-cost{margin-top:.6vh!important;color:var(--ui-teal)!important;font-size:.92em}
+.file-view.is-variants>h2{left:6.5%;right:7%;top:7%;height:11.5%;justify-content:flex-start;padding:0 4vw 1vh;background:linear-gradient(90deg,color-mix(in srgb,var(--accent) 22%,transparent),transparent 45%)}
+.file-view.is-variants>h2:after{left:0;width:14%}
+.file-variants>div>strong{display:block!important;text-align:center;margin-top:.8vh;font-size:clamp(12px,1.1vw,20px);color:var(--ui-gold);letter-spacing:.06em;visibility:visible!important;opacity:1!important}
+#overlay .modern-surface .enemy-archive-grid{grid-auto-rows:max-content!important;grid-template-rows:none!important;height:auto!important;flex:1;min-height:0;max-height:none!important;overflow:auto;align-content:start;scrollbar-width:thin}#overlay .modern-surface .enemy-archive-grid>button{height:auto!important;aspect-ratio:auto!important}
