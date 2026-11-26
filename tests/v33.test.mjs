@@ -23,3 +23,9 @@ test('each breakdown has a themed backdrop; despair glass cracks into a closed s
  for(const s of n.shards){assert.ok(s.poly.length>=3);assert.ok(s.d>=0&&s.d<=1.2);}
  assert.ok(dist('app.js').includes("collapseScene(shade.querySelector('.unframed-cutin')"));for(const t of ['despair','panic','frenzy','distrust'])assert.ok(COLLAPSE_THEMES[t],t);
 });
+
+test('v0.34: collapse cards glow in CSS, sprites share one scale everywhere, dash divides out the sprite scale',()=>{
+ const css=dist('feedback-v28.css');assert.ok(css.includes('.card-frame.broken:after{inset:0;'));assert.ok(css.includes('.fighter .sprite{scale:var(--sprite-scale,1)'));
+ const atm=dist('supplied-vfx.js');assert.ok(!atm.includes('cardOminousAura(c'));assert.ok(atm.includes('if(now-this.last<40)'));
+ assert.ok(dist('motion.js').includes('dx=Math.max(36,(b.x-a.x)/sc-78)/k'));assert.ok(dist('battle-vfx.js').includes('function flameSprite('));
+});

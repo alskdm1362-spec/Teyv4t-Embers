@@ -68,7 +68,8 @@ export class BattleMotion{
     const firstEnemy=$(`[data-enemy="${hits[0].enemy}"]`),sc=parseFloat($('#game')?.style.getPropertyValue('--scale'))||1;
     if(firstEnemy){
      const a=center(source),b=center(this.unit(firstEnemy));
-     const dx=Math.max(36,(b.x-a.x)/sc-78),dy=(b.y-a.y)/sc;
+     // the sprite carries a CSS scale (pose canvases); transform translate is applied inside it, so divide it out
+     const k=(()=>{try{return parseFloat(getComputedStyle(source).scale)||1;}catch{return 1;}})(),dx=Math.max(36,(b.x-a.x)/sc-78)/k,dy=(b.y-a.y)/sc/k;
      dashDist={dx,dy};
      actor.classList.add('melee-dashing');
      dashHold=await this.animate(source,[{transform:'translate(0,0) scale(1)'},{transform:`translate(${dx}px,${dy}px) scale(1.06)`}],165,{easing:'cubic-bezier(.15,.85,.25,1)',retain:true});sortSceneDepth();
