@@ -1,5 +1,7 @@
 import {STARTERS,DISCOVERIES,NEW_CARDS,REWARD_POOL} from './awakening.js';
 import {ensureMap,depthScale} from './map.js';
+import {SAVE_SLOTS,makeSaveEntry,applySaveEntry} from './savedata.js';
+export {SAVE_SLOTS,SAVE_OUTCOMES,saveValue} from './savedata.js';
 /* Teyvat: Oath of Embers — fan-game rules, independent of rendering. */
 import {INSIGHTS,INSIGHT_BRANCHES,insightSpec,compatibleSparkIds,effectDescription} from './card-insights.js';
 export {INSIGHTS,INSIGHT_BRANCHES} from './card-insights.js';
@@ -29,7 +31,7 @@ export const SPARK_EFFECTS = {
  ember_mercy:{id:'ember_mercy',name:'잔불 각성 · 온기',badge:'✦ 각성',desc:'사용 시 공용 체력 3 회복 (전투원당 턴당 1회)'},
 };
 export const BRANCH_A_SPECS=Object.fromEntries(Object.entries(INSIGHTS).map(([key,v])=>[key,{title:v.A.title,...v.A.effects,bonusText:effectDescription(v.A.effects)}]));
-export const RAID_AVAILABLE=false;
+export const RAID_AVAILABLE=true;
 export const RAID_BOSS_DEFAULT = {
  bossKind:'nightmare',
  bossName:'천상의 왕좌 · 메타트론',
@@ -145,14 +147,14 @@ export function hydrate(json){
  return s;
 }
 function normalizeSave(s){
- s.version=3;ensureMap(s,ROUTE);s.inventory??=[];s.baseId??='route-7';s.careUsed??=false;s.upgradeOffer??=null;s.careDialogue??=null;
+ s.version=3;ensureMap(s,ROUTE);s.runActive??=true;s.inventory??=[];s.baseId??='route-7';s.careUsed??=false;s.upgradeOffer??=null;s.careDialogue??=null;
  const equipped=Object.values(s.heroes).flatMap(h=>Object.values(h.equipment||{})).filter(Boolean);for(const key of new Set(equipped)){while(s.inventory.filter(x=>x===key).length<equipped.filter(x=>x===key).length)s.inventory.push(key);}
  s.mainFrontStarted??=s.node>7||s.battlesWon>2;
  s.removalCount=Math.max(0,s.removalCount||0);s.tutorial??={active:false,completed:true,chapter:2,step:'complete'};if(s.tutorial.step==='partner-intro')s.tutorial.step='partner-select';
  for(const h of Object.values(s.heroes)){h.body={...Object.fromEntries(PARTS.map(p=>[p,0])),...h.body};if(!h.acquired){h.legacyLoadout=true;h.acquired=[];}h.removedCards??=[];h.curses??=[];}
  if(s.battle)for(const zone of ['hand','draw','discard','exhaust'])for(const c of s.battle[zone]||[])bindBlind(s,c,false);
  if(s.checkpoint)normalizeSave(s.checkpoint);
- s.collection??={unlocked:['lohen'],codex:[],cutins:[],endings:[],records:[],raid:{bossKind:'nightmare',bossName:'천상의 왕좌 · 메타트론',bossMaxHp:240,totalDamage:0,clears:0,recordStats:{}}};s.collection.records??=[];s.collection.raid??={bossKind:'nightmare',bossName:'천상의 왕좌 · 메타트론',bossMaxHp:240,totalDamage:0,clears:0,recordStats:{}};s.collection.raid.bossName=RAID_BOSS_DEFAULT.bossName;s.collection.raid.recordStats??={};for(const h of Object.values(s.heroes||{}))h.sparks??={};
+ s.collection??={unlocked:['lohen'],codex:[],cutins:[],endings:[],records:[],raid:{bossKind:'nightmare',bossName:'천상의 왕좌 · 메타트론',bossMaxHp:240,totalDamage:0,clears:0,recordStats:{}}};s.collection.records??=[];s.collection.raid??={bossKind:'nightmare',bossName:'천상의 왕좌 · 메타트론',bossMaxHp:240,totalDamage:0,clears:0,recordStats:{}};s.collection.raid.bossName=RAID_BOSS_DEFAULT.bossName;s.collection.raid.recordStats??={};s.collection.saveData??={};for(const id of Object.keys(HEROES))s.collection.saveData[id]??=[];for(const h of Object.values(s.heroes||{}))h.sparks??={};
 }
 export function ownedDeck(s,owner){return [...(s.heroes[owner].legacyLoadout?LEGACY_STARTERS:STARTERS)[owner].map((key,index)=>({owner,key,uid:`${owner}-${key}-${index}`})),...(s.heroes[owner].acquired||[]).map((key,i,all)=>{const n=all.slice(0,i).filter(k=>k===key).length;return {owner,key,uid:owner+"-awaken-"+key+(n?'-'+(n+1):'')};}),...(s.heroes[owner].curses||[]).map(c=>({...c,owner}))].filter(c=>!(s.heroes[owner].removedCards||[]).includes(c.uid));}
 export function removalCost(s){return 25+15*(s.removalCount||0);}
@@ -192,8 +194,17 @@ function saveCheckpoint(s,isNew=false){if(s.phase!=='base')return;if(isNew){s.re
 function makeCard(s,owner,key,index){return {uid:`${owner}-${key}-${index}`,owner,key};}
 function draw(s,n,events=[]){const b=s.battle;for(let i=0;i<n&&b.hand.length<10;i++){
  if(!b.draw.length&&b.discard.length){const count=b.discard.length;b.draw=shuffle(s,b.discard.splice(0));emit(events,'shuffle','버린 카드를 다시 섞습니다.',{count});}
- if(!b.draw.length)break;const c=b.draw.pop();bindBlind(s,c,true);b.hand.push(c);emit(events,'draw',`${HEROES[c.owner].name}의 카드를 뽑았습니다.`,{uid:c.uid,hero:c.owner});
+ if(!b.draw.length)break;const c=b.draw.pop();bindBlind(s,c,true);b.hand.push(c);rollEpiphany(s,c);emit(events,'draw',`${HEROES[c.owner].name}의 카드를 뽑았습니다.`,{uid:c.uid,hero:c.owner});
 }}
+// v0.27 Epiphany: a drawn card may glow. Played while glowing it costs 0 AP and then offers
+// three of its four tactical awakenings to choose from (previewed), sometimes with an ember spark.
+export const EPIPHANY_CHANCE=.1,EPIPHANY_PER_BATTLE=2;
+function rollEpiphany(s,c){const b=s.battle;if(!b||s.tutorial?.active||s.mode==='raid'||c.epiphany)return;if((b.epiphanies||0)>=EPIPHANY_PER_BATTLE)return;const h=s.heroes[c.owner],d=CARDS[c.key];
+ if(!h||!INSIGHTS[c.key]||h.upgrades[c.key]||d?.generated||d?.debuff||h.breakdown||(h.body.eyes||0)>=3)return;if(b.hand.some(x=>x!==c&&x.epiphany&&x.owner===c.owner&&x.key===c.key))return;
+ if(random(s)<EPIPHANY_CHANCE){c.epiphany=true;b.epiphanies=(b.epiphanies||0)+1;}}
+export function makeEpiphanyOffer(s,owner,key){const branches=shuffle(s,[...INSIGHT_BRANCHES]).slice(0,3).sort();let spark=null,sparkBranch=null;
+ if(random(s)<(s.party.includes('durin')?.25:.1)){sparkBranch=choose(s,branches);const form={...CARDS[key],...insightSpec(key,sparkBranch)},pool=compatibleSparkIds(form);spark=choose(s,pool);}
+ return {owner,key,branches,spark,sparkBranch};}
 function danger(h){const f=h.breakdown?.failures||0;return f>=7?3:f>=4?2:1;}
 function recoveryChance(h){return h.breakdown.failures>=10?1:.15+Math.min(.15,h.breakdown.failures*.015);}
 export function cardInfo(s,c){
@@ -214,7 +225,7 @@ export function cardInfo(s,c){
  const text={tactic:'특수 지원.',attack:`적 ${form.target==='all'?'전체':'하나'}에게 피해 ${amount}.`,guard:`공용 보호막 ${amount}.`,counter:`공용 보호막 ${amount}.`,focus:`이번 턴 다음 ${HEROES[c.owner].name} 공격 피해 +${amount}.`,cover:`${effects.coverAll?'아군 전체':'선택한 동료'}가 다음에 받을 정신력 피해 ${amount} 감소.`,draw:`${amount}장 뽑${form.discard===0?'는다.':'고 1장을 골라 버린다.'}`,energy:`행동력 ${amount} 회복.`};
  const described={...effects};delete described.extraPierce;const pressure=Math.floor((form.pierce||0)*rate)+(effects.extraPierce||0);let desc=(text[form.type]||form.desc)+(pressure?` 장막 추가 압박 ${pressure}.`:'')+' '+effectDescription(described);if(form.exhaust)desc+=' 소멸.';
  if(spec)desc+=` [${spec.title}]`;if(sparkInfo)desc+=` [${sparkInfo.badge}: ${sparkInfo.desc}]`;
- const actual={...form,amount,cost,desc:desc.trim(),effects,upgraded:!!branch,branch,spark:sparkId,sparkName:sparkInfo?.name||null,effectiveKey,injuryRate:rate,blurred:h.body.eyes===2};return blind?{...actual,name:'실명',desc:'??',displayCost:'?',upgraded:false,blind:true,target:'none',type:'blind',actual}:actual;
+ const actual={...form,amount,cost:c.epiphany&&!blind?0:cost,baseCost:cost,epiphany:!!c.epiphany&&!blind,desc:desc.trim(),effects,upgraded:!!branch,branch,spark:sparkId,sparkName:sparkInfo?.name||null,effectiveKey,injuryRate:rate,blurred:h.body.eyes===2};return blind?{...actual,name:'실명',desc:'??',displayCost:'?',upgraded:false,blind:true,target:'none',type:'blind',actual}:actual;
 }
 function makeEnemy(s,kind,index){const d=ENEMIES[kind],hp=Math.round(d.hp*depthScale(s).hp)+Math.max(0,s.temporal)*3;return {id:`${kind}-${index}`,kind,name:d.name,hp,maxHp:hp,ward:d.ward||0,hitWard:d.hits||0,turn:0,stun:0,vulnerable:0,observed:null,observedCount:0,echo:false,intent:null};}
 function plans(s){
@@ -307,14 +318,19 @@ function settleRaid(s,events,reason='turnLimit'){
  if(bossDefeated&&!raid.clearedThisCycle){raid.clears=(raid.clears||0)+1;raid.clearedThisCycle=true;}
  const rec=(s.collection.records||[]).find(r=>r.id===run.recordId);
  s.lastRaidResult={
-  recordId:run.recordId,label:rec?.label||'원정 기록',reason,
+  recordId:run.recordId,label:run.label||rec?.label||'원정 기록',reason,
   damageDealt:run.damageDealt||0,prevBest,newBest:st.bestDamage,improved:st.bestDamage>prevBest,
   triesUsed:st.triesUsed,maxTries:st.maxTries||3,
   totalDamage:raid.totalDamage,bossMaxHp:raid.bossMaxHp,bossDefeated,
  };
- s.raidRun=null;s.battle=null;s.mode='route';s.phase='lobby';
+ s.raidRun=null;s.battle=null;s.mode='route';s.phase='lobby';restoreRaidStash(s);
  emit(events,bossDefeated?'raidClear':'raidEnd',bossDefeated?`보스 레이드 토벌 완료! 누적 피해 ${raid.totalDamage} / ${raid.bossMaxHp}`:`레이드 트라이 종료 · 이번 피해 ${run.damageDealt} (최고 ${st.bestDamage})`,s.lastRaidResult);
 }
+// The raid borrows the run's hero slots; everything outside the collection is stashed and restored.
+function stashRun(s){const keep=new Set(['collection','raidStash']);s.raidStash=clone(Object.fromEntries(Object.entries(s).filter(([k])=>!keep.has(k))));}
+function restoreRaidStash(s){const stash=s.raidStash;if(!stash)return;const collection=s.collection,result=s.lastRaidResult;for(const k of Object.keys(s))delete s[k];Object.assign(s,stash,{collection,lastRaidResult:result,phase:'lobby'});}
+function freshRun(s,{tutorial=false}={}){const collection=s.collection,next=createGame(Date.now()^s.rng,{tutorial});for(const k of Object.keys(s))delete s[k];Object.assign(s,next,{collection});s.checkpoint=snapshot(s);}
+export function saveEntries(s,hero){return s.collection.saveData?.[hero]||[];}
 function defeat(s,events){if(s.mode==='raid'&&s.raidRun){settleRaid(s,events,'defeat');return;}s.phase='defeat';emit(events,'defeat','더는 전선을 유지할 수 없습니다. 시간의 흐름이 흔들립니다.');}
 function damageEnemy(s,e,amount,owner,events,extraWard=0){
  if(!e||e.hp<=0)return;let value=Math.max(0,Math.round(amount*(e.vulnerable?1.25:1)));
@@ -416,6 +432,8 @@ function play(s,a,events){
   applyCardExtras(s,c,info,events);
 
  }
+ // The UI opens the choice at once; engine callers may resolve it later. One offer is pending at a time.
+ if(c.epiphany&&!info.breakdown&&!view.blind&&!s.epiphanyOffer){delete c.epiphany;if(!s.heroes[c.owner].upgrades[key]){s.epiphanyOffer=makeEpiphanyOffer(s,c.owner,key);emit(events,'epiphany',`${HEROES[c.owner].name} · ${CARDS[key].name} 번뜩임`,{hero:c.owner,card:key});}}
  if(s.tutorial?.active){if(s.tutorial.step==='attack-use')s.tutorial.step='defense-select';else if(s.tutorial.step==='defense-use')s.tutorial.step='end-turn';}
  if(b.spent>=3&&!b.supportCharged){s.support=Math.min(6,s.support+1);b.supportCharged=true;}
  if(s.hp<=0)defeat(s,events);else{plans(s);checkVictory(s,events);}
@@ -622,6 +640,12 @@ function perform(s,a,events){
   case 'upgrade':{
    const o=s.upgradeOffer;if(!o||!['base','camp','refine'].includes(s.phase)||!o.candidates.some(c=>c.owner===a.hero&&c.key===a.card)||!s.party.includes(a.hero)||!insightSpec(a.card,a.branch))reject('제시된 세 카드 중 하나를 선택하세요.');if(s.heroes[a.hero].upgrades[a.card])reject('이미 강화한 카드입니다.');if(availableDiscoveries(s,a.hero).includes(a.card))learnCard(s,a.hero,a.card);s.heroes[a.hero].upgrades[a.card]=a.branch;const picked=o.candidates.find(c=>c.owner===a.hero&&c.key===a.card);if(picked?.spark&&picked.sparkBranch===a.branch){(s.heroes[a.hero].sparks??={})[a.card]=picked.spark;emit(events,'spark',`${HEROES[a.hero].name} · ${CARDS[a.card].name} ${SPARK_EFFECTS[picked.spark].name}`,{hero:a.hero,card:a.card,spark:picked.spark});}s.upgradeOffer=null;if(s.phase==='refine')s.phase=o.returnPhase;saveCheckpoint(s);emit(events,'upgrade',`${CARDS[a.card].name} · 강화 ${a.branch}`,{hero:a.hero,card:a.card});break;
   }
+  case 'epiphany':case 'skipEpiphany':{
+   const o=s.epiphanyOffer;if(!o)reject('정할 번뜩임이 없습니다.');
+   if(a.type==='epiphany'){if(!o.branches.includes(a.branch))reject('제시된 방향 중 하나를 고르세요.');const h=s.heroes[o.owner];h.upgrades[o.key]=a.branch;if(o.spark&&o.sparkBranch===a.branch){(h.sparks??={})[o.key]=o.spark;emit(events,'spark',`${HEROES[o.owner].name} · ${CARDS[o.key].name} ${SPARK_EFFECTS[o.spark].name}`,{hero:o.owner,card:o.key,spark:o.spark});}emit(events,'upgrade',`${CARDS[o.key].name} · 번뜩임 ${INSIGHTS[o.key][a.branch].title}`,{hero:o.owner,card:o.key});}
+   else emit(events,'epiphanySkipped','번뜩임을 흘려보냈습니다.');
+   s.epiphanyOffer=null;break;
+  }
   case 'pickCard':case 'skipCard':{
    const o=s.cardOffer;if(s.phase!=='cardReward'||!o)reject('고를 카드 보상이 없습니다.');
    if(a.type==='pickCard'){const c=o.candidates.find(c=>c.owner===a.hero&&c.key===a.card);if(!c||!s.party.includes(c.owner))reject('제시된 세 장 중 하나를 고르세요.');learnCard(s,c.owner,c.key);emit(events,'cardReward',`${HEROES[c.owner].name} · ${CARDS[c.key].name} 획득`,{hero:c.owner,card:c.key});}
@@ -708,12 +732,41 @@ function perform(s,a,events){
    emit(events,'recordChallenge',`원정 기록으로 보스 방어전에 돌입합니다: ${rec.label}`,{id:rec.id});break;
   }
   case 'returnToLobby':{
+   if(['lobby','saveData'].includes(s.phase))reject('이미 로비입니다.');if(s.mode==='raid')reject('레이드 중에는 로비로 돌아갈 수 없습니다.');
    if(s.phase==='base'){saveCheckpoint(s);s.savedExpedition=true;}
-   s.battle=null;s.phase='lobby';
+   // v0.27: the lobby sits outside the run; leaving mid-stage keeps the exact screen to resume.
+   s.resumePhase=['base','title'].includes(s.phase)?null:s.phase;s.phase='lobby';
    emit(events,'lobby','메인 로비로 귀환했습니다.');break;
   }
+  case 'finishExpedition':{
+   if(!s.runActive||!['ending','defeat','base','lobby'].includes(s.phase))reject('거점, 원정 완료 또는 전멸 화면에서 원정을 끝낼 수 있습니다.');if(s.tutorial?.active)reject('튜토리얼을 마친 뒤 원정을 끝낼 수 있습니다.');
+   const outcome=s.phase==='ending'||s.claimedEnding?'clear':s.phase==='defeat'?'defeat':'retreat';
+   s.pendingSave={outcome,entries:s.party.map(hero=>({hero,entry:makeSaveEntry(s,hero,outcome,{cards:CARDS,equipment:EQUIPMENT,ownedDeck}),decision:null,replace:null}))};
+   s.phase='saveData';emit(events,'saveData','원정을 마칩니다. 전투원별 세이브 데이터를 기록하세요.');break;
+  }
+  case 'keepSaveData':case 'dropSaveData':{
+   const p=s.pendingSave;if(s.phase!=='saveData'||!p)reject('기록할 세이브 데이터가 없습니다.');const item=p.entries.find(x=>x.hero===a.hero);if(!item)reject('원정에 참여한 전투원을 고르세요.');
+   if(a.type==='dropSaveData'){item.decision='drop';item.replace=null;break;}
+   const slots=saveEntries(s,a.hero);if(slots.length>=SAVE_SLOTS&&!slots.some(x=>x.id===a.replace))reject(`세이브 데이터는 전투원당 ${SAVE_SLOTS}개까지입니다. 교체할 기록을 고르세요.`);
+   item.decision='keep';item.replace=slots.length>=SAVE_SLOTS?a.replace:null;break;
+  }
+  case 'closeExpedition':{
+   const p=s.pendingSave;if(s.phase!=='saveData'||!p)reject('끝낼 원정이 없습니다.');if(p.entries.some(x=>!x.decision))reject('모든 전투원의 세이브 데이터를 기록하거나 버려 주세요.');
+   for(const x of p.entries){if(x.decision!=='keep')continue;const list=s.collection.saveData[x.hero]??=[];if(x.replace){const i=list.findIndex(e=>e.id===x.replace);if(i>=0)list.splice(i,1);}list.unshift(x.entry);}
+   const kept=p.entries.filter(x=>x.decision==='keep').length;s.collection.tutorialDone=true;
+   freshRun(s,{tutorial:false});s.runActive=false;s.phase='lobby';s.checkpoint=null;
+   emit(events,'saveDataStored',kept?`세이브 데이터 ${kept}개를 기록했습니다.`:'세이브 데이터를 남기지 않고 원정을 마쳤습니다.',{kept});break;
+  }
+  case 'deleteSaveData':{
+   if(s.phase!=='lobby')reject('로비에서 세이브 데이터를 정리할 수 있습니다.');const list=saveEntries(s,a.hero),i=list.findIndex(e=>e.id===a.id);if(i<0)reject('세이브 데이터를 찾을 수 없습니다.');list.splice(i,1);emit(events,'saveDataDeleted','세이브 데이터를 삭제했습니다.');break;
+  }
+  case 'newExpedition':{
+   if(s.phase!=='lobby')reject('로비에서 새 원정을 시작할 수 있습니다.');if(s.runActive)reject('진행 중인 원정이 있습니다. 이어하거나 먼저 끝내 주세요.');
+   freshRun(s,{tutorial:!s.collection.tutorialDone});s.runActive=true;enterNode(s,events);emit(events,'newExpedition','새 원정을 시작합니다.');break;
+  }
   case 'resumeExpedition':{
-   if(s.phase!=='lobby')reject('로비에서 원정으로 출발할 수 있습니다.');
+   if(s.phase!=='lobby')reject('로비에서 원정으로 출발할 수 있습니다.');if(!s.runActive)reject('진행 중인 원정이 없습니다. 새 원정을 시작하세요.');
+   if(s.resumePhase){s.phase=s.resumePhase;s.resumePhase=null;emit(events,'resume','원정으로 돌아왔습니다.');break;}
    if(s.savedExpedition||s.checkpoint){
     s.savedExpedition=false;s.mode='route';s.phase='base';s.battle=null;
     emit(events,'base','임시저장된 거점으로 복귀했습니다.');
@@ -723,24 +776,21 @@ function perform(s,a,events){
    break;
   }
   case 'startRaid':{
-   if(!RAID_AVAILABLE)reject('보스 레이드는 구현 중입니다.');
-   const rec=(s.collection.records||[]).find(r=>r.id===a.id);
-   if(!rec)reject('사용할 세이브 데이터(원정 기록)를 선택하세요.');
+   if(!RAID_AVAILABLE)reject('보스 레이드는 구현 중입니다.');if(s.phase!=='lobby')reject('로비에서 레이드에 출격할 수 있습니다.');
+   // v0.27: a raid team is one to three combatants' Save Data, each from a different combatant.
+   const ids=[...new Set(a.saves||[])],picked=ids.map(id=>Object.values(s.collection.saveData||{}).flat().find(e=>e.id===id)).filter(Boolean);
+   if(!picked.length||picked.length!==ids.length||picked.length>3)reject('출격할 세이브 데이터를 1~3개 고르세요.');if(new Set(picked.map(e=>e.hero)).size!==picked.length)reject('한 전투원의 세이브 데이터는 하나만 고를 수 있습니다.');
+   const recordId='team:'+picked.map(e=>e.id).sort().join('|'),label=picked.map(e=>HEROES[e.hero].name).join(' · ');
    const raid=s.collection.raid;raid.recordStats??={};
-   const st=raid.recordStats[rec.id]||{triesUsed:0,maxTries:RAID_BOSS_DEFAULT.maxTriesPerRecord,bestDamage:0};
-   if((st.triesUsed||0)>=(st.maxTries||3))reject('이 세이브 데이터의 3회 트라이를 모두 사용했습니다.');
-   s.party=[...rec.party];
-   for(const id of rec.party){
-    const savedH=rec.heroes[id],h=s.heroes[id];if(!savedH||!h)continue;
-    h.level=savedH.level||1;h.upgrades=clone(savedH.upgrades||{});h.sparks=clone(savedH.sparks||{});h.equipment=clone(savedH.equipment||{});
-    h.stress=0;h.breakdown=null;h.retired=false;h.body=Object.fromEntries(PARTS.map(p=>[p,0]));
-    if(Array.isArray(savedH.deck)&&savedH.deck.length)h.deck=savedH.deck.map((key,i)=>makeCard(s,id,key,i));
-   }
-   s.hp=s.maxHp;s.shield=0;s.support=2;s.mode='raid';s.lastRaidResult=null;
-   s.raidRun={recordId:rec.id,damageDealt:0,maxTurns:RAID_BOSS_DEFAULT.maxTurns};
+   const st=raid.recordStats[recordId]||{triesUsed:0,maxTries:RAID_BOSS_DEFAULT.maxTriesPerRecord,bestDamage:0};
+   if((st.triesUsed||0)>=(st.maxTries||3))reject('이 편성의 3회 트라이를 모두 사용했습니다.');
+   stashRun(s);
+   s.party=picked.map(e=>e.hero);for(const e of picked)s.heroes[e.hero]=applySaveEntry({...heroState(),body:Object.fromEntries(PARTS.map(p=>[p,0]))},e);
+   s.tutorial={...(s.tutorial||{}),active:false};s.hp=s.maxHp;s.shield=0;s.support=2;s.mode='raid';s.lastRaidResult=null;s.temporal=0;s.selectedStage=null;
+   s.raidRun={recordId,label,saves:picked.map(e=>e.id),damageDealt:0,maxTurns:RAID_BOSS_DEFAULT.maxTurns};
    beginBattle(s,[raid.bossKind||'nightmare'],events);
    if(s.battle?.enemies?.[0]){s.battle.enemies[0].hp=999;s.battle.enemies[0].maxHp=999;s.battle.enemies[0].name=raid.bossName;}
-   emit(events,'raidStart',`보스 레이드 개시 (${(st.triesUsed||0)+1}/${st.maxTries||3} 트라이) · ${rec.label}`,{recordId:rec.id});break;
+   emit(events,'raidStart',`보스 레이드 개시 (${(st.triesUsed||0)+1}/${st.maxTries||3} 트라이) · ${label}`,{recordId});break;
   }
   case 'finishRaid':{
    if(s.mode!=='raid'||!s.raidRun)reject('진행 중인 레이드가 없습니다.');

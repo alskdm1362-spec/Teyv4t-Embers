@@ -31,10 +31,10 @@ test('v0.17 lobby return from base saves checkpoint and resumes expedition clean
  assert.equal(s.savedExpedition, false);
 });
 
-test('raid is blocked while in development, preserves saved records and uses the announced boss name',()=>{
+test('raid rejects party records (v0.27 raids use per-combatant save data), preserves saved records and the announced boss name',()=>{
  const {s,recId}=setupCampaignWithRecord(77);act(s,{type:'returnToLobby'});
  s.collection.raid.totalDamage=95;s.collection.raid.recordStats[recId]={triesUsed:2,bestDamage:95};
- for(const id of [recId,'missing']){const before=serialize(s),r=act(s,{type:'startRaid',id});assert.equal(r.ok,false);assert.match(r.error,/구현 중/);assert.equal(serialize(s),before);}
+ for(const id of [recId,'missing']){const before=serialize(s),r=act(s,{type:'startRaid',id});assert.equal(r.ok,false);assert.match(r.error,/세이브 데이터/);assert.equal(serialize(s),before);}
  const restored=hydrate(serialize(s));assert.equal(restored.collection.raid.bossName,'천상의 왕좌 · 메타트론');assert.equal(restored.collection.raid.totalDamage,95);assert.equal(restored.collection.records.length,1);
 });
 
