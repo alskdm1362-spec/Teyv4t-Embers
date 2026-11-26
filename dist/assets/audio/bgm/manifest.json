@@ -112,6 +112,45 @@
       "truePeakDbTP": -3.75,
       "loudnessRangeLu": 3.8,
       "originalPreserved": true
+    },
+    "lobby": {
+      "src": "assets/audio/bgm/lobby.mp3",
+      "sourceFile": "lobby.mp3",
+      "bytes": 1487298,
+      "sha256": "f0a170d4fac2bf759e70ad3e3e0dc792e6ee92b4e6054ec2bd27ff86823292e9",
+      "duration": 57.984,
+      "bitRate": 205201,
+      "integratedLufs": -15.8,
+      "truePeakDbTP": -4.5,
+      "loudnessRangeLu": 3.3,
+      "originalPreserved": true,
+      "label": "로비"
+    },
+    "battle": {
+      "src": "assets/audio/bgm/battle.mp3",
+      "sourceFile": "battle1.mp3",
+      "bytes": 4319172,
+      "sha256": "7754940b61e64840aef405c1e6526b505d32c9704ee9a81d70dbb03e1e3acc28",
+      "duration": 177.744,
+      "bitRate": 194399,
+      "integratedLufs": -14.9,
+      "truePeakDbTP": -3.2,
+      "loudnessRangeLu": 4.7,
+      "originalPreserved": true,
+      "label": "전투"
+    },
+    "raid": {
+      "src": "assets/audio/bgm/raid.mp3",
+      "sourceFile": "케루빔theme.mp3",
+      "bytes": 3952184,
+      "sha256": "1a551dc7c1c4ac8547a9de11d00e9adf3fd3200914f6ebb2c5559ecd711125d1",
+      "duration": 167.16,
+      "bitRate": 189144,
+      "integratedLufs": -15.7,
+      "truePeakDbTP": -4.2,
+      "loudnessRangeLu": 3.0,
+      "originalPreserved": true,
+      "label": "레이드 · 케루빔"
     }
   }
 }

@@ -3,7 +3,7 @@
   "sampleRate": 24000,
   "channels": 1,
   "encoding": "PCM signed 16-bit little endian WAV",
-  "provenance": "Original deterministic DSP waveforms authored for this project; no recorded or downloaded sample input.",
+  "provenance": "Original DSP waveforms for the base set; v0.35 adds user-supplied effects (source noted per asset), trimmed and level-matched.",
   "references": [
     "https://kenney.nl/assets/impact-sounds",
     "https://kenney.nl/assets/rpg-audio",
@@ -265,6 +265,138 @@
         "rmsDbFS": -24.19,
         "bytes": 3164,
         "sha256": "702c5c994e9decb16d16ac0fa0f69652e05d28ddbf4be3292fe322577002755f"
+      }
+    ],
+    "swing_light": [
+      {
+        "src": "assets/audio/sfx/swing_light.wav",
+        "duration": 0.463,
+        "peakDbFS": -4.21,
+        "rmsDbFS": -19.44,
+        "bytes": 22262,
+        "sha256": "c599622edf5ce3e61226601c1729ef5d99081be07ec1e168b04f22c1b0aef67a",
+        "source": "사용자 제공 효과음.zip / 휘두르기2.mp3",
+        "processing": "앞 무음 0.045s 제거, 활성 구간 RMS -17 dB로 맞춤, 끝 30ms 페이드"
+      }
+    ],
+    "swing_heavy": [
+      {
+        "src": "assets/audio/sfx/swing_heavy.wav",
+        "duration": 0.576,
+        "peakDbFS": -4.41,
+        "rmsDbFS": -19.38,
+        "bytes": 27668,
+        "sha256": "83bfa101344ada2f8aa4d8bf3b3e6fc4b449012b8f63a8a68913bf457c023c2e",
+        "source": "사용자 제공 효과음.zip / 휘두르기.mp3",
+        "processing": "앞 무음 0.051s 제거, 활성 구간 RMS -16 dB로 맞춤, 끝 30ms 페이드"
+      }
+    ],
+    "strike": [
+      {
+        "src": "assets/audio/sfx/strike.wav",
+        "duration": 0.394,
+        "peakDbFS": -3.35,
+        "rmsDbFS": -19.74,
+        "bytes": 18944,
+        "sha256": "01b1dc4d30adf13e0ade96ccf781f5b0b16c30439eee513e9c821d88e33389be",
+        "source": "사용자 제공 효과음.zip / 때리기.mp3",
+        "processing": "앞 무음 0.143s 제거, 활성 구간 RMS -15 dB로 맞춤, 끝 30ms 페이드"
+      }
+    ],
+    "slash": [
+      {
+        "src": "assets/audio/sfx/slash.wav",
+        "duration": 0.563,
+        "peakDbFS": -4.47,
+        "rmsDbFS": -17.87,
+        "bytes": 27056,
+        "sha256": "64cba60767ade11e99b5fdb0cf47c3af35b3ed3c1b9247847cdd7b902f5da29f",
+        "source": "사용자 제공 효과음.zip / 베기.mp3",
+        "processing": "앞 무음 0.064s 제거, 활성 구간 RMS -15 dB로 맞춤, 끝 30ms 페이드"
+      }
+    ],
+    "kick": [
+      {
+        "src": "assets/audio/sfx/kick.wav",
+        "duration": 0.771,
+        "peakDbFS": -3.35,
+        "rmsDbFS": -19.45,
+        "bytes": 37038,
+        "sha256": "01a0ec3430cfbe26bfb0761025bc9cd9451a08011fd672a1174e8e8cdf89a129",
+        "source": "사용자 제공 효과음.zip / 발차기.mp3",
+        "processing": "앞 무음 0.184s 제거, 활성 구간 RMS -15 dB로 맞춤, 끝 30ms 페이드"
+      }
+    ],
+    "fire_weak": [
+      {
+        "src": "assets/audio/sfx/fire_weak.wav",
+        "duration": 1.61,
+        "peakDbFS": -3.49,
+        "rmsDbFS": -18.05,
+        "bytes": 77312,
+        "sha256": "e454e4c15f3bc16b8291315fa4160be0368d8fb0dfc7642a9c7ead60e1543dea",
+        "source": "사용자 제공 효과음.zip / 두린-불(약).mp3",
+        "processing": "앞 무음 0.000s 제거, 활성 구간 RMS -16 dB로 맞춤, 끝 30ms 페이드"
+      }
+    ],
+    "fire_strong": [
+      {
+        "src": "assets/audio/sfx/fire_strong.wav",
+        "duration": 1.532,
+        "peakDbFS": -4.5,
+        "rmsDbFS": -16.21,
+        "bytes": 73572,
+        "sha256": "3ac9c8ea9f12413338d7f3ca0017f5fe4f8cc5fc9abc3e5862a617a7bcc3c3fe",
+        "source": "사용자 제공 효과음.zip / 두린-불(강).mp3",
+        "processing": "앞 무음 0.011s 제거, 활성 구간 RMS -14 dB로 맞춤, 끝 30ms 페이드"
+      }
+    ],
+    "stage_clear": [
+      {
+        "src": "assets/audio/sfx/stage_clear.wav",
+        "duration": 1.928,
+        "peakDbFS": -3.35,
+        "rmsDbFS": -21.85,
+        "bytes": 92566,
+        "sha256": "0362121225eb2a7c36ccba0ab102a060106187304d39861ad2467b2da0a0ff03",
+        "source": "사용자 제공 효과음.zip / stage clear.mp3",
+        "processing": "앞 무음 0.240s 제거, 활성 구간 RMS -17 dB로 맞춤, 끝 30ms 페이드"
+      }
+    ],
+    "card_flip": [
+      {
+        "src": "assets/audio/sfx/card_flip.wav",
+        "duration": 0.381,
+        "peakDbFS": -6.8,
+        "rmsDbFS": -23.97,
+        "bytes": 18310,
+        "sha256": "994fe652336b0abc846c27a739b6f6751bf5b1e312f8b3d7c8ea125ad91b3e32",
+        "source": "사용자 제공 효과음.zip / 카드1.mp3",
+        "processing": "앞 무음 0.085s 제거, 활성 구간 RMS -22 dB로 맞춤, 끝 30ms 페이드"
+      }
+    ],
+    "ui_tap": [
+      {
+        "src": "assets/audio/sfx/ui_tap.wav",
+        "duration": 0.07,
+        "peakDbFS": -6.75,
+        "rmsDbFS": -26.4,
+        "bytes": 3418,
+        "sha256": "5b3980d933ee366282257ff8ecbef049bf8cdc6470450c6a3dd296342a826f86",
+        "source": "사용자 제공 효과음.zip / 클릭3.mp3",
+        "processing": "앞 무음 0.040s 제거, 활성 구간 RMS -22 dB로 맞춤, 끝 30ms 페이드"
+      }
+    ],
+    "ui_tap2": [
+      {
+        "src": "assets/audio/sfx/ui_tap2.wav",
+        "duration": 0.155,
+        "peakDbFS": -3.35,
+        "rmsDbFS": -25.83,
+        "bytes": 7482,
+        "sha256": "9b8f86583bbf2a7abf4014fa8c4462bb9d16277957ef893848665930dbe5fa4d",
+        "source": "사용자 제공 효과음.zip / 클릭.mp3",
+        "processing": "앞 무음 0.000s 제거, 활성 구간 RMS -22 dB로 맞춤, 끝 30ms 페이드"
       }
     ]
   }

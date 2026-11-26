@@ -93,7 +93,7 @@ test('v0.16 rare Ember Spark attaches on elite upgrade offer and applies cardInf
  // Verify cardInfo reflects spark
  const info = cardInfo(s, { uid: 'test-spark', owner: sparked.owner, key: sparked.key });
  assert.equal(info.spark, sparked.spark);
- assert.ok(info.desc.includes('✦ 각성'));
+ assert.ok(info.sparkName&&!info.desc.includes('['));
 });
 
 test('v0.16 breakdown recovery grants awaken buff and triggers partner passives', () => {

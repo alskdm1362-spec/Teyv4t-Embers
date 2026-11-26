@@ -1,9 +1,11 @@
 /* Original sound assets, mixed independently from music and gameplay RNG. */
 export const gainFromSlider=value=>Math.max(0,Math.min(1,Number(value)||0))**2;
+// [cue at swing start, cue at impact (+90 ms)]. v0.35 uses the supplied recordings, trimmed so their
+// attack sits at the start of the file and levelled to each other.
 export const ATTACK_SOUNDS={
- spear:['spear_whoosh','spear_hit'],'frost-finisher':['heavy_whoosh','celestial_hit'],
- 'arcane-wave':['arcane_cast','arcane_hit'],counter:['spear_whoosh','counter'],feint:['spear_whoosh','dagger'],
- 'wind-cleave':['heavy_whoosh','heavy_hit'],'night-thrust':['abyss_cast','spear_hit'],'venom-mark':['spear_whoosh','dagger'],
+ spear:['swing_light','strike'],'frost-finisher':['swing_heavy','strike'],
+ 'arcane-wave':['fire_weak','arcane_hit'],'arcane-wave:ult':['fire_strong','heavy_hit'],counter:['swing_light','slash'],feint:['kick','strike'],
+ 'wind-cleave':['swing_heavy','slash'],'night-thrust':['abyss_cast','heavy_hit'],'venom-mark':['kick','dagger'],
  'abyss-hit':['abyss_cast','abyss_hit'],'celestial-hit':['resource','celestial_hit'],
 };
 export class SoundBank{

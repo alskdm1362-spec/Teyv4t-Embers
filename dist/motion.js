@@ -33,7 +33,7 @@ export class BattleMotion{
  else await this.animate(clone,[{opacity:1,transform:'translate(0,0) scale(1)'},{opacity:1,transform:`translate(${dx*.55}px,${dy*.4-45}px) scale(.65) rotate(12deg)`,offset:.5},{opacity:0,transform:`translate(${dx}px,${dy}px) scale(.12) rotate(28deg)`}],320);
  clone.remove();pile.classList.add('fx-pulse');setTimeout(()=>pile.classList.remove('fx-pulse'),this.ms(250));}
  async deal(uids,shuffle=false){const nodes=uids.map(uid=>$(`[data-card="${uid}"]`)).filter(Boolean),pile=$('[data-pile="draw"]');if(!nodes.length||!pile)return;nodes.forEach(n=>n.style.visibility='hidden');if(shuffle){this.callout('버린 카드를 다시 섞습니다');await this.animate(pile,[{transform:'translateX(0) rotate(0)'},{transform:'translateX(7px) rotate(8deg)',offset:.3},{transform:'translateX(-7px) rotate(-8deg)',offset:.6},{transform:'translateX(0) rotate(0)'}],250);}
- await Promise.all(nodes.map(async(el,i)=>{await wait(this.ms(i*55));const n=this.cloneCard(el),a=center(pile),b=center(n),dx=a.x-b.x,dy=a.y-b.y;n.style.visibility='visible';n.classList.add('card-back');await this.animate(n,[{transform:`translate(${dx}px,${dy}px) scale(.16) rotate(-25deg)`,opacity:0},{transform:`translate(${dx*.3}px,${dy*.5-45}px) scale(.8) rotate(-8deg)`,opacity:1}],220);n.classList.remove('card-back');await this.animate(n,[{transform:`translate(${dx*.3}px,${dy*.5-45}px) scale(.8) rotate(-8deg)`,opacity:1},{transform:'translate(0,0) scale(1.03) rotate(0)',opacity:1,offset:.8},{transform:'translate(0,0) scale(1) rotate(0)',opacity:1}],180);n.remove();el.style.visibility='';void this.sound('card_deal',{gain:.6,ui:true});}));}
+ await Promise.all(nodes.map(async(el,i)=>{await wait(this.ms(i*55));const n=this.cloneCard(el),a=center(pile),b=center(n),dx=a.x-b.x,dy=a.y-b.y;n.style.visibility='visible';n.classList.add('card-back');await this.animate(n,[{transform:`translate(${dx}px,${dy}px) scale(.16) rotate(-25deg)`,opacity:0},{transform:`translate(${dx*.3}px,${dy*.5-45}px) scale(.8) rotate(-8deg)`,opacity:1}],220);n.classList.remove('card-back');await this.animate(n,[{transform:`translate(${dx*.3}px,${dy*.5-45}px) scale(.8) rotate(-8deg)`,opacity:1},{transform:'translate(0,0) scale(1.03) rotate(0)',opacity:1,offset:.8},{transform:'translate(0,0) scale(1) rotate(0)',opacity:1}],180);n.remove();el.style.visibility='';void this.sound('card_flip',{gain:.8,ui:true});}));}
  async morph(before,heroes){if(!heroes.length)return;void this.sound('card_morph',{gain:.65});const after=this.getState(),nodes=$$('.hand [data-card]').filter(el=>heroes.includes(el.dataset.owner));for(const id of heroes){const broken=after.heroes[id].breakdown;this.callout(broken?before.heroes[id]?.breakdown?`${HEROES[id].name} · 극복 실패 ${broken.failures}/10 · 위험 상승`:`${HEROES[id].name} · 모든 고유 카드 변질`:`${HEROES[id].name} · 고유 카드 복원`);const actor=$(`[data-ally="${id}"]`);if(actor){actor.classList.toggle('collapsed',!!broken);void this.effect(broken?'collapse':'recover',this.unit(actor),{scale:1});}void this.float($(`[data-hud="${id}"]`),broken?'정신 붕괴':'붕괴 극복',broken?'stress':'heal');}
  await Promise.all(nodes.map(async(el,i)=>{const c=after.battle?.hand.find(c=>c.uid===el.dataset.card)||before.battle?.hand.find(c=>c.uid===el.dataset.card);if(!c)return;await wait(this.ms(i*35));el.classList.add('card-morph');const t=getComputedStyle(el).transform;await this.animate(el,[{transform:t,filter:'brightness(1)'},{transform:'translateY(-15px) rotateY(90deg)',filter:'brightness(2)'}],150);const temp=document.createElement('div');temp.innerHTML=this.cardHTML(c,i,nodes.length);const face=temp.firstElementChild;el.innerHTML=face.innerHTML;el.classList.toggle('broken',!!after.heroes[c.owner].breakdown);await this.animate(el,[{transform:'translateY(-15px) rotateY(-90deg)',filter:'brightness(2)'},{transform:t,filter:'brightness(1)'}],200);el.classList.remove('card-morph');}));await wait(this.ms(130));}
  async burnCard(el,face,hold){const old=await cardTexture(el),next=await cardTexture(face);await this.vfx.raw('cardBurnTransition',el,{card:true,cardImgA:old,cardImgB:next,hold});el.innerHTML=face.innerHTML;el.classList.toggle('blind-card',face.classList.contains('blind-card'));}
@@ -61,15 +61,16 @@ export class BattleMotion{
  }
  async playerEffects(before,action,effects){
   const state=this.getState(),owner=action._owner||action.hero,actor=$(`[data-ally="${owner}"]`),source=this.unit(actor),hits=effects.filter(e=>e.type==='damage');
-  const isMelee=['lohen','illuga','jahoda'].includes(owner)&&action.type==='play'&&hits.length>0,unpose=['play','ultimate'].includes(action.type)?this.pose(owner,action,before,effects,source):null;
+  actor?.classList?.add('acting');const isMelee=['lohen','illuga','jahoda'].includes(owner)&&action.type==='play'&&hits.length>0,unpose=['play','ultimate'].includes(action.type)?this.pose(owner,action,before,effects,source):null;
   let dashDist=null,dashHold=null;
   if(hits.length){
    if(isMelee&&actor&&source){
     const firstEnemy=$(`[data-enemy="${hits[0].enemy}"]`),sc=parseFloat($('#game')?.style.getPropertyValue('--scale'))||1;
     if(firstEnemy){
-     const a=center(source),b=center(this.unit(firstEnemy));
+     // feet to feet: stop just short of the target's near edge, standing on the same ground line
+     const sr=source.getBoundingClientRect(),er=this.unit(firstEnemy).getBoundingClientRect(),a={x:sr.left+sr.width/2,y:sr.bottom},b={x:er.left+er.width*.18,y:er.bottom};
      // the sprite carries a CSS scale (pose canvases); transform translate is applied inside it, so divide it out
-     const k=(()=>{try{return parseFloat(getComputedStyle(source).scale)||1;}catch{return 1;}})(),dx=Math.max(36,(b.x-a.x)/sc-78)/k,dy=(b.y-a.y)/sc/k;
+     const k=(()=>{try{return parseFloat(getComputedStyle(source).scale)||1;}catch{return 1;}})(),dx=Math.max(36,(b.x-a.x)/sc-46)/k,dy=Math.max(-40,Math.min(40,(b.y-a.y)/sc))/k;
      dashDist={dx,dy};
      actor.classList.add('melee-dashing');
      dashHold=await this.animate(source,[{transform:'translate(0,0) scale(1)'},{transform:`translate(${dx}px,${dy}px) scale(1.06)`}],165,{easing:'cubic-bezier(.15,.85,.25,1)',retain:true});sortSceneDepth();
@@ -78,7 +79,7 @@ export class BattleMotion{
    await Promise.all(hits.map(async(e,index)=>{
     const enemy=$(`[data-enemy="${e.enemy}"]`);if(!enemy)return;
     const repeat=hits.slice(0,index).some(hit=>hit.enemy===e.enemy),kind=repeat?'counter':action.type==='support'?({lohen:'wind-cleave',durin:'veil',illuga:'night-thrust',jahoda:'venom-mark'})[owner]:action.type==='ultimate'?({lohen:'frost-finisher',durin:'arcane-wave',illuga:'counter',jahoda:'feint'})[owner]:({lohen:'spear',durin:'arcane-wave',illuga:'counter',jahoda:'feint'})[owner]||'spear';
-    if(repeat)await wait(this.ms(100));const cue=ATTACK_SOUNDS[kind]||ATTACK_SOUNDS.spear;if(index===0)void this.sound(cue[0],{gain:.7});const wing=owner==='durin'&&action.type==='ultimate',visual=wing&&index>0?Promise.resolve():this.effect(kind,wing?source:this.unit(enemy),{from:source,hero:owner,ultimate:action.type==='ultimate',scale:action.type==='ultimate'?1.3:1,strength:action.type==='ultimate'?2:1});await wait(this.ms(90));if(index===0||repeat)void this.sound(cue[1],{gain:repeat ? .6 : 1});this.camera.hit(action.type==='ultimate'?2:repeat ? .5 : .8);enemy.classList.add('enemy-hit');const damageText=this.float(enemy,e.amount);
+    if(repeat)await wait(this.ms(100));const cue=(action.type==='ultimate'&&ATTACK_SOUNDS[kind+':ult'])||ATTACK_SOUNDS[kind]||ATTACK_SOUNDS.spear;if(index===0)void this.sound(cue[0],{gain:.7});const wing=owner==='durin'&&action.type==='ultimate',visual=wing&&index>0?Promise.resolve():this.effect(kind,wing?source:this.unit(enemy),{from:source,hero:owner,ultimate:action.type==='ultimate',scale:action.type==='ultimate'?1.3:1,strength:action.type==='ultimate'?2:1});await wait(this.ms(90));if(index===0||repeat)void this.sound(cue[1],{gain:repeat ? .6 : 1});this.camera.hit(action.type==='ultimate'?2:repeat ? .5 : .8);enemy.classList.add('enemy-hit');const damageText=this.float(enemy,e.amount);
     const next=state.battle?.enemies.find(n=>n.id===e.enemy);if(next){const bar=enemy.querySelector('.hpbar i');if(bar)bar.style.width=(next.hp/next.maxHp*100)+'%';const label=enemy.querySelector('.enemy-name>b');if(label)label.innerHTML=`${next.hp}<small> / ${next.maxHp}</small>`;}
     await wait(this.ms(120));enemy.classList.remove('enemy-hit');await Promise.all([visual,damageText]);
     if(effects.some(x=>x.type==='kill'&&x.enemy===e.enemy)){await this.effect('dissolve',this.unit(enemy),{scale:.8});await this.animate(enemy,[{opacity:1},{opacity:0,transform:'translateY(7px)'}],200);enemy.style.opacity='0';}
@@ -99,7 +100,7 @@ export class BattleMotion{
   }
   const played=before.battle?.hand.find(c=>c.uid===action.uid);if(played){const info=cardInfo(before,played);if(info.type==='focus'){void this.sound('resource',{gain:.4});void this.effect('focus',source);void this.float(actor,'공격 준비','label');}if(info.type==='energy'){void this.sound('resource',{gain:.65});void this.effect('rally',source);void this.float($('.ap-meter'),'행동력 회복','heal');}}
   if(state.hp!==before.hp||state.shield!==before.shield)this.hudDamage(state.hp,state.shield);
-  void unpose?.();
+  void unpose?.();setTimeout(()=>actor?.classList?.remove('acting'),this.ms(420));
  }
  async present(before,action,events){const after=this.getState(),plan=presentationPlan(before,after,action,events);this.onBusy(true);try{
  const wasBattle=before.phase==='battle'&&!!$('.battle');if(wasBattle){
@@ -112,7 +113,7 @@ export class BattleMotion{
   await this.blindMorph(before);await this.morph(before,plan.changed);await Promise.all([...this.pending]);
   if(plan.discarded.length)await Promise.all(plan.discarded.map((uid,i)=>wait(this.ms(i*22)).then(()=>this.leave(uid))));
  }
- if(events.some(e=>e.type==='victory')){void this.sound('victory',{gain:.65});await this.effect('victory',$('.battle-field')||$('#screen'),{scale:.65});}this.render();
+ if(events.some(e=>e.type==='victory')){void this.sound('stage_clear',{gain:.8});await this.effect('victory',$('.battle-field')||$('#screen'),{scale:.65});}this.render();
  if(after.phase==='battle'){
   if(plan.newBattle){this.callout('BATTLE START');for(const e of after.battle.enemies.filter(e=>e.hp>0&&(e.ward||e.hitWard)))void this.effect('guard',this.unit($(`[data-enemy="${e.id}"]`)),{enemy:true,celestial:['keeper','sentinel','star'].includes(e.kind),shield:true});}else if(action.type==='endTurn')this.callout(`YOUR TURN · ${String(after.battle.turn).padStart(2,'0')}`);
   await this.deal(plan.drawn,plan.shuffled);

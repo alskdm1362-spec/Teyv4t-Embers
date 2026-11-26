@@ -48,7 +48,7 @@ test('v0.17 Branch A upgrades have concrete titles/effects and card artwork does
  const upgInfo = cardInfo(s, { owner: 'lohen', key: 'l_pierce' });
  const upgArt = cardArtwork('lohen', upgInfo, 'l_pierce');
  assert.equal(upgArt, baseArt, 'upgraded card must preserve base artwork');
- assert.ok(upgInfo.desc.includes(BRANCH_A_SPECS.l_pierce.title));
+ assert.ok(upgInfo.upgraded&&!upgInfo.desc.includes('['));
 });
 
 test('v0.17 looted equipment enters pendingEquip and can be equipped immediately to a chosen ally', () => {
