@@ -1573,8 +1573,8 @@
         512,
         512
       ],
-      "bytes": 27834,
-      "sha256": "4933a4f51c39df8517c749ae5eeba705f171a46f7066eaf5295fcc7ee7223b53",
+      "bytes": 145526,
+      "sha256": "0874b6ca7c875eed60816ee7e34753c954806d97a3d720f0f18bcd1bc872d256",
       "source_alpha_bbox_16": [
         0,
         0,
@@ -1849,8 +1849,8 @@
         512,
         512
       ],
-      "bytes": 35966,
-      "sha256": "a080063756e92db96010c3ad14cbc643cf605946548160d501ce7240696b6b27",
+      "bytes": 157314,
+      "sha256": "ad3fd989a4936117c697afa0c9bab7e256300f5de62dab2243a60ec174044005",
       "source_alpha_bbox_16": [
         0,
         0,
@@ -2125,8 +2125,8 @@
         512,
         512
       ],
-      "bytes": 38528,
-      "sha256": "4dcd7dbb5b35f5291f91ddc2cb0339d9ce14e18f7a206e487e164adc9db11db7",
+      "bytes": 150474,
+      "sha256": "0e13e72c737444b7050693d8d334337fee45861d0563b58cad8f7dddd8cb6f1f",
       "source_alpha_bbox_16": [
         0,
         0,
@@ -2401,8 +2401,8 @@
         512,
         512
       ],
-      "bytes": 30184,
-      "sha256": "0d7b0521b515d33a74b70a701f21ba80a3a459355026a226cc84131de10ee5dd",
+      "bytes": 146120,
+      "sha256": "99b122c60c114c5dc28c452b96ca3e5b0efd972b271edfe5e2f3fe2f538bc0d4",
       "source_alpha_bbox_16": [
         1,
         0,
