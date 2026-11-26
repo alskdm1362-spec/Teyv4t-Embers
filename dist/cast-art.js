@@ -2,7 +2,12 @@ import {NEW_CARDS} from './awakening.js';
 import {collapseArt} from './collapse-art.js';
 // Every visual role resolves to the supplied archive, never a battle sprite fallback.
 export const CAST_IDS=Object.freeze(['lohen','durin','illuga','jahoda']);
-export const CAST_FOOT_X=Object.freeze({lohen:.563477,durin:.740234,illuga:.573242,jahoda:.583008});
+export const CAST_FOOT_X=Object.freeze({lohen:.5,durin:.5,illuga:.5,jahoda:.5});
+// v0.30 battle sprites: every pose sits on its own square canvas with the feet at the bottom centre.
+// base keeps the idle figure as tall as the old sprite; poses[x] is that canvas relative to the idle one.
+export const CAST_SPRITES=Object.freeze({"lohen":{"base":1.0186,"poses":{"attack1":1.9317,"attack2":2.5103,"guard":1.2711,"collapse":0.7107}},"durin":{"base":1.1879,"poses":{"attack1":1.2218,"attack2":1.2,"guard":1.0145,"collapse":0.96}},"illuga":{"base":1.2703,"poses":{"attack1":0.9585,"buff":0.9273,"guard":0.8581,"collapse":0.6367}},"jahoda":{"base":1.5024,"poses":{"attack1":0.75,"attack2":0.8149,"buff":0.6737,"draw":0.7062,"guard":0.8539,"collapse":0.6201}}});
+export const castPose=(id,pose)=>`assets/cast/${id}/pose-${pose}.webp`;
+export function preloadPoses(){if(typeof Image==='undefined')return;for(const [id,sp] of Object.entries(CAST_SPRITES))for(const pose of Object.keys(sp.poses))if(pose!=='collapse'){const im=new Image();im.src=castPose(id,pose);}}
 export const ART_ROLES=Object.freeze({battle:'전투',portrait:'초상화',ultimate:'필살기',breakdown:'붕괴 컷인',breakdownPortrait:'붕괴 초상',partner:'파트너 초상',support:'지원 컷인',portraitCutin:'첫 컷인 그림',partnerCutin:'첫 지원 그림',battleCollapsed:'붕괴 전투'});
 const FILES=Object.freeze({battle:'battle',portrait:'cutin-1',ultimate:'cutin-2',breakdown:'breakdown-1',breakdownPortrait:'breakdown-2',partner:'partner-1',support:'partner-2',portraitCutin:'cutin-1',partnerCutin:'partner-1'});
 export function castArt(id,role='portrait',stage=1){
