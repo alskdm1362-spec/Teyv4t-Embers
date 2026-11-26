@@ -368,3 +368,91 @@ button.primary:hover:not(:disabled){filter:none;color:#fff3d6!important;box-shad
 .shop-v28 .removal-gallery{justify-content:flex-start!important;gap:12px!important}
 #overlay .raid-v28 .raid-panel>header{display:block;text-align:left}#overlay .raid-v28 .raid-panel>header h2{text-align:left}
 .shop-shelf{mask-image:linear-gradient(90deg,#000 86%,transparent)}
+
+/* ---------- 10. v0.30 battle sprites (pose canvases, feet at bottom centre) ---------- */
+.in-battle .fighter .sprite{image-rendering:auto;scale:var(--sprite-scale,1);transform-origin:50% 100%;pointer-events:none}
+.in-battle .fighter.collapsed .sprite{scale:var(--collapse-scale,1)}
+.in-battle .enemy .sprite{image-rendering:auto}
+
+/* v0.30 monsters: painted art (not pixel sprites) sized per creature with --es. The feet stay
+   on the same line; large creatures grow upward behind the name plate. */
+.in-battle .enemy[data-look]{--enemy-h:172px;--enemy-w:210px}
+.in-battle .enemy[data-look] .sprite{position:relative;z-index:0;width:calc(var(--enemy-w) * var(--es,1));height:calc(var(--enemy-h) * var(--es,1));max-width:none;
+ margin:calc(64px + var(--enemy-h) * (1 - var(--es,1))) calc(var(--enemy-w) * (1 - var(--es,1)) / 2 - 6px) 0;object-fit:contain;object-position:center bottom;image-rendering:auto;opacity:1;
+ filter:drop-shadow(0 10px 10px #000a) drop-shadow(0 0 14px #a96caa30)}
+.in-battle .enemy[data-realm="celestial"] .sprite{filter:drop-shadow(0 10px 10px #000a) drop-shadow(0 0 16px #f3dfa640)}
+.in-battle .enemy[data-look] .enemy-head{position:relative;z-index:2}
+.in-battle .enemy.enemy-hit[data-look] .sprite{filter:brightness(1.9) drop-shadow(0 0 12px #b4faff)!important}
+@media (max-height:500px) and (orientation:landscape){.in-battle .enemy[data-look]{--enemy-h:124px;--enemy-w:150px}.in-battle .enemy[data-look] .sprite{margin-top:calc(54px + var(--enemy-h) * (1 - var(--es,1)))}}
+/* Codex enemy grid with names */
+.modern-surface .enemy-archive-grid{display:grid!important;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:10px}
+.modern-surface .enemy-archive-grid>button{display:flex;flex-direction:column;align-items:center;gap:2px;height:auto;min-height:0;padding:10px 8px!important;
+ background:radial-gradient(ellipse at 50% 40%,#a96caa2e,transparent 65%),#0a1119d9!important}
+.modern-surface .enemy-archive-grid>button[data-realm="celestial"]{background:radial-gradient(ellipse at 50% 40%,#f3dfa62a,transparent 65%),#0a1119d9!important}
+.modern-surface .enemy-archive-grid img{width:100%;height:120px;object-fit:contain;image-rendering:auto}
+.modern-surface .enemy-archive-grid span{font-size:13px;color:var(--ui-ink);text-align:center}
+.modern-surface .enemy-archive-grid small{font-size:10.5px;color:var(--ui-ink-dim)}
+.enemy-guide-art img{image-rendering:auto!important;object-fit:contain}
+.enemy-guide .enemy-note{color:var(--ui-gold);font-size:.95em}
+/* v0.30 shop: the party list opens only after an item is picked */
+.shop-pick-hint{display:flex;align-items:center;gap:16px;margin-top:auto;padding:18px 22px;border:1px dashed var(--ui-line-dim);clip-path:var(--ui-clip-s);background:#05080ebf}
+.shop-pick-hint strong{font-size:16px;color:var(--ui-ink)}.shop-pick-hint p{margin:4px 0 0;font-size:13px;color:var(--ui-ink-dim)}
+.shop-idle{flex:1;justify-content:flex-end}
+.shop-party-open{animation:shop-open .28s cubic-bezier(.2,.8,.2,1) both}
+.shop-party-open>h4{margin:2px 0 2px;font-size:12px;font-weight:500;letter-spacing:.2em;color:var(--ui-gold)}
+.shop-party-open>.shop-hero{animation:shop-open .3s cubic-bezier(.2,.8,.2,1) both}
+.shop-party-open>.shop-hero:nth-of-type(2){animation-delay:50ms}.shop-party-open>.shop-hero:nth-of-type(3){animation-delay:100ms}
+@keyframes shop-open{from{opacity:0;transform:translateX(18px)}to{opacity:1;transform:none}}
+@media (max-height:500px) and (orientation:landscape){.shop-pick-hint{padding:8px 12px}.shop-pick-hint p{font-size:11px}.shop-party-open>h4{display:none}}
+/* v0.30 awakening preview inside the card viewer: same spread as 고유 카드 */
+.file-view.is-branch>h2 .file-branch-count{margin-left:auto;padding-right:1.2vw;font-size:.6em;color:var(--ui-ink-dim);letter-spacing:.1em}
+.file-branch-origin{display:flex!important;flex-direction:column;align-items:center;gap:.6vh;opacity:.78}
+.file-branch-origin>small{font-size:clamp(10px,.9vw,16px);color:var(--ui-ink-dim);letter-spacing:.14em}
+.file-terms>.file-branch-effect{border-left-color:var(--ui-gold)!important;background:linear-gradient(100deg,#2a2214f0,#0a1119e6)!important}
+.file-branch-effect p{white-space:pre-line}
+.file-branch-cost{margin-top:.6vh!important;color:var(--ui-teal)!important;font-size:.92em}
+.file-view.is-variants>h2{left:6.5%;right:7%;top:7%;height:11.5%;justify-content:flex-start;padding:0 4vw 1vh;background:linear-gradient(90deg,color-mix(in srgb,var(--accent) 22%,transparent),transparent 45%)}
+.file-view.is-variants>h2:after{left:0;width:14%}
+.file-variants>div>strong{display:block!important;text-align:center;margin-top:.8vh;font-size:clamp(12px,1.1vw,20px);color:var(--ui-gold);letter-spacing:.06em;visibility:visible!important;opacity:1!important}
+#overlay .modern-surface .enemy-archive-grid{grid-auto-rows:max-content!important;grid-template-rows:none!important;height:auto!important;flex:1;min-height:0;max-height:none!important;overflow:auto;align-content:start;scrollbar-width:thin}#overlay .modern-surface .enemy-archive-grid>button{height:auto!important;aspect-ratio:auto!important}
+
+/* ---------- v0.31 shop: idle stage (Kirara centred, full-width shelf) → picked item + equip ---------- */
+#overlay .kirara-shop.shop-v28[data-tab="equipment"][data-state="idle"]{grid-template-columns:1fr;grid-template-rows:auto minmax(0,1fr) auto}
+.shop-v28[data-state="idle"] .shop-backdrop{left:50%;right:auto;top:6%;bottom:auto;height:72%;width:46%;transform:translateX(-50%)}
+.shop-v28[data-state="idle"] .shop-backdrop img{object-position:center bottom;mask-image:linear-gradient(180deg,#000 75%,transparent)}
+.shop-v28[data-state="idle"] .shop-backdrop:before{inset:4% -30% 0;background:radial-gradient(ellipse at 50% 60%,#e0607a1f,transparent 60%),linear-gradient(115deg,transparent 36%,#cdb68a14 36.3%,#e0607a12 58%,transparent 58.3%)}
+.shop-v28[data-state="idle"] .merchant-line{grid-column:1;grid-row:2;align-self:start;justify-self:start;margin:4% 0 0 6%;max-width:300px}
+.shop-v28[data-state="idle"] .shop-content{display:none}
+.shop-v28[data-state="idle"] .shop-shelf{grid-column:1;grid-row:3;display:grid;grid-template-columns:repeat(var(--n,5),minmax(0,1fr));gap:14px;overflow:visible;mask-image:none;padding:0 2%}
+.shop-v28[data-state="idle"] .shop-capsule{flex:none;min-width:0}
+.shop-v28[data-state="idle"] .capsule-glass{height:clamp(120px,calc(24 * var(--vh)),190px)}
+.shop-v28[data-state="idle"] .shop-capsule:hover .capsule-glass{border-color:var(--ui-gold);box-shadow:inset 0 1px 0 #ffffff2a,0 0 22px #e3cc9740,inset 0 0 30px #e3cc971a}
+/* picked: the chosen item on the left, the party to equip on the right */
+#overlay .kirara-shop.shop-v28[data-state="picked"]{grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);grid-template-rows:auto minmax(0,1fr)}
+.shop-v28[data-state="picked"] .merchant-line{display:none}
+.shop-v28[data-state="picked"] .shop-backdrop{opacity:.16;left:-4%;width:40%}
+.shop-v28[data-state="picked"] .shop-content{grid-column:1/-1;grid-row:2;overflow:hidden}
+.shop-v28[data-state="picked"] .shop-equip-layout{flex:1;min-height:0;display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:28px;align-items:stretch}
+.shop-showcase{position:relative;display:flex;flex-direction:column;align-items:center;gap:14px;min-height:0;padding:12px 0 0;animation:shop-open .3s cubic-bezier(.2,.8,.2,1) both}
+.shop-showcase>.shop-back{align-self:flex-start;min-height:34px!important;padding:0 14px!important;font-size:13px!important}
+.showcase-capsule{position:relative;display:grid;place-items:center;width:min(190px,60%);aspect-ratio:.78;border:1px solid var(--ui-gold);border-radius:999px 999px 0 0;
+ background:radial-gradient(ellipse at 50% 35%,#86d8d03a,transparent 62%),linear-gradient(180deg,#86d8d012,#0a1119ee);box-shadow:inset 0 1px 0 #ffffff2a,0 0 34px #e3cc9733,inset 0 0 40px #86d8d01f}
+.showcase-capsule:after{content:"";position:absolute;left:18%;top:8%;width:16%;height:40%;border-radius:999px;background:linear-gradient(180deg,#ffffff38,transparent);transform:rotate(12deg)}
+.showcase-capsule .capsule-icon{width:72px;height:72px;border-color:var(--ui-gold)}.showcase-capsule .capsule-icon>svg{width:34px;height:34px}
+.shop-showcase.elite .showcase-capsule{border-color:#e0607a;background:radial-gradient(ellipse at 50% 35%,#e0607a3a,transparent 62%),linear-gradient(180deg,#e0607a12,#0a1119ee)}
+.shop-showcase .shop-detail{width:100%;border-left-width:3px}
+.shop-showcase .shop-detail header .capsule-icon{display:none}
+.showcase-price{display:flex;align-items:center;gap:6px;margin:6px 0!important;color:var(--ui-gold)!important;font-size:16px!important}.showcase-price svg{width:16px;height:16px}
+.shop-v28[data-state="picked"] .shop-party{align-self:center}
+@media (max-height:500px) and (orientation:landscape){
+ .shop-v28[data-state="idle"] .merchant-line{display:block;max-width:220px;padding:6px 10px}.shop-v28[data-state="idle"] .merchant-line p{font-size:10.5px}
+ .shop-v28[data-state="idle"] .shop-shelf{gap:8px}.shop-v28[data-state="idle"] .capsule-glass{height:92px}
+ .shop-v28[data-state="picked"] .shop-equip-layout{gap:12px}.showcase-capsule{width:min(90px,40%)}.showcase-capsule .capsule-icon{width:40px;height:40px}.showcase-capsule .capsule-icon>svg{width:20px;height:20px}
+ .shop-showcase{gap:6px;padding-top:4px}.shop-showcase>.shop-back{min-height:26px!important;font-size:11px!important}
+}
+.shop-showcase{display:grid;grid-template-columns:auto minmax(0,1fr);grid-template-rows:auto minmax(0,1fr);align-items:center;justify-items:start;column-gap:22px}
+.shop-showcase>.shop-back{grid-column:1/-1}
+.showcase-capsule{width:clamp(120px,calc(26 * var(--vh)),200px)}
+.shop-showcase .shop-detail{align-self:center;max-height:100%;overflow:auto}
+.shop-v28[data-state="idle"] .shop-backdrop{height:86%;width:52%;top:2%}
+@media (max-height:500px) and (orientation:landscape){.showcase-capsule{width:84px}.shop-showcase{column-gap:10px}}
