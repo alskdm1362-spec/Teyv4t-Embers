@@ -180,3 +180,133 @@ button.primary:disabled,button.flat:disabled,button.small:disabled{filter:graysc
  .card-choice-owner{margin-bottom:3px;font-size:11px}
  .card-reward-actions{margin-top:4px}.card-reward-actions button{min-height:32px;font-size:12px;padding:6px 12px}
 }
+
+/* ================= v0.27 ================= */
+/* Stress gauge under each combatant, as in CZN's battlefield. */
+.fighter-mind{position:absolute;left:50%;bottom:-2px;transform:translateX(-50%);width:76px;height:7px;background:#05080ecc;border:1px solid #ffffff22;clip-path:polygon(3px 0,100% 0,calc(100% - 3px) 100%,0 100%);z-index:3;pointer-events:none}
+.fighter-mind i{display:block;height:100%;background:linear-gradient(90deg,#7fc6d2,#c58ce0 60%,#ff5f86)}
+.fighter-mind b{position:absolute;right:-26px;top:50%;transform:translateY(-50%);font-size:10px;font-weight:600;color:#f3c9e6;text-shadow:0 1px 2px #000}
+.fighter.collapsed .fighter-mind i{background:#ff4f78;animation:mind-pulse 1s ease-in-out infinite}
+@keyframes mind-pulse{50%{opacity:.55}}
+.aftermath-stage .fighter-mind,.event-field .fighter-mind{display:none}
+
+/* Epiphany: a glowing card in hand. */
+.card.epiphany-card{box-shadow:0 0 0 1px #ffe39a,0 0 16px #ffd36a99,0 0 34px #ffcf5a55!important;animation:epiphany-glow 1.4s ease-in-out infinite}
+.card.epiphany-card .card-cost{color:#ffe7a6!important;text-shadow:0 0 8px #ffcf5a}
+.card-epiphany-tag{position:absolute;right:4px;top:4px;z-index:4;padding:2px 7px;font-size:10px;font-weight:700;letter-spacing:.05em;color:#2a1c05;background:linear-gradient(180deg,#fff1c4,#f2c766);clip-path:polygon(4px 0,100% 0,calc(100% - 4px) 100%,0 100%)}
+@keyframes epiphany-glow{50%{box-shadow:0 0 0 1px #fff3cc,0 0 22px #ffd36acc,0 0 48px #ffcf5a77}}
+@media (prefers-reduced-motion:reduce){.card.epiphany-card{animation:none}}
+
+/* Shared awakening picker (in-battle Epiphany and tactical awakening). */
+.awaken-picker{display:flex;flex-direction:column;gap:12px;height:100%}
+.awaken-picker header small{color:var(--ui-gold);letter-spacing:.3em;font-size:11px}
+.awaken-picker header h2{margin:4px 0;font-size:22px}
+.awaken-picker header p{margin:0;color:var(--ui-ink-dim);font-size:13px}
+.awaken-row{display:flex;align-items:flex-start;justify-content:center;gap:14px;flex:1;min-height:0;overflow:auto;padding:6px 2px}
+.awaken-origin,.awaken-option{display:flex;flex-direction:column;align-items:center;gap:6px;transition:opacity .2s,transform .2s}
+.awaken-origin{opacity:.7}
+.awaken-origin small,.awaken-option small{font-size:11.5px;color:var(--ui-ink-dim);text-align:center;max-width:150px}
+.awaken-option small{color:var(--ui-ink)}
+.awaken-option.has-spark small{color:#ffe1a0}
+.awaken-option.has-spark .catalog-card{box-shadow:0 0 18px #ffcf5a66}
+.awaken-option.muted{opacity:.45}
+.awaken-option.selected{transform:translateY(-6px)}
+.awaken-option.selected .catalog-card{box-shadow:0 0 0 2px var(--accent),0 0 26px color-mix(in srgb,var(--accent) 60%,transparent)}
+.awaken-arrow{align-self:center;font-size:34px;color:var(--ui-gold);opacity:.7}
+.awaken-picker footer{display:flex;justify-content:center;gap:12px}
+.awaken-picker footer button{min-width:170px;min-height:40px}
+@media (max-height:500px) and (orientation:landscape){.awaken-row .card-gallery{zoom:.78}.awaken-picker header h2{font-size:18px}.awaken-picker header p{font-size:11px}.awaken-picker{gap:6px}}
+
+/* Save data cards. */
+.save-card{position:relative;display:grid;grid-template-columns:56px 1fr auto;align-items:center;gap:12px;padding:10px 14px 10px 10px;background:linear-gradient(100deg,color-mix(in srgb,var(--accent) 16%,#0c131c),#080c13);border:1px solid var(--ui-line-dim);border-left:3px solid var(--accent);clip-path:var(--ui-clip-s)}
+.save-card[role=button]{cursor:pointer}
+.save-card[role=button]:hover{filter:brightness(1.15)}
+.save-card.selected{border-color:var(--ui-line-strong);box-shadow:inset 0 0 0 1px #e3cc9766,0 0 18px #e3cc9733}
+.save-card img{width:56px;height:56px;object-fit:cover;object-position:50% 12%;background:#0005}
+.save-card small{font-size:10.5px;color:var(--ui-ink-dim);letter-spacing:.06em}
+.save-card strong{display:block;font-size:15px;color:var(--accent)}
+.save-card p{margin:2px 0 0;font-size:12px;color:var(--ui-ink)}
+.save-card .save-gear{color:var(--ui-ink-dim);font-size:11px}
+.save-value{font-size:22px;font-weight:700;color:var(--ui-gold);font-family:Paperlogy,sans-serif}
+.save-value::before{content:'가치';display:block;font-size:9px;font-weight:400;letter-spacing:.2em;color:var(--ui-ink-dim)}
+.save-card>button{grid-column:3;justify-self:end}
+.save-room{display:flex;flex-direction:column;gap:10px;min-height:0;height:100%}
+.save-list{display:flex;flex-direction:column;gap:16px;overflow:auto;min-height:0;padding-right:4px}
+.save-entry{display:flex;flex-direction:column;gap:8px}
+.save-deck{display:flex;flex-wrap:wrap;gap:6px;zoom:.62}
+.save-deck .card-choice{margin:0}
+.save-data-scene .save-decisions{display:grid;grid-template-columns:repeat(auto-fit,minmax(240px,1fr));gap:14px;width:min(1000px,94vw);margin:10px auto}
+.save-decision{display:flex;flex-direction:column;gap:8px;padding:10px;background:#070b12b3;border:1px solid var(--ui-line-dim);clip-path:var(--ui-clip)}
+.save-decision.drop{opacity:.55}
+.save-decision-actions{display:flex;flex-wrap:wrap;gap:6px;align-items:center}
+.save-decision-actions button.active{border-color:var(--ui-line-strong)!important;color:#fff3d0!important;background:linear-gradient(180deg,#3a2f17,#1c160b)!important}
+.save-state{margin:0;width:100%;font-size:12px;color:var(--ui-gold)}
+
+/* Raid room. */
+.raid-room{display:grid;grid-template-columns:minmax(220px,30%) 1fr;gap:18px;height:100%;min-height:0}
+.raid-boss-panel{display:flex;flex-direction:column;gap:8px;padding:16px;background:radial-gradient(ellipse at 30% 0,#5a1830aa,transparent 70%),#0a0d15;border:1px solid #e0607a55;clip-path:var(--ui-clip)}
+.raid-boss-panel small{color:#ff9db0;letter-spacing:.3em;font-size:11px}
+.raid-boss-panel h2{margin:0;font-size:22px}
+.raid-gauge{height:8px;background:#ffffff14;clip-path:polygon(0 0,100% 0,calc(100% - 4px) 100%,0 100%)}
+.raid-gauge i{display:block;height:100%;background:linear-gradient(90deg,#ff5f86,#ffcf7a)}
+.raid-boss-panel p{margin:0;font-size:12.5px}
+.raid-boss-panel button{margin-top:auto;min-height:44px}
+.raid-roster{display:flex;flex-direction:column;gap:12px;overflow:auto;min-height:0;padding-right:4px}
+.raid-hero h3{margin:0 0 6px;font-size:13px;letter-spacing:.2em;color:var(--accent)}
+.raid-hero{display:flex;flex-direction:column;gap:6px}
+
+/* ---------- Lobby hub ---------- */
+.lobby-hub{position:relative}
+.lobby-hub .home-character,.lobby-hub .home-actions,.lobby-hub .home-progress{display:none}
+.lobby-top{position:absolute;inset:26px 34px auto 34px;display:flex;align-items:center;gap:26px;z-index:3}
+.lobby-top>img{height:52px;filter:drop-shadow(0 2px 6px #000c)}
+.lobby-stats{display:flex;gap:4px;margin-left:auto}
+.lobby-stats span{display:flex;flex-direction:column;align-items:flex-end;padding:6px 16px;background:#05080ecc;border-bottom:1px solid var(--ui-line-dim);clip-path:polygon(10px 0,100% 0,100% 100%,0 100%)}
+.lobby-stats small{font-size:11px;color:var(--ui-ink-dim);letter-spacing:.08em}
+.lobby-stats b{font-size:20px;color:var(--ui-ink);font-weight:600}.lobby-stats b i{font-style:normal;font-size:12px;color:var(--ui-ink-dim)}
+.lobby-top .icon-button{width:52px;height:52px;clip-path:var(--ui-clip-s);background:#05080ecc;border:1px solid var(--ui-line-dim)}
+.lobby-run{position:absolute;left:34px;bottom:40px;width:400px;z-index:3;padding:20px 24px;background:linear-gradient(100deg,#05080ef2,#05080ec4);border:1px solid var(--ui-line-dim);border-left:3px solid var(--ui-line);clip-path:var(--ui-clip)}
+.lobby-run.active{border-left-color:var(--ui-teal)}
+.lobby-run small{color:var(--ui-gold);letter-spacing:.3em;font-size:12px}
+.lobby-run h2{margin:6px 0 10px;font-size:26px}
+.lobby-run p{margin:8px 0 14px;font-size:15px;color:#d4dad7;line-height:1.5}
+.lobby-run .home-progress-line{height:3px;background:#ffffff1a}.lobby-run .home-progress-line i{display:block;height:100%;background:var(--ui-teal)}
+.lobby-run-actions{display:flex;gap:10px}.lobby-run-actions .primary{min-width:200px;min-height:50px;font-size:17px}.lobby-run-actions .small{min-height:50px}
+.lobby-tiles{position:absolute;right:34px;top:120px;bottom:40px;width:420px;display:grid;grid-template-rows:1.6fr 1.2fr 1fr 1fr 1fr;gap:10px;z-index:3}
+.lobby-tile{display:flex;align-items:center;gap:18px;padding:0 24px!important;text-align:left;color:var(--ui-ink)!important;clip-path:polygon(22px 0,100% 0,100% calc(100% - 12px),calc(100% - 12px) 100%,0 100%,0 22px);border:1px solid var(--ui-line-dim)!important;
+ background:linear-gradient(100deg,#0a1119f0,#0a1119b3)!important;transition:transform .15s,filter .15s}
+.lobby-tile:hover{transform:translateX(-6px);filter:brightness(1.2)}
+.lobby-tile .tile-icon{display:grid;place-items:center;width:46px;height:46px;flex:none;border:1px solid var(--ui-line);transform:rotate(45deg)}
+.lobby-tile .tile-icon>*{transform:rotate(-45deg);width:24px;height:24px}
+.lobby-tile strong{display:block;font-size:21px;letter-spacing:.05em}
+.lobby-tile small{display:block;margin-top:3px;font-size:13px;color:var(--ui-ink-dim)}
+.lobby-tile.tile-main{background:linear-gradient(100deg,#123038f2,#0a1119c4)!important;border-color:#86d8d088!important}
+.lobby-tile.tile-main strong{font-size:30px}
+.lobby-tile.tile-main .tile-icon{width:60px;height:60px;border-color:var(--ui-teal)}
+.lobby-tile.tile-raid{background:linear-gradient(100deg,#3a0f1ef0,#0a1119c4)!important;border-color:#e0607a77!important}
+.lobby-tile.tile-raid .tile-icon{border-color:#ff8aa3}
+.lobby-top>img{width:auto!important;height:58px!important;max-width:none!important;position:static!important}
+.lobby-tile .tile-text{flex:1;text-align:left}
+.raid-room,.save-room{height:auto;max-height:100%;margin-top:6px}
+.raid-room{grid-template-rows:minmax(0,1fr)}
+.raid-boss-panel{overflow:auto;gap:6px;padding:12px 14px}
+.raid-boss-panel h2{font-size:19px}
+.raid-boss-panel .fineprint{font-size:11px;line-height:1.45}
+.raid-boss-panel button{position:sticky;bottom:0;margin-top:6px;flex:none}
+.save-card{grid-template-columns:48px 1fr auto;padding:7px 12px 7px 8px;gap:10px}
+.save-card img{width:48px;height:48px}
+.save-card strong{font-size:14px}
+.save-value{font-size:18px}
+.save-card{text-align:left}
+.save-card img{object-fit:cover;object-view-box:inset(2% 28% 66% 28%)}
+.save-card small{white-space:nowrap}
+body .lobby-hub .lobby-top>img{width:auto!important;height:58px!important;max-width:none!important;max-height:none!important}
+.save-card img{object-view-box:inset(11% 30% 55% 30%)}
+.card-epiphany-tag{top:auto;bottom:24%;right:4px}
+.awaken-picker>header{display:block!important;text-align:left}
+.awaken-picker>header>*{display:block}
+.awaken-row{align-items:center}
+@media (max-height:500px) and (orientation:landscape){.awaken-row .card-gallery{zoom:.66}.awaken-picker>header p{font-size:11px;margin-top:2px}.awaken-picker footer button{min-height:34px}}
+.awaken-picker{padding-top:8px}
+.awaken-row{padding-top:16px}
+@media (max-height:500px) and (orientation:landscape){.awaken-picker>header p{display:none}.awaken-picker>header h2{font-size:17px;margin:2px 0 0}.awaken-picker>header small{font-size:9px}.awaken-picker{gap:2px}.awaken-row{padding-top:10px}}

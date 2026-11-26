@@ -187,7 +187,7 @@ function migrateLegacy(value){
  const s=walk(value);s.version=2;if(s.checkpoint)s.checkpoint.version=2;return s;
 }
 export function newCampaign(previous,seed=Date.now()){
- const s=createGame(seed);if(previous?.collection)s.collection=clone(previous.collection);s.checkpoint=snapshot(s);return s;
+ const s=createGame(seed,{tutorial:!previous?.collection?.tutorialDone});if(previous?.collection)s.collection=clone(previous.collection);s.checkpoint=snapshot(s);return s;
 }
 function snapshot(s){const copy=clone(s);delete copy.checkpoint;delete copy.history;return copy;}
 function saveCheckpoint(s,isNew=false){if(s.phase!=='base')return;if(isNew){s.retries=0;s.temporal=0;}s.checkpoint=snapshot(s);}
@@ -577,7 +577,7 @@ export function makeUpgradeOffer(s,source='event',returnPhase='reward'){
 function gearDrop(s,elite=false){const keys=Object.keys(EQUIPMENT).filter(key=>(EQUIPMENT[key].rarity==='elite')===elite);return choose(s,keys);}
 export function rollLoot(s,elite=false){return {elite,equipment:random(s)<(elite?LOOT_RULES.eliteEquipment:LOOT_RULES.normalEquipment)?[gearDrop(s,elite&&random(s)<LOOT_RULES.eliteRarity)]:[],upgradeOffer:random(s)<(elite?LOOT_RULES.eliteUpgrade:LOOT_RULES.normalUpgrade)?makeUpgradeOffer(s,elite?'elite':'loot','travel'):null};}
 function returnFromFarm(s){const loc=s.farmReturn||{node:7,mode:'route',selectedStage:null};s.mode=loc.mode;s.node=loc.node;if(loc.lane!==undefined)s.lane=loc.lane;s.selectedStage=loc.selectedStage;s.farmReturn=null;s.phase='base';s.battle=null;s.upgradeOffer=null;}
-function finishRecruit(s,events){s.recruitNotice=null;s.battle=null;if(s.tutorial?.active){s.selectedStage=null;if(s.party.length<3){s.node=2;beginBattle(s,['trainingSlime','trainingSlime'],events);}else{s.tutorial={...s.tutorial,active:false,completed:true,step:'complete'};s.node=7;enterNode(s,events);}}else{s.phase='reward';s.lastReward=null;}}
+function finishRecruit(s,events){s.recruitNotice=null;s.battle=null;if(s.tutorial?.active){s.selectedStage=null;if(s.party.length<3){s.node=2;beginBattle(s,['trainingSlime','trainingSlime'],events);}else{s.tutorial={...s.tutorial,active:false,completed:true,step:'complete'};s.collection.tutorialDone=true;s.node=7;enterNode(s,events);}}else{s.phase='reward';s.lastReward=null;}}
 function applyEventCost(s,cost,events){
  s.hp=Math.max(0,s.hp-(cost.hp||0));if(cost.gold)s.gold=Math.max(0,s.gold-cost.gold);if(cost.stress)for(const id of s.party)stress(s,id,cost.stress,events);
  if(cost.curse){const hero=choose(s,s.party);for(let i=0;i<cost.curse;i++)s.heroes[hero].curses.push({key:'curse_echo',uid:`curse-${s.rng}-${s.node}-${s.heroes[hero].curses.length}`});}
