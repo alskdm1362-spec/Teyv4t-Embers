@@ -28,7 +28,7 @@ test('v0.36 stage 1: damage uses ATK, crit and DEF; shields are personal except 
 test('v0.36 stage 1: enemy hits pick a hero, are cut by that hero DEF and shield, and are recorded per hero',()=>{
  const s=qaFixture('battle');for(const id of s.party)s.heroes[id].shield=0;s.shield=0;s.battle.enemies=s.battle.enemies.slice(0,1);const e=s.battle.enemies[0];e.hp=e.maxHp=9999;e.stun=0;
  e.intent={name:'시험',damage:200,stress:0,target:'durin',tag:'시험'};s.heroes.durin.shield=50;const hp=s.hp;go(s,{type:'endTurn'});
- assert.equal(s.hp,hp-150);assert.equal(s.heroes.durin.scar,150);assert.equal(s.heroes.durin.lost,150);assert.equal(s.heroes.durin.shield,0);
+ assert.equal(s.hp,hp-150);assert.equal(s.heroes.durin.scar,150);assert.equal(Object.values(s.heroes.durin.body).reduce((a,n)=>a+n,0),0);assert.equal(s.heroes.durin.lost,150);assert.equal(s.heroes.durin.shield,0);
 });
 
 test('v0.36 stage 1: a retiring hero removes their max HP and their remaining share; old saves rescale',()=>{

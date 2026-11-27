@@ -2,14 +2,10 @@
   "date": "2026-11-23",
   "files": {
     "dist/vendor/game-vfx-pack.js": "24f37911729b0e22df8a4cabd2b755c0429692e05e29c1b287a6f097fdeb405b",
-    "references/supplied/3d_flat_plane_polyhedral_dice.html": "51d3e9f2ae5f6b71f821f1e0f8e77a87f188ed6122ed42c7f86c14d813df8114",
-    "dist/vendor/three-r128.min.js": "9274bbcec8d96168626c732b5d31c775aa8cfb7eaa0599bec0c175908a2c1ce2",
-    "dist/vendor/THREE-LICENSE.txt": "7dddf7c5b8fd10ee654db8857d75d104b5557889aa5a91fc4ca545ea7c07062f"
+    "references/supplied/3d_flat_plane_polyhedral_dice.html": "51d3e9f2ae5f6b71f821f1e0f8e77a87f188ed6122ed42c7f86c14d813df8114"
   },
   "sources": {
     "game-vfx-pack.js": "User attachment: game-vfx-pack (1).js (unaltered)",
-    "dice": "User attachment: 3d_flat_plane_polyhedral_dice.html (original preserved)",
-    "three": "https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js",
-    "license": "https://raw.githubusercontent.com/mrdoob/three.js/r128/LICENSE"
+    "dice": "User attachment: 3d_flat_plane_polyhedral_dice.html (original preserved; retired from the game in v0.36 stage 5 — dist/dice.js now draws a library-free d20)"
   }
 }

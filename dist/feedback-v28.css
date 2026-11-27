@@ -544,3 +544,39 @@ button.primary:hover:not(:disabled){filter:none;color:#fff3d6!important;box-shad
 @keyframes judgmentPulse{50%{box-shadow:0 0 0 2px #fff0c0,0 0 36px rgba(255,220,130,.95),0 0 76px rgba(170,120,255,.5)}}
 .in-battle .hand .card.combine-out{z-index:40;pointer-events:none}
 @media (prefers-reduced-motion:reduce){.in-battle .hand .card.judgment-card{animation:none}}
+
+/* v0.36 5단계 — 상흔 게이지 · 부상 부위 · 룰렛 */
+.fighter-scar{position:absolute;left:50%;bottom:-2px;transform:translateX(-50%);width:76px;height:7px;background:#05080ecc;border:1px solid #ffffff26;clip-path:polygon(3px 0,100% 0,calc(100% - 3px) 100%,0 100%);z-index:3;pointer-events:none}
+.fighter-scar i{display:block;height:100%;background:linear-gradient(90deg,#b9783a,#e0553f 70%,#ff3d52);transition:width .18s ease-out}
+.fighter-scar.near{border-color:#ff8f7acc;animation:scar-blink .7s ease-in-out infinite}
+.fighter-scar.near i{background:linear-gradient(90deg,#e0553f,#ff3d52)}
+@keyframes scar-blink{0%,100%{filter:brightness(1)}50%{filter:brightness(1.9) saturate(1.3)}}
+.fighter-wounds{position:absolute;left:calc(50% + 45px);bottom:-9px;width:16px;height:30px;z-index:3;pointer-events:none;filter:drop-shadow(0 1px 2px #000c)}
+.body-mini,.roulette-body{display:block;width:100%;height:100%;overflow:visible}
+.body-mini .torso,.roulette-body .torso{fill:#2a3542;stroke:#9fb4bd66;stroke-width:5}
+.body-mini [data-part],.roulette-body [data-part]{fill:#3c4a57;stroke:#9fb4bd66;stroke-width:5}
+.body-mini [data-stage="1"],.roulette-body [data-stage="1"]{fill:#e9c46a;stroke:#fff1c4}
+.body-mini [data-stage="2"],.roulette-body [data-stage="2"]{fill:#e86e80;stroke:#ffd0d6}
+.body-mini [data-stage="3"],.roulette-body [data-stage="3"]{fill:#090d15;stroke:#ff5a6e;stroke-width:9}
+.aftermath-stage .fighter-scar,.event-field .fighter-scar{display:none}
+.aftermath-stage .fighter-wounds,.event-field .fighter-wounds{left:calc(50% + 30px)}
+.scar-roulette{position:fixed;z-index:60;width:54px;height:96px;margin:-48px 0 0 22px;padding:7px 9px 18px;background:#070b12e0;border:1px solid #c9a27a88;clip-path:polygon(7px 0,100% 0,100% calc(100% - 7px),calc(100% - 7px) 100%,0 100%,0 7px);pointer-events:none;animation:roulette-in .12s ease-out both}
+.scar-roulette .roulette-body [data-off]{fill:#06080c;stroke:#39424c;opacity:.55}
+.scar-roulette .roulette-body .lit{fill:#ffd9a0;stroke:#fff;filter:drop-shadow(0 0 5px #ffb45c)}
+.scar-roulette b{position:absolute;left:50%;bottom:3px;transform:translateX(-50%);white-space:nowrap;font-size:10px;font-weight:700;letter-spacing:.3px;color:#ffe2b8;text-shadow:0 1px 2px #000}
+.scar-roulette.landed{border-color:#ffb45c;width:auto;min-width:54px}
+.scar-roulette.landed .roulette-body{width:36px;margin:0 auto}
+.scar-roulette.landed .lit{animation:roulette-hit .32s ease-out both}
+.scar-roulette[data-stage="2"].landed{border-color:#e86e80}.scar-roulette[data-stage="2"].landed b{color:#ffc2cb}
+.scar-roulette[data-stage="3"].landed{border-color:#ff3d52;background:#16070be8}.scar-roulette[data-stage="3"].landed b{color:#ff8f9c}
+.scar-roulette.leaving{opacity:0;transform:translateY(-8px);transition:opacity .18s,transform .18s}
+@keyframes roulette-in{from{opacity:0;transform:scale(.8)}to{opacity:1;transform:none}}
+@keyframes roulette-hit{0%{transform:scale(1.5);transform-origin:center;transform-box:fill-box}100%{transform:none;transform-origin:center;transform-box:fill-box}}
+.event-choice-wrap.leg-locked .event-decision{opacity:.5;filter:grayscale(.7);cursor:not-allowed}
+.event-choice-wrap.leg-locked .event-locked-line{color:#ff9aa5;font-weight:700}
+@media(prefers-reduced-motion:reduce){.fighter-scar.near{animation:none;border-color:#ff5a6e}.scar-roulette,.scar-roulette.landed .lit{animation:none}}
+.scar-roulette.landed .roulette-body .lit[data-stage="1"]{fill:#e9c46a;stroke:#fff1c4}
+.scar-roulette.landed .roulette-body .lit[data-stage="2"]{fill:#e86e80;stroke:#ffd0d6}
+.scar-roulette.landed .roulette-body .lit[data-stage="3"]{fill:#090d15;stroke:#ff5a6e}
+@media(max-height:500px){.scar-roulette{width:44px;height:80px;margin:-40px 0 0 16px;padding:6px 7px 16px}.scar-roulette.landed .roulette-body{width:30px}.scar-roulette b{font-size:9px}}
+.body-legend.staged>span:nth-child(1){color:#67c5aa}.body-legend.staged>span:nth-child(2){color:#e9c46a}.body-legend.staged>span:nth-child(3){color:#e86e80}.body-legend.staged>span:nth-child(4){color:#92979e}
