@@ -40,13 +40,13 @@ export function compatibleSparkIds(info){
 }
 export function effectDescription(e={}){
  const out=[];
- if(e.extraPierce)out.push(`장막 추가 압박 ${e.extraPierce}.`);
+ if(e.extraPierce)out.push(`장막 추가 압박 ${Math.round(e.extraPierce*100/9)}%.`);
  if(e.vuln)out.push(`공격한 적에게 취약 ${e.vuln}턴.`);
- if(e.shield)out.push(`공용 보호막 ${e.shield} 추가.`);
- if(e.focus)out.push(`이번 턴 다음 자신의 공격 피해 +${e.focus}.`);
- if(e.nextPierce)out.push(`이번 턴 다음 자신의 공격 장막 압박 +${e.nextPierce}.`);
- if(e.counter)out.push(`방어 성공 시 다음 자신의 공격에 추가 타격 ${e.counter}.`);
- if(e.heal)out.push(`공용 체력 ${e.heal} 회복 (턴당 1회).`);
+ if(e.shield)out.push(`방어력 기반 보호막 ${Math.round(e.shield*200/7)}% 추가.`);
+ if(e.focus)out.push(`이번 턴 다음 자신의 공격 피해 +${Math.round(e.focus*100/9)}%.`);
+ if(e.nextPierce)out.push(`이번 턴 다음 자신의 공격 장막 압박 +${Math.round(e.nextPierce*100/9)}%.`);
+ if(e.counter)out.push(`방어 성공 시 다음 자신의 공격에 추가 타격 피해 ${Math.round(e.counter*100/9)}%.`);
+ if(e.heal)out.push(`최대 체력 기반 회복 ${e.heal}% (턴당 1회).`);
  if(e.calm)out.push(`자신의 정신 부담 ${e.calm} 완화.`);
  if(e.support)out.push(`지원 +${e.support}.`);
  if(e.draw)out.push(`카드 ${e.draw}장 드로우 (턴당 1회).`);
@@ -54,7 +54,7 @@ export function effectDescription(e={}){
  if(e.killRefund)out.push(`처치 시 행동력 ${e.killRefund} 회수 (턴당 1회).`);
  if(e.killGold)out.push(`처치 시 모라 ${e.killGold} 획득 (전투당 1회).`);
  if(e.discountNext)out.push('이번 턴 다음 공격 카드 비용 -1 (중첩 불가).');
- if(e.shieldDamage)out.push(`공용 보호막의 ${Math.round(e.shieldDamage*100)}%만큼 피해 추가 (최대 ${e.shieldDamageCap}).`);
+ if(e.shieldDamage)out.push(`본인 보호막 기반 피해 ${Math.round(e.shieldDamage*100)}% 추가 (최대 ${Math.round(e.shieldDamageCap*100/9)}%).`);
  if(e.create)out.push(`${e.create==='d_resonance'?'흑염의 잔향':'비밀 수첩'} 1장 생성 (전투당 1회).`);
  return out.join(' ');
 }

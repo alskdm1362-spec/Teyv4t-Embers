@@ -10,7 +10,7 @@ function turn(s){
  if(b.chooseDiscard){const sorted=b.hand.map(c=>({c,i:cardInfo(s,c)})).sort((a,b)=>a.i.amount-b.i.amount);action(s,{type:'discard',uid:sorted[0].c.uid});return;}
  const enemies=b.enemies.filter(e=>e.hp>0);
  const target=[...enemies].sort((a,b)=>(a.kind==='star'?-1:b.kind==='star'?1:0)||(a.hp+a.ward)-(b.hp+b.ward))[0];
- if(s.support>=2&&!b.supportUsed){const hero=s.party.includes('durin')&&s.hp<45?'durin':'lohen';action(s,{type:'support',hero,target:target.id});return;}
+ if(s.support>=2&&!b.supportUsed){const hero=s.party.includes('durin')&&s.hp<s.maxHp*.45?'durin':'lohen';action(s,{type:'support',hero,target:target.id});return;}
  const incoming=enemies.reduce((n,e)=>n+(e.intent?.damage||0),0);
  const cards=b.hand.map(c=>({c,i:cardInfo(s,c)})).filter(x=>x.i.cost<=b.ap).map(x=>{
   const i=x.i;let value=-100;
@@ -18,7 +18,7 @@ function turn(s){
   if(i.type==='focus'&&b.hand.some(c=>CARDS[c.key].type==='attack'&&c.owner===x.c.owner))value=40;
   if(i.type==='energy')value=45;
   if(i.type==='draw'&&b.hand.length<6)value=35;
-  if(i.type==='guard'||i.type==='counter')value=s.shield<incoming?i.amount/(i.cost||.5)+(s.hp<40?10:0):0;
+  if(i.type==='guard'||i.type==='counter'){const party=x.c.owner==='illuga'&&i.type==='guard',mine=enemies.filter(e=>party||e.intent?.target===x.c.owner).reduce((n,e)=>n+(e.intent?.damage||0),0),have=party?s.shield:(s.heroes[x.c.owner].shield||0);value=have<mine?i.amount/(i.cost||.5)+(s.hp<s.maxHp*.4?10:0):0;}
   if(i.type==='cover')value=1;
   if(i.type==='breakdown')value=20;
   return {...x,value};
@@ -117,7 +117,7 @@ test('all three parties can finish post-base challenge with modest preparation',
 
 test('breaking one linked angler ward removes all linked wards and interrupts attacks',()=>{
  const s=toBase(['durin','illuga']);s.node=6;s.phase='reward';s.node=5;action(s,{type:'advance'});
- assert.equal(s.battle.enemies.length,2);assert.ok(s.battle.enemies.every(e=>e.ward===12));s.support=2;
+ assert.equal(s.battle.enemies.length,2);assert.ok(s.battle.enemies.every(e=>e.ward===120));s.support=2;
  action(s,{type:'support',hero:'lohen'});assert.ok(s.battle.enemies.every(e=>e.ward===0));assert.ok(s.battle.enemies.every(e=>e.intent.stunned));
  const hp=s.hp;action(s,{type:'endTurn'});assert.equal(s.hp,hp);
 });
@@ -139,8 +139,8 @@ test('returning from farming saves wounds and retirement until explicit recovery
  s.hp=32;s.heroes.durin.body.leftArm=3;s.heroes.durin.body.rightArm=3;s.heroes.durin.retired=true;s.heroes.durin.stress=76;s.heroes.lohen.stress=28;
  const r=action(s,{type:'advance'});assert.equal(s.phase,'base');assert.equal(s.hp,32);assert.equal(s.heroes.durin.retired,true);assert.equal(s.heroes.durin.body.leftArm,3);assert.equal(s.heroes.durin.stress,76);assert.equal(s.heroes.lohen.stress,28);assert.equal(s.retries,3);assert.equal(s.temporal,2);assert.ok(!r.events.some(e=>e.type==='heal'));
  assert.equal(s.checkpoint.hp,32);assert.equal(s.checkpoint.heroes.durin.retired,true);assert.ok(healingNeeds(s).needed);
- const gold=s.gold,heal=action(s,{type:'heal'});assert.equal(s.hp,62);assert.equal(s.heroes.durin.retired,false);assert.ok(Object.values(s.heroes.durin.body).every(n=>n===0));assert.equal(s.heroes.durin.stress,71);assert.equal(s.heroes.lohen.stress,23);assert.equal(s.gold,gold);assert.equal(s.retries,3);assert.ok(heal.events.some(e=>e.type==='heal'&&e.heroes.includes('durin')));assert.equal(healingNeeds(s).needed,true);
- assert.equal(s.checkpoint.hp,62);assert.equal(s.checkpoint.heroes.durin.retired,false);
+ const gold=s.gold,heal=action(s,{type:'heal'});assert.equal(s.hp,32+Math.round(.3*980)+400);assert.equal(s.heroes.durin.retired,false);assert.ok(Object.values(s.heroes.durin.body).every(n=>n===0));assert.equal(s.heroes.durin.stress,71);assert.equal(s.heroes.lohen.stress,23);assert.equal(s.gold,gold);assert.equal(s.retries,3);assert.ok(heal.events.some(e=>e.type==='heal'&&e.heroes.includes('durin')));assert.equal(healingNeeds(s).needed,true);
+ assert.equal(s.checkpoint.hp,32+Math.round(.3*980)+400);assert.equal(s.checkpoint.heroes.durin.retired,false);
 });
 
 test('first base arrival and checkpoint rewind preserve unhealed state; recovery is separately saved',()=>{
@@ -148,8 +148,8 @@ test('first base arrival and checkpoint rewind preserve unhealed state; recovery
  s.hp=31;s.heroes.durin.body.leftArm=3;s.heroes.durin.body.rightLeg=3;s.heroes.durin.retired=true;s.heroes.durin.stress=100;s.heroes.durin.breakdown={type:'panic',failures:7};s.retries=4;s.temporal=2;
  const arrival=action(s,{type:'advance'});assert.equal(s.phase,'base');assert.equal(s.hp,31);assert.equal(s.heroes.durin.retired,true);assert.equal(s.heroes.durin.body.leftArm,3);assert.equal(s.checkpoint.hp,31);assert.equal(s.retries,0);assert.equal(s.temporal,0);assert.ok(!arrival.events.some(e=>e.type==='heal'));
  const loaded=hydrate(serialize(s));action(loaded,{type:'farm'});loaded.phase='defeat';loaded.hp=0;action(loaded,{type:'restart'});assert.equal(loaded.hp,31);assert.equal(loaded.heroes.durin.retired,true);assert.equal(loaded.heroes.durin.breakdown.failures,7);assert.equal(loaded.retries,1);
- const gold=loaded.gold;action(loaded,{type:'heal'});assert.equal(loaded.hp,61);assert.equal(loaded.heroes.durin.retired,false);assert.equal(loaded.heroes.durin.stress,95);assert.deepEqual(loaded.heroes.durin.breakdown,{type:'panic',failures:7});assert.equal(loaded.gold,gold);
- action(loaded,{type:'farm'});loaded.phase='defeat';loaded.hp=0;action(loaded,{type:'restart'});assert.equal(loaded.hp,61);assert.equal(loaded.heroes.durin.retired,false);assert.equal(loaded.heroes.durin.stress,95);assert.equal(loaded.retries,2);
+ const gold=loaded.gold;action(loaded,{type:'heal'});assert.equal(loaded.hp,31+Math.round(.3*980)+400);assert.equal(loaded.heroes.durin.retired,false);assert.equal(loaded.heroes.durin.stress,95);assert.deepEqual(loaded.heroes.durin.breakdown,{type:'panic',failures:7});assert.equal(loaded.gold,gold);
+ action(loaded,{type:'farm'});loaded.phase='defeat';loaded.hp=0;action(loaded,{type:'restart'});assert.equal(loaded.hp,31+Math.round(.3*980)+400);assert.equal(loaded.heroes.durin.retired,false);assert.equal(loaded.heroes.durin.stress,95);assert.equal(loaded.retries,2);
 });
 
 test('body recovery only acts at base and cannot erase combat wounds by an invalid action',()=>{
@@ -178,8 +178,8 @@ test('ultimate validates target and gauge atomically and rejects retired or coll
 
 test('Durin ultimate hits all enemies while Illuga ultimate sets shield and a real counter',()=>{
  const s=toBase(['durin','illuga']);action(s,{type:'farm'});s.support=6;
- const hp=s.battle.enemies.map(e=>e.hp);action(s,{type:'ultimate',hero:'durin'});assert.ok(s.battle.enemies.every((e,i)=>e.hp===hp[i]-22));
- action(s,{type:'ultimate',hero:'illuga'});assert.equal(s.shield,25);assert.equal(s.heroes.illuga.buffs.counterReady,12);action(s,{type:'endTurn'});assert.equal(s.heroes.illuga.buffs.counter,12);
+ const hp=s.battle.enemies.map(e=>e.hp);action(s,{type:'ultimate',hero:'durin'});assert.ok(s.battle.enemies.every((e,i)=>e.hp<hp[i]));
+ action(s,{type:'ultimate',hero:'illuga'});assert.equal(s.shield,3*Math.round(25*2/7*80/3));assert.ok(s.party.every(id=>s.heroes[id].shield>0));assert.equal(s.heroes.illuga.buffs.counterReady,12);action(s,{type:'endTurn'});assert.equal(s.heroes.illuga.buffs.counter,12);
 });
 
 test('Jahoda ultimate caps AP at six, draws two without discard, and resets only next battle',()=>{
@@ -189,8 +189,8 @@ test('Jahoda ultimate caps AP at six, draws two without discard, and resets only
 });
 
 test('card descriptions show upgraded numeric effects and B branches have actual benefits',()=>{
- const s=toBase(['durin','jahoda']);s.heroes.lohen.upgrades.l_strike='A';let info=cardInfo(s,{owner:'lohen',key:'l_strike'});assert.equal(info.amount,13);assert.match(info.desc,/피해 13/);assert.doesNotMatch(info.desc,/피해 9/);
- s.heroes.lohen.upgrades.l_guard='B';info=cardInfo(s,{owner:'lohen',key:'l_guard'});assert.equal(info.amount,6);assert.match(info.desc,/보호막 6/);assert.match(info.desc,/다음 자신의 공격 피해 \+5/);
+ const s=toBase(['durin','jahoda']);s.heroes.lohen.upgrades.l_strike='A';let info=cardInfo(s,{owner:'lohen',key:'l_strike'});assert.equal(info.amount,13);assert.match(info.desc,/피해 144%/);assert.doesNotMatch(info.desc,/피해 100%/);
+ s.heroes.lohen.upgrades.l_guard='B';info=cardInfo(s,{owner:'lohen',key:'l_guard'});assert.equal(info.amount,6);assert.match(info.desc,/보호막 171%/);assert.match(info.desc,/다음 자신의 공격 피해 \+56%/);
  s.heroes.jahoda.upgrades.j_strike='B';action(s,{type:'farm'});const all=[...s.battle.hand,...s.battle.draw];const c=all.find(c=>c.key==='j_strike');s.battle.draw=s.battle.draw.filter(x=>x.uid!==c.uid);if(!s.battle.hand.some(x=>x.uid===c.uid))s.battle.hand.push(c);const shield=s.shield;action(s,{type:'play',uid:c.uid,target:s.battle.enemies[0].id});assert.equal(s.shield,shield);assert.equal(s.battle.enemies[0].vulnerable,1);
 });
 test('attack-focused starter pools keep one defense while preserving four cards per owner',()=>{

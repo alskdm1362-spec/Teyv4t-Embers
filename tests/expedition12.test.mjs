@@ -49,7 +49,7 @@ test('all event choices are two or three options, apply announced gains/costs on
   if(c.dice){dice++;assert.equal(typeof s.eventResult.success,'boolean');assert.equal(s.eventResult.dc,c.dice.dc);continue;}
   if(c.mystery){mystery++;assert.ok(s.eventResult.revealed);assert.ok(c.mystery.some(o=>o.benefit.kind===s.eventResult.benefit.kind));continue;}
   kinds.add(c.benefit.kind);const cost=c.cost;
-  if(!cost.injury)assert.equal(s.hp,Math.min(s.maxHp,hp-(cost.hp||0)+(c.benefit.kind==='heal'?Math.min(c.benefit.amount,s.maxHp-(hp-(cost.hp||0))):0)));
+  const pct=n=>Math.round((n||0)*s.maxHp/100);if(!cost.injury)assert.equal(s.hp,Math.min(s.maxHp,hp-pct(cost.hp)+(c.benefit.kind==='heal'?Math.min(pct(c.benefit.amount),s.maxHp-(hp-pct(cost.hp))):0)));
   if(cost.stress)for(const id of s.party)assert.equal(s.heroes[id].stress,35+cost.stress);
   if(c.benefit.kind==='calm')for(const id of s.party)assert.equal(s.heroes[id].stress,Math.max(0,35-c.benefit.amount));
   if(cost.curse)assert.equal(s.party.flatMap(id=>ownedDeck(s,id)).length,deck+cost.curse);
