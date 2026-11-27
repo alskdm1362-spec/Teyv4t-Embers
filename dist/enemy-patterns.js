@@ -5,8 +5,9 @@
    damage is in raw points (scaled by ENEMY_DAMAGE_SCALE and the target's DEF in the engine).
    mental:true marks a mental attack; it only becomes one in elite or boss fights. */
 
-export const STRESS_PIP=10;            // one '정신력' step on the 100-point 정신부담 gauge
-export const HIT_STRESS_CAP=2;         // unblocked hits add at most two steps per hero per turn
+export const STRESS_PIP=10;            // one '정신력' step on the 100-point 정신부담 gauge (mental attacks)
+export const HIT_STRESS={normal:5,elite:10,boss:15}; // an unblocked hit, by the attacker's rank (user decision 11-28)
+export const HIT_STRESS_CAP=2;         // unblocked hits count at most twice per hero per turn
 export const ELITE_MENTAL=2,BOSS_MENTAL=3; // steps added by a mental attack, regardless of shields
 
 export const ENEMY_CYCLES={
