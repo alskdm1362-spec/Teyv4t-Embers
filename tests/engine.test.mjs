@@ -7,12 +7,13 @@ import { createGame as createLegacyFixture, act, cardInfo, serialize, hydrate, a
 function action(s,a){const r=act(s,a);assert.equal(r.ok,true,r.error);return r;}
 function turn(s){
  const b=s.battle;
- if(b.chooseDiscard){const sorted=b.hand.map(c=>({c,i:cardInfo(s,c)})).sort((a,b)=>a.i.amount-b.i.amount);action(s,{type:'discard',uid:sorted[0].c.uid});return;}
+ if(b.pickDraw){action(s,{type:'pickDraw',uid:b.draw.at(-1).uid});return;}
+ if(b.chooseDiscard){const d=b.discardCtx;if(d?.optional){action(s,{type:'discardDone'});return;}const sorted=b.hand.map(c=>({c,i:cardInfo(s,c)})).filter(x=>!(d?.filter==='nonShard'&&x.i.shard)).sort((a,b)=>a.i.amount-b.i.amount);action(s,{type:'discard',uid:sorted[0].c.uid});return;}
  const enemies=b.enemies.filter(e=>e.hp>0);
  const target=[...enemies].sort((a,b)=>(a.kind==='star'?-1:b.kind==='star'?1:0)||(a.hp+a.ward)-(b.hp+b.ward))[0];
  if(s.support>=2&&!b.supportUsed){const hero=s.party.includes('durin')&&s.hp<s.maxHp*.45?'durin':'lohen';action(s,{type:'support',hero,target:target.id});return;}
  const incoming=enemies.reduce((n,e)=>n+(e.intent?.damage||0),0);
- const cards=b.hand.map(c=>({c,i:cardInfo(s,c)})).filter(x=>x.i.cost<=b.ap).map(x=>{
+ const cards=b.hand.map(c=>({c,i:cardInfo(s,c)})).filter(x=>x.i.cost<=b.ap&&!(x.i.perTurnUse&&(b.turnUses?.[x.c.key]||0)>=x.i.perTurnUse)).map(x=>{
   const i=x.i;let value=-100;
   if(i.type==='attack')value=(i.amount+(i.target==='all'?(enemies.length-1)*i.amount:0))/(i.cost||.5)+3;
   if(i.type==='focus'&&b.hand.some(c=>CARDS[c.key].type==='attack'&&c.owner===x.c.owner))value=40;
@@ -21,6 +22,8 @@ function turn(s){
   if(i.type==='guard'||i.type==='counter'){const party=x.c.owner==='illuga'&&i.type==='guard',mine=enemies.filter(e=>party||e.intent?.target===x.c.owner).reduce((n,e)=>n+(e.intent?.damage||0),0),have=party?s.shield:(s.heroes[x.c.owner].shield||0);value=have<mine?i.amount/(i.cost||.5)+(s.hp<s.maxHp*.4?10:0):0;}
   if(i.type==='cover')value=1;
   if(i.type==='breakdown')value=20;
+  if(i.type==='skill')value=(i.keywords||[]).includes('unplayable')?-100:i.cost===0?30:4;
+  if(i.xCost)value=b.ap>=2?60:-100;
   return {...x,value};
  }).sort((a,b)=>b.value-a.value);
  if(cards[0]?.value>0){const {c,i}=cards[0];action(s,{type:'play',uid:c.uid,target:i.target==='ally'?s.party[0]:target.id});return;}
@@ -188,10 +191,10 @@ test('Jahoda ultimate caps AP at six, draws two without discard, and resets only
  for(let k=0;k<400&&s.phase==='battle';k++)turn(s);assert.equal(s.phase,'reward');action(s,{type:'advance'});action(s,{type:'farm'});assert.equal(s.battle.ultimates.jahoda,undefined);
 });
 
-test('card descriptions show upgraded numeric effects and B branches have actual benefits',()=>{
- const s=toBase(['durin','jahoda']);s.heroes.lohen.upgrades.l_strike='A';let info=cardInfo(s,{owner:'lohen',key:'l_strike'});assert.equal(info.amount,13);assert.match(info.desc,/피해 144%/);assert.doesNotMatch(info.desc,/피해 100%/);
- s.heroes.lohen.upgrades.l_guard='B';info=cardInfo(s,{owner:'lohen',key:'l_guard'});assert.equal(info.amount,6);assert.match(info.desc,/보호막 171%/);assert.match(info.desc,/다음 자신의 공격 피해 \+56%/);
- s.heroes.jahoda.upgrades.j_strike='B';action(s,{type:'farm'});const all=[...s.battle.hand,...s.battle.draw];const c=all.find(c=>c.key==='j_strike');s.battle.draw=s.battle.draw.filter(x=>x.uid!==c.uid);if(!s.battle.hand.some(x=>x.uid===c.uid))s.battle.hand.push(c);const shield=s.shield;action(s,{type:'play',uid:c.uid,target:s.battle.enemies[0].id});assert.equal(s.shield,shield);assert.equal(s.battle.enemies[0].crack,2);
+test('card descriptions follow the chosen branch and the branch changes what the card does',()=>{
+ const s=toBase(['durin','jahoda']);s.heroes.lohen.upgrades.l_strike='A';let info=cardInfo(s,{owner:'lohen',key:'l_strike'});assert.match(info.desc,/피해 130%/);assert.doesNotMatch(info.desc,/피해 100%/);assert.equal(info.title,'정확한 일격 · 안정');
+ s.heroes.lohen.upgrades.l_guard='B';info=cardInfo(s,{owner:'lohen',key:'l_guard'});assert.equal(info.cost,0);assert.equal(info.exhaust,true);assert.match(info.desc,/^소멸\. /);
+ s.heroes.jahoda.upgrades.j_strike='C';action(s,{type:'farm'});const all=[...s.battle.hand,...s.battle.draw];const c=all.find(c=>c.key==='j_strike');s.battle.draw=s.battle.draw.filter(x=>x.uid!==c.uid);if(!s.battle.hand.some(x=>x.uid===c.uid))s.battle.hand.push(c);const shield=s.shield,id=s.battle.enemies[0].id;s.battle.enemies[0].hp=s.battle.enemies[0].maxHp=9999;action(s,{type:'play',uid:c.uid,target:id});assert.equal(s.shield,shield);assert.equal(s.battle.enemies.find(e=>e.id===id).crack,1);
 });
 test('attack-focused starter pools keep one defense while preserving four cards per owner',()=>{
  const s=toBase(['durin','illuga']);action(s,{type:'farm'});const cards=[...s.battle.hand,...s.battle.draw];

@@ -17,7 +17,7 @@ test('all six tutorial recruitment orders wait for arrival and the full join dia
  }
 });
 test('authored story lines and pose cues remain separate, with correct pair artwork and persistent normal pose',()=>{
- assert.deepEqual(Object.values(JOIN_LINES).map(x=>x.length),[6,8,9]);assert.deepEqual(Object.values(CARE_SCRIPT).map(x=>x.length),[9,12,11,10]);
+ assert.deepEqual(Object.values(JOIN_LINES).slice(0,3).map(x=>x.length),[6,8,9]);assert.deepEqual(Object.values(CARE_SCRIPT).slice(0,4).map(x=>x.length),[9,12,11,10]);for(const id of ['kinich','lyney','cyno']){assert.ok(JOIN_LINES[id].length>=3);assert.ok(CARE_SCRIPT[id].at(-1).normal);}
  assert.equal(JOIN_LINES.durin[3].motion,'bounce');assert.equal(JOIN_LINES.jahoda[0].hideLohen,true);assert.equal(JOIN_LINES.jahoda[3].motion,'shake');assert.equal(CARE_SCRIPT.illuga.at(-1).normal,true);
  const hidden=storyDialogue({kind:'join',hero:'jahoda',index:0});assert.doesNotMatch(hidden,/data-story-actor="lohen"/);assert.match(storyDialogue({kind:'join',hero:'jahoda',index:1}),/data-story-actor="lohen"/);
  for(const hero of Object.keys(CARE_SCRIPT)){const normal=CARE_SCRIPT[hero].findIndex(x=>x.normal);for(let i=0;i<CARE_SCRIPT[hero].length;i++){const html=storyDialogue({kind:'care',hero,index:i,broken:true});assert.ok(html.includes(CARE_SCRIPT[hero][i].text));if(normal>=0&&i>=normal)assert.doesNotMatch(html,new RegExp(hero+'-collapse'));for(const match of html.matchAll(/src="([^"]+)"/g))assert.ok(fs.existsSync(new URL('../dist/'+match[1],import.meta.url)));}}

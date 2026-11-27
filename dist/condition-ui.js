@@ -1,11 +1,12 @@
+import {standingArt,faceArt36,bannerArt} from './cast36.js';
 import {HEROES,PART_NAMES,BODY_STAGES} from './engine.js';
 export const NEW_ART='assets/illustrations3/';
 export const partnerId=id=>HEROES[id].partner;
-export const faceArt=(id,broken=false)=>`${NEW_ART}portraits/${id}${broken?'-collapse':''}.webp`;
-export const skillFace=(id,kind)=>`${NEW_ART}skill-portraits/${kind==='support'?partnerId(id):id}.webp`;
+export const faceArt=(id,broken=false)=>faceArt36(id,broken);
+export const skillFace=(id,kind,partner=partnerId(id))=>bannerArt(kind==='support'?partner:id);
 export function dialogueStage({hero,partner=partnerId(hero),speaker,text,controls,counter='',broken=false}){
- const partnerName=HEROES[hero].partnerName,heroName=HEROES[hero].name,side=['varka','albedo'].includes(partner)?'left':'right';
- return `<div class="visual-dialogue story-dialogue tutorial-conversation partner-${side}"><div class="dialogue-actors"><img class="dialogue-actor actor-hero ${speaker===heroName?'speaking':'listening'}" src="${NEW_ART}standing/${hero}${broken?'-collapse':''}.webp" alt="${heroName}"><img class="dialogue-actor actor-partner ${speaker===partnerName?'speaking':'listening'}" src="${NEW_ART}standing/${partner}.webp" alt="${partnerName}"></div><div class="dialogue-box"><strong>${speaker}</strong><p>${text}</p><div class="dialogue-controls"><small>${counter}</small>${controls}</div></div></div>`;
+ const partnerName=HEROES[hero].partnerNames?.[partner]||HEROES[hero].partnerName,heroName=HEROES[hero].name,side=['varka','albedo'].includes(partner)?'left':'right';
+ return `<div class="visual-dialogue story-dialogue tutorial-conversation partner-${side}"><div class="dialogue-actors"><img class="dialogue-actor actor-hero ${speaker===heroName?'speaking':'listening'}" src="${standingArt(hero,broken)}" alt="${heroName}"><img class="dialogue-actor actor-partner ${speaker===partnerName?'speaking':'listening'}" src="${standingArt(partner)}" alt="${partnerName}"></div><div class="dialogue-box"><strong>${speaker}</strong><p>${text}</p><div class="dialogue-controls"><small>${counter}</small>${controls}</div></div></div>`;
 }
 export function bodyDiagram(hero){
  const h=hero.body,color=n=>n===3?'#090d15':n===2?'#e86e80':n===1?'#90bfa8':'#67c5aa';
