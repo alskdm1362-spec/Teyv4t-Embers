@@ -1,0 +1,587 @@
+{
+ "note": "v0.36 new cast (kinich, lyney, cyno), partners, loss art and extra cards for lohen/durin/jahoda. Converted from the supplied PNGs.",
+ "sprites": {
+  "kinich": {
+   "base": 1.0023,
+   "poses": {
+    "attack1": 1.0,
+    "attack2": 1.3484,
+    "guard": 0.8824,
+    "collapse": 1.0452
+   }
+  },
+  "lyney": {
+   "base": 1.2985,
+   "poses": {
+    "attack1": 0.9799,
+    "attack2": 0.9497,
+    "buff": 1.0872,
+    "draw": 0.9732,
+    "guard": 0.9732,
+    "collapse": 0.7987
+   }
+  },
+  "cyno": {
+   "base": 1.1824,
+   "poses": {
+    "attack1": 1.3546,
+    "attack2": 1.4291,
+    "guard": 1.0993,
+    "collapse": 0.8759
+   }
+  }
+ },
+ "total_files": 110,
+ "assets": [
+  {
+   "path": "assets/cast36/cyno/arm-cutin.webp",
+   "bytes": 145406,
+   "sha256": "89bdfc8ce80decbe729e66779c16e3068a716a26207224a55337b2fde7814946"
+  },
+  {
+   "path": "assets/cast36/cyno/banner-tighnari.webp",
+   "bytes": 35084,
+   "sha256": "7945180f227d3d83cab20e1ea1ce2de05b50e2e0420d8053f916567c26f21b82"
+  },
+  {
+   "path": "assets/cast36/cyno/banner.webp",
+   "bytes": 32886,
+   "sha256": "2bd5c9143ef6a676cb54001dbb5c04341f3f4da462f15ac8f9817e077b41812a"
+  },
+  {
+   "path": "assets/cast36/cyno/battle.webp",
+   "bytes": 63966,
+   "sha256": "996d2488cd4db6ea7557ccf997f395aaf74bfb80de190d138b2a11867a8cef30"
+  },
+  {
+   "path": "assets/cast36/cyno/breakdown-1.webp",
+   "bytes": 135378,
+   "sha256": "511abfa8178520a2c642bbb599b904294b1af0e342d1c0a898cb663bd683525c"
+  },
+  {
+   "path": "assets/cast36/cyno/breakdown-2.webp",
+   "bytes": 144332,
+   "sha256": "3e97d26c09c4ccc8440546757a6a85c6e2792bda785a30599724281d501dbf73"
+  },
+  {
+   "path": "assets/cast36/cyno/collapse-1.webp",
+   "bytes": 49168,
+   "sha256": "8f6c3de5deabcae854e5b27142c8463230d75773b90850e2a9f14890b3ccdb92"
+  },
+  {
+   "path": "assets/cast36/cyno/collapse-2.webp",
+   "bytes": 45362,
+   "sha256": "20892e6c661ad20e099111d8de51ad0117d9127ea89f290272f822b43d972b8f"
+  },
+  {
+   "path": "assets/cast36/cyno/collapse-sprite.webp",
+   "bytes": 24996,
+   "sha256": "cdb6b53bc1f3daa6bfb8b9404f6a49db8de5f6a77f48020614cb492fb898c9fd"
+  },
+  {
+   "path": "assets/cast36/cyno/eye-card.webp",
+   "bytes": 42848,
+   "sha256": "92c0439cfb68e4c28eeb151f7279a2c1d8872eb3b43bea959dd6a301ecccdccf"
+  },
+  {
+   "path": "assets/cast36/cyno/eye-cutin.webp",
+   "bytes": 174666,
+   "sha256": "01e92cb52f24ca018413829ca0a45b8c4884a50b88af4dc897b7faed42218eb0"
+  },
+  {
+   "path": "assets/cast36/cyno/face-collapse.webp",
+   "bytes": 21672,
+   "sha256": "04cd1dbcda3af525f0014969b3751080a923f25c8122a9a3887cb48bda544228"
+  },
+  {
+   "path": "assets/cast36/cyno/face.webp",
+   "bytes": 26936,
+   "sha256": "2c60920b09076e00cf261ad0fbbbf4a350cb2b5acd939a3c18dd2df69b95fb72"
+  },
+  {
+   "path": "assets/cast36/cyno/leg-cutin.webp",
+   "bytes": 130680,
+   "sha256": "38fea275a8d20c7f2f8bb71c273beef3a6c81b9b0c83a709b5ac42ac4f7128d8"
+  },
+  {
+   "path": "assets/cast36/cyno/partner-card-tighnari.webp",
+   "bytes": 50900,
+   "sha256": "6b98518a79fbb29492b663ca86c94adbd51db29708c442ec34190a78efc9aad4"
+  },
+  {
+   "path": "assets/cast36/cyno/partner-tighnari.webp",
+   "bytes": 87016,
+   "sha256": "9e27e7bfa05af388a8634b53a92e98a765ec9e19874a6fa9b5e5b79b03e4396e"
+  },
+  {
+   "path": "assets/cast36/cyno/pose-attack1.webp",
+   "bytes": 46984,
+   "sha256": "550c7fb491b5b1cadc636aa5bcd36876480c20d2a3e22c836285b201d4808b7f"
+  },
+  {
+   "path": "assets/cast36/cyno/pose-attack2.webp",
+   "bytes": 54162,
+   "sha256": "3bc530e708ec34fd35829f864da68fa28d90aefd91bbd6e485f1163729c30a0a"
+  },
+  {
+   "path": "assets/cast36/cyno/pose-guard.webp",
+   "bytes": 54984,
+   "sha256": "8cbddde476b1975d0562e8cee695e4800a8400094a3850e39ce0813b96c9709c"
+  },
+  {
+   "path": "assets/cast36/cyno/skill-1.webp",
+   "bytes": 51162,
+   "sha256": "4838f7ba75586b8c286f9fa1fdd512ee556c750b2fd27008442f9e08070c61fe"
+  },
+  {
+   "path": "assets/cast36/cyno/skill-2.webp",
+   "bytes": 50136,
+   "sha256": "135aa0e6d1a2a28fbbfecbb9d0791d0750d7d81fafff95c19e442873683935f9"
+  },
+  {
+   "path": "assets/cast36/cyno/skill-3.webp",
+   "bytes": 42424,
+   "sha256": "3c946b0bce04e9164f454a6a28b9a8430ffbf7a7032f6d92dacd852f182f73de"
+  },
+  {
+   "path": "assets/cast36/cyno/skill-4.webp",
+   "bytes": 47686,
+   "sha256": "e8c4900fa4df27bb109ffabf69fc268bdee3c7e1bbed90cc27f8bafdee1569ae"
+  },
+  {
+   "path": "assets/cast36/cyno/skill-5.webp",
+   "bytes": 49914,
+   "sha256": "70e444e2eb9757a45ec7fc676cd4a7b1004b1bc625a378d9d03298218c72c530"
+  },
+  {
+   "path": "assets/cast36/cyno/skill-6.webp",
+   "bytes": 50494,
+   "sha256": "28861ca63b87a09c335ff7aec870be35eeb5f37ace91b09ea8aa0bd9ead5ceab"
+  },
+  {
+   "path": "assets/cast36/cyno/skill-7.webp",
+   "bytes": 55922,
+   "sha256": "23d6e866f0b03bbce6f997f36c66cea2b14f4aec637a3c44dcc256606f0544ac"
+  },
+  {
+   "path": "assets/cast36/cyno/skill-8.webp",
+   "bytes": 25518,
+   "sha256": "91dff5205d537193b13aba47b41b3747197f835267e6534ead0fb55bc7950745"
+  },
+  {
+   "path": "assets/cast36/cyno/skill-9.webp",
+   "bytes": 24636,
+   "sha256": "e519e08ec418d3f0c7b4ae331a2296101e6d716d07c806a922eb751ede0bc02f"
+  },
+  {
+   "path": "assets/cast36/cyno/standing-collapse.webp",
+   "bytes": 57024,
+   "sha256": "93a4dd7df4162e38128572198422689fa4dc730f1040b7eb5b8cce83f3460e22"
+  },
+  {
+   "path": "assets/cast36/cyno/standing.webp",
+   "bytes": 80740,
+   "sha256": "bcfd29528e989acb6d4b930141616233ee352793b27779ee3063e54e78930329"
+  },
+  {
+   "path": "assets/cast36/cyno/support-tighnari.webp",
+   "bytes": 212024,
+   "sha256": "e6768b2262fed409f7d73cf4b91f03b9629b16c68451ebd113c64b2131d3028e"
+  },
+  {
+   "path": "assets/cast36/cyno/ultimate.webp",
+   "bytes": 232866,
+   "sha256": "1b4d8c6b5437c6b76b068bdfd622773660f4ca3aff82c5d6878c8e7f3fac4339"
+  },
+  {
+   "path": "assets/cast36/extra/durin-skill-8.webp",
+   "bytes": 41996,
+   "sha256": "73a9ffae9ada69bb34b6d0ed1e01cc9211843f4b1b8ab26062e20c940d069ede"
+  },
+  {
+   "path": "assets/cast36/extra/durin-skill-9.webp",
+   "bytes": 47354,
+   "sha256": "5ffd6fcf6687af6f41ae22dd673fcbcebe8a884aa8afce1bb1936972f906201e"
+  },
+  {
+   "path": "assets/cast36/extra/jahoda-skill-8.webp",
+   "bytes": 30848,
+   "sha256": "572600370888323df04d2a613032bf460ef0373683d1243482ec3473972a0354"
+  },
+  {
+   "path": "assets/cast36/extra/lohen-skill-8.webp",
+   "bytes": 40786,
+   "sha256": "0f492434bfad763e262f338d9e8110a4de358ebe2a837f95ab3a80bf5824bc8d"
+  },
+  {
+   "path": "assets/cast36/extra/lohen-skill-9.webp",
+   "bytes": 46042,
+   "sha256": "8f15a94b21ea911c82da21f2ac106f265672a29fb950be6c7677ad1f34511529"
+  },
+  {
+   "path": "assets/cast36/kinich/ajaw.png",
+   "bytes": 6470,
+   "sha256": "9dd3e301678ac8c6c38cc4c4eea13451749c3481d9bd33bd9519fb5729dfba62"
+  },
+  {
+   "path": "assets/cast36/kinich/arm-cutin.webp",
+   "bytes": 105112,
+   "sha256": "c5d061f796591dc2926489d81c667cf6e7d19962fd287cddbc4a78782802f47b"
+  },
+  {
+   "path": "assets/cast36/kinich/banner-kachina.webp",
+   "bytes": 33218,
+   "sha256": "2fb8047e5fc7171dea6fef177ce9d566fcb0a7c93d4241bd42c21ffcc57bbe09"
+  },
+  {
+   "path": "assets/cast36/kinich/banner-mualani.webp",
+   "bytes": 35648,
+   "sha256": "4fa7a3eae33eff9008c3540fde12dbd0ffa074eb6d656837aeab044700ceb7d9"
+  },
+  {
+   "path": "assets/cast36/kinich/banner.webp",
+   "bytes": 36240,
+   "sha256": "7fd0d76157770680eab5647f9536f7815c2665bcd5e3d058ddb93bcebb9a8e68"
+  },
+  {
+   "path": "assets/cast36/kinich/battle.webp",
+   "bytes": 35438,
+   "sha256": "b996876dad3e49bd252eb11c97e13f5fff14420252174d58b0ed33e8fab46903"
+  },
+  {
+   "path": "assets/cast36/kinich/breakdown-1.webp",
+   "bytes": 129216,
+   "sha256": "98a4702d024a932d209597be8cd4d22df17d751c04e534d33f1d5885efc8e961"
+  },
+  {
+   "path": "assets/cast36/kinich/breakdown-2.webp",
+   "bytes": 150782,
+   "sha256": "5ed147acc1408f7f85a376adc88c6e843ea87c01ed0b79c64a3224af49b50915"
+  },
+  {
+   "path": "assets/cast36/kinich/collapse-1.webp",
+   "bytes": 47416,
+   "sha256": "2506d4dd548480c68c0083f88fa8ebecba0235bf9866311c4f721b90a7cd0010"
+  },
+  {
+   "path": "assets/cast36/kinich/collapse-2.webp",
+   "bytes": 47814,
+   "sha256": "d27aa8dc6f5da4c5f9c6fcfae7a5a1b7378d15cc37879dda2447621aa7a852d1"
+  },
+  {
+   "path": "assets/cast36/kinich/collapse-sprite.webp",
+   "bytes": 33000,
+   "sha256": "af837f745b3a367fbc4257cc5ee62bed690325d364c3f82d3e2266856a67ec4c"
+  },
+  {
+   "path": "assets/cast36/kinich/eye-card.webp",
+   "bytes": 37618,
+   "sha256": "009f67f87a0f9cc3138b84fb5a8cd2bc2763e2d4b102cc20fd62324bbbc9b26b"
+  },
+  {
+   "path": "assets/cast36/kinich/eye-cutin.webp",
+   "bytes": 146952,
+   "sha256": "9a7c58dba910d056e9d39cc0e0116a55eb0ef27b05b91de714c7bd298fee695c"
+  },
+  {
+   "path": "assets/cast36/kinich/face-collapse.webp",
+   "bytes": 27574,
+   "sha256": "80d9f8943bda435d82ff407a91ca9d277c0dd11dd34f933aa98f113636af7504"
+  },
+  {
+   "path": "assets/cast36/kinich/face.webp",
+   "bytes": 28364,
+   "sha256": "ccdb5d68202f6916267f7190e433720845fda15cd599db0ddd16e71ef2ed39c4"
+  },
+  {
+   "path": "assets/cast36/kinich/leg-cutin.webp",
+   "bytes": 127496,
+   "sha256": "e39d8f8086369f47365aa5ebe8d1d166116507006128dc89051fc7e0d0b8805c"
+  },
+  {
+   "path": "assets/cast36/kinich/partner-card-kachina.webp",
+   "bytes": 41188,
+   "sha256": "d4fbadf5aa566cf3038c7a43e7e2cc57d354603cb68199791c79d75f1647aac6"
+  },
+  {
+   "path": "assets/cast36/kinich/partner-card-mualani.webp",
+   "bytes": 37932,
+   "sha256": "cd04421058085c9f7100e36bfe69f86b664f9c26e480deff288fc6a1d84e4a2c"
+  },
+  {
+   "path": "assets/cast36/kinich/partner-kachina.webp",
+   "bytes": 68606,
+   "sha256": "db90696d59f160003ceb0029b36c75ffb299c8b271e8f6c17ee1e376735c5ca2"
+  },
+  {
+   "path": "assets/cast36/kinich/partner-mualani.webp",
+   "bytes": 101288,
+   "sha256": "5a185e91668e85ccd389ab2724e756fd0ba234375d4e17eace7846d1f035dbc6"
+  },
+  {
+   "path": "assets/cast36/kinich/pose-attack1.webp",
+   "bytes": 46996,
+   "sha256": "6ebea27fdfda5cfce652c22f634b669b00b11f6fdf3e218a5d69cbf4738fee19"
+  },
+  {
+   "path": "assets/cast36/kinich/pose-attack2.webp",
+   "bytes": 59708,
+   "sha256": "a9e817a9c1c4397751d3f18eaab43014546a32fe923ded0abc0a5315fab11f2d"
+  },
+  {
+   "path": "assets/cast36/kinich/pose-guard.webp",
+   "bytes": 37150,
+   "sha256": "dc27de1ac544143f4e46e1d9cbcf0cfee3f9f737fdf571768e8c8fa01d7cd88b"
+  },
+  {
+   "path": "assets/cast36/kinich/skill-1.webp",
+   "bytes": 25054,
+   "sha256": "e063f524e725806f3b3cd1905e4ab1b451a1fc045a7cd0bf9fea4392c667646a"
+  },
+  {
+   "path": "assets/cast36/kinich/skill-10.webp",
+   "bytes": 47350,
+   "sha256": "a1e5ca2e358f96f361f36884e5fef737e52e62c5fd3ea71c8480715a05ac9188"
+  },
+  {
+   "path": "assets/cast36/kinich/skill-2.webp",
+   "bytes": 47080,
+   "sha256": "3fc658a21a4f549d43e421b5516d1545f04ea1b27b6ccbe11bd8e52668f87c87"
+  },
+  {
+   "path": "assets/cast36/kinich/skill-3.webp",
+   "bytes": 37412,
+   "sha256": "0d7d5aaffce73e1e946b681f472ca523d68be92bd688f906704d0089d69e859b"
+  },
+  {
+   "path": "assets/cast36/kinich/skill-4.webp",
+   "bytes": 47810,
+   "sha256": "e33c8e85e68a2df34226fcf10a270ea2a0bb3aafc801e8a3982aaa5194284349"
+  },
+  {
+   "path": "assets/cast36/kinich/skill-5.webp",
+   "bytes": 47922,
+   "sha256": "66d9f4e03b90e7afa9b23cc4f420194023353a1b5605787bbcdd852355f3193a"
+  },
+  {
+   "path": "assets/cast36/kinich/skill-6.webp",
+   "bytes": 43412,
+   "sha256": "2b55ac4d5175d8df75785b2308686a776d5b7ce43359697fefcc5f0687a9c9b6"
+  },
+  {
+   "path": "assets/cast36/kinich/skill-7.webp",
+   "bytes": 49250,
+   "sha256": "425a57c494e3815ba441f0ccb79f23468d1e4131168a99594b0d9137803d7700"
+  },
+  {
+   "path": "assets/cast36/kinich/skill-8.webp",
+   "bytes": 40096,
+   "sha256": "4ff97a825f28d4bdc06d91cf6ed5fcd28bfd29d3ad34f18f3bbd723d44ff5539"
+  },
+  {
+   "path": "assets/cast36/kinich/skill-9.webp",
+   "bytes": 46598,
+   "sha256": "ed6a1d437eb655d1f70002a2a06ae4d6f0fe57fcbc51f144f509cf6d3bfc88b6"
+  },
+  {
+   "path": "assets/cast36/kinich/standing-collapse.webp",
+   "bytes": 74476,
+   "sha256": "920358d99b8fe89ab4d1493f9675c675051ae8cdea75bddc615b3f1210024ed5"
+  },
+  {
+   "path": "assets/cast36/kinich/standing.webp",
+   "bytes": 80288,
+   "sha256": "1c8411dd87ede3ee8d32cbd514a708f29132f8df829e34a25f4458a72ea59938"
+  },
+  {
+   "path": "assets/cast36/kinich/support-kachina.webp",
+   "bytes": 195766,
+   "sha256": "b7dbb1088b7953ff65f22df34ddb1e795048b3a6339f24d8e15c9cbbcbb97383"
+  },
+  {
+   "path": "assets/cast36/kinich/support-mualani.webp",
+   "bytes": 143778,
+   "sha256": "900ef911b69485855670a740d6d6b4a832481b4cededb4032bff72bbe915460c"
+  },
+  {
+   "path": "assets/cast36/kinich/ultimate.webp",
+   "bytes": 229104,
+   "sha256": "458583ba3afc10fc5dbc9a02aba82af103a7659d8d9d91ae71b16125758e6cb7"
+  },
+  {
+   "path": "assets/cast36/lyney/arm-cutin.webp",
+   "bytes": 117928,
+   "sha256": "fbbe11b82169af50404812c9356d6f4d041171e1d51d45def632dda135f1037c"
+  },
+  {
+   "path": "assets/cast36/lyney/banner-lynette.webp",
+   "bytes": 31658,
+   "sha256": "e83ffc5667284e44d5add9374c5040ce9ffa9f915451fa1f62479324ef080bdc"
+  },
+  {
+   "path": "assets/cast36/lyney/banner.webp",
+   "bytes": 29264,
+   "sha256": "85efbf0c5cdcba8894054686a47b12ce22e15fee1bede737514a1c08543671d8"
+  },
+  {
+   "path": "assets/cast36/lyney/battle.webp",
+   "bytes": 33180,
+   "sha256": "b460b2422c46c22a6d610df6399832b2528192de7a9eca1c6f1c62c08e8eef61"
+  },
+  {
+   "path": "assets/cast36/lyney/breakdown-1.webp",
+   "bytes": 158360,
+   "sha256": "facd3388893f7ae2914dd10858b10b71d3b665c00ab436703df5194e83e75217"
+  },
+  {
+   "path": "assets/cast36/lyney/breakdown-2.webp",
+   "bytes": 123562,
+   "sha256": "1f12a45ec271d65ec4437f1ebd41daa5005d58ca2af4bd8199af99faef88353d"
+  },
+  {
+   "path": "assets/cast36/lyney/collapse-1.webp",
+   "bytes": 38388,
+   "sha256": "9ed1a8a5ccb3d181a92fa525b62e117acf9a7f60a4cffbbf76ced787242f7705"
+  },
+  {
+   "path": "assets/cast36/lyney/collapse-2.webp",
+   "bytes": 32920,
+   "sha256": "e378b1edb4b5b17f7628b481b475859621e1b74bed614dc72613052ef3e7fcf1"
+  },
+  {
+   "path": "assets/cast36/lyney/collapse-sprite.webp",
+   "bytes": 29640,
+   "sha256": "7bf6993ada70954cf8f3c39322a291f4980a31d6972d14b3a7d42f76ac354f6d"
+  },
+  {
+   "path": "assets/cast36/lyney/eye-card.webp",
+   "bytes": 29110,
+   "sha256": "bf3261af7eaba1abfbfd81342713f91b8cd601e95a87f5f187bf77d72463fad4"
+  },
+  {
+   "path": "assets/cast36/lyney/eye-cutin.webp",
+   "bytes": 144678,
+   "sha256": "8ba4ead3da631c10b032e802136e70bde024e369fef34ebe62d32c7197d663e7"
+  },
+  {
+   "path": "assets/cast36/lyney/face-collapse.webp",
+   "bytes": 20354,
+   "sha256": "dc6301ea835c152e86e9c677d728f4eed50e212ad7a5a0e1b9576b6009b202f5"
+  },
+  {
+   "path": "assets/cast36/lyney/face.webp",
+   "bytes": 22786,
+   "sha256": "e68506f39b61c1420c90638746ce845468efab092087bd09234fc728b617a5de"
+  },
+  {
+   "path": "assets/cast36/lyney/leg-cutin.webp",
+   "bytes": 117096,
+   "sha256": "333bad8ec521ed073375b9cb169819d984dbc87b7cba29af422c4a8a1c9e2166"
+  },
+  {
+   "path": "assets/cast36/lyney/partner-card-lynette.webp",
+   "bytes": 41304,
+   "sha256": "e89a094c7b4d99cc249b6827381aa49a4bd972b6fbd9158d4a77629ce8b24622"
+  },
+  {
+   "path": "assets/cast36/lyney/partner-lynette.webp",
+   "bytes": 69144,
+   "sha256": "1c5167e3082b98838b159386a82cd01762703c0e13c3fb754d6b857951e93d72"
+  },
+  {
+   "path": "assets/cast36/lyney/pose-attack1.webp",
+   "bytes": 29390,
+   "sha256": "9a742d6317bc1973fe987a35caf8833f8564ed0be3e333ea45f1f29cd3cc7e98"
+  },
+  {
+   "path": "assets/cast36/lyney/pose-attack2.webp",
+   "bytes": 43224,
+   "sha256": "cf55274c277e66039afab650c9c804b142bc44317e66246be03ba3e3c7d94843"
+  },
+  {
+   "path": "assets/cast36/lyney/pose-buff.webp",
+   "bytes": 38624,
+   "sha256": "d965fa8e49f0f1bc4d4bb5680a52e349a648b739f141862a9627a1e8b703e9cd"
+  },
+  {
+   "path": "assets/cast36/lyney/pose-draw.webp",
+   "bytes": 38164,
+   "sha256": "25c2ee3f2d14ad90736d70202550f416322c429e8ed80772c21a4c13bdf3197e"
+  },
+  {
+   "path": "assets/cast36/lyney/pose-guard.webp",
+   "bytes": 41816,
+   "sha256": "a3aaf74d431ba1a75bf027c3abcc88a37a5ab6ecbfe3097f54dde0a2df1cb1f6"
+  },
+  {
+   "path": "assets/cast36/lyney/skill-1.webp",
+   "bytes": 29842,
+   "sha256": "aa222f9daff04b0af0d1769a7a8ce3b7adae62dc80560007d89ea108fa3bc3ab"
+  },
+  {
+   "path": "assets/cast36/lyney/skill-10.webp",
+   "bytes": 31628,
+   "sha256": "5df3ce4790a660609857b2e5cb59c2027f37f9ec2186549bfb9c7c94545a42a5"
+  },
+  {
+   "path": "assets/cast36/lyney/skill-2.webp",
+   "bytes": 24162,
+   "sha256": "c9d3b9451cbd85e9bfa314f3674ae2986e7553f99b79db13fbc43226179699c4"
+  },
+  {
+   "path": "assets/cast36/lyney/skill-3.webp",
+   "bytes": 38384,
+   "sha256": "5a90551826e2f1e5815e443258582b37ed3c7f2cb4197bd681aaf40562f67afd"
+  },
+  {
+   "path": "assets/cast36/lyney/skill-4.webp",
+   "bytes": 35258,
+   "sha256": "bf40e5611d18d43ad3a583d907ed66b6400ffe4739fc8f9ca0e3eff18ed4061d"
+  },
+  {
+   "path": "assets/cast36/lyney/skill-5.webp",
+   "bytes": 44908,
+   "sha256": "7968a98b1f94eec4d6d5de60b715972ab25f5fb5c766cb339782ea170f3fb462"
+  },
+  {
+   "path": "assets/cast36/lyney/skill-6.webp",
+   "bytes": 45368,
+   "sha256": "ac69d0670e096c4f01af77110ae4ef0827af84a796ac1c51f67024e943095878"
+  },
+  {
+   "path": "assets/cast36/lyney/skill-7.webp",
+   "bytes": 41386,
+   "sha256": "54d3046dc9a434590d6eaa4302a84023c29b28756e1a297734f9fdb6ecb5ace3"
+  },
+  {
+   "path": "assets/cast36/lyney/skill-8.webp",
+   "bytes": 42770,
+   "sha256": "2e889cd9b0af277287c0fb4a18314272e0e82c033756c9d6e15f277b9352fa36"
+  },
+  {
+   "path": "assets/cast36/lyney/skill-9.webp",
+   "bytes": 37466,
+   "sha256": "172e5073c0db005ee6906b4634d274b388aaf62dafcb74d473d5743efde33efb"
+  },
+  {
+   "path": "assets/cast36/lyney/standing-collapse.webp",
+   "bytes": 47072,
+   "sha256": "52b7a4aaceb206dc88a28e022a49534d309aa912494353e1e48ff8b42a64a06e"
+  },
+  {
+   "path": "assets/cast36/lyney/standing.webp",
+   "bytes": 76488,
+   "sha256": "671ff6b585e07e694f78e59bc16eb8f8e131893ed9328e5f77c19898e3df3183"
+  },
+  {
+   "path": "assets/cast36/lyney/support-lynette.webp",
+   "bytes": 121824,
+   "sha256": "1cee5e3de16086d95cd0c935f8264a6cc9b4c5ce192cb64ea1eef007075d9786"
+  },
+  {
+   "path": "assets/cast36/lyney/ultimate.webp",
+   "bytes": 255100,
+   "sha256": "381e9c59b3d5e046b69b9f29b5cfa3f4aae6d9cb2ea4ef4b1c33cf110b4b9918"
+  }
+ ]
+}

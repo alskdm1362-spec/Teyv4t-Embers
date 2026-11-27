@@ -28,7 +28,7 @@ test('clear and defeat both produce save data; full slots require choosing a rec
 
 test('a new expedition starts from the lobby without the tutorial once it was finished',()=>{
  const s=finished();for(const id of s.party)go(s,{type:'dropSaveData',hero:id});go(s,{type:'closeExpedition'});
- go(s,{type:'newExpedition'});assert.equal(s.runActive,true);assert.equal(s.tutorial.active,false);assert.equal(s.phase,'battle');assert.equal(s.node,0);unchanged(s,{type:'newExpedition'});
+ unchanged(s,{type:'newExpedition'});go(s,{type:'newExpedition',party:['lohen','durin','illuga']});assert.equal(s.runActive,true);assert.equal(s.tutorial.active,false);assert.equal(s.phase,'battle');assert.equal(s.node,0);assert.deepEqual(s.party,['lohen','durin','illuga']);unchanged(s,{type:'newExpedition',party:['lohen','durin','illuga']});
 });
 
 test('leaving to the lobby mid-stage keeps the exact screen to resume',()=>{
@@ -37,7 +37,7 @@ test('leaving to the lobby mid-stage keeps the exact screen to resume',()=>{
 
 test('raids field one to three combatants from save data and restore the run afterwards',()=>{
  const s=finished(s=>{s.heroes.lohen.acquired.push('l_tempest');});for(const id of s.party)go(s,{type:'keepSaveData',hero:id});go(s,{type:'closeExpedition'});
- go(s,{type:'newExpedition'});go(s,{type:'returnToLobby'});const run=serialize({...s,collection:null});
+ go(s,{type:'newExpedition',party:['lohen','durin','illuga']});go(s,{type:'returnToLobby'});const run=serialize({...s,collection:null});
  const lohen=saveEntries(s,'lohen')[0],durin=saveEntries(s,'durin')[0];
  unchanged(s,{type:'startRaid',saves:[]});unchanged(s,{type:'startRaid',saves:[lohen.id,lohen.id+'x']});
  go(s,{type:'startRaid',saves:[lohen.id,durin.id]});assert.equal(s.mode,'raid');assert.deepEqual(s.party,['lohen','durin']);

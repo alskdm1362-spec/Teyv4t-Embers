@@ -37,7 +37,7 @@ export const EVENTS=[
  {id:'gear',label:'거울 속의 장비를 꺼낸다',benefit:{kind:'equipment',elite:false},cost:{curse:1}},
  {id:'coins',label:'거울을 깨고 파편을 챙긴다',benefit:{kind:'gold',amount:35},cost:{hp:10,stress:10}}]},
  {id:'bell',name:'가라앉은 종루',text:'물 아래에서 종이 한 번 더 울린다. 아무도 치지 않았는데.',choices:[
- {id:'lift',label:'종을 끌어올린다',dice:{dc:11},benefit:{kind:'gold',amount:40},cost:{},fail:{stress:14}},
+ {id:'lift',label:'종을 끌어올린다',move:true,dice:{dc:11},benefit:{kind:'gold',amount:40},cost:{},fail:{stress:14}},
  {id:'listen',label:'종소리에 귀를 기울인다',benefit:{kind:'calm',amount:15},cost:{hp:8}},
  {id:'pass',label:'수면을 보지 않고 지나간다',benefit:{kind:'gold',amount:6},cost:{}}]},
  {id:'twin',name:'동료의 얼굴을 한 그림자',text:'익숙한 목소리가 손을 내민다. 그런데 그 동료는 지금 당신 뒤에 서 있다.',choices:[
@@ -50,7 +50,7 @@ export const EVENTS=[
  {id:'sleep',label:'빈 병상에서 잠시 눈을 붙인다',benefit:{kind:'calm',amount:20},cost:{gold:20}}]},
  {id:'gambler',name:'심연의 도박꾼',text:'주사위 두 개를 내민다. "하나는 네 것, 하나는 내 것."',choices:[
  {id:'bet',label:'내기에 응한다',dice:{dc:13},benefit:{kind:'gold',amount:60},cost:{},fail:{gold:30,stress:8}},
- {id:'flip',label:'판을 엎고 그의 장비를 빼앗는다',benefit:{kind:'equipment',elite:true},cost:{hp:10,injury:1}},
+ {id:'flip',label:'판을 엎고 그의 장비를 빼앗는다',move:true,benefit:{kind:'equipment',elite:true},cost:{hp:10,injury:1}},
  {id:'decline',label:'정중히 거절한다',benefit:{kind:'calm',amount:4},cost:{}}]},
  {id:'feather',name:'서풍 매의 깃털',text:'상처 입은 서풍 매가 쪽지를 물고 있다. 바르카의 글씨다.',choices:[
  {id:'note',label:'쪽지를 읽는다',benefit:{kind:'support',amount:2},cost:{}},
@@ -65,7 +65,7 @@ export const EVENTS=[
  {id:'memory',label:'기억 하나를 바친다',cost:{},mystery:[{benefit:{kind:'card'},cost:{curse:1}},{benefit:{kind:'upgrade'},cost:{stress:12}}]},
  {id:'warm',label:'불씨에 손만 쬔다',benefit:{kind:'calm',amount:10},cost:{}}]},
  {id:'patrol',name:'말 없는 행렬',text:'갑옷 속은 비어 있지만 행진은 멈추지 않는다.',choices:[
- {id:'hide',label:'대열 틈에 숨어 지나간다',dice:{dc:10},benefit:{kind:'gold',amount:25},cost:{},fail:{hp:8,injury:1}},
+ {id:'hide',label:'대열 틈에 숨어 지나간다',move:true,dice:{dc:10},benefit:{kind:'gold',amount:25},cost:{},fail:{hp:8,injury:1}},
  {id:'strip',label:'뒤처진 갑옷을 벗겨 간다',benefit:{kind:'equipment',elite:false},cost:{stress:15}},
- {id:'around',label:'멀리 돌아간다',benefit:{kind:'calm',amount:5},cost:{hp:4}}]}
+ {id:'around',label:'멀리 돌아간다',move:true,benefit:{kind:'calm',amount:5},cost:{hp:4}}]}
 ];

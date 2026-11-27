@@ -20,15 +20,15 @@ test('v0.36 stage 1: damage uses ATK, crit and DEF; shields are personal except 
  const s=qaFixture('battle');s.battle.noCrit=true;s.battle.ap=6;const e=s.battle.enemies[0];e.hp=e.maxHp=9999;e.ward=0;e.hitWard=0;e.vulnerable=0;
  s.battle.hand=[{uid:'a',owner:'lohen',key:'l_strike'},{uid:'g',owner:'lohen',key:'l_guard'},{uid:'w',owner:'illuga',key:'i_guard'}];
  const before=s.heroes.lohen.level;const hit=go(s,{type:'play',uid:'a',target:e.id}).events.find(x=>x.type==='damage');
- const pts=cardInfo(s,{owner:'lohen',key:'l_strike'}).amount+(before-1)*2;assert.equal(hit.amount,Math.round(pts*110/9*defMitigation(e.def)));
- go(s,{type:'play',uid:'g'});assert.equal(s.heroes.lohen.shield,Math.round((7+before-1)*2/7*40));assert.equal(s.heroes.durin.shield,0);
+ assert.equal(hit.amount,Math.round(110*(1+(before-1)*.1)*defMitigation(e.def)));
+ go(s,{type:'play',uid:'g'});assert.equal(s.heroes.lohen.shield,Math.round(40*2*(1+(before-1)*.1)));assert.equal(s.heroes.durin.shield,0);
  go(s,{type:'play',uid:'w'});assert.ok(s.party.every(id=>s.heroes[id].shield>0));assert.equal(s.shield,s.party.reduce((n,id)=>n+s.heroes[id].shield,0));
 });
 
 test('v0.36 stage 1: enemy hits pick a hero, are cut by that hero DEF and shield, and are recorded per hero',()=>{
  const s=qaFixture('battle');for(const id of s.party)s.heroes[id].shield=0;s.shield=0;s.battle.enemies=s.battle.enemies.slice(0,1);const e=s.battle.enemies[0];e.hp=e.maxHp=9999;e.stun=0;
  e.intent={name:'시험',damage:200,stress:0,target:'durin',tag:'시험'};s.heroes.durin.shield=50;const hp=s.hp;go(s,{type:'endTurn'});
- assert.equal(s.hp,hp-150);assert.equal(s.heroes.durin.scar,150);assert.equal(s.heroes.durin.lost,150);assert.equal(s.heroes.durin.shield,0);
+ assert.equal(s.hp,hp-150);assert.equal(s.heroes.durin.scar,150);assert.equal(Object.values(s.heroes.durin.body).reduce((a,n)=>a+n,0),0);assert.equal(s.heroes.durin.lost,150);assert.equal(s.heroes.durin.shield,0);
 });
 
 test('v0.36 stage 1: a retiring hero removes their max HP and their remaining share; old saves rescale',()=>{

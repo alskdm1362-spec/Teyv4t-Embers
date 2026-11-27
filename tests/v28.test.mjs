@@ -23,8 +23,8 @@ test('card reward and refinement scenes keep their proportions on large screens'
 
 test('pause menu uses lobby-style tiles and a stage for the party',()=>{
  const html=pauseMarkup(qaFixture('base'));
- for(const action of ['close','settings','codex','title'])assert.ok(html.includes(`data-action="${action}" class="menu-tile`),action);
- assert.equal((html.match(/class="tile-icon"/g)||[]).length,4);
+ for(const action of ['close','settings','settings-save','codex','guide','title'])assert.ok(html.includes(`data-action="${action}" class="menu-tile`),action);
+ assert.equal((html.match(/class="tile-icon"/g)||[]).length,6);
  assert.ok(html.includes('menu-stage')&&html.includes('menu-stats'));
  assert.ok(!pauseMarkup({phase:'title'}).includes('menu-stats'));
 });

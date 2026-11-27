@@ -72,6 +72,6 @@ test('v0.17 UI, lobby, melee lunge, and CZN epiphany cutin wiring exist', () => 
  const motion = fs.readFileSync('dist/motion.js', 'utf8');
  const app = fs.readFileSync('dist/app.js', 'utf8');
  assert.ok(html.includes('feedback-v17.css'));
- assert.ok(motion.includes('melee-dashing') && motion.includes("['lohen','illuga','jahoda']"));
+ assert.ok(motion.includes('melee-dashing') && motion.includes("['lohen','illuga','jahoda','kinich','cyno']"));
  assert.ok(app.includes('function lobby(') && app.includes('function raidModal(') && app.includes('function pendingEquipModal(') && app.includes('function refineCutin(') && /version:\x27\d+\.\d+\x27/.test(app));
 });

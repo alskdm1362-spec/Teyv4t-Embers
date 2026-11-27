@@ -1,3 +1,4 @@
+import {expeditionSeed,isSeed} from './seed.js';
 import {STARTERS,DISCOVERIES,NEW_CARDS,REWARD_POOL} from './awakening.js';
 import {ensureMap,depthScale} from './map.js';
 import {ENEMY_LOOKS,KIND_LOOKS,RAID_LOOK,pickLook,lookName} from './enemy-looks.js';
@@ -7,31 +8,42 @@ export {SAVE_SLOTS,SAVE_OUTCOMES,saveValue} from './savedata.js';
 import {INSIGHTS,INSIGHT_BRANCHES,insightSpec,compatibleSparkIds,effectDescription} from './card-insights.js';
 export {INSIGHTS,INSIGHT_BRANCHES} from './card-insights.js';
 import {stageChoices} from './journey.js';
-import {JOIN_LINES,CARE_SCRIPT} from './story-scripts.js';
+import {cycleMove,STRESS_PIP,HIT_STRESS,HIT_STRESS_CAP,ELITE_MENTAL,BOSS_MENTAL} from './enemy-patterns.js';
+import {V2_CARDS,V2_BRANCHES,V2_PARTNERS,V2_PASSIVES,SPECIAL_CARDS} from './cards-v2.js';
+export {V2_PASSIVES,V2_PARTNERS,SPECIAL_CARDS} from './cards-v2.js';
+import {cardKeywords,keywordLine,CRACK_MAX,CRACK_PER_STACK,WITHER_RATE,HAND_LIMIT} from './keywords.js';
+import {JOIN_LINES,CARE_SCRIPT,PROLOGUE} from './story-scripts.js';
 import {EXTRA_ROUTE,EVENTS,LOOT_RULES} from './expedition-content.js';
 export {LOOT_RULES} from './expedition-content.js';
 export const HEROES = {
- lohen:{id:'lohen',name:'로엔',role:'단일 공격',partner:'varka',partnerName:'바르카',color:'#70d5ce',weakness:'의태',summary:'한 대상에게 공격을 집중하는 가장 기본적인 전투원.'},
- durin:{id:'durin',name:'두린',role:'광역 공격',partner:'albedo',partnerName:'알베도',color:'#bb91ef',weakness:'관측',summary:'높은 비용의 광역 공격. 성장하면 행동력을 일부 회수한다.'},
- illuga:{id:'illuga',name:'일루가',role:'생존·추가 타격',partner:'flins',partnerName:'플린스',color:'#f0ce65',weakness:'침식',summary:'공용 보호막과 엄호. 방어 성공을 추가 타격으로 연결한다.'},
- jahoda:{id:'jahoda',name:'야호다',role:'손패·행동력',partner:'nefer',partnerName:'네페르',color:'#ee99bf',weakness:'추적',summary:'손패와 행동력을 정리하고 원정 보급품을 더 찾아온다.'},
+ lohen:{id:'lohen',name:'로엔',role:'단일 딜 · 버리기 추가공격',partner:'varka',partnerName:'바르카',color:'#70d5ce',weakness:'의태',summary:'서리 파편을 만들고 버려서 추가공격을 잇는 단일 대상 전투원.'},
+ durin:{id:'durin',name:'두린',role:'서브딜 · 광역',partner:'albedo',partnerName:'알베도',color:'#bb91ef',weakness:'관측',summary:'광역 공격과 협공. 동료의 공격에 맞춰 적 전체를 태운다.'},
+ illuga:{id:'illuga',name:'일루가',role:'파티 보호막',partner:'flins',partnerName:'플린스',color:'#f0ce65',weakness:'침식',summary:'등불로 파티 전원을 지키고, 남은 보호막을 다음 턴의 공격력으로 바꾼다.'},
+ jahoda:{id:'jahoda',name:'야호다',role:'행동력 보충',partner:'nefer',partnerName:'네페르',color:'#ee99bf',weakness:'추적',summary:'0코스트 태엽 카드로 행동력을 채워 동료의 큰 카드를 돕는다.'},
+ kinich:{id:'kinich',name:'키니치',role:'모드 전환 연타',partner:'mualani',partnerName:'말라니',partners:['mualani','kachina'],partnerNames:{mualani:'말라니',kachina:'카치나'},color:'#58c98a',weakness:'침식',summary:'「추적」 모드의 연타로 추적흔을 쌓고 「분쇄」 모드에서 터뜨린다. 필살기 버튼이 모드 전환이다.'},
+ lyney:{id:'lyney',name:'리니',role:'드로우 보충',partner:'lynette',partnerName:'리넷',color:'#e2607c',weakness:'관측',summary:'카드를 빠르게 뽑는다. 손패 10장에 막히기 전에 버리는 마술로 푼다.'},
+ cyno:{id:'cyno',name:'사이노',role:'결합형 X코스트 한방',partner:'tighnari',partnerName:'타이나리',color:'#9d86f5',weakness:'의태',summary:'손에 심판의 편린만 남기면 칠흑의 심판으로 결합해, 남은 행동력을 한 번에 쏟는다.'},
 };
 export const PARTNER_PASSIVES = {
- varka:{id:'varka',hero:'lohen',name:'서풍의 전술 감각',desc:'전투당 전술 되감기(Undo) +1회 · 붕괴 극복 시 공용 보호막 +4'},
- albedo:{id:'albedo',hero:'durin',name:'백악의 변성',desc:'전술 각성 시 희귀 잔불 각성(✦) 등장 확률 상승 · 붕괴 극복 시 행동력 +1'},
- flins:{id:'flins',hero:'illuga',name:'불빛의 엄호',desc:'붕괴 극복 시 다음 공격 피해 +5 · 아군 엄호 시 정신 부담 -2'},
- nefer:{id:'nefer',hero:'jahoda',name:'사막의 통찰',desc:'붕괴 극복 시 카드 1장 드로우 · 원정 보급품 탐색 보조'},
+ varka:{id:'varka',hero:'lohen',name:'서풍의 전술 감각',desc:V2_PARTNERS.varka+' · 전투당 되돌리기 +1회 · 붕괴 극복 시 보호막'},
+ albedo:{id:'albedo',hero:'durin',name:'백악의 변성',desc:V2_PARTNERS.albedo+' · 희귀 잔불 각성(✦) 확률 상승 · 붕괴 극복 시 행동력 +1'},
+ flins:{id:'flins',hero:'illuga',name:'불빛의 엄호',desc:V2_PARTNERS.flins+' · 붕괴 극복 시 다음 공격 피해 +25%'},
+ nefer:{id:'nefer',hero:'jahoda',name:'사막의 통찰',desc:V2_PARTNERS.nefer+' · 붕괴 극복 시 카드 1장 드로우 · 원정 보급품 탐색 보조'},
+ mualani:{id:'mualani',hero:'kinich',name:'파도 타는 길잡이',desc:V2_PARTNERS.mualani},
+ kachina:{id:'kachina',hero:'kinich',name:'바위를 뚫는 용기',desc:V2_PARTNERS.kachina},
+ lynette:{id:'lynette',hero:'lyney',name:'말 없는 조수',desc:V2_PARTNERS.lynette},
+ tighnari:{id:'tighnari',hero:'cyno',name:'숲의 순찰관',desc:V2_PARTNERS.tighnari},
 };
 export const SPARK_EFFECTS = {
  ember_cost:{id:'ember_cost',name:'잔불 각성 · 경량화',badge:'✦ 각성',desc:'비용 -1 (최소 0)'},
  ember_support:{id:'ember_support',name:'잔불 각성 · 호응',badge:'✦ 각성',desc:'사용 시 지원 게이지 +1'},
  ember_calm:{id:'ember_calm',name:'잔불 각성 · 진정',badge:'✦ 각성',desc:'사용 시 사용자의 정신 부담 -4'},
  ember_draw:{id:'ember_draw',name:'잔불 각성 · 순환',badge:'✦ 각성',desc:'사용 시 카드 1장 드로우 (전투원당 턴당 1회)'},
- ember_force:{id:'ember_force',name:'잔불 각성 · 맹공',badge:'✦ 각성',desc:'공격 피해 +3'},
- ember_bastion:{id:'ember_bastion',name:'잔불 각성 · 성채',badge:'✦ 각성',desc:'공용 보호막 +4'},
- ember_mercy:{id:'ember_mercy',name:'잔불 각성 · 온기',badge:'✦ 각성',desc:'사용 시 공용 체력 3 회복 (전투원당 턴당 1회)'},
+ ember_force:{id:'ember_force',name:'잔불 각성 · 맹공',badge:'✦ 각성',desc:'공격 피해 +30%'},
+ ember_bastion:{id:'ember_bastion',name:'잔불 각성 · 성채',badge:'✦ 각성',desc:'보호막 +50%'},
+ ember_mercy:{id:'ember_mercy',name:'잔불 각성 · 온기',badge:'✦ 각성',desc:'사용 시 공용 체력 3% 회복 (전투원당 턴당 1회)'},
 };
-export const BRANCH_A_SPECS=Object.fromEntries(Object.entries(INSIGHTS).map(([key,v])=>[key,{title:v.A.title,...v.A.effects,bonusText:effectDescription(v.A.effects)}]));
+export const BRANCH_A_SPECS=Object.fromEntries(Object.entries(INSIGHTS).map(([key,v])=>[key,{title:v.A.title,bonusText:v.A.text}]));
 export const RAID_AVAILABLE=true;
 export const RAID_BOSS_DEFAULT = {
  bossKind:'nightmare',
@@ -47,49 +59,28 @@ export const BREAKDOWNS={
  frenzy:{name:'폭주',desc:'적을 멋대로 공격하고 확률적으로 자신의 신체를 손상한다.'},
 };
 const card=(owner,name,cost,target,type,amount,desc,extra={})=>({owner,name,cost,target,type,amount,desc,...extra});
-export const CARDS={
- l_strike:card('lohen','정확한 일격',1,'enemy','attack',9,'적 하나에게 피해 9.'),
- l_guard:card('lohen','방어 태세',1,'none','guard',7,'공용 보호막 7.'),
- l_pierce:card('lohen','집중 관통',2,'enemy','attack',19,'적 하나에게 피해 19. 장막에 추가 압박 4.',{pierce:4}),
- l_aim:card('lohen','조준',0,'none','focus',6,'다음 로엔 공격 피해 +6. 소멸.',{exhaust:true}),
- d_strike:card('durin','용의 발톱',1,'enemy','attack',8,'적 하나에게 피해 8.'),
- d_guard:card('durin','비늘의 수호',1,'none','guard',7,'공용 보호막 7.'),
- d_wave:card('durin','흑염의 날개',2,'all','attack',13,'적 전체에게 피해 13.'),
- d_charge:card('durin','용의 숨결',0,'none','focus',5,'다음 두린 공격 피해 +5. 소멸.',{exhaust:true}),
- i_strike:card('illuga','견제',1,'enemy','attack',7,'적 하나에게 피해 7.'),
- i_guard:card('illuga','보호 전개',1,'none','guard',10,'공용 보호막 10.'),
- i_counter:card('illuga','반격 준비',2,'none','counter',15,'공용 보호막 15. 적 공격을 막으면 다음 공격에 추가 타격 6.'),
- i_cover:card('illuga','엄호',0,'ally','cover',12,'선택한 동료가 다음에 받을 정신력 피해 12 감소. 소멸.',{exhaust:true}),
- j_strike:card('jahoda','기습',1,'enemy','attack',8,'적 하나에게 피해 8.'),
- j_guard:card('jahoda','방어 태세',1,'none','guard',7,'공용 보호막 7.'),
- j_draw:card('jahoda','재정비',0,'none','draw',2,'2장 뽑고 1장을 골라 버린다. 소멸.',{exhaust:true}),
- j_energy:card('jahoda','행동 지원',1,'none','energy',2,'행동력 2 회복. 소멸.',{exhaust:true}),
-};
-CARDS.d_resonance=card('durin','흑염의 잔향',1,'all','attack',10,'적 전체에게 피해 10. 취약 1턴. 소멸.',{exhaust:true,generated:true,effects:{vuln:1}});
-CARDS.j_dossier=card('jahoda','비밀 수첩',0,'none','draw',2,'2장 뽑고 1장을 버린다. 지원 +1. 소멸.',{exhaust:true,generated:true,effects:{support:1}});
-for(const [key,,source,name,cost,amount,effects] of NEW_CARDS){
- CARDS[key]={...CARDS[source],name,cost,amount,effects,desc:name};
-}
-CARDS.curse_echo=card('lohen','악몽의 잔향',1,'none','curse',0,'아무 효과도 없다. 사용하면 소멸.',{exhaust:true,debuff:true});
+const firstPct=c=>{const o=c.ops.find(x=>x.op==='dmg')||c.ops.find(x=>x.op==='shield');return o?Math.round((o.op==='dmg'?(o.pct||0)*(o.hits||1)*9/100:o.pct*7/200)):1;};
+export const CARDS=Object.fromEntries(Object.values(V2_CARDS).map(c=>[c.key,{...c,desc:c.text,amount:firstPct(c),exhaust:c.keywords.includes('exhaust'),effects:{}}]));
+CARDS.curse_echo=card('lohen','악몽의 찌꺼기',1,'none','curse',0,'아무 효과도 없다. 사용하면 소멸.',{exhaust:true,debuff:true});
 export const EQUIPMENT={
- emberLance:{name:'잔불의 창',slot:'weapon',desc:'엘리트 · 공격 피해 +4, 첫 공격 +4.',attack:4,firstAttack:4,cost:0,rarity:'elite'},
- dawnSeal:{name:'여명의 인장',slot:'accessory',desc:'엘리트 · 시작 보호막 9, 정신 피해 15% 감소.',startShield:9,stressReduction:.15,cost:0,rarity:'elite'},
- plainSpear:{name:'정찰용 무기',slot:'weapon',desc:'공격 피해 +2.',attack:2,cost:30},
- frostEdge:{name:'얼음빛 날',slot:'weapon',desc:'첫 공격 피해 +5.',firstAttack:5,cost:45},
- wardCharm:{name:'수호 부적',slot:'accessory',desc:'전투 시작 시 공용 보호막 5.',startShield:5,cost:25},
+ emberLance:{name:'잔불의 창',slot:'weapon',desc:'엘리트 · 공격 피해 +20%, 첫 공격 +20%.',attack:4,firstAttack:4,cost:0,rarity:'elite'},
+ dawnSeal:{name:'여명의 인장',slot:'accessory',desc:'엘리트 · 시작 본인 보호막(방어력 기반 257%), 정신 피해 15% 감소.',startShield:9,stressReduction:.15,cost:0,rarity:'elite'},
+ plainSpear:{name:'정찰용 무기',slot:'weapon',desc:'공격 피해 +10%.',attack:2,cost:30},
+ frostEdge:{name:'얼음빛 날',slot:'weapon',desc:'첫 공격 피해 +25%.',firstAttack:5,cost:45},
+ wardCharm:{name:'수호 부적',slot:'accessory',desc:'전투 시작 시 본인 보호막(방어력 기반 143%).',startShield:5,cost:25},
  calmRibbon:{name:'안정의 매듭',slot:'accessory',desc:'받는 정신력 피해 20% 감소.',stressReduction:.2,cost:30},
 };
 export const ENEMIES={
- trainingSlime:{name:'떠도는 점액',faction:'야생',hp:40,attack:3,tag:'훈련',desc:'움직임이 느린 작은 점액. 침식·잔향·부상 기술이 없어 기본 조작을 익히기 좋다.'},
- hound:{name:'심연 진드기',faction:'심연',hp:30,attack:6,tag:'침식',desc:'물린 상처가 보호막을 넘어 짧은 지속 피해를 남긴다.'},
- wanderer:{name:'되살아나는 마디벌레',faction:'심연',hp:27,attack:5,tag:'추적',desc:'몸을 쓰러뜨리면 잔향이 노출된다. 잔향까지 제거해야 한다.'},
- hunter:{name:'갈래낫 추적자',faction:'심연',hp:37,attack:8,tag:'추적',desc:'한 동료를 추적한다. 강한 공격을 미리 예고한다.'},
- angler:{name:'응시하는 부유체',faction:'심연',hp:31,attack:6,tag:'의태',ward:12,desc:'연결된 장막 중 하나를 깨면 이 개체의 장막도 함께 무너진다.'},
- mimic:{name:'가시심장 포식자',faction:'심연',hp:64,attack:10,tag:'의태',hits:3,desc:'장막은 여러 번의 공격으로 벗긴다. 강습이 예고된다.'},
- breacher:{name:'맥동하는 균열 고치',faction:'심연',hp:58,attack:9,tag:'침식',ward:16,desc:'장막을 파괴하면 공격을 한 번 중단한다.'},
- nightmare:{name:'천의 눈 · 모태',faction:'심연',hp:112,attack:14,tag:'의태',ward:22,boss:true,desc:'연결체를 불러낸다. 연결체를 쓰러뜨리면 본체의 장막도 약해진다.'},
- keeper:{name:'초승달의 관측자',faction:'천공',hp:94,attack:12,tag:'관측',boss:true,desc:'반복해서 공격한 전투원을 관측한다. 다른 동료의 공격으로 관측을 끊는다.'},
- sentinel:{name:'좌천사 · 별의 파수',faction:'천공',hp:128,attack:15,tag:'관측',boss:true,desc:'별을 전개해 큰 기술을 준비한다. 별을 모두 파괴하면 저지할 수 있다.'},
+ trainingSlime:{name:'떠도는 점액',faction:'야생',hp:40,attack:3,tag:'훈련',desc:'움직임이 느린 작은 점액. 특별한 기술이 없어 기본 조작을 익히기 좋다.'},
+ hound:{name:'심연 진드기',faction:'심연',hp:30,attack:6,tag:'침식',desc:'두 가지 물기를 번갈아 쓴다. 두 번째 도약이 더 아프다.'},
+ wanderer:{name:'되살아나는 마디벌레',faction:'심연',hp:27,attack:5,tag:'추적',desc:'느리지만 끈질기게 휘감는다. 쓰러뜨리면 그대로 끝난다.'},
+ hunter:{name:'갈래낫 추적자',faction:'심연',hp:37,attack:8,tag:'추적',desc:'표식을 남긴 다음 강한 추격을 이어 간다.'},
+ angler:{name:'응시하는 부유체',faction:'심연',hp:31,attack:6,tag:'의태',ward:12,desc:'촉수로 공격한다. 정예로 나오면 정신을 꿰뚫는 응시를 쓴다.'},
+ mimic:{name:'가시심장 포식자',faction:'심연',hp:64,attack:10,tag:'의태',hits:3,desc:'변형 뒤 강습을 노린다. 정예로 나오면 공허의 속삭임으로 정신을 공격한다.'},
+ breacher:{name:'맥동하는 균열 고치',faction:'심연',hp:58,attack:9,tag:'침식',ward:16,desc:'수축과 분출을 번갈아 쓴다. 정예로 나오면 맥동하는 공포로 정신을 공격한다.'},
+ nightmare:{name:'천의 눈 · 모태',faction:'심연',hp:112,attack:14,tag:'의태',ward:22,boss:true,desc:'세 동작을 정해진 순서로 반복한다. 세 번째 파도는 정신까지 덮친다. 다음 행동이 미리 보인다.'},
+ keeper:{name:'초승달의 관측자',faction:'천공',hp:94,attack:12,tag:'관측',boss:true,desc:'검출 → 시선(정신 공격) → 결말 순서로 반복한다. 다음 행동이 미리 보인다.'},
+ sentinel:{name:'좌천사 · 별의 파수',faction:'천공',hp:128,attack:15,tag:'관측',boss:true,desc:'검출 → 타락한 별빛(정신 공격) → 별의 심판 순서로 반복한다. 다음 행동이 미리 보인다.'},
  star:{name:'관측의 결정',faction:'천공',hp:12,attack:0,tag:'관측',desc:'파수가 준비하는 기술의 매개. 파괴하면 큰 공격이 약해진다.'},
 };
 export const ROUTE=[
@@ -103,15 +94,15 @@ export const ROUTE=[
  {type:'base',name:'첫 번째 생명의 거점',description:'따스한 생명의 불꽃이 손상된 몸을 감싼다.'},
 ];
 ROUTE.push(...EXTRA_ROUTE);
-const LEGACY_STARTERS={lohen:['l_strike','l_strike','l_strike','l_guard','l_pierce','l_aim'],durin:['d_strike','d_strike','d_guard','d_wave','d_wave','d_charge'],illuga:['i_strike','i_strike','i_guard','i_guard','i_counter','i_cover'],jahoda:['j_strike','j_strike','j_guard','j_guard','j_draw','j_energy']};
+const LEGACY_STARTERS=STARTERS;
 export const PARTS=['eyes','leftArm','rightArm','leftLeg','rightLeg'];
 // v0.26: damage that gets past the shared shield also weighs on the targeted hero's mind.
 export const STRESS_PER_DAMAGE=.75;
 // v0.36 stage 1: hero stats and the damage formula (planning doc §6).
 // Card amounts stay in "points": 1 point = 1/9 of ATK for attacks and 2/7 of DEF for shields,
 // so a 9-point strike reads 피해 100% and a 7-point guard reads 보호막 200%.
-export const HERO_STATS={lohen:{hp:420,atk:110,def:40,cr:.15,cd:1.5},durin:{hp:400,atk:95,def:50,cr:.10,cd:1.4},jahoda:{hp:380,atk:70,def:45,cr:.05,cd:1.2},illuga:{hp:560,atk:75,def:80,cr:.05,cd:1.2}};
-export const ATK_PER_POINT=1/9,SHIELD_PER_POINT=2/7,PARTY_SHIELD_SHARE=1/3,ENEMY_HP_SCALE=10,ENEMY_DAMAGE_SCALE=17;
+export const HERO_STATS={lohen:{hp:420,atk:110,def:40,cr:.15,cd:1.5},durin:{hp:400,atk:95,def:50,cr:.10,cd:1.4},jahoda:{hp:380,atk:70,def:45,cr:.05,cd:1.2},illuga:{hp:560,atk:75,def:80,cr:.05,cd:1.2},kinich:{hp:430,atk:85,def:50,cr:.20,cd:1.3},lyney:{hp:380,atk:80,def:40,cr:.10,cd:1.4},cyno:{hp:400,atk:120,def:45,cr:.10,cd:2.0}};
+export const ATK_PER_POINT=1/9,SHIELD_PER_POINT=2/7,PARTY_SHIELD_SHARE=1/3,ENEMY_HP_SCALE=9,ENEMY_DAMAGE_SCALE=17;
 export function heroStats(id){return HERO_STATS[id]||{hp:400,atk:100,def:45,cr:.1,cd:1.4};}
 export function defMitigation(def){return 100/(100+Math.max(0,def||0));}
 export function attackPercent(points){return Math.round(points*100*ATK_PER_POINT);}
@@ -173,26 +164,46 @@ function normalizeSave(s){
 
  s.version=3;ensureMap(s,ROUTE);
  // v0.36: party HP is the sum of the deployed heroes' HP; older saves used a flat 100 pool and 1/12-scale enemies.
- for(const h of Object.values(s.heroes||{})){h.shield??=0;h.lost??=0;h.scar??=0;}
+ for(const id of Object.keys(HEROES))if(s.heroes&&!s.heroes[id])s.heroes[id]=heroState();
+ // v0.36 stage 4: the card lists were rebuilt. Unknown keys from older saves are dropped.
+ for(const [id,h] of Object.entries(s.heroes||{})){h.shield??=0;h.lost??=0;h.scar??=0;h.legacyLoadout=false;if(Array.isArray(h.acquired))h.acquired=h.acquired.filter(k=>CARDS[k]&&!CARDS[k].generated&&!CARDS[k].combined);for(const f of ['upgrades','sparks'])for(const k of Object.keys(h[f]||{}))if(!V2_BRANCHES[k])delete h[f][k];}
+ if(s.battle){for(const zone of ['hand','draw','discard','exhaust'])s.battle[zone]=(s.battle[zone]||[]).filter(c=>CARDS[c.key]);for(const id of s.party||[]){const h=s.heroes[id],all=['hand','draw','discard'].flatMap(z=>s.battle[z]).filter(c=>c.owner===id&&!c.gen&&!c.parts);if((h?.body?.eyes||0)>=2&&all.length&&!all.some(c=>c.blindMark))all.sort((x,y)=>uidHash(x.uid)-uidHash(y.uid))[0].blindMark=true;}s.battle.kmode??='chase';s.battle.tracks??=0;s.battle.modeLeft??=1;s.battle.persist??=[];}
+ if(s.upgradeOffer?.candidates)s.upgradeOffer.candidates=s.upgradeOffer.candidates.filter(c=>V2_BRANCHES[c.key]);if(s.cardOffer?.candidates)s.cardOffer.candidates=s.cardOffer.candidates.filter(c=>CARDS[c.key]);
+ for(const e of s.battle?.enemies||[]){if(e.crack==null){e.crack=Math.min(5,(e.vulnerable||0)*2);e.wither=0;}delete e.vulnerable;}
  if(!s.hpScaled&&Array.isArray(s.party)&&s.heroes){const max=partyMaxHp(s),ratio=s.hp/(s.maxHp||100);s.maxHp=max;s.hp=Math.max(s.hp>0?1:0,Math.round(ratio*max));s.shield=0;
   for(const e of s.battle?.enemies||[]){e.hp=Math.round(e.hp*ENEMY_HP_SCALE);e.maxHp=Math.round(e.maxHp*ENEMY_HP_SCALE);e.ward=Math.round((e.ward||0)*ENEMY_HP_SCALE);e.def??=ENEMIES[e.kind]?.def??(ENEMIES[e.kind]?.boss?25:10);if(e.intent?.damage>0&&!e.intent.raw){e.intent.raw=e.intent.damage;e.intent.damage=Math.round(e.intent.damage*ENEMY_DAMAGE_SCALE*defMitigation(heroStats(e.intent.target).def));}}
   s.hpScaled=true;}
- {const r=s.collection?.raid;if(r&&r.bossMaxHp&&r.bossMaxHp<1000){r.bossMaxHp*=ENEMY_HP_SCALE;r.totalDamage=(r.totalDamage||0)*ENEMY_HP_SCALE;for(const st of Object.values(r.recordStats||{}))st.bestDamage=(st.bestDamage||0)*ENEMY_HP_SCALE;}}s.runActive??=true;s.inventory??=[];s.baseId??='route-7';s.careUsed??=false;s.upgradeOffer??=null;s.careDialogue??=null;
+ {const r=s.collection?.raid;if(r&&r.bossMaxHp&&r.bossMaxHp<1000){r.bossMaxHp*=10;r.totalDamage=(r.totalDamage||0)*10;for(const st of Object.values(r.recordStats||{}))st.bestDamage=(st.bestDamage||0)*10;}}s.runActive??=true;if(s.collection){s.collection.runs??=s.phase==='title'?0:1;s.collection.clears??=(s.collection.endings||[]).length?1:0;if(!isSeed(s.collection.seed))s.collection.seed=null;}s.inventory??=[];s.baseId??='route-7';s.careUsed??=false;s.upgradeOffer??=null;s.careDialogue??=null;
  const equipped=Object.values(s.heroes).flatMap(h=>Object.values(h.equipment||{})).filter(Boolean);for(const key of new Set(equipped)){while(s.inventory.filter(x=>x===key).length<equipped.filter(x=>x===key).length)s.inventory.push(key);}
  s.mainFrontStarted??=s.node>7||s.battlesWon>2;
  s.removalCount=Math.max(0,s.removalCount||0);s.tutorial??={active:false,completed:true,chapter:2,step:'complete'};if(s.tutorial.step==='partner-intro')s.tutorial.step='partner-select';
- for(const h of Object.values(s.heroes)){h.body={...Object.fromEntries(PARTS.map(p=>[p,0])),...h.body};if(!h.acquired){h.legacyLoadout=true;h.acquired=[];}h.removedCards??=[];h.curses??=[];}
+ for(const h of Object.values(s.heroes)){h.body={...Object.fromEntries(PARTS.map(p=>[p,0])),...h.body};if(!h.acquired)h.acquired=[];h.legacyLoadout=false;h.removedCards??=[];h.curses??=[];}
  if(s.battle)for(const zone of ['hand','draw','discard','exhaust'])for(const c of s.battle[zone]||[])bindBlind(s,c,false);
  if(s.checkpoint)normalizeSave(s.checkpoint);
  s.collection??={unlocked:['lohen'],codex:[],cutins:[],endings:[],records:[],raid:{bossKind:'nightmare',bossName:'천공의 사도·케루빔',bossMaxHp:RAID_BOSS_DEFAULT.bossMaxHp,totalDamage:0,clears:0,recordStats:{}}};s.collection.records??=[];s.collection.raid??={bossKind:'nightmare',bossName:'천공의 사도·케루빔',bossMaxHp:RAID_BOSS_DEFAULT.bossMaxHp,totalDamage:0,clears:0,recordStats:{}};s.collection.raid.bossName=RAID_BOSS_DEFAULT.bossName;s.collection.raid.recordStats??={};s.collection.saveData??={};for(const id of Object.keys(HEROES))s.collection.saveData[id]??=[];for(const h of Object.values(s.heroes||{}))h.sparks??={};
 }
 export function ownedDeck(s,owner){return [...(s.heroes[owner].legacyLoadout?LEGACY_STARTERS:STARTERS)[owner].map((key,index)=>({owner,key,uid:`${owner}-${key}-${index}`})),...(s.heroes[owner].acquired||[]).map((key,i,all)=>{const n=all.slice(0,i).filter(k=>k===key).length;return {owner,key,uid:owner+"-awaken-"+key+(n?'-'+(n+1):'')};}),...(s.heroes[owner].curses||[]).map(c=>({...c,owner}))].filter(c=>!(s.heroes[owner].removedCards||[]).includes(c.uid));}
 export function removalCost(s){return 25+15*(s.removalCount||0);}
+// v0.36 stage 5 (planning doc §7): scars, the injury roulette and per-part effects.
+export const SCAR_RATE=.5;
+export function scarLimit(id){return Math.max(1,Math.round(heroStats(id).hp*SCAR_RATE));}
+// Arms: right = attack cards, left = guard and skill cards. Stage 1 taxes the first such card of a turn, stage 2 every one, stage 3 also cuts the effect.
+export function armOf(h,type){return type==='attack'?(h.body.rightArm||0):(h.body.leftArm||0);}
+export function effectRate(h,type){return armOf(h,type)>=3?.7:1;}
+// Legs add up across the party: a light wound costs 1 AP every other turn, a serious or lost leg 1 AP every turn.
+export function legPenalty(s){return active(s).reduce((n,id)=>n+[s.heroes[id].body.leftLeg,s.heroes[id].body.rightLeg].reduce((m,v)=>m+(v>=2?1:v===1?.5:0),0),0);}
+export function legLocked(s,choice,offer=s.eventOffer){return !!choice?.move&&s.party.some(id=>!s.heroes[id].retired&&[s.heroes[id].body.leftLeg,s.heroes[id].body.rightLeg].includes(3))&&(offer?.choices||[]).some(c=>!c.move);}
+function uidHash(uid){let h=2166136261;for(const ch of String(uid))h=Math.imul(h^ch.charCodeAt(0),16777619);return h>>>0;}
+// Eyes: stage 1 blurs one card in hand, stage 2 mixes one 실명 card into the deck, stage 3 blurs half the hand as well.
+export function isBlurred(s,c){const h=s.heroes[c?.owner],eyes=h?.body.eyes||0,b=s.battle;if(!eyes||!b||s.phase!=='battle')return false;const mine=b.hand.filter(x=>x.owner===c.owner&&!x.blindMark).sort((x,y)=>uidHash(x.uid)-uidHash(y.uid)),n=eyes>=3?Math.ceil(mine.length/2):1;return mine.slice(0,n).some(x=>x.uid===c.uid);}
+function markBlind(s,id){const b=s.battle,h=s.heroes[id];if(!b||(h.body.eyes||0)<2)return;const all=['draw','hand','discard'].flatMap(z=>b[z]).filter(c=>c.owner===id&&!c.gen&&!c.parts);if(!all.length||all.some(c=>c.blindMark))return;const c=choose(s,all);c.blindMark=true;bindBlind(s,c,true);}
+function turnAp(s){const b=s.battle;b.legDebt=(b.legDebt||0)+legPenalty(s);const cut=Math.floor(b.legDebt);b.legDebt-=cut;const ap=3+(b.apNext||0)-cut;b.apNext=0;b.legCut=cut;return Math.max(cut?1:0,ap);}
+function scarCheck(s,id,events){const h=s.heroes[id],limit=scarLimit(id);for(let i=0;i<5&&h&&!h.retired&&(h.scar||0)>=limit;i++){const open=PARTS.filter(p=>h.body[p]<3);if(!open.length){h.scar=limit-1;break;}h.scar-=limit;injury(s,id,choose(s,open),events,{roulette:true,open});}}
 export function armEffectRate(h){return Math.max(.6,1-.2*[h.body.leftArm,h.body.rightArm].filter(n=>n>=2).length);}
 export function injuryChance(h,special=false){return Math.min(.8,(special ? .35 : 0)+.15*[h.body.leftLeg,h.body.rightLeg].filter(n=>n>=2).length);}
 function blindPool(s,owner){return [...new Set(ownedDeck(s,owner).map(c=>c.key))];}
 function bindBlind(s,c,reroll=false){if(CARDS[c.key]?.debuff)return;
- if((s.heroes[c.owner]?.body.eyes||0)<3)return;
+ if(!c.blindMark||(s.heroes[c.owner]?.body.eyes||0)<2)return;
  const pool=blindPool(s,c.owner);if(!pool.length)return;
  if(!reroll&&pool.includes(c.blindKey))return;
  if(reroll)c.blindKey=choose(s,pool);else{let hash=s.seed>>>0;for(const char of c.uid||c.key)hash=(Math.imul(hash,31)+char.charCodeAt(0))>>>0;c.blindKey=pool[hash%pool.length];}
@@ -222,15 +233,23 @@ export function newCampaign(previous,seed=Date.now()){
 function snapshot(s){const copy=clone(s);delete copy.checkpoint;delete copy.history;return copy;}
 function saveCheckpoint(s,isNew=false){if(s.phase!=='base')return;if(isNew){s.retries=0;s.temporal=0;}s.checkpoint=snapshot(s);}
 function makeCard(s,owner,key,index){return {uid:`${owner}-${key}-${index}`,owner,key};}
+function addCrack(e,n,events){const before=e.crack||0;e.crack=Math.min(CRACK_MAX,before+n);if(e.crack>before)emit(events,'crack',`${e.name} · 균열 ${e.crack}`,{enemy:e.id,amount:e.crack});}
+function hasKeyword(s,c,k){return (cardInfo(s,c)?.keywords||[]).includes(k);}
+// 회수: a card bound for the discard pile returns to hand once.
+function toDiscard(s,c,events){const b=s.battle;delete c.retained;delete c.initiative;if(!c.recallUsed&&hasKeyword(s,c,'recall')&&b.hand.length<HAND_LIMIT){c.recallUsed=true;b.hand.push(c);emit(events,'recall',`${CARDS[c.key]?.name||'카드'} · 회수`,{uid:c.uid,hero:c.owner});return 'hand';}b.discard.push(c);return 'discard';}
+function senseEffect(s,c,events){const info=cardInfo(s,c),fx=info?.sense;if(!fx||!info.keywords.includes('sense'))return;const b=s.battle;emit(events,'sense',`${info.name} · 감응`,{uid:c.uid,hero:c.owner});
+ if(fx.ap)b.ap=Math.min(6,b.ap+fx.ap);if(fx.shield)addShield(s,c.owner,fx.shield,events);if(fx.crack)for(const e of livingEnemies(s))addCrack(e,fx.crack,events);if(fx.draw)b.pendingSenseDraw=(b.pendingSenseDraw||0)+fx.draw;}
+function rollInitiative(s){for(const c of s.battle.hand)if(hasKeyword(s,c,'initiative'))c.initiative=random(s)<.5;else delete c.initiative;}
 function draw(s,n,events=[]){const b=s.battle;for(let i=0;i<n&&b.hand.length<10;i++){
  if(!b.draw.length&&b.discard.length){const count=b.discard.length;b.draw=shuffle(s,b.discard.splice(0));emit(events,'shuffle','버린 카드를 다시 섞습니다.',{count});}
- if(!b.draw.length)break;const c=b.draw.pop();bindBlind(s,c,true);b.hand.push(c);rollEpiphany(s,c);emit(events,'draw',`${HEROES[c.owner].name}의 카드를 뽑았습니다.`,{uid:c.uid,hero:c.owner});
-}}
+ if(!b.draw.length)break;const c=b.draw.pop();bindBlind(s,c,true);b.hand.push(c);rollEpiphany(s,c);emit(events,'draw',`${HEROES[c.owner].name}의 카드를 뽑았습니다.`,{uid:c.uid,hero:c.owner});senseEffect(s,c,events);
+}
+ if(b.pendingSenseDraw&&!b.senseDrawing){const extra=b.pendingSenseDraw;b.pendingSenseDraw=0;b.senseDrawing=true;draw(s,extra,events);b.senseDrawing=false;}}
 // v0.27 Epiphany: a drawn card may glow. Played while glowing it costs 0 AP and then offers
 // three of its four tactical awakenings to choose from (previewed), sometimes with an ember spark.
 export const EPIPHANY_CHANCE=.03,EPIPHANY_PER_BATTLE=1;
 function rollEpiphany(s,c){const b=s.battle;if(!b||s.tutorial?.active||s.mode==='raid'||c.epiphany)return;if((b.epiphanies||0)>=EPIPHANY_PER_BATTLE)return;const h=s.heroes[c.owner],d=CARDS[c.key];
- if(!h||!INSIGHTS[c.key]||h.upgrades[c.key]||d?.generated||d?.debuff||h.breakdown||(h.body.eyes||0)>=3)return;if(b.hand.some(x=>x!==c&&x.epiphany&&x.owner===c.owner&&x.key===c.key))return;
+ if(!h||!INSIGHTS[c.key]||h.upgrades[c.key]||d?.generated||d?.debuff||h.breakdown||c.blindMark)return;if(b.hand.some(x=>x!==c&&x.epiphany&&x.owner===c.owner&&x.key===c.key))return;
  if(random(s)<EPIPHANY_CHANCE){c.epiphany=true;b.epiphanies=(b.epiphanies||0)+1;}}
 export function makeEpiphanyOffer(s,owner,key){const branches=shuffle(s,[...INSIGHT_BRANCHES]).slice(0,3).sort();let spark=null,sparkBranch=null;
  if(random(s)<(s.party.includes('durin')?.25:.1)){sparkBranch=choose(s,branches);const form={...CARDS[key],...insightSpec(key,sparkBranch)},pool=compatibleSparkIds(form);spark=choose(s,pool);}
@@ -238,14 +257,17 @@ export function makeEpiphanyOffer(s,owner,key){const branches=shuffle(s,[...INSI
 function danger(h){const f=h.breakdown?.failures||0;return f>=7?3:f>=4?2:1;}
 function recoveryChance(h){return h.breakdown.failures>=10?1:.15+Math.min(.15,h.breakdown.failures*.015);}
 export function cardInfo(s,c){
- const original=CARDS[c?.key];if(!original)return null;if(original.debuff)return {...original,owner:c.owner,upgraded:false};const h=s.heroes[c.owner],blind=(h.body.eyes||0)>=3&&!h.breakdown;let effectiveKey=c.key;if(blind){const copy={...c};bindBlind(s,copy,false);effectiveKey=copy.blindKey||c.key;}const base=CARDS[effectiveKey];
- if(h.breakdown){const d=BREAKDOWNS[h.breakdown.type];return {...base,name:`붕괴 · ${d.name}`,cost:1,target:'none',type:'breakdown',exhaust:false,desc:`${d.desc} 극복 확률 ${Math.round(recoveryChance(h)*100)}%. 실패 ${h.breakdown.failures}/10. 위험 강도 ${danger(h)}.`,blurred:h.body.eyes===2,breakdown:true,breakdownType:h.breakdown.type,failures:h.breakdown.failures,upgraded:false};}
+ const original=CARDS[c?.key];if(!original)return null;if(original.debuff)return {...original,owner:c.owner,upgraded:false};const h=s.heroes[c.owner],blind=!!c.blindMark&&(h.body.eyes||0)>=2&&!h.breakdown;let effectiveKey=c.key;if(blind){const copy={...c};bindBlind(s,copy,false);effectiveKey=copy.blindKey||c.key;}const base=CARDS[effectiveKey];
+ if(h.breakdown){const d=BREAKDOWNS[h.breakdown.type];return {...base,name:`붕괴 · ${d.name}`,cost:1,target:'none',type:'breakdown',exhaust:false,keywords:[],ops:[],v2:false,desc:`${d.desc} 극복 확률 ${Math.round(recoveryChance(h)*100)}%. 실패 ${h.breakdown.failures}/10. 위험 강도 ${danger(h)}.`,blurred:isBlurred(s,c),breakdown:true,breakdownType:h.breakdown.type,failures:h.breakdown.failures,upgraded:false};}
+ if(base.v2)return cardInfoV2(s,c,h,effectiveKey,blind);
  const branch=h.upgrades[effectiveKey],spec=insightSpec(effectiveKey,branch),form={...base,...(spec||{})},rate=armEffectRate(h);
- let amount=Math.max(0,Math.floor(form.amount*rate)),cost=form.cost;
+ let amount=Math.max(0,Math.floor(form.amount*rate)),cost=form.cost;const keywords=cardKeywords(form);
+ if(c.retained&&form.retainBonus)amount+=Math.floor(form.retainBonus*rate);if(c.initiative&&keywords.includes('initiative'))cost=Math.max(0,cost-1);
  if(form.type==='draw')amount=Math.max(0,amount-[h.body.leftArm,h.body.rightArm].filter(n=>n===3).length);
  const effects={...(base.effects||{}),...(spec?.effects||{})};
- for(const field of ['shield','focus','nextPierce','extraPierce','counter','heal'])if(effects[field])effects[field]=Math.floor(effects[field]*rate);
- if(form.type==='counter'&&!effects.counter)effects.counter=Math.floor(6*rate);
+ if(effects.counter&&!effects.reflect){effects.reflect=effects.counter;}delete effects.counter;if(effects.vuln&&!effects.crack)effects.crack=Math.min(CRACK_MAX,effects.vuln*2);delete effects.vuln;
+ for(const field of ['shield','focus','nextPierce','extraPierce','reflect','heal'])if(effects[field])effects[field]=Math.floor(effects[field]*rate);
+ if(form.type==='counter'&&!effects.reflect)effects.reflect=Math.floor(6*rate);
  if(c.owner==='durin'&&h.level>=3&&form.target==='all'&&h.buffs.discount)cost=Math.max(0,cost-1);
  if(form.type==='attack'&&s.battle?.nextAttackDiscount)cost=Math.max(0,cost-1);
  const sparkId=h.sparks?.[effectiveKey]||null,sparkInfo=sparkId?SPARK_EFFECTS[sparkId]:null;
@@ -253,31 +275,40 @@ export function cardInfo(s,c){
  if(sparkId==='ember_force'&&form.type==='attack')amount+=Math.floor(3*rate);
  if(sparkId==='ember_bastion'&&['guard','counter'].includes(form.type))amount+=Math.floor(4*rate);
  const partyGuard=c.owner==='illuga'&&form.type==='guard',text={tactic:'특수 지원.',attack:`${form.target==='all'?'전체 ':''}피해 ${attackPercent(amount)}%.`,guard:partyGuard?`방어력 기반 파티 전원 보호막 ${shieldPercent(amount,true)}%.`:`방어력 기반 본인 보호막 ${shieldPercent(amount)}%.`,counter:`방어력 기반 본인 보호막 ${shieldPercent(amount)}%.`,focus:`이번 턴 다음 ${HEROES[c.owner].name} 공격 피해 +${attackPercent(amount)}%.`,cover:`${effects.coverAll?'아군 전체':'선택한 동료'}가 다음에 받을 정신력 피해 ${amount} 감소.`,draw:`${amount}장 뽑${form.discard===0?'는다.':'고 1장을 골라 버린다.'}`,energy:`행동력 ${amount} 회복.`};
- const described={...effects};delete described.extraPierce;const pressure=Math.floor((form.pierce||0)*rate)+(effects.extraPierce||0);let desc=(text[form.type]||form.desc)+(pressure?` 장막 추가 압박 ${attackPercent(pressure)}%.`:'')+' '+effectDescription(described);if(form.exhaust)desc+=' 소멸.';
+ const described={...effects};delete described.extraPierce;const pressure=Math.floor((form.pierce||0)*rate)+(effects.extraPierce||0);let desc=(keywords.length?keywordLine(keywords)+'. ':'')+(text[form.type]||form.desc)+(pressure?` 장막 추가 압박 ${attackPercent(pressure)}%.`:'')+' '+effectDescription(described);
  if(sparkInfo)desc+=` ${sparkInfo.desc}`;desc=desc.replace(/\s{2,}/g,' ');
  const st=heroStats(c.owner),numbers=form.type==='attack'?{damage:Math.round(amount*st.atk*ATK_PER_POINT),crit:st.cr,critDamage:Math.round(amount*st.atk*ATK_PER_POINT*st.cd)}:['guard','counter'].includes(form.type)?{shield:Math.round(amount*SHIELD_PER_POINT*st.def*(partyGuard?PARTY_SHIELD_SHARE:1)),party:partyGuard}:null;
- const actual={...form,amount,numbers,cost:c.epiphany&&!blind?0:cost,baseCost:cost,epiphany:!!c.epiphany&&!blind,desc:desc.trim(),effects,upgraded:!!branch,branch,spark:sparkId,sparkName:sparkInfo?.name||null,effectiveKey,injuryRate:rate,blurred:h.body.eyes===2};return blind?{...actual,name:'실명',desc:'??',displayCost:'?',upgraded:false,blind:true,target:'none',type:'blind',actual}:actual;
+ const actual={...form,amount,numbers,keywords,cost:c.epiphany&&!blind?0:cost,baseCost:cost,epiphany:!!c.epiphany&&!blind,desc:desc.trim(),effects,upgraded:!!branch,branch,spark:sparkId,sparkName:sparkInfo?.name||null,effectiveKey,injuryRate:rate,blurred:isBlurred(s,c)};return blind?{...actual,name:'실명',desc:'??',displayCost:'?',upgraded:false,blind:true,target:'none',type:'blind',actual}:actual;
 }
-function makeEnemy(s,kind,index){const d=ENEMIES[kind],hp=Math.round(d.hp*depthScale(s).hp*ENEMY_HP_SCALE)+Math.max(0,s.temporal)*3*ENEMY_HP_SCALE,realm=s.battle?.realm||s.pendingRealm||'abyss',look=s.mode==='raid'&&kind===(s.collection?.raid?.bossKind||'nightmare')&&index===0&&!s.battle?RAID_LOOK:pickLook(kind,realm,index+(s.node||0));return {id:`${kind}-${index}`,kind,look,name:ENEMY_LOOKS[look]?.name||d.name,hp,maxHp:hp,def:d.def??(d.boss?25:10),ward:(d.ward||0)*ENEMY_HP_SCALE,hitWard:d.hits||0,turn:0,stun:0,vulnerable:0,observed:null,observedCount:0,echo:false,intent:null};}
+function makeEnemy(s,kind,index){const d=ENEMIES[kind],hp=Math.round(d.hp*depthScale(s).hp*ENEMY_HP_SCALE)+Math.max(0,s.temporal)*3*ENEMY_HP_SCALE,realm=s.battle?.realm||s.pendingRealm||'abyss',look=s.mode==='raid'&&kind===(s.collection?.raid?.bossKind||'nightmare')&&index===0&&!s.battle?RAID_LOOK:pickLook(kind,realm,index+(s.node||0));return {id:`${kind}-${index}`,kind,look,name:ENEMY_LOOKS[look]?.name||d.name,hp,maxHp:hp,def:d.def??(d.boss?25:10),ward:s.mode==='raid'?(d.ward||0)*ENEMY_HP_SCALE:0,hitWard:s.mode==='raid'?d.hits||0:0,turn:0,stun:0,crack:0,wither:0,observed:null,observedCount:0,echo:false,intent:null};}
+function isEliteFight(s){return s.encounterType==='elite'||s.mode==='challenge';}
+function routeIntent(s,e,target,d,preview=false){
+ const move=cycleMove(e.kind,e.turn,e.look),boss=!!d.boss,mental=move.mental&&(boss||isEliteFight(s))?(boss?BOSS_MENTAL:ELITE_MENTAL)*STRESS_PIP:0;
+ let damage=move.damage>0?move.damage+(s.temporal||0):0;if(!mental&&move.mental)damage=Math.max(damage,Math.round((d.attack||5)*.8));
+ const intent={name:move.name,damage,stress:mental,mental:!!mental,target,tag:d.tag,boss};
+ if(preview){const scale=depthScale(s);intent.damage=intent.damage>0?Math.max(1,Math.round(intent.damage*scale.damage*ENEMY_DAMAGE_SCALE*defMitigation(heroStats(target).def))):0;}
+ return intent;
+}
 function plans(s){
  const b=s.battle,targets=active(s);if(!targets.length)return;
  for(const e of livingEnemies(s)){
   const d=ENEMIES[e.kind];let target=targets[(e.turn+b.turn)%targets.length];let intent={name:'공격',damage:d.attack+s.temporal,stress:0,target,tag:d.tag};
-  if(e.kind==='hound')intent={...intent,name:e.turn%2?'균열의 도약':'침식의 이빨',damage:e.turn%2?8:5,corrosion:e.turn%2?0:2};
-  if(e.kind==='wanderer')intent={...intent,name:e.echo?'잔향 복원':'흔적 추적',damage:e.echo?0:5,restore:e.echo};
-  if(e.kind==='hunter')intent={...intent,name:e.turn%2?'갈라진 추격':'추적 표식',damage:e.turn%2?12:5,stress:e.turn%2?8:5,injury:e.turn%2===1};
-  if(e.kind==='angler')intent={...intent,name:e.ward?'연결된 장막':'이끌림의 속삭임',stress:e.ward?8:4};
-  if(e.kind==='mimic')intent={...intent,name:e.turn%2?'의태 · 강습':'공허한 변형',damage:e.turn%2?16:6,stress:e.turn%2?12:5,injury:e.turn%2===1};
-  if(e.kind==='breacher')intent={...intent,name:e.ward?'코어의 수축':'균열 분출',damage:e.ward?7:13,stress:7};
-  if(e.kind==='nightmare'){const sky=ENEMY_LOOKS[e.look]?.realm==='celestial';intent={...intent,name:e.turn%3===0?(sky?'사도의 부름':'어둠의 부름'):e.turn%3===2?(sky?'천공의 파도':'악몽의 파도'):(sky?'내리꽂는 광휘':'내리꽂는 그림자'),damage:e.turn%3===2?18:10,stress:e.turn%3===2?20:8,summon:e.turn%3===0};}
-  if(e.kind==='keeper')intent={...intent,name:e.observedCount>=2?'관측된 결말':'영역 검출',damage:e.observedCount>=2?19:10,stress:10,target:e.observedCount>=2&&targets.includes(e.observed)?e.observed:target};
-  if(e.kind==='sentinel'){
+  if(s.mode!=='raid'){intent=routeIntent(s,e,target,d);e.next=d.boss?routeIntent(s,{...e,turn:e.turn+1},targets[(e.turn+1+b.turn+1)%targets.length],d,true):null;}
+  else if(e.kind==='hound')intent={...intent,name:e.turn%2?'균열의 도약':'침식의 이빨',damage:e.turn%2?8:5,corrosion:e.turn%2?0:2};
+  if(s.mode==='raid'&&e.kind==='wanderer')intent={...intent,name:e.echo?'잔향 복원':'흔적 추적',damage:e.echo?0:5,restore:e.echo};
+  if(s.mode==='raid'&&e.kind==='hunter')intent={...intent,name:e.turn%2?'갈라진 추격':'추적 표식',damage:e.turn%2?12:5,stress:e.turn%2?8:5,injury:e.turn%2===1};
+  if(s.mode==='raid'&&e.kind==='angler')intent={...intent,name:e.ward?'연결된 장막':'이끌림의 속삭임',stress:e.ward?8:4};
+  if(s.mode==='raid'&&e.kind==='mimic')intent={...intent,name:e.turn%2?'의태 · 강습':'공허한 변형',damage:e.turn%2?16:6,stress:e.turn%2?12:5,injury:e.turn%2===1};
+  if(s.mode==='raid'&&e.kind==='breacher')intent={...intent,name:e.ward?'코어의 수축':'균열 분출',damage:e.ward?7:13,stress:7};
+  if(s.mode==='raid'&&e.kind==='nightmare'){const sky=ENEMY_LOOKS[e.look]?.realm==='celestial';intent={...intent,name:e.turn%3===0?(sky?'사도의 부름':'어둠의 부름'):e.turn%3===2?(sky?'천공의 파도':'악몽의 파도'):(sky?'내리꽂는 광휘':'내리꽂는 그림자'),damage:e.turn%3===2?18:10,stress:e.turn%3===2?20:8,summon:e.turn%3===0};}
+  if(s.mode==='raid'&&e.kind==='keeper')intent={...intent,name:e.observedCount>=2?'관측된 결말':'영역 검출',damage:e.observedCount>=2?19:10,stress:10,target:e.observedCount>=2&&targets.includes(e.observed)?e.observed:target};
+  if(s.mode==='raid'&&e.kind==='sentinel'){
    const stars=livingEnemies(s).filter(x=>x.kind==='star').length;
    intent={...intent,name:e.turn%3===0?'타락한 별의 전개':e.turn%3===2?'별의 심판':'침묵의 검출',damage:e.turn%3===2?(stars?24:6):10,stress:e.turn%3===2?(stars?20:3):8,stars:e.turn%3===0,injury:e.turn%3===2&&stars>0};
   }
-  if(e.kind==='star')intent={...intent,name:'심판에 힘을 보냄',damage:0};
-  {const scale=depthScale(s);if(intent.damage>0)intent.damage=Math.round(intent.damage*scale.damage);if(intent.stress>0)intent.stress=Math.round(intent.stress*(1+(scale.damage-1)*.5));if(s.encounterType==='elite'&&intent.damage>=10)intent.injury=true;}
-  if(intent.damage>0){const h=s.heroes[intent.target];intent.damage=Math.ceil(intent.damage*(1+.25*[h.body.leftLeg,h.body.rightLeg].filter(n=>n===3).length));}
+  if(s.mode==='raid'&&e.kind==='star')intent={...intent,name:'심판에 힘을 보냄',damage:0};
+  {const scale=depthScale(s);if(intent.damage>0)intent.damage=Math.round(intent.damage*scale.damage);if(intent.stress>0)intent.stress=Math.round(intent.stress*(1+(scale.damage-1)*.5));if(s.mode==='raid'&&s.encounterType==='elite'&&intent.damage>=10)intent.injury=true;}
+  if(intent.damage>0&&e.wither)intent.damage=Math.max(1,Math.round(intent.damage*(1-WITHER_RATE)));
   if(intent.damage>0){intent.raw=intent.damage;intent.damage=Math.max(1,Math.round(intent.damage*ENEMY_DAMAGE_SCALE*defMitigation(heroStats(intent.target).def)));}
   if(e.stun)intent={...intent,name:'균형 붕괴 · 행동 중단',damage:0,stress:0,stunned:true,summon:false,stars:false,injury:false,corrosion:0};
   e.intent=intent;
@@ -298,8 +329,9 @@ function beginBattle(s,kinds,events){
  }
  const cards=active(s).flatMap(owner=>ownedDeck(s,owner));s.battle=null;s.pendingRealm=battleRealm(s,teaching);
  for(const id of s.party)s.heroes[id].buffs={...(s.heroes[id].buffs?.flins?{flins:s.heroes[id].buffs.flins}:{}),firstAttack:true};
- s.encounterType=currentNode(s).type;s.battle={turn:1,ap:3,hand:[],draw:shuffle(s,cards),discard:[],exhaust:[],enemies:kinds.map((k,i)=>makeEnemy(s,k,i)),supportUsed:false,ultimates:{},spent:0,recovered:false,corrosion:0,morale:0,chooseDiscard:0,undoStack:[],undoLeft:s.party.includes('lohen')?2:1,realm:s.pendingRealm};delete s.pendingRealm;
- s.phase='battle';clearShields(s);for(const id of s.party)s.heroes[id].scar=0;
+ s.encounterType=currentNode(s).type;s.battle={turn:1,ap:3,hand:[],draw:shuffle(s,cards),discard:[],exhaust:[],enemies:kinds.map((k,i)=>makeEnemy(s,k,i)),supportUsed:false,ultimates:{},spent:0,recovered:false,corrosion:0,morale:0,chooseDiscard:0,undoStack:[],undoLeft:s.party.includes('lohen')?2:1,realm:s.pendingRealm,kmode:'chase',tracks:0,modeLeft:1,persist:[]};delete s.pendingRealm;
+ {const b=s.battle,open=b.draw.filter(c=>hasKeyword(s,c,'opening'));if(open.length)b.draw=[...b.draw.filter(c=>!open.includes(c)),...open];}
+ s.phase='battle';clearShields(s);for(const id of s.party){s.heroes[id].scar=0;markBlind(s,id);}s.battle.ap=turnAp(s);
  for(const id of s.party){const item=EQUIPMENT[s.heroes[id].equipment.accessory];if(item?.startShield)addShield(s,id,item.startShield,events,{label:`${item.name} · 보호막`});}
  if(teaching){s.tutorial.chapter=s.node===0?1:2;s.tutorial.step=s.node===0?'cost':'partner-select';if(s.node===2){s.support=Math.max(2,s.support);for(const e of s.battle.enemies)e.hp=e.maxHp=22*ENEMY_HP_SCALE;}}
  if(teaching&&s.node===0){
@@ -308,7 +340,7 @@ function beginBattle(s,kinds,events){
    const c=at<0?makeCard(s,'lohen',key,'lesson-'+index):s.battle.draw.splice(at,1)[0];
    s.battle.hand.push(c);emit(events,'draw','훈련 카드를 받았습니다.',{uid:c.uid,hero:c.owner});
   }
- }else draw(s,5,events);plans(s);emit(events,'battle','전투가 시작되었습니다.');
+ }else{draw(s,5,events);rollInitiative(s);}plans(s);emit(events,'battle','전투가 시작되었습니다.');
  for(const k of kinds)if(!s.collection.codex.includes(k))s.collection.codex.push(k);for(const e of s.battle?.enemies||[])if(e.look&&!s.collection.codex.includes(e.look))s.collection.codex.push(e.look);
 }
 export function healingNeeds(s){
@@ -319,7 +351,8 @@ function restoreBodies(s){s.hp=Math.min(s.maxHp,s.hp+hpPts(s,30));for(const h of
 export function rollEventOffer(s){const seen=s.seenEvents||[],fresh=EVENTS.filter(e=>!seen.includes(e.id)),offer=clone(choose(s,fresh.length?fresh:EVENTS));s.seenEvents=fresh.length?[...seen,offer.id]:[offer.id];for(const c of offer.choices){const premium=c.benefit?.elite||c.benefit?.kind==='gold'&&c.benefit.amount>=40;if(!premium&&!c.dice&&!c.mystery&&!Object.keys(c.cost||{}).length)c.cost=clone(choose(s,[{},{},{hp:6},{stress:7}]));if(c.benefit?.kind==='equipment'&&!c.benefit.item)c.benefit.item=gearDrop(s,!!c.benefit.elite);}return offer;}
 function enterNode(s,events){
  const n=currentNode(s);s.eventResult=null;s.lastReward=null;s.eventOffer=null;if(n.type==='event')s.eventOffer=rollEventOffer(s);if(n.type==='camp'){s.campActions=[];s.upgradeOffer=random(s)<LOOT_RULES.baseRefinement?makeUpgradeOffer(s,'camp','camp'):null;}if(n.type==='recruit')s.recruitLine=0;
- if(n.type==='battle'||n.type==='elite')return beginBattle(s,n.enemies,events);
+ if(n.type==='recruit'&&s.party.length>=PARTY_SIZE&&s.node<ROUTE.length-1){s.node++;s.selectedStage=null;return enterNode(s,events);}
+ if(n.type==='battle'||n.type==='elite')return beginBattle(s,!s.tutorial?.active&&s.mode==='route'&&!s.selectedStage&&s.party.length>=PARTY_SIZE&&FULL_OPENING[s.node]||n.enemies,events);
  s.phase=n.type;
  if(n.type==='base'){
   const baseId='route-'+s.node;if(s.baseId!==baseId||!s.baseInitialized){s.baseId=baseId;s.baseInitialized=true;s.careUsed=false;s.healUsed=false;s.upgradeOffer=random(s)<LOOT_RULES.baseRefinement?makeUpgradeOffer(s,'base','base'):null;}s.collection.unlocked=[...new Set([...s.collection.unlocked,...Object.keys(HEROES)])];saveCheckpoint(s,true);
@@ -327,17 +360,17 @@ function enterNode(s,events){
  }
 }
 function stress(s,id,amount,events,tag=''){
- const h=s.heroes[id];if(!h||h.retired||h.breakdown)return;
+ const h=s.heroes[id];if(!h||h.retired||h.breakdown)return;if(s.battle?.stressImmune&&s.phase==='battle')return;
  const item=EQUIPMENT[h.equipment.accessory];let value=Math.ceil(amount*(1-(item?.stressReduction||0)));
  if(HEROES[id].weakness===tag)value=Math.ceil(value*1.35);
  if(h.buffs.cover){value=Math.max(0,value-h.buffs.cover);delete h.buffs.cover;}
  h.stress=Math.min(100,h.stress+value);if(value)emit(events,'stress',`${HEROES[id].name}의 정신 부담 +${value}`,{hero:id,amount:value});
  if(h.stress>=100){h.breakdown={type:choose(s,Object.keys(BREAKDOWNS)),failures:0};emit(events,'breakdown',`${HEROES[id].name} · ${BREAKDOWNS[h.breakdown.type].name}`,{hero:id});const key=`breakdown-${id}`;if(!s.collection.cutins.includes(key))s.collection.cutins.push(key);}
 }
-function injury(s,id,part,events){
- const h=s.heroes[id];if(!h||h.retired)return;part=PARTS.includes(part)?part:choose(s,[h.body.leftLeg,h.body.rightLeg].some(n=>n>=2)?['eyes','leftArm','rightArm']:PARTS);
- if(h.body[part]>=3)return;h.body[part]=Math.min(3,h.body[part]+1);emit(events,'injury',`${HEROES[id].name}의 신체 손상이 진행됩니다.`,{hero:id,part,stage:h.body[part]});
- if(part==='eyes'&&h.body.eyes===3&&s.battle)for(const zone of ['hand','draw','discard','exhaust'])for(const c of s.battle[zone])if(c.owner===id)bindBlind(s,c,true);
+function injury(s,id,part,events,extra={}){
+ const h=s.heroes[id];if(!h||h.retired)return;if(!PARTS.includes(part)){const open=PARTS.filter(p=>h.body[p]<3);if(!open.length)return;part=choose(s,open);}
+ if(h.body[part]>=3)return;h.body[part]=Math.min(3,h.body[part]+1);emit(events,'injury',`${HEROES[id].name} · ${PART_NAMES[part]} ${BODY_STAGES[h.body[part]]}`,{hero:id,part,stage:h.body[part],...extra});
+ if(part==='eyes'&&h.body.eyes>=2&&s.battle&&s.phase==='battle')markBlind(s,id);
  if(h.body[part]>=2)for(const ally of active(s))if(ally!==id)stress(s,ally,4,events);
  if(Object.values(h.body).filter(x=>x>=3).length>=2){h.retired=true;{const full=heroStats(id).hp;s.hp=Math.max(0,s.hp-Math.max(0,full-(h.lost||0)));s.maxHp=Math.max(1,s.maxHp-full);h.shield=0;syncShield(s);}emit(events,'retire',`${HEROES[id].name} · 전투 이탈. 거점에서 회복하면 복귀합니다. 파트너 지원은 유지됩니다.`,{hero:id});if(s.battle)for(const zone of ['hand','draw','discard','exhaust'])s.battle[zone]=s.battle[zone].filter(c=>c.owner!==id);for(const ally of active(s))stress(s,ally,10,events);}
  if(!active(s).length)defeat(s,events);
@@ -367,30 +400,49 @@ function settleRaid(s,events,reason='turnLimit'){
 // The raid borrows the run's hero slots; everything outside the collection is stashed and restored.
 function stashRun(s){const keep=new Set(['collection','raidStash']);s.raidStash=clone(Object.fromEntries(Object.entries(s).filter(([k])=>!keep.has(k))));}
 function restoreRaidStash(s){const stash=s.raidStash;if(!stash)return;const collection=s.collection,result=s.lastRaidResult;for(const k of Object.keys(s))delete s[k];Object.assign(s,stash,{collection,lastRaidResult:result,phase:'lobby'});}
-function freshRun(s,{tutorial=false}={}){const collection=s.collection,next=createGame(Date.now()^s.rng,{tutorial});for(const k of Object.keys(s))delete s[k];Object.assign(s,next,{collection});s.checkpoint=snapshot(s);}
+function freshRun(s,{tutorial=false,seed}={}){const collection=s.collection,next=createGame(seed??(Date.now()^s.rng),{tutorial});for(const k of Object.keys(s))delete s[k];Object.assign(s,next,{collection});s.checkpoint=snapshot(s);}
+// v0.36 stage 6: the roster is open. A normal expedition fields three picked heroes from the start;
+// until the first clear Lohen has to be one of them.
+export const PARTY_SIZE=3;
+export function expeditionCleared(s){return (s.collection?.endings||[]).length>0;}
+export function lohenFixed(s){return !expeditionCleared(s);}
+export function formationError(s,party){
+ if(!Array.isArray(party)||party.length!==PARTY_SIZE||new Set(party).size!==PARTY_SIZE||party.some(id=>!HEROES[id]))return `출전할 전투원 ${PARTY_SIZE}명을 고르세요.`;
+ if(lohenFixed(s)&&!party.includes('lohen'))return '첫 클리어 전에는 로엔이 함께 출전합니다.';
+ return '';
+}
+export function defaultFormation(s){
+ const last=(s.collection?.lastParty||[]).filter(id=>HEROES[id]),pick=[...new Set([...(lohenFixed(s)?['lohen']:[]),...last,'lohen','durin','illuga',...Object.keys(HEROES)])].slice(0,PARTY_SIZE);
+ return formationError(s,pick)?['lohen','durin','illuga']:pick;
+}
+function deploy(s,party){
+ s.party=[...party].sort((a,b)=>(b==='lohen')-(a==='lohen'));for(const id of Object.keys(s.heroes)){s.heroes[id].lost=0;s.heroes[id].scar=0;s.heroes[id].shield=0;}
+ s.maxHp=partyMaxHp(s);s.hp=s.maxHp;s.hpScaled=true;s.shield=0;s.collection.unlocked=Object.keys(HEROES);s.collection.lastParty=[...s.party];s.checkpoint=snapshot(s);
+}
+// The two opening fights were sized for one and two heroes; a full party meets a first-tier patrol instead.
+const FULL_OPENING={0:['hound','wanderer'],2:['wanderer','wanderer','hound']};
 export function saveEntries(s,hero){return s.collection.saveData?.[hero]||[];}
 function defeat(s,events){if(s.mode==='raid'&&s.raidRun){settleRaid(s,events,'defeat');return;}s.phase='defeat';emit(events,'defeat','더는 전선을 유지할 수 없습니다. 시간의 흐름이 흔들립니다.');}
-function damageEnemy(s,e,amount,owner,events,extraWard=0){
- if(!e||e.hp<=0)return;const st=heroStats(owner),atk=HEROES[owner]?st.atk:100,crit=!!HEROES[owner]&&!s.battle?.forecast&&!s.battle?.noCrit&&random(s)<st.cr;
- let value=Math.max(0,Math.round(amount*atk*ATK_PER_POINT*(crit?st.cd:1)*defMitigation(e.def)*(e.vulnerable?1.25:1)));extraWard=Math.round(extraWard*atk*ATK_PER_POINT);
- if(e.kind==='keeper'&&owner){if(e.observed===owner)e.observedCount++;else{e.observed=owner;e.observedCount=1;}if(e.observedCount>=3)value=Math.ceil(value*.7);}
- if(e.hitWard>0){e.hitWard--;value=Math.max(1,Math.floor(value*.35));if(!e.hitWard){e.stun=1;emit(events,'break',`${e.name}의 장막이 벗겨집니다.`,{enemy:e.id});}}
- if(e.ward>0){
-  const removed=Math.min(e.ward,value+extraWard);e.ward-=removed;value=Math.max(0,value-Math.max(0,removed-extraWard));
+function damageEnemy(s,e,amount,owner,events,extraWard=0,opts={}){
+ if(!e||e.hp<=0)return;const st=heroStats(owner),atk=opts.base??(HEROES[owner]?(opts.stat==='def'?st.def:st.atk+(opts.atkAdd||0)):100),crit=!!HEROES[owner]&&!s.battle?.forecast&&!s.battle?.noCrit&&random(s)<st.cr+(opts.crBonus||0);
+ let value=Math.max(0,Math.round(amount*atk*ATK_PER_POINT*(1+(opts.inc||0))*(crit?st.cd:1)*defMitigation((e.def||0)*(opts.defMul??1))*(1+CRACK_PER_STACK*Math.min(CRACK_MAX,e.crack||0))));extraWard=Math.round(extraWard*atk*ATK_PER_POINT);
+ if(s.mode==='raid'&&e.kind==='keeper'&&owner){if(e.observed===owner)e.observedCount++;else{e.observed=owner;e.observedCount=1;}if(e.observedCount>=3)value=Math.ceil(value*.7);}
+ if(e.hitWard>0&&!opts.pierceWard){e.hitWard--;value=Math.max(1,Math.floor(value*.35));if(!e.hitWard){e.stun=1;emit(events,'break',`${e.name}의 장막이 벗겨집니다.`,{enemy:e.id});}}
+ if(e.ward>0&&!opts.pierceWard){
+  const wm=opts.wardMul||1,removed=Math.min(e.ward,value*wm+extraWard);e.ward-=removed;value=Math.max(0,Math.round(value-Math.max(0,removed-extraWard)/wm));
   if(e.ward===0){e.stun=1;if(e.kind==='angler'){for(const other of livingEnemies(s))if(other.kind==='angler'){other.ward=0;other.stun=1;}emit(events,'break','연결된 장막이 함께 무너집니다.',{enemy:e.id});}else emit(events,'break','장막을 파괴해 행동을 중단시켰습니다.',{enemy:e.id});s.support=Math.min(6,s.support+1);}
  }
  e.hp=Math.max(0,e.hp-value);emit(events,'damage',`${e.name}에게 피해 ${value}${crit?' (치명)':''}`,{hero:owner,enemy:e.id,amount:value,crit});
  if(s.mode==='raid'&&s.raidRun&&e.kind===s.collection.raid.bossKind){s.raidRun.damageDealt=(s.raidRun.damageDealt||0)+value;}
  if(e.hp===0){
-  if((e.kind==='wanderer'||e.kind==='hunter')&&!e.echo){e.echo=true;e.hp=6*ENEMY_HP_SCALE;e.maxHp=Math.max(e.maxHp,e.hp);e.ward=0;emit(events,'echo',`${e.name}의 잔향이 드러납니다.`,{enemy:e.id});}
-  else{emit(events,'kill',`${e.name} 제압`,{enemy:e.id});if(e.kind==='angler')for(const boss of livingEnemies(s))if(boss.kind==='nightmare')boss.ward=Math.max(0,boss.ward-12*ENEMY_HP_SCALE);
+  {emit(events,'kill',`${e.name} 제압`,{enemy:e.id});if(e.kind==='angler')for(const boss of livingEnemies(s))if(boss.kind==='nightmare')boss.ward=Math.max(0,boss.ward-12*ENEMY_HP_SCALE);
    if(e.kind==='star'){const boss=livingEnemies(s).find(x=>x.kind==='sentinel');if(boss&&!livingEnemies(s).some(x=>x.kind==='star')){boss.stun=1;emit(events,'break','별이 사라져 심판을 저지했습니다.',{enemy:boss.id});}}
   }
  }
  plans(s);
 }
 function checkVictory(s,events){
- if(s.phase!=='battle'||livingEnemies(s).length)return;
+ if(s.phase!=='battle'||livingEnemies(s).length)return;for(const h of Object.values(s.heroes))h.scar=0;
  if(s.mode==='raid'&&s.raidRun){settleRaid(s,events,'victory');return;}
  const reward=12+(s.party.includes('jahoda')?4:0)+(s.mode==='challenge'?8:0);s.battlesWon++;s.support=Math.min(6,s.support+1);
  const elite=currentNode(s).type==='elite'||s.mode==='challenge',loot=s.tutorial?.active?{}:rollLoot(s,elite);s.phase='reward';s.lastReward={gold:reward+(elite?12:0),xp:10,pending:true,...loot,cardOffer:s.tutorial?.active?null:makeCardOffer(s,elite?'elite':'battle','travel')};emit(events,'victory',`전투 승리 · 보급품을 수령하거나 넘어갈 수 있습니다.`);if(s.tutorial?.active){settleReward(s,false,events);s.node=s.tutorial.chapter===1?1:3;s.selectedStage=null;s.battle=null;s.tutorial.step='recruit';enterNode(s,events);}
@@ -411,7 +463,7 @@ export function predictCardEffect(state,cardUid,enemyId=null){
  for(const target of targets){
   // The real interpreter runs on an isolated probe. Forecasts cannot consume live RNG,
   // create cards in the live deck, or drift from pierce / counter / shield scaling rules.
-  const probe=clone(state);probe.tutorial.active=false;probe.battle.undoStack=[];probe.battle.ap=Math.max(probe.battle.ap,view.cost);
+  const probe=clone(state);probe.tutorial.active=false;probe.battle.undoStack=[];probe.battle.forecast=true;probe.battle.ap=Math.max(probe.battle.ap,view.cost);
   const outcome=act(probe,{type:'play',uid:cardUid,target:view.target==='ally'?c.owner:target?.id});if(!outcome.ok)continue;
   if(['guard','counter'].includes(view.type))res.shieldGain=probe.shield-state.shield;
   if(probe.hp>state.hp)res.healGain=probe.hp-state.hp;
@@ -431,7 +483,11 @@ function play(s,a,events){
  if(info.target==='enemy'){target=livingEnemies(s).find(e=>e.id===a.target);if(!target&&view.blind)target=choose(s,livingEnemies(s));if(!target)reject('공격할 적을 선택하세요.');}
  if(info.target==='ally'&&view.blind&&!s.party.includes(a.target))a={...a,target:choose(s,active(s))};
  if(info.target==='ally'&&(!s.party.includes(a.target)||s.heroes[a.target].retired))reject('엄호할 동료를 선택하세요.');
- pushUndo(s);b.ap-=info.cost;b.spent+=info.cost;b.hand.splice(index,1);const dest=!info.breakdown&&info.exhaust?'exhaust':'discard';b[dest].push(c);
+ if(b.pickDraw)reject('먼저 가져올 카드를 고르세요.');
+ if(!info.breakdown&&(info.keywords||[]).includes('unplayable'))reject('직접 사용할 수 없는 카드입니다.');
+ if(!info.breakdown&&info.perTurnUse&&(b.turnUses?.[key]||0)>=info.perTurnUse)reject('이 카드는 이번 턴에 더 쓸 수 없습니다.');
+ if(!info.breakdown&&c.owner==='durin'&&info.type==='attack'&&(b.persist||[]).some(p=>p.lock==='durinAttack'))reject('낙성의 불길이 타는 동안 두린은 공격 카드를 쓸 수 없습니다.');
+ pushUndo(s);b.ap-=info.cost;b.spent+=info.cost;b.hand.splice(index,1);for(const x of b.hand)delete x.initiative;let dest=!info.breakdown&&info.exhaust?'exhaust':'discard';if(c.parts&&!info.breakdown){dest=info.shardsExhaust?'exhaust':'discard';for(const part of c.parts){delete part.retained;b[dest].push(part);}}else if(dest==='exhaust'){delete c.retained;b.exhaust.push(c);}else dest=toDiscard(s,c,events);
  emit(events,'card',`${HEROES[c.owner].name} · ${info.name}`,{hero:c.owner,card:key,uid:c.uid,destination:dest,blind:!!view.blind,actualCost:info.cost});
  if(info.type==='breakdown'){
   const bd=h.breakdown,success=bd.failures>=10||random(s)<recoveryChance(h);
@@ -448,16 +504,17 @@ function play(s,a,events){
    bd.failures++;const power=danger(h);emit(events,'collapseFail',`극복 실패 ${bd.failures}/10 · 위험 강도 ${power}`,{hero:c.owner});
    if(random(s)<.65){
     if(bd.type==='despair'){b.morale=Math.min(3,(b.morale||0)+power);emit(events,'morale','아군의 사기가 흔들립니다.');}
-    if(bd.type==='distrust'){const ff=hpPts(s,2+power*2);s.hp=Math.max(0,s.hp-ff);h.lost=Math.min(heroStats(c.owner).hp,(h.lost||0)+ff);emit(events,'friendlyFire','불신이 아군을 겨눕니다.',{amount:ff,hero:c.owner});}
+    if(bd.type==='distrust'){const ff=hpPts(s,2+power*2);s.hp=Math.max(0,s.hp-ff);h.lost=Math.min(heroStats(c.owner).hp,(h.lost||0)+ff);h.scar=(h.scar||0)+ff;emit(events,'friendlyFire','불신이 아군을 겨눕니다.',{amount:ff,hero:c.owner});scarCheck(s,c.owner,events);}
     if(bd.type==='panic'){const allies=active(s).filter(id=>id!==c.owner);if(allies.length)stress(s,choose(s,allies),3+power*3,events);}
     if(bd.type==='frenzy'){const e=choose(s,livingEnemies(s));if(e)damageEnemy(s,e,7+power*3,c.owner,events);if(random(s)<.15*power)injury(s,c.owner,null,events);}
    }
   }
+ }else if(info.v2){playV2(s,c,info,target,a,events);
  }else{
   if(info.type==='attack'){
    const targets=info.target==='all'?[...livingEnemies(s)]:[target];let amount=info.amount+Math.floor(Math.min(info.effects?.shieldDamageCap||0,Math.floor((h.shield||0)*(info.effects?.shieldDamage||0)/(heroStats(c.owner).atk*ATK_PER_POINT)))*info.injuryRate)+attackBonus(s,c.owner)+(h.buffs.focus||0)+(h.buffs.flins||0)+(h.buffs.awaken||0)-Math.min(3,b.morale||0);delete h.buffs.awaken;
    const totalPierce=Math.floor((info.pierce||0)*(info.injuryRate||1))+(info.effects?.extraPierce||0)+(h.buffs.nextPierce||0);
-   for(const e of targets){damageEnemy(s,e,Math.max(1,amount),c.owner,events,totalPierce);if(info.effects?.vuln&&e.hp>0)e.vulnerable=Math.max(e.vulnerable||0,info.effects.vuln);}
+   for(const e of targets){damageEnemy(s,e,Math.max(1,amount),c.owner,events,totalPierce);if(info.effects?.crack&&e.hp>0)addCrack(e,info.effects.crack,events);}
    delete h.buffs.nextPierce;delete b.nextAttackDiscount;
    if(h.buffs.counter){const e=livingEnemies(s).find(x=>x.id===target?.id)||livingEnemies(s)[0];if(e)damageEnemy(s,e,h.buffs.counter,c.owner,events);delete h.buffs.counter;}
    delete h.buffs.focus;delete h.buffs.flins;h.buffs.firstAttack=false;
@@ -475,7 +532,16 @@ function play(s,a,events){
  if(c.epiphany&&!info.breakdown&&!view.blind&&!s.epiphanyOffer){delete c.epiphany;if(!s.heroes[c.owner].upgrades[key]){s.epiphanyOffer=makeEpiphanyOffer(s,c.owner,key);emit(events,'epiphany',`${HEROES[c.owner].name} · ${CARDS[key].name} 번뜩임`,{hero:c.owner,card:key});}}
  if(s.tutorial?.active){if(s.tutorial.step==='attack-use')s.tutorial.step='defense-select';else if(s.tutorial.step==='defense-use')s.tutorial.step='end-turn';}
  if(b.spent>=3&&!b.supportCharged){s.support=Math.min(6,s.support+1);b.supportCharged=true;}
+ if(!info.breakdown&&s.phase==='battle')chainTriggers(s,c,info,events);
  if(s.hp<=0)defeat(s,events);else{plans(s);checkVictory(s,events);}
+ if(!info.breakdown&&s.phase==='battle'&&(info.keywords||[]).includes('finale')&&!b.chooseDiscard&&!b.pickDraw){emit(events,'finale',`${info.name} · 종극 — 턴 종료`,{hero:c.owner});endTurn(s,events);}
+}
+// 연계: chain cards in hand answer another hero's card once per turn each.
+function chainTriggers(s,played,info,events){const b=s.battle;b.chainUsed??={};
+ for(const c of [...b.hand]){if(c.owner===played.owner||b.chainUsed[c.uid])continue;const view=cardInfo(s,c),fx=view?.chain;if(!fx||!view.keywords.includes('chain'))continue;if(fx.on==='attack'&&info.type!=='attack')continue;
+  b.chainUsed[c.uid]=true;emit(events,'chain',`${view.name} · 연계`,{uid:c.uid,hero:c.owner});
+  const lim=fx.perTurn||1;b.chainCount??={};if(fx.ops){b.chainUsed[c.uid]=(b.chainCount[c.uid]=(b.chainCount[c.uid]||0)+1)>=lim;runOps(s,{c,info:view,owner:c.owner,h:s.heroes[c.owner],target:null,rate:view.injuryRate||1,mark:events.length,followUp:true,apSpent:0},fx.ops,events);}
+  if(fx.allDamage)for(const e of [...livingEnemies(s)])damageEnemy(s,e,fx.allDamage,c.owner,events);if(fx.shield)addShield(s,c.owner,fx.shield,events);if(fx.crack)for(const e of livingEnemies(s))addCrack(e,fx.crack,events);if(fx.ap)b.ap=Math.min(6,b.ap+fx.ap);}
 }
 function applyCardExtras(s,c,info,events){
  const b=s.battle,h=s.heroes[c.owner],e=info.effects||{},key=info.effectiveKey||c.key,turnKey=c.owner+':'+key;
@@ -483,7 +549,7 @@ function applyCardExtras(s,c,info,events){
  const proc=!b.effectUsed[turnKey],killed=events.some(x=>x.type==='kill');
  if(e.shield)addShield(s,c.owner,e.shield,events,{party:c.owner==='illuga'});
  if(e.focus)h.buffs.focus=(h.buffs.focus||0)+e.focus;if(e.nextPierce)h.buffs.nextPierce=e.nextPierce;
- if(e.counter)h.buffs.counterReady=e.counter;
+ if(e.reflect){h.buffs.reflect=Math.max(h.buffs.reflect||0,e.reflect);h.buffs.reflectBy=c.owner;emit(events,'reflectReady',`${HEROES[c.owner].name} · 되비춤 준비`,{hero:c.owner});}
  if(e.heal&&proc){b.effectUsed[turnKey]=true;const n=Math.min(hpPts(s,e.heal),s.maxHp-s.hp);s.hp+=n;emit(events,'cardHeal',`공용 체력 +${n}`,{hero:c.owner,amount:n});}
  if(e.calm)h.stress=Math.max(0,h.stress-e.calm);if(e.support)s.support=Math.min(6,s.support+e.support);
  if(proc){
@@ -501,50 +567,247 @@ function applyCardExtras(s,c,info,events){
  if(info.spark==='ember_draw'&&!b.effectUsed[sparkGate+':draw']){b.effectUsed[sparkGate+':draw']=true;draw(s,1,events);}
  if(info.spark==='ember_mercy'&&!b.effectUsed[sparkGate+':heal']){b.effectUsed[sparkGate+':heal']=true;const n=Math.min(hpPts(s,3),s.maxHp-s.hp);s.hp+=n;emit(events,'cardHeal',`잔불의 온기 · 체력 +${n}`,{hero:c.owner,amount:n});}
 }
+/* ===== v0.36 stage 4: data-driven cards (cards-v2.js) ===== */
+const PT=9/100; // percent of the base stat -> legacy points used by damageEnemy
+function levelInc(h){return ((h?.level||1)-1)*.1;}
+function dmgInc(s,id,info){const h=s.heroes[id],b=s.battle,item=EQUIPMENT[h.equipment.weapon];
+ let inc=levelInc(h)+(item?.attack||0)*.05+(h.buffs.firstAttack?(item?.firstAttack||0)*.05:0)+(h.buffs.nextPct||0)/100+(h.buffs.awaken?.3:0)+(h.buffs.flins||0)*.05-Math.min(3,b.morale||0)*.05;
+ if(info?.spark==='ember_force')inc+=.3;if(b.bigNext&&(info?.cost||0)>=3)inc+=b.bigNext/100;if(id==='kinich'&&b.kinichTurnDmg)inc+=b.kinichTurnDmg/100;if(id==='kinich'&&info?.mode==='crush'&&b.crushNext)inc+=b.crushNext/100;return inc;}
+function kinichMode(b,m){return !!b&&(b.bothModes||(b.kmode||'chase')===m);}
+function addTracks(s,n,events){const b=s.battle,before=b.tracks||0;b.tracks=Math.max(0,Math.min(10,before+n));if(b.tracks!==before)emit(events,'track',`추적흔 ${b.tracks}`,{hero:'kinich',amount:b.tracks});}
+function lastTarget(s){const live=livingEnemies(s);return live.find(e=>e.id===s.battle.lastTarget)||live[0]||null;}
+function giveShield(s,owner,ids,pct,events,label=''){ids=ids.filter(id=>s.party.includes(id)&&!s.heroes[id].retired);if(!ids.length||pct<=0)return 0;const each=Math.max(1,Math.round(heroStats(owner).def*pct/100));for(const id of ids)s.heroes[id].shield=(s.heroes[id].shield||0)+each;syncShield(s);emit(events,'shield',`${label||(HEROES[owner]?.name||'')+' 보호막'} +${each}${ids.length>1?' · 파티 전원':''}`,{hero:owner,amount:each*ids.length,each,targets:ids});return each;}
+function gainAp(s,owner,n,events){const b=s.battle;if(n>0){b.ap=Math.min(6,b.ap+n);b.apRestored=true;emit(events,'resource',`행동력 +${n}`,{hero:owner,amount:n});if(owner==='jahoda'&&active(s).includes('jahoda')){const e=[...livingEnemies(s)].sort((x,y)=>y.hp-x.hp)[0];if(e)addCrack(e,1,events);}}else b.ap=Math.max(0,b.ap+n);}
+function drawN(s,n,events){const b=s.battle,before=new Set(b.hand.map(c=>c.uid));if(n>0)draw(s,n,events);const drawn=b.hand.filter(c=>!before.has(c.uid));b.drawnThisTurn=(b.drawnThisTurn||0)+drawn.length;return drawn;}
+function createCard(s,owner,key,events,o={}){const b=s.battle;if(!CARDS[key])return null;if(key==='l_frost'&&!o.force&&b.hand.filter(c=>c.key==='l_frost').length>=3)return null;if(!o.force&&b.hand.length>=HAND_LIMIT)return null;
+ b.genSeq=(b.genSeq||0)+1;const c={owner,key,uid:`gen-${key}-${b.turn}-${b.genSeq}`,gen:true};if(o.retain)c.keepRetain=true;bindBlind(s,c,true);b.hand.push(c);emit(events,'createCard',`${CARDS[key].name} 생성`,{hero:owner,uid:c.uid});return c;}
+// A card leaves the hand without being played. Returns 'frost' for 서리 파편 so callers can batch the follow-up.
+function discardCard(s,c,events,o={}){const b=s.battle;b.discardedThisTurn=(b.discardedThisTurn||0)+1;delete c.retained;delete c.initiative;const view=cardInfo(s,c),info=view?.actual||view;
+ emit(events,'discard',`${CARDS[c.key]?.name||'카드'} 버림`,{uid:c.uid,hero:c.owner});
+ if(c.key==='l_frost'){b.exhaust.push(c);return 'frost';}
+ if(c.parts){b.discard.push(...c.parts);return 'ok';}
+ if(o.toTop)b.draw.push(c);else if(o.toBottom)b.draw.unshift(c);else if(o.returnShards&&info?.shard&&b.hand.length<HAND_LIMIT)b.hand.push(c);else toDiscard(s,c,events);
+ if(info?.onDiscard&&!info.breakdown&&livingEnemies(s).length)runOps(s,{c,info,owner:c.owner,h:s.heroes[c.owner],target:null,rate:info.injuryRate||1,mark:events.length,followUp:true,apSpent:0},info.onDiscard,events);
+ return 'ok';}
+function frostBurst(s,n,events,o={}){const b=s.battle;if(!n||!livingEnemies(s).length)return;const aoe=!!o.aoe||n>=3,pct=30+(o.pct||0)+(b.frostBoost||0),h=s.heroes.lohen;
+ emit(events,'frost',`서리 파편 ${n}장 · 추가공격${aoe?' (전체)':''}`,{hero:'lohen',amount:n});
+ for(let i=0;i<n;i++){const targets=aoe?[...livingEnemies(s)]:[lastTarget(s)].filter(Boolean);for(const e of targets)damageEnemy(s,e,pct*PT,'lohen',events,0,{inc:levelInc(h)+(aoe?0:.3)});}}
+function lynetteStrike(s,events){const b=s.battle;if(b.lynetteUsed||!active(s).includes('lyney')||!livingEnemies(s).length)return;b.lynetteUsed=true;emit(events,'assist','리넷 · 깜짝 조수',{hero:'lyney'});for(const e of [...livingEnemies(s)])damageEnemy(s,e,20*PT,'lyney',events,0,{inc:levelInc(s.heroes.lyney)});}
+function durinAssist(s,c,events){const b=s.battle;if(c.owner==='durin'||b.forecast||!active(s).includes('durin')||s.heroes.durin.breakdown||!livingEnemies(s).length)return;
+ if((b.assists||0)>=3+(b.assistCap||0)||random(s)>=.5+(b.assistChance||0))return;b.assists=(b.assists||0)+1;const strong=!!b.solarReady;delete b.solarReady;emit(events,'assist',`두린 · 협공${strong?' (태양화)':''}`,{hero:'durin'});
+ for(const e of [...livingEnemies(s)]){damageEnemy(s,e,25*PT,'durin',events,0,{inc:levelInc(s.heroes.durin)});if(strong&&e.hp>0)damageEnemy(s,e,60*PT,'durin',events,0,{stat:'def'});}
+ b.solar=(b.solar||0)+1;if(b.solar>=3){b.solar=0;b.assistCap=(b.assistCap||0)+1;b.solarReady=true;emit(events,'solar','알베도 · 태양화 3 — 다음 협공 강화',{hero:'durin'});}}
+function switchMode(s,events,{free=false}={}){const b=s.battle;b.kmode=(b.kmode||'chase')==='chase'?'crush':'chase';const first=!b.modeSwitched;b.modeSwitched=true;if(!free)b.modeLeft=Math.max(0,(b.modeLeft??1)-1);
+ emit(events,'mode',`키니치 · 「${b.kmode==='chase'?'추적':'분쇄'}」 모드`,{hero:'kinich',mode:b.kmode,first,partner:b.kmode==='chase'?'mualani':'kachina'});createCard(s,'kinich','k_ajaw',events);}
+function shardInfo(s,c){const v=cardInfo(s,c);return v?.actual||v;}
+// 결합: after a Cyno card, a hand of two or more 심판의 편린 and nothing else merges into 칠흑의 심판.
+function tryCombine(s,events){const b=s.battle;if(!b||s.phase!=='battle'||!active(s).includes('cyno')||s.heroes.cyno.breakdown||b.chooseDiscard||b.pickDraw||b.hand.length<2)return;
+ if(!b.hand.every(c=>c.owner==='cyno'&&shardInfo(s,c)?.shard))return;const parts=b.hand.splice(0);let shards=parts.length,coef=(b.combineCoef||0)+(b.combineGrow||0);
+ for(const p of parts){const i=shardInfo(s,p);if(i.shardCoefPerRetain)coef+=i.shardCoefPerRetain*(p.retained||0);}
+ if(!b.combined&&b.combineFirstPlus)shards+=b.combineFirstPlus;if(b.combinePlus){shards+=b.combinePlus;b.combinePlus=0;}if(livingEnemies(s).some(e=>e.aim))shards++;
+ b.combineCoef=0;if((b.persist||[]).some(p=>p.watch==='combineGrow'))b.combineGrow=(b.combineGrow||0)+15;b.combined=(b.combined||0)+1;
+ const j={owner:'cyno',key:'c_judgment',uid:`judgment-${b.turn}-${b.combined}`,parts,shards,coef,gen:true};b.hand.push(j);emit(events,'combine',`심판의 편린 ${parts.length}장 결합 · 칠흑의 심판 (편린 ${shards})`,{hero:'cyno',uid:j.uid});}
+function startDiscard(s,ctx,o,events){const b=s.battle,eligible=b.hand.filter(c=>o.filter!=='nonShard'||!shardInfo(s,c)?.shard),n=Math.min(o.n||1,eligible.length);
+ b.discardCtx={owner:ctx.owner,filter:o.filter||null,optional:!!o.optional,allyAp:o.allyAp||0,toTop:!!o.toTop,toBottom:!!o.toBottom,returnShards:!!o.returnShards,thenDrawEqual:!!o.thenDrawEqual,extraDraw:o.extraDraw||0,apAt:o.apAt||0,then:o.then||null,count:0};
+ b.chooseDiscard=n;if(!n)finishDiscard(s,events);}
+function finishDiscard(s,events){const b=s.battle,d=b.discardCtx;b.chooseDiscard=0;delete b.discardCtx;if(!d)return;
+ if(d.count>0&&d.owner==='lyney')lynetteStrike(s,events);
+ if(d.thenDrawEqual&&d.count>0)drawN(s,d.count+d.extraDraw,events);if(d.apAt&&d.count>=d.apAt)gainAp(s,d.owner,1,events);
+ if(d.then)runOps(s,{c:{owner:d.owner,key:'',uid:'after-discard'},info:{},owner:d.owner,h:s.heroes[d.owner],target:null,rate:1,mark:events.length,apSpent:0},d.then,events);
+ if(d.owner==='cyno')tryCombine(s,events);}
+function opCond(s,ctx,cond){const b=s.battle;if(cond==='frostInHand2')return b.hand.filter(c=>c.key==='l_frost').length>=2;if(cond==='track5')return (b.tracks||0)>=5;if(cond==='aimTarget')return !!ctx.target?.aim;return false;}
+function runOps(s,ctx,ops,events){
+ const b=s.battle,{c,info,h}=ctx,key=info?.effectiveKey||c?.key;
+ for(const o of ops||[]){
+  if(s.phase!=='battle')return;
+  switch(o.op){
+   case 'dmg':{
+    const tracks=b.tracks||0;let pct=o.pct||0,used=0;
+    if(o.retainPct&&c.retained)pct+=o.retainPct;if(o.perRetain)pct+=o.perRetain*Math.min(o.perMax||9,c.retained||0);
+    if(o.perUse)pct+=o.perUse*Math.min(o.perMax||9,b.useCount?.[key]||0);
+    if(o.perGraveAttack)pct+=o.perGraveAttack*Math.min(o.perMax||9,b.discard.filter(x=>x.owner===ctx.owner&&x.uid!==c.uid&&CARDS[x.key]?.type==='attack').length);
+    if(o.perHand)pct+=o.perHand*b.hand.length;if(o.perDrawn)pct+=o.perDrawn*(b.drawnThisTurn||0);
+    if(o.chainGrow){b.chainGrow??={};pct+=o.chainGrow*Math.min(o.perMax||9,b.chainGrow[c.uid]||0);b.chainGrow[c.uid]=(b.chainGrow[c.uid]||0)+1;}
+    if(o.perTrack){pct+=o.perTrack*tracks;used=o.trackUse==='half'?Math.ceil(tracks/2):o.trackUse==='none'?0:tracks;}
+    if(o.perTrackBonus)pct+=o.perTrackBonus*tracks;
+    if(o.judgment)pct+=o.perAp*(ctx.apSpent||0)+o.perShard*(c.shards||0)+(c.coef||0);
+    let hits=o.hits||1;
+    if(o.multi){hits+=(b.bonusHits||0)+(b.multiPlus||0);b.bonusHits=0;if(ctx.owner==='kinich'&&kinichMode(b,'chase')&&(b.mualaniUsed||0)<2){hits++;b.mualaniUsed=(b.mualaniUsed||0)+1;}}
+    const opts={inc:ctx.followUp?levelInc(h):dmgInc(s,ctx.owner,info)};
+    if(o.ifShield&&(h.shield||0)>0)opts.inc+=o.ifShield/100;
+    if(o.basis==='def')opts.stat='def';
+    if(o.basis==='shield'){const sh=h.shield||0;opts.base=sh;h.shield=Math.round(sh*(o.keepShield||0));syncShield(s);}
+    else if(h.buffs?.atkBonus&&o.basis!=='def')opts.atkAdd=h.buffs.atkBonus;
+    if(ctx.owner==='kinich'&&kinichMode(b,'crush')){opts.defMul=.7;opts.wardMul=2;}
+    if(o.pierceWard)opts.pierceWard=true;
+    for(let i=0;i<hits&&s.phase==='battle';i++){
+     const live=livingEnemies(s);if(!live.length)break;
+     const targets=o.aoe?[...live]:o.random?[choose(s,live)]:[ctx.target&&ctx.target.hp>0?ctx.target:lastTarget(s)].filter(Boolean);
+     for(const e of targets){const x={...opts};let p=pct;if(o.ifCrack&&e.crack>0)x.inc+=o.ifCrack/100;if(o.ifAim&&e.aim)p+=o.ifAim;if(o.crackMaxDouble&&(e.crack||0)>=CRACK_MAX)p*=2;if(ctx.owner==='cyno'&&e.aim)x.crBonus=.3;
+      damageEnemy(s,e,p*(ctx.rate||1)*PT,ctx.owner,events,0,x);if(o.crack&&e.hp>0)addCrack(e,o.crack,events);b.lastTarget=e.id;}
+     if(o.multi&&ctx.owner==='kinich')addTracks(s,o.trackPer||1,events);
+    }
+    if(used)addTracks(s,-used,events);
+    if(o.judgment&&o.refund)gainAp(s,ctx.owner,o.refund,events);
+    break;}
+   case 'shield':{
+    let pct=o.pct+(o.retainPct&&c.retained?o.retainPct:0)+(o.perHand?o.perHand*b.hand.length:0);pct*=(ctx.rate||1)*(1+levelInc(h)+(h.buffs.awaken?.3:0)+(info?.spark==='ember_bastion'?.5:0));
+    const ids=o.who==='party'?active(s):[ctx.owner];giveShield(s,ctx.owner,ids,pct,events);
+    if(o.scarDouble){const top=[...active(s)].sort((x,y)=>(s.heroes[y].scar||0)-(s.heroes[x].scar||0))[0];if(top&&(s.heroes[top].scar||0)>0)giveShield(s,ctx.owner,[top],pct,events,'상흔이 깊은 동료 보호막');}
+    break;}
+   case 'create':{
+    if(o.battleCap){b.createCount??={};if((b.createCount[key]||0)>=o.battleCap)break;b.createCount[key]=(b.createCount[key]||0)+1;}
+    let n=o.n||1;if(ctx.owner==='lyney'&&CARDS[o.card]?.generated&&!b.forecast&&random(s)<.3)n++;
+    for(let i=0;i<n;i++)createCard(s,CARDS[o.card].owner,o.card,events,{force:o.force,retain:o.retain});break;}
+   case 'draw':{const drawn=drawN(s,o.n||1,events);
+    if(o.bonusIfGenerated&&drawn.some(x=>x.gen||CARDS[x.key]?.generated))drawN(s,o.bonusIfGenerated,events);
+    if(o.discardNonShard){let frost=0;for(const x of drawn)if(!shardInfo(s,x)?.shard){const at=b.hand.indexOf(x);if(at>=0){b.hand.splice(at,1);if(discardCard(s,x,events)==='frost')frost++;}}if(frost)frostBurst(s,frost,events);}
+    break;}
+   case 'discard':startDiscard(s,ctx,o,events);break;
+   case 'discardHand':{
+    const pick=b.hand.filter(x=>o.filter!=='nonShard'||!shardInfo(s,x)?.shard),n=pick.length;
+    if(!o.keep&&n){b.hand=b.hand.filter(x=>!pick.includes(x));let frost=0;for(const x of pick)if(discardCard(s,x,events)==='frost')frost++;if(frost)frostBurst(s,frost,events);if(ctx.owner==='lyney')lynetteStrike(s,events);}
+    if(o.perPct&&n)for(const e of [...livingEnemies(s)])damageEnemy(s,e,o.perPct*n*(ctx.rate||1)*PT,ctx.owner,events,0,{inc:dmgInc(s,ctx.owner,info)});
+    if(o.thenDraw)drawN(s,o.thenDraw,events);break;}
+   case 'shuffleHand':{let frost=0;const keep=[];for(const x of b.hand.splice(0)){if((shardInfo(s,x)?.keywords||[]).includes('unplayable')){if(discardCard(s,x,events)==='frost')frost++;}else keep.push(x);}
+    if(frost)frostBurst(s,frost,events);for(const x of keep){delete x.retained;delete x.initiative;}b.draw=shuffle(s,[...b.draw,...keep]);drawN(s,keep.length,events);break;}
+   case 'pickDraw':{if(!b.draw.length&&b.discard.length)b.draw=shuffle(s,b.discard.splice(0));if(b.draw.length&&b.hand.length<HAND_LIMIT)b.pickDraw={n:o.n||1,owner:ctx.owner};break;}
+   case 'ap':gainAp(s,ctx.owner,o.n,events);break;
+   case 'apNext':b.apNext=(b.apNext||0)+o.n+(o.retainN&&c.retained?o.retainN:0);emit(events,'resource',`다음 턴 행동력 ${b.apNext>0?'+':''}${b.apNext}`,{hero:ctx.owner});break;
+   case 'drawNext':b.drawNext=(b.drawNext||0)+o.n;break;
+   case 'buffNext':h.buffs.nextPct=(h.buffs.nextPct||0)+o.pct+(o.retainPct&&c.retained?o.retainPct:0);break;
+   case 'frostBoost':b.frostBoost=(b.frostBoost||0)+o.pct;break;
+   case 'ifKill':runOps(s,ctx,events.slice(ctx.mark).some(x=>x.type==='kill')?o.ops:o.else,events);break;
+   case 'if':if(opCond(s,ctx,o.cond))runOps(s,ctx,o.ops,events);break;
+   case 'shatter':{const fr=b.hand.filter(x=>x.key==='l_frost');if(!fr.length)break;b.hand=b.hand.filter(x=>x.key!=='l_frost');for(const x of fr){b.exhaust.push(x);emit(events,'discard','서리 파편 버림',{uid:x.uid,hero:x.owner});}b.discardedThisTurn=(b.discardedThisTurn||0)+fr.length;frostBurst(s,fr.length,events,{pct:o.pct,aoe:o.aoe});if(o.drawEach)drawN(s,fr.length,events);break;}
+   case 'javelin':{const n=Math.min(o.max,b.discardedThisTurn||0);let made=0;for(let i=0;i<n;i++)if(createCard(s,'lohen','l_frost',events))made++;if(o.drawHalf)drawN(s,Math.floor(n/2),events);break;}
+   case 'costNext':b.costNext=(b.costNext||0)+(o.count||1);break;
+   case 'assistBoost':b.assistChance=(b.assistChance||0)+(o.chance||0);b.assistCap=(b.assistCap||0)+(o.cap||0);break;
+   case 'bigNext':b.bigNext=o.pct;break;
+   case 'persist':{(b.persist??=[]).push({owner:ctx.owner,key,name:CARDS[key]?.name||'',ops:o.ops||null,lock:o.lock||null,watch:o.watch||null});const at=b.discard.indexOf(c);if(at>=0){b.discard.splice(at,1);b.exhaust.push(c);}emit(events,'persist',`${CARDS[key]?.name||'카드'} · 지속 효과`,{hero:ctx.owner});break;}
+   case 'reflect':h.buffs.reflect=Math.max(h.buffs.reflect||0,Math.round(o.pct*(ctx.rate||1)*PT*100)/100);h.buffs.reflectBy=ctx.owner;if(o.aoe)h.buffs.reflectAoe=true;if(o.ap)h.buffs.reflectAp=o.ap;emit(events,'reflectReady',`${HEROES[ctx.owner].name} · 되비춤 준비`,{hero:ctx.owner});break;
+   case 'cover':{for(const id of o.all?active(s):[ctx.ally].filter(x=>s.party.includes(x))){const t=s.heroes[id];t.buffs.cover=o.stress;if(o.shieldPct)giveShield(s,ctx.owner,[id],o.shieldPct*(ctx.rate||1),events);if(o.buff)t.buffs.nextPct=(t.buffs.nextPct||0)+o.buff;emit(events,'cover',`${HEROES[id].name}에게 길잡이 불빛`,{hero:id});}break;}
+   case 'heal':{const want=Math.round(hpPts(s,o.pct)*(ctx.rate||1)),n=Math.min(want,s.maxHp-s.hp);s.hp+=n;for(const id of o.scarAll?active(s):[ctx.owner])s.heroes[id].scar=Math.max(0,(s.heroes[id].scar||0)-want);emit(events,'cardHeal',`공용 체력 +${n}`,{hero:ctx.owner,amount:n});if(o.overShield&&want>n){h.shield=(h.shield||0)+(want-n);syncShield(s);emit(events,'shield',`넘친 온기 · 보호막 +${want-n}`,{hero:ctx.owner,amount:want-n,each:want-n,targets:[ctx.owner]});}break;}
+   case 'stressImmune':b.stressImmune=true;break;
+   case 'track':addTracks(s,o.n,events);break;
+   case 'modeExtra':b.modeLeft=(b.modeLeft??1)+(o.n||1);break;
+   case 'autoSwitch':if(active(s).includes('kinich'))switchMode(s,events,{free:true});break;
+   case 'bonusHits':b.bonusHits=(b.bonusHits||0)+o.n+(o.retainN&&c.retained?o.retainN:0);break;
+   case 'multiPlus':b.multiPlus=(b.multiPlus||0)+o.n;break;
+   case 'crushNext':b.crushNext=o.pct;break;
+   case 'bothModes':b.bothModes=true;break;
+   case 'turnDmg':b.kinichTurnDmg=(b.kinichTurnDmg||0)+o.pct;break;
+   case 'hatProc':b.hatProc=o.pct;break;
+   case 'hatUsed':if(b.hatProc&&livingEnemies(s).length)damageEnemy(s,choose(s,livingEnemies(s)),b.hatProc*PT,'lyney',events,0,{inc:levelInc(s.heroes.lyney)});break;
+   case 'combineCoef':b.combineCoef=(b.combineCoef||0)+o.pct;break;
+   case 'combinePlus':if(o.first){if(!b.combined)b.combineFirstPlus=Math.max(b.combineFirstPlus||0,o.n);}else b.combinePlus=(b.combinePlus||0)+o.n;break;
+   case 'aim':if(ctx.target&&ctx.target.hp>0){ctx.target.aim=true;emit(events,'aim',`${ctx.target.name} · 조준점`,{enemy:ctx.target.id,hero:'cyno'});}break;
+   case 'recoverShard':{const at=b.discard.findIndex(x=>x.owner==='cyno'&&CARDS[x.key]?.shard);if(at>=0&&b.hand.length<HAND_LIMIT){const [x]=b.discard.splice(at,1);b.hand.push(x);emit(events,'draw','무덤의 편린을 되찾았습니다.',{uid:x.uid,hero:'cyno'});}break;}
+  }
+ }
+}
+function cardInfoV2(s,c,h,key,blind){
+ const base=CARDS[key],branch=h.upgrades[key]||null,spec=branch?V2_BRANCHES[key]?.[branch]:null,form={...base,...(spec||{})},b=s.battle,rate=effectRate(h,form.type),tracks=b?.tracks||0,arm=armOf(h,form.type),side=c.owner+(form.type==='attack'?':R':':L');
+ let keywords=cardKeywords(form);if(c.keepRetain)keywords=cardKeywords({keywords:[...keywords.filter(k=>k!=='evaporate'),'retain']});
+ let cost=form.xCost?(b?.ap||0):form.cost,discounted=false;const armTax=!form.xCost&&!keywords.includes('unplayable')&&(arm>=2||arm===1&&!b?.armTax?.[side]);if(armTax)cost+=1;
+ if(form.costRule==='retained0'&&c.retained)cost=0;if(form.costRule==='apRestored0'&&b?.apRestored)cost=0;if(form.costRule==='track5'&&tracks>=5)cost=0;if(form.costRule==='track3'&&tracks>=3)cost=0;
+ const sparkId=h.sparks?.[key]||null,sparkInfo=sparkId?SPARK_EFFECTS[sparkId]:null;
+ if(!form.xCost){if(c.initiative&&keywords.includes('initiative'))cost=Math.max(0,cost-1);if(sparkId==='ember_cost')cost=Math.max(0,cost-1);if(b?.costNext>0&&cost>0){cost--;discounted=true;}}
+ const first=form.ops.find(o=>o.op==='dmg')||form.ops.find(o=>o.op==='shield'),st=heroStats(c.owner),dp=first?.op==='dmg'?((first.pct||0)+(first.perTrack||0)*tracks+(first.judgment?first.perAp*(b?.ap||0)+first.perShard*(c.shards||0)+(c.coef||0):0))*(first.hits||1):0;
+ const amount=first?Math.round((first.op==='dmg'?dp*9/100:first.pct*7/200)*rate):1;
+ const numbers=first?.op==='dmg'&&!first.basis?{damage:Math.round(dp*st.atk/100*rate),crit:st.cr,critDamage:Math.round(dp*st.atk/100*rate*st.cd)}:first?.op==='shield'?{shield:Math.round(first.pct*st.def/100*rate),party:first.who==='party'}:null;
+ let desc=(keywords.length?keywordLine(keywords)+'. ':'')+form.text;if(c.parts)desc+=` 지금 쓰면 피해 ${Math.round(dp)}% (편린 ${c.shards}${c.coef?`, 계수 +${c.coef}%`:''}).`;if(rate<1)desc+=` (팔 결손: 효과 ${Math.round(rate*100)}%)`;if(armTax)desc+=' (팔 부상: 비용 +1)';if(sparkInfo)desc+=' '+sparkInfo.desc;
+ const actual={...form,name:base.name,title:spec?.title||null,amount,numbers,keywords,cost:c.epiphany&&!blind?0:cost,baseCost:cost,discounted,epiphany:!!c.epiphany&&!blind,desc,effects:{},exhaust:keywords.includes('exhaust'),upgraded:!!branch,branch,spark:sparkId,sparkName:sparkInfo?.name||null,effectiveKey:key,injuryRate:rate,blurred:isBlurred(s,c),armTax,v2:true};
+ if(form.xCost)actual.displayCost='X';
+ return blind?{...actual,name:'실명',desc:'??',displayCost:'?',upgraded:false,blind:true,target:'none',type:'blind',actual}:actual;
+}
+function playV2(s,c,info,target,a,events){
+ const b=s.battle,h=s.heroes[c.owner],key=info.effectiveKey;(b.useCount??={});(b.turnUses??={});
+ if(info.discounted)b.costNext=Math.max(0,(b.costNext||0)-1);
+ (b.armTax??={})[c.owner+(info.type==='attack'?':R':':L')]=true;
+ if(c.owner==='cyno'&&info.type==='attack'&&!b.aimGiven&&target){target.aim=true;b.aimGiven=true;emit(events,'aim',`타이나리 · ${target.name}에게 조준점`,{enemy:target.id,hero:'cyno'});}
+ const ctx={c,info,owner:c.owner,h,target,ally:a.target,rate:info.injuryRate||1,mark:events.length,apSpent:info.cost};
+ runOps(s,ctx,info.ops||[],events);
+ b.useCount[key]=(b.useCount[key]||0)+1;b.turnUses[key]=(b.turnUses[key]||0)+1;
+ if(info.type==='attack'){delete h.buffs.nextPct;delete h.buffs.awaken;delete h.buffs.flins;h.buffs.firstAttack=false;if(info.cost>=3)delete b.bigNext;if(c.owner==='kinich'&&info.mode==='crush')delete b.crushNext;if(s.phase==='battle')durinAssist(s,c,events);}
+ if(info.type==='guard')delete h.buffs.awaken;
+ if(c.parts&&s.phase==='battle')createCard(s,'cyno','c_feather',events);
+ if(s.phase!=='battle')return;
+ if(info.spark==='ember_support')s.support=Math.min(6,s.support+1);if(info.spark==='ember_calm')h.stress=Math.max(0,h.stress-4);
+ b.effectUsed??={};const gate='spark:'+c.owner;
+ if(info.spark==='ember_draw'&&!b.effectUsed[gate+':draw']){b.effectUsed[gate+':draw']=true;drawN(s,1,events);}
+ if(info.spark==='ember_mercy'&&!b.effectUsed[gate+':heal']){b.effectUsed[gate+':heal']=true;const n=Math.min(hpPts(s,3),s.maxHp-s.hp);s.hp+=n;h.scar=Math.max(0,(h.scar||0)-hpPts(s,3));emit(events,'cardHeal',`잔불의 온기 · 체력 +${n}`,{hero:c.owner,amount:n});}
+ if(info.cost===0&&!b.zeroUsed){b.zeroUsed=true;if((b.persist||[]).some(p=>p.watch==='firstZero'))gainAp(s,'jahoda',1,events);}
+ if(c.owner==='cyno')tryCombine(s,events);
+}
 function support(s,a,events){
  if(s.phase!=='battle')reject('전투 중에 지원을 요청할 수 있습니다.');const b=s.battle;let id=a.hero;
  if(!HEROES[id])id=Object.keys(HEROES).find(x=>HEROES[x].partner===a.hero);
  if(!s.party.includes(id))reject('편성된 동료의 파트너만 지원할 수 있습니다.');if(s.support<2)reject('지원 게이지가 부족합니다.');if(b.supportUsed)reject('파트너 지원은 턴마다 한 번 사용할 수 있습니다.');
- const e=livingEnemies(s).find(x=>x.id===a.target);if((id==='illuga'||id==='jahoda')&&!e)reject('지원 공격의 대상을 선택하세요.');
- pushUndo(s);s.support-=2;b.supportUsed=true;if(s.tutorial?.active&&s.tutorial.step==='partner-use')s.tutorial.step='free';emit(events,'support',`${HEROES[id].partnerName}의 지원`,{hero:id,partner:HEROES[id].partner});const cutin=`support-${HEROES[id].partner}`;if(!s.collection.cutins.includes(cutin))s.collection.cutins.push(cutin);
+ const e=livingEnemies(s).find(x=>x.id===a.target),partner=id==='kinich'?(b.kmode==='crush'?'kachina':'mualani'):HEROES[id].partner;if((['illuga','jahoda','cyno'].includes(id)||partner==='kachina')&&!e)reject('지원 공격의 대상을 선택하세요.');
+ pushUndo(s);s.support-=2;b.supportUsed=true;if(s.tutorial?.active&&s.tutorial.step==='partner-use')s.tutorial.step='free';emit(events,'support',`${HEROES[id].partnerNames?.[partner]||HEROES[id].partnerName}의 지원`,{hero:id,partner});const cutin=`support-${partner}`;if(!s.collection.cutins.includes(cutin))s.collection.cutins.push(cutin);
  if(id==='lohen'){const enemies=[...livingEnemies(s)];for(const x of enemies)damageEnemy(s,x,enemies.length===1?24:16,id,events,enemies.length===1?6:0);}
  if(id==='durin'){addShield(s,id,13,events,{party:true,label:'알베도의 보호막'});b.ap=Math.min(6,b.ap+1);emit(events,'resource','알베도 · 행동력 +1',{hero:id});}
  if(id==='illuga'){damageEnemy(s,e,20,id,events);s.heroes.illuga.buffs.flins=7;}
- if(id==='jahoda'){damageEnemy(s,e,17,id,events);if(e.hp>0)e.vulnerable=2;}
+ if(id==='jahoda'){damageEnemy(s,e,17,id,events);if(e.hp>0)addCrack(e,2,events);}
+ if(partner==='mualani'){for(const x of [...livingEnemies(s)])damageEnemy(s,x,60*PT,id,events,0,{inc:levelInc(s.heroes[id])});addTracks(s,3,events);}
+ if(partner==='kachina'){if(e.ward||e.hitWard){e.ward=0;e.hitWard=0;e.stun=1;emit(events,'break',`${e.name}의 장막이 부서집니다.`,{enemy:e.id});}addCrack(e,2,events);}
+ if(id==='lyney'){giveShield(s,id,[id],150,events,'리넷의 엄호 · 보호막');drawN(s,3,events);startDiscard(s,{owner:id},{n:1},events);}
+ if(id==='cyno'){e.aim=true;b.aimGiven=true;emit(events,'aim',`타이나리 · ${e.name}에게 조준점`,{enemy:e.id,hero:id});for(let i=0;i<2&&e.hp>0;i++)damageEnemy(s,e,80*PT,id,events,0,{inc:levelInc(s.heroes[id]),crBonus:.3});}
  plans(s);checkVictory(s,events);
 }
 function ultimate(s,a,events){
  if(s.phase!=='battle')reject('전투 중에 필살기를 사용할 수 있습니다.');const id=a.hero,b=s.battle,h=s.heroes[id];
+ if(id==='kinich'){ // 확정 기록: 키니치의 필살기 버튼 = 모드 전환 (게이지 0, 턴당 1회)
+  if(!s.party.includes(id))reject('출전한 전투원을 선택하세요.');if(h.retired)reject('이탈한 전투원은 필살기를 사용할 수 없습니다.');if(h.breakdown)reject('붕괴 상태에서는 모드를 바꿀 수 없습니다.');if(b.chooseDiscard||b.pickDraw)reject('먼저 카드를 선택하세요.');if((b.modeLeft??1)<=0)reject('이번 턴에는 이미 모드를 바꿨습니다.');
+  pushUndo(s);const first=!b.modeSwitched;switchMode(s,events);if(first&&!s.collection.cutins.includes('ultimate-kinich'))s.collection.cutins.push('ultimate-kinich');plans(s);return;
+ }
  if(!HEROES[id]||!s.party.includes(id))reject('출전한 전투원을 선택하세요.');if(h.retired)reject('이탈한 전투원은 필살기를 사용할 수 없습니다.');if(h.breakdown)reject('붕괴 상태에서는 필살기를 사용할 수 없습니다.');if(b.chooseDiscard)reject('먼저 버릴 카드를 선택하세요.');if(b.ultimates?.[id])reject('이 전투에서 이미 필살기를 사용했습니다.');if(s.support<3)reject('필살기는 지원 게이지 3이 필요합니다.');
- const target=livingEnemies(s).find(e=>e.id===a.target);if(id==='lohen'&&!target)reject('필살기로 공격할 적을 선택하세요.');
+ const target=livingEnemies(s).find(e=>e.id===a.target);if(['lohen','cyno'].includes(id)&&!target)reject('필살기로 공격할 적을 선택하세요.');
  pushUndo(s);s.support-=3;(b.ultimates??={})[id]=true;emit(events,'ultimate',`${HEROES[id].name} · 필살기`,{hero:id});const cutin=`ultimate-${id}`;if(!s.collection.cutins.includes(cutin))s.collection.cutins.push(cutin);
  if(id==='lohen')damageEnemy(s,target,34,id,events,10);
  if(id==='durin')for(const e of [...livingEnemies(s)])damageEnemy(s,e,22,id,events);
- if(id==='illuga'){addShield(s,id,25,events,{party:true,label:'일루가 필살기 · 보호막'});h.buffs.counterReady=12;}
+ if(id==='illuga'){addShield(s,id,25,events,{party:true,label:'일루가 필살기 · 보호막'});for(const ally of active(s)){const ah=s.heroes[ally];ah.buffs.reflect=Math.max(ah.buffs.reflect||0,12);ah.buffs.reflectBy='illuga';}emit(events,'reflectReady','파티 전원 · 되비춤 준비',{hero:id});}
  if(id==='jahoda'){b.ap=Math.min(6,b.ap+2);draw(s,Math.max(0,2-[h.body.leftArm,h.body.rightArm].filter(n=>n===3).length),events);emit(events,'resource','행동력 +2 · 카드 드로우',{hero:id});}
+ if(id==='lyney'){for(const e of [...livingEnemies(s)])damageEnemy(s,e,200*PT,id,events,0,{inc:levelInc(h)});if(s.phase==='battle')drawN(s,3,events);}
+ if(id==='cyno'){damageEnemy(s,target,350*PT,id,events,0,{inc:levelInc(h),crBonus:target.aim?.3:0});if(s.phase==='battle')for(const k of ['c_thrust','c_claw','c_gaze'])createCard(s,id,k,events);}
  plans(s);checkVictory(s,events);
 }
 function endTurn(s,events){
- if(s.phase!=='battle')reject('전투 중이 아닙니다.');const b=s.battle;if(b.chooseDiscard)reject('먼저 버릴 카드를 선택하세요.');
+ if(s.phase!=='battle')reject('전투 중이 아닙니다.');const b=s.battle;if(b.chooseDiscard)reject('먼저 버릴 카드를 선택하세요.');if(b.pickDraw)reject('먼저 가져올 카드를 고르세요.');
+ {const early=b.hand.filter(c=>{const i=shardInfo(s,c);return c.key==='l_frost'||(i?.onDiscard&&!(i.keywords||[]).includes('retain')&&!i.breakdown);});
+  if(early.length){b.hand=b.hand.filter(c=>!early.includes(c));let frost=0;for(const c of early)if(discardCard(s,c,events)==='frost')frost++;if(frost)frostBurst(s,frost,events);checkVictory(s,events);if(s.phase!=='battle')return;}}
  for(const e of [...livingEnemies(s)]){
   if(s.phase!=='battle')break;const it=e.intent;if(e.hp<=0)continue;if(e.stun){e.stun--;e.turn++;continue;}
   if(it.restore&&e.echo){e.echo=false;e.hp=Math.ceil(e.maxHp*.35);emit(events,'echoRestore','잔향이 육체를 복원합니다.',{enemy:e.id});}
   emit(events,'enemyAction',`${e.name} · ${it.name}`,{enemy:e.id,hero:it.target,name:it.name,damage:it.damage||0,stress:it.stress||0});
   const th=s.heroes[it.target],blocked=Math.min(th?.shield||0,it.damage||0);if(th)th.shield-=blocked;syncShield(s);const taken=Math.max(0,(it.damage||0)-blocked);s.hp=Math.max(0,s.hp-taken);if(th&&taken){th.lost=Math.min(heroStats(it.target).hp,(th.lost||0)+taken);th.scar=(th.scar||0)+taken;}
   if(it.damage)emit(events,'enemyAttack',`${e.name} · ${it.name}: 피해 ${taken}`,{enemy:e.id,hero:it.target,amount:taken,blocked});
-  if(blocked)for(const id of active(s)){const h=s.heroes[id];if(h.buffs.counterReady){h.buffs.counter=h.buffs.counterReady;delete h.buffs.counterReady;}}
-  const mental=(it.stress&&(!it.damage||taken>0)?it.stress:0)+Math.ceil(taken*100/Math.max(1,s.maxHp)*STRESS_PER_DAMAGE);if(mental)stress(s,it.target,mental,events,it.tag);
+  if(blocked>0&&taken===0&&th?.buffs?.reflect&&e.hp>0){emit(events,'reflect',`${HEROES[it.target].name} · 되비춤`,{hero:it.target,enemy:e.id});for(const x of th.buffs.reflectAoe?[...livingEnemies(s)]:[e])damageEnemy(s,x,th.buffs.reflect,th.buffs.reflectBy||it.target,events,0,{stat:'def'});if(th.buffs.reflectAp&&!b.reflectApUsed){b.reflectApUsed=true;b.apNext=(b.apNext||0)+th.buffs.reflectAp;}if(e.hp<=0)continue;}
+  if(blocked>0&&th&&th.shield===0&&active(s).includes('illuga')&&e.hp>0){emit(events,'reflect','플린스 · 깨진 불빛의 응징',{hero:'illuga',enemy:e.id});damageEnemy(s,e,40*PT,'illuga',events,0,{stat:'def'});if(e.hp<=0)continue;}
+  b.hitStress??={};let mental=it.stress||0;if(taken>0&&(b.hitStress[it.target]||0)<HIT_STRESS_CAP){b.hitStress[it.target]=(b.hitStress[it.target]||0)+1;mental+=ENEMIES[e.kind]?.boss?HIT_STRESS.boss:isEliteFight(s)?HIT_STRESS.elite:HIT_STRESS.normal;}if(mental)stress(s,it.target,mental,events,it.mental?'정신공격':it.tag);
   if(it.corrosion)b.corrosion=Math.max(b.corrosion,it.corrosion);
-  if(taken>0&&injuryChance(s.heroes[it.target],!!it.injury)>0&&random(s)<injuryChance(s.heroes[it.target],!!it.injury))injury(s,it.target,null,events);
+  if(taken>0)scarCheck(s,it.target,events);
   if(it.summon&&livingEnemies(s).filter(x=>x.kind==='angler').length<2){const angler=makeEnemy(s,'angler',b.turn*10);b.enemies.push(angler);if(!s.collection.codex.includes('angler'))s.collection.codex.push('angler');if(!s.collection.codex.includes(angler.look))s.collection.codex.push(angler.look);emit(events,'summon',`${angler.name} 하나가 나타납니다.`);}
   if(it.stars&&!livingEnemies(s).some(x=>x.kind==='star')){const pair=[makeEnemy(s,'star',b.turn*10),makeEnemy(s,'star',b.turn*10+1)];b.enemies.push(...pair);for(const k of ['star',pair[0].look])if(!s.collection.codex.includes(k))s.collection.codex.push(k);emit(events,'summon',`${pair[0].name} 둘이 펼쳐집니다.`);}
-  e.turn++;if(e.vulnerable)e.vulnerable--;if(s.hp<=0)defeat(s,events);
+  e.turn++;if(e.wither)e.wither--;if(s.hp<=0)defeat(s,events);
  }
  if(s.phase!=='battle')return;if(s.tutorial?.active&&s.tutorial.step==='end-turn')s.tutorial.step='refill';
  if(b.corrosion){const cor=hpPts(s,2);s.hp=Math.max(0,s.hp-cor);b.corrosion--;emit(events,'corrosion',`침식 · 공용 체력 -${cor}`,{amount:cor});if(s.hp<=0){defeat(s,events);return;}}
- clearShields(s);for(const id of s.party){const h=s.heroes[id];if(h.buffs.focus)delete h.buffs.focus;delete h.buffs.counterReady;delete h.buffs.nextPierce;}
- for(const c of b.hand)emit(events,'discard',`${HEROES[c.owner].name}의 카드를 버립니다.`,{uid:c.uid,hero:c.owner});b.discard.push(...b.hand.splice(0));b.turn++;b.ap=3;b.supportUsed=false;b.spent=0;b.supportCharged=false;b.recovered=false;b.effectUsed={};delete b.nextAttackDiscount;b.undoStack=[];
- if(s.mode==='raid'&&s.raidRun&&b.turn>(s.raidRun.maxTurns||6)){settleRaid(s,events,'turnLimit');return;}if(b.morale)b.morale--;draw(s,5,events);plans(s);emit(events,'turn',`${b.turn}번째 턴`);
+ {const il=s.heroes.illuga;if(il){const carry=active(s).includes('illuga')?Math.round((il.shield||0)*.3*1.2):0;if(carry)il.buffs.atkBonus=carry;else delete il.buffs.atkBonus;}}
+ clearShields(s);for(const id of s.party){const h=s.heroes[id];if(h.buffs.focus)delete h.buffs.focus;delete h.buffs.counterReady;delete h.buffs.reflect;delete h.buffs.reflectBy;delete h.buffs.reflectAoe;delete h.buffs.reflectAp;delete h.buffs.nextPierce;delete h.buffs.nextPct;}
+ for(const e of livingEnemies(s))if(e.crack)e.crack--;
+ {const keep=[];for(const c of b.hand.splice(0)){const kw=cardInfo(s,c)?.keywords||[];
+  if(c.parts){keep.push(c);continue;}
+  if(kw.includes('evaporate')){b.exhaust.push(c);emit(events,'evaporate',`${CARDS[c.key]?.name||'카드'} · 증발`,{uid:c.uid,hero:c.owner});continue;}
+  if(kw.includes('retain')){c.retained=(c.retained||0)+1;keep.push(c);emit(events,'retain',`${CARDS[c.key]?.name||'카드'} · 보존`,{uid:c.uid,hero:c.owner});continue;}
+  emit(events,'discard',`${HEROES[c.owner].name}의 카드를 버립니다.`,{uid:c.uid,hero:c.owner});b.discard.push(c);delete c.initiative;}
+  b.hand.push(...keep);}
+ b.chainUsed={};b.chainCount={};b.hitStress={};b.turn++;b.ap=turnAp(s);if(b.legCut)emit(events,'legs',`다리 부상 · 행동력 -${b.legCut}`,{amount:b.legCut});b.supportUsed=false;b.spent=0;b.supportCharged=false;b.recovered=false;b.effectUsed={};delete b.nextAttackDiscount;b.undoStack=[];
+ Object.assign(b,{assists:0,assistCap:0,assistChance:0,frostBoost:0,discardedThisTurn:0,apRestored:false,turnUses:{},zeroUsed:false,costNext:0,bigNext:0,mualaniUsed:0,modeLeft:1,bothModes:false,multiPlus:0,kinichTurnDmg:0,hatProc:0,lynetteUsed:false,stressImmune:false,reflectApUsed:false,armTax:{}});
+ if(s.mode==='raid'&&s.raidRun&&b.turn>(s.raidRun.maxTurns||6)){settleRaid(s,events,'turnLimit');return;}if(b.morale)b.morale--;draw(s,5+(b.drawNext||0),events);b.drawNext=0;b.drawnThisTurn=0;rollInitiative(s);
+ for(const p of b.persist||[])if(p.ops&&s.phase==='battle'&&active(s).includes(p.owner))runOps(s,{c:{owner:p.owner,key:p.key,uid:'persist-'+p.key},info:{effectiveKey:p.key,cost:0},owner:p.owner,h:s.heroes[p.owner],target:null,rate:1,mark:events.length,followUp:true,apSpent:0},p.ops,events);
+ if(s.phase!=='battle')return;checkVictory(s,events);if(s.phase!=='battle')return;plans(s);emit(events,'turn',`${b.turn}번째 턴`);
 }
 function settleReward(s,skip,events){
  const r=s.lastReward;if(!r?.pending)return;
@@ -558,7 +821,7 @@ export function travelOptions(s){return s.phase==='travel'?stageChoices(s,ROUTE)
 function selectStage(s,id,events){
  if(s.phase!=='travel')reject('이동할 지점을 선택하는 중이 아닙니다.');const choice=travelOptions(s).find(n=>n.id===id);if(!choice)reject('연결된 다음 지점을 선택하세요.');
  (s.journey??=[]).push({id:choice.id,name:choice.name,node:choice.node??s.node,mode:choice.mode,stage:choice.stage});s.journey=s.journey.slice(-30);s.battle=null;
- if(choice.type==='ending'){s.phase='ending';if(!s.collection.endings.includes('first-front'))s.collection.endings.push('first-front');s.claimedEnding=true;emit(events,'ending','첫 전선에 다시 바람이 흐릅니다.');return;}
+ if(choice.type==='ending'){s.phase='ending';if(!s.collection.endings.includes('first-front'))s.collection.endings.push('first-front');if(!s.claimedEnding)s.collection.clears=(s.collection.clears||0)+1;s.claimedEnding=true;emit(events,'ending','첫 전선에 다시 바람이 흐릅니다.');return;}
  if(choice.mode==='challenge'){s.challengeStage=choice.stage;s.selectedStage=null;s.hp=Math.min(s.maxHp,s.hp+hpPts(s,25));beginBattle(s,choice.enemies,events);return;}
  if(choice.id==='return-base'){returnFromFarm(s);saveCheckpoint(s,false);}else{s.mode=choice.mode;s.node=choice.node;if(choice.lane!==undefined)s.lane=choice.lane;s.selectedStage={...choice};enterNode(s,events);}
  emit(events,'travel',`${choice.name}에 도착했습니다.`);
@@ -567,7 +830,7 @@ function rewardAdvance(s,events){
  if(s.phase!=='reward')reject('다음 경로로 이동할 수 없습니다.');settleReward(s,false,events);s.selectedStage=null;
  if(s.mode==='farm'){returnFromFarm(s);saveCheckpoint(s,false);emit(events,'base','보급을 정산하고 거점으로 돌아왔습니다. 회복하려면 생명의 불꽃을 선택하세요.');return;}
  if(s.mode==='challenge'){
-  s.challengeStage++;if(s.challengeStage>=3){s.phase='ending';s.battle=null;if(!s.collection.endings.includes('first-front'))s.collection.endings.push('first-front');s.claimedEnding=true;emit(events,'ending','첫 전선에 다시 바람이 흐릅니다. 개발판 도전 완료.');return;}
+  s.challengeStage++;if(s.challengeStage>=3){s.phase='ending';s.battle=null;if(!s.collection.endings.includes('first-front'))s.collection.endings.push('first-front');if(!s.claimedEnding)s.collection.clears=(s.collection.clears||0)+1;s.claimedEnding=true;emit(events,'ending','첫 전선에 다시 바람이 흐릅니다. 개발판 도전 완료.');return;}
   s.hp=Math.min(s.maxHp,s.hp+hpPts(s,25));beginBattle(s,s.challengeStage===1?['keeper']:['sentinel'],events);return;
  }
  s.node=Math.min(ROUTE.length-1,s.node+1);s.battle=null;enterNode(s,events);
@@ -584,7 +847,7 @@ function learnCard(s,owner,key){
 // v0.26: after a won battle the party is offered three cards (or may skip).
 export function makeCardOffer(s,source='battle',returnPhase='travel'){
  const copies=(owner,key)=>ownedDeck(s,owner).filter(c=>c.key===key).length;
- const pool=active(s).flatMap(owner=>(REWARD_POOL[owner]||[]).filter(key=>CARDS[key]&&copies(owner,key)<2).map(key=>({owner,key})));
+ const pool=active(s).flatMap(owner=>(REWARD_POOL[owner]||[]).filter(key=>CARDS[key]&&copies(owner,key)<((CARDS[key].keywords||[]).includes('unique')?1:2)).map(key=>({owner,key})));
  const shuffled=shuffle(s,pool),picked=[],same=(a,b)=>a.owner===b.owner&&a.key===b.key;
  for(const c of shuffled)if(picked.length<3&&!picked.some(x=>x.owner===c.owner))picked.push(c);
  for(const c of shuffled)if(picked.length<3&&!picked.some(x=>same(x,c)))picked.push(c);
@@ -601,7 +864,7 @@ function battleAwakening(s,owner,events){
  emit(events,'awakening',HEROES[owner].name+' · 전술 각성 — '+CARDS[key].name+' 획득',{hero:owner,card:key});
 }
 export function makeUpgradeOffer(s,source='event',returnPhase='reward'){
- const pool=s.party.flatMap(owner=>[...new Set([...ownedDeck(s,owner).map(c=>c.key),...availableDiscoveries(s,owner)])].filter(key=>!CARDS[key].debuff&&!CARDS[key].generated&&!s.heroes[owner].upgrades[key]).map(key=>({owner,key})));
+ const pool=s.party.flatMap(owner=>[...new Set([...ownedDeck(s,owner).map(c=>c.key),...availableDiscoveries(s,owner),...(owner==='cyno'?['c_judgment']:[])])].filter(key=>INSIGHTS[key]&&!CARDS[key].debuff&&!CARDS[key].generated&&!s.heroes[owner].upgrades[key]).map(key=>({owner,key})));
  const sparkChance=source==='elite'?100:(s.party.includes('durin')?30:15);
  const candidates=shuffle(s,pool).slice(0,3).map((c,idx)=>{
   const roll=Math.abs((s.rng+idx*37+s.node*13))%100;
@@ -616,13 +879,15 @@ export function makeUpgradeOffer(s,source='event',returnPhase='reward'){
 function gearDrop(s,elite=false){const keys=Object.keys(EQUIPMENT).filter(key=>(EQUIPMENT[key].rarity==='elite')===elite);return choose(s,keys);}
 export function rollLoot(s,elite=false){return {elite,equipment:random(s)<(elite?LOOT_RULES.eliteEquipment:LOOT_RULES.normalEquipment)?[gearDrop(s,elite&&random(s)<LOOT_RULES.eliteRarity)]:[],upgradeOffer:random(s)<(elite?LOOT_RULES.eliteUpgrade:LOOT_RULES.normalUpgrade)?makeUpgradeOffer(s,elite?'elite':'loot','travel'):null};}
 function returnFromFarm(s){const loc=s.farmReturn||{node:7,mode:'route',selectedStage:null};s.mode=loc.mode;s.node=loc.node;if(loc.lane!==undefined)s.lane=loc.lane;s.selectedStage=loc.selectedStage;s.farmReturn=null;s.phase='base';s.healUsed=false;s.battle=null;s.upgradeOffer=null;}
-function finishRecruit(s,events){s.recruitNotice=null;s.battle=null;if(s.tutorial?.active){s.selectedStage=null;if(s.party.length<3){s.node=2;beginBattle(s,['trainingSlime','trainingSlime'],events);}else{s.tutorial={...s.tutorial,active:false,completed:true,step:'complete'};s.collection.tutorialDone=true;s.node=7;enterNode(s,events);}}else{s.phase='reward';s.lastReward=null;}}
+function finishRecruit(s,events){s.recruitNotice=null;s.battle=null;if(s.tutorial?.active){s.selectedStage=null;if(s.party.length<3){s.node=2;beginBattle(s,['trainingSlime','trainingSlime'],events);}else{s.tutorial={...s.tutorial,step:'lobby-guide'};s.node=7;enterNode(s,events);}}else{s.phase='reward';s.lastReward=null;}}
+// 튜토리얼의 끝: 거점에서 로비로 갔다가 돌아오면 마친다. 안내를 따르지 않고 길을 떠나도 거기서 마친다.
+function completeTutorial(s,events){if(!s.tutorial?.active)return;s.tutorial={...s.tutorial,active:false,completed:true,step:'complete'};s.collection.tutorialDone=true;if(s.checkpoint?.tutorial)s.checkpoint.tutorial={...s.tutorial};emit(events,'tutorialDone','튜토리얼을 마쳤습니다. 로비와 원정은 언제든 오갈 수 있습니다.');}
 function applyEventCost(s,cost,events){
  s.hp=Math.max(0,s.hp-hpPts(s,cost.hp||0));if(cost.gold)s.gold=Math.max(0,s.gold-cost.gold);if(cost.stress)for(const id of s.party)stress(s,id,cost.stress,events);
  if(cost.curse){const hero=choose(s,s.party);for(let i=0;i<cost.curse;i++)s.heroes[hero].curses.push({key:'curse_echo',uid:`curse-${s.rng}-${s.node}-${s.heroes[hero].curses.length}`});}
  for(let i=0;i<(cost.injury||0);i++){const targets=active(s);if(targets.length)injury(s,choose(s,targets),null,events);}
 }
-function resolveEvent(s,id,events){const choice=s.eventOffer?.choices.find(c=>c.id===id);if(!choice)reject('사건의 선택지를 확인하세요.');if(!choice.dice&&!choice.mystery&&(choice.cost?.gold||0)>s.gold)reject('모라가 부족합니다.');
+function resolveEvent(s,id,events){const choice=s.eventOffer?.choices.find(c=>c.id===id);if(!choice)reject('사건의 선택지를 확인하세요.');if(legLocked(s,choice))reject('다리를 잃은 동료가 있어 이 길은 갈 수 없습니다.');if(!choice.dice&&!choice.mystery&&(choice.cost?.gold||0)>s.gold)reject('모라가 부족합니다.');
  let b=choice.benefit,cost=choice.cost||{};const result={title:s.eventOffer.name,choice:choice.label,benefit:clone(b||{}),cost:clone(cost)};
  if(choice.dice){const die=1+Math.floor(random(s)*20),bonus=(s.party.includes('jahoda')?2:0)+(choice.dice.hero&&s.party.includes(choice.dice.hero)?2:0),total=die+bonus,success=total>=choice.dice.dc;Object.assign(result,{die,roll:die,bonus,total,dc:choice.dice.dc,target:choice.dice.dc,success});if(!success){b={kind:'none'};cost={...cost,...(choice.fail||{})};result.benefit=clone(b);result.cost=clone(cost);}}
  if(choice.mystery){const outcome=choose(s,choice.mystery);b=outcome.benefit;cost=outcome.cost||{};result.benefit=clone(b);result.cost=clone(cost);result.revealed=true;}
@@ -644,7 +909,22 @@ function perform(s,a,events){
   case 'skipTutorial':if(!s.tutorial?.active||s.phase!=='battle')reject('진행 중인 조작 튜토리얼이 아닙니다.');s.node=s.party.length===1?1:3;s.selectedStage=null;s.lastReward=null;s.phase='recruit';s.battle=null;s.recruitLine=0;s.tutorial.step='recruit';break;
   case 'skipRecruitDialogue':if(s.phase!=='recruit')reject('지금은 지원 요청 대화가 아닙니다.');s.recruitLine=4;break;
   case 'ackRecruit':if(s.phase==='arrival'&&s.recruitNotice?.flow==='story'){s.phase='joinDialogue';s.recruitNotice.line=0;break;}if(!s.recruitNotice)reject('확인할 지원 응답이 없습니다.');const hero=s.recruitNotice.hero;s.recruitNotice=null;if(s.checkpoint?.recruitNotice?.hero===hero)s.checkpoint.recruitNotice=null;break;
-  case 'start':if(s.phase!=='title')reject('이미 시작한 원정입니다.');enterNode(s,events);break;
+  case 'start':{
+   if(s.phase!=='title')reject('이미 시작한 원정입니다.');
+   if(a.party){const error=formationError(s,a.party);if(error)reject(error);if(s.tutorial?.active)reject('튜토리얼에서는 동료를 길 위에서 만납니다.');deploy(s,a.party);s.runActive=true;enterNode(s,events);break;}
+   // v0.36 stage 8: the first run opens with the prologue. Screens ask for it; fixtures and tests skip it.
+   if(a.prologue&&s.tutorial?.active){s.phase='prologue';s.prologueLine=0;emit(events,'prologue','……');break;}
+   enterNode(s,events);break;
+  }
+  case 'prologueNext':case 'skipPrologue':{
+   if(s.phase!=='prologue')reject('진행할 프롤로그가 없습니다.');s.prologueLine=a.type==='skipPrologue'?PROLOGUE.length:(s.prologueLine||0)+1;
+   if(s.prologueLine>=PROLOGUE.length){delete s.prologueLine;s.collection.prologueSeen=true;enterNode(s,events);}break;
+  }
+  case 'guideSeen':{
+   // The guide remembers which pages were opened; it lives with the collection so it follows the save.
+   const ids=(Array.isArray(a.ids)?a.ids:[a.id]).filter(id=>typeof id==='string'&&id.length<60);if(!ids.length)reject('가이드 항목을 확인하세요.');
+   s.collection.guideSeen=[...new Set([...(s.collection.guideSeen||[]),...ids])].slice(-200);break;
+  }
   case 'advance':rewardAdvance(s,events);break;
   case 'claimReward':if(s.phase!=='reward')reject('받을 보상이 없습니다.');settleReward(s,!!a.skip,events);s.phase='travel';if(!a.skip&&s.lastReward?.cardOffer){s.cardOffer={...clone(s.lastReward.cardOffer),then:s.lastReward.upgradeOffer?'refine':'travel'};s.phase='cardReward';break;}if(!a.skip&&s.lastReward?.upgradeOffer){s.upgradeOffer=clone(s.lastReward.upgradeOffer);s.upgradeOffer.returnPhase='travel';s.phase='refine';}break;
   case 'travel':selectStage(s,a.id,events);break;
@@ -669,7 +949,18 @@ function perform(s,a,events){
   }
   case 'play':{const owner=s.battle?.hand.find(c=>c.uid===a.uid)?.owner;play(s,a,events);if(owner)battleAwakening(s,owner,events);break;}
   case 'discard':{
-   if(s.phase!=='battle'||!s.battle.chooseDiscard)reject('버릴 카드를 선택하는 중이 아닙니다.');const i=s.battle.hand.findIndex(c=>c.uid===a.uid);if(i<0)reject('손패에서 버릴 카드를 선택하세요.');const [c]=s.battle.hand.splice(i,1);s.battle.discard.push(c);s.battle.chooseDiscard--;emit(events,'discard','카드를 버렸습니다.',{uid:c.uid,hero:c.owner});break;
+   if(s.phase!=='battle'||!s.battle.chooseDiscard)reject('버릴 카드를 선택하는 중이 아닙니다.');const b=s.battle,d=b.discardCtx,i=b.hand.findIndex(c=>c.uid===a.uid);if(i<0)reject('손패에서 버릴 카드를 선택하세요.');if(d?.filter==='nonShard'&&shardInfo(s,b.hand[i])?.shard)reject('심판의 편린이 아닌 카드를 고르세요.');const [c]=b.hand.splice(i,1);
+   if(d){d.count++;if(d.allyAp&&c.owner!==d.owner)gainAp(s,d.owner,d.allyAp,events);}if(discardCard(s,c,events,d||{})==='frost')frostBurst(s,1,events);b.chooseDiscard--;
+   if(d&&(b.chooseDiscard<=0||!b.hand.some(x=>d.filter!=='nonShard'||!shardInfo(s,x)?.shard)))finishDiscard(s,events);
+   if(s.phase==='battle'){plans(s);checkVictory(s,events);}break;
+  }
+  case 'discardDone':{
+   if(s.phase!=='battle'||!s.battle.chooseDiscard||!s.battle.discardCtx?.optional)reject('지금은 버리기를 멈출 수 없습니다.');finishDiscard(s,events);plans(s);checkVictory(s,events);break;
+  }
+  case 'pickDraw':{
+   const b=s.battle;if(s.phase!=='battle'||!b?.pickDraw)reject('가져올 카드를 고르는 중이 아닙니다.');
+   if(!a.skip){const i=b.draw.findIndex(c=>c.uid===a.uid);if(i<0)reject('뽑을 카드 더미에서 고르세요.');const [c]=b.draw.splice(i,1);bindBlind(s,c,true);b.hand.push(c);b.drawnThisTurn=(b.drawnThisTurn||0)+1;emit(events,'draw',`${HEROES[c.owner].name}의 카드를 골라 가져왔습니다.`,{uid:c.uid,hero:c.owner});}
+   delete b.pickDraw;plans(s);break;
   }
   case 'endTurn':endTurn(s,events);break;
   case 'support':support(s,a,events);break;
@@ -701,7 +992,7 @@ function perform(s,a,events){
    if(!['base','camp'].includes(s.phase))reject('거점이나 야영에서 장비를 바꿀 수 있습니다.');const item=EQUIPMENT[a.item];if(!item||item.rarity==='elite'||item.slot!==a.slot||!s.collection.unlocked.includes(a.hero))reject('해당 칸에 장비할 수 없습니다.');if(s.heroes[a.hero].equipment[a.slot]===a.item)reject('이미 장비 중입니다.');if(s.gold<item.cost)reject('모라가 부족합니다.');s.gold-=item.cost;(s.inventory??=[]).push(a.item);s.heroes[a.hero].equipment[a.slot]=a.item;saveCheckpoint(s);emit(events,'equip',`${HEROES[a.hero].name} · ${item.name}`,{hero:a.hero});break;
   }
   case 'swap':{
-   if(!['base','camp'].includes(s.phase)||a.out==='lohen'||!s.party.includes(a.out)||s.party.includes(a.in)||!s.collection.unlocked.includes(a.in))reject('교체할 동료를 확인하세요.');s.party[s.party.indexOf(a.out)]=a.in;if(s.upgradeOffer){s.upgradeOffer.candidates=s.upgradeOffer.candidates.filter(c=>s.party.includes(c.owner));if(!s.upgradeOffer.candidates.length)s.upgradeOffer=null;}saveCheckpoint(s);emit(events,'swap',`${HEROES[a.in].name}에게 서풍 매로 지원을 요청했습니다.`,{hero:a.in});break;
+   if(!['base','camp'].includes(s.phase)||!s.party.includes(a.out)||s.party.includes(a.in)||!HEROES[a.in])reject('교체할 동료를 확인하세요.');if(a.out==='lohen'&&lohenFixed(s))reject('첫 클리어 전에는 로엔이 함께 출전합니다.');s.party[s.party.indexOf(a.out)]=a.in;s.collection.lastParty=[...s.party];refreshMaxHp(s);if(s.upgradeOffer){s.upgradeOffer.candidates=s.upgradeOffer.candidates.filter(c=>s.party.includes(c.owner));if(!s.upgradeOffer.candidates.length)s.upgradeOffer=null;}saveCheckpoint(s);emit(events,'swap',`${HEROES[a.in].name}에게 서풍 매로 지원을 요청했습니다.`,{hero:a.in});break;
   }
   case 'heal':{
    if(s.phase!=='base')reject('거점에서 치료할 수 있습니다.');if(s.healUsed)reject('생명의 불꽃은 거점마다 한 번만 받을 수 있습니다.');const needs=healingNeeds(s);s.healUsed=true;const heroes=[...new Set([...needs.injured,...needs.retired,...(needs.hp>0?s.party:[])])];restoreBodies(s);for(const id of s.party)s.heroes[id].stress=Math.max(0,s.heroes[id].stress-5);saveCheckpoint(s);emit(events,'heal','생명의 불꽃이 따스하게 몸을 감쌉니다. 부상 회복 · 체력 +30% · 출전원 정신 부담 -5. 거점마다 한 번 받을 수 있습니다.',{heroes:[...new Set([...heroes,...s.party])],hp:Math.min(hpPts(s,30),needs.hp)});break;
@@ -713,17 +1004,20 @@ function perform(s,a,events){
    const d=s.careDialogue;if(!canCare(s,a.hero)||d?.hero!==a.hero||d.line<CARE_SCRIPT[a.hero].length-1)reject('선택한 파트너와 대화를 마쳐 주세요.');s.heroes[a.hero].stress=0;s.heroes[a.hero].breakdown=null;s.careUsed=true;s.careDialogue=null;saveCheckpoint(s);emit(events,'calm',`${HEROES[a.hero].partnerName}와 대화를 마쳤습니다. 붕괴 극복 · 정신 부담 0.`,{hero:a.hero});break;
   }
   case 'farm':{
-   if(s.phase!=='base')reject('거점에서 이전 지역으로 출발할 수 있습니다.');saveCheckpoint(s);s.farmReturn={node:s.node,mode:s.mode,lane:s.lane??1,selectedStage:clone(s.selectedStage||null)};s.upgradeOffer=null;s.mode='farm';s.selectedStage=null;s.lastReward=null;s.farmCount++;beginBattle(s,s.farmCount%2?['hound','wanderer']:['hunter','breacher'],events);break;
+   if(s.phase!=='base')reject('거점에서 이전 지역으로 출발할 수 있습니다.');completeTutorial(s,events);saveCheckpoint(s);s.farmReturn={node:s.node,mode:s.mode,lane:s.lane??1,selectedStage:clone(s.selectedStage||null)};s.upgradeOffer=null;s.mode='farm';s.selectedStage=null;s.lastReward=null;s.farmCount++;beginBattle(s,s.farmCount%2?['hound','wanderer']:['hunter','breacher'],events);break;
   }
   case 'challenge':{
-   if(s.phase!=='base')reject('거점에서 도전 구간으로 출발할 수 있습니다.');if(s.node===7)s.mainFrontStarted=true;saveCheckpoint(s);s.upgradeOffer=null;if(s.node<ROUTE.length-1){s.mode='route';s.selectedStage=null;s.lastReward=null;s.eventResult=null;s.phase='travel';emit(events,'travel','다음 지점을 지도에서 고르세요.');break;}s.mode='challenge';s.selectedStage=null;s.lastReward=null;s.challengeStage=0;beginBattle(s,['nightmare'],events);break;
+   if(s.phase!=='base')reject('거점에서 도전 구간으로 출발할 수 있습니다.');completeTutorial(s,events);if(s.node===7)s.mainFrontStarted=true;saveCheckpoint(s);s.upgradeOffer=null;if(s.node<ROUTE.length-1){s.mode='route';s.selectedStage=null;s.lastReward=null;s.eventResult=null;s.phase='travel';emit(events,'travel','다음 지점을 지도에서 고르세요.');break;}s.mode='challenge';s.selectedStage=null;s.lastReward=null;s.challengeStage=0;beginBattle(s,['nightmare'],events);break;
   }
   case 'restart':{
    if(!['defeat','ending'].includes(s.phase))reject('전멸 또는 클리어 후 거점으로 돌아갈 수 있습니다.');const clearedThisCampaign=!!s.claimedEnding||s.phase==='ending',collection=clone(s.collection),retries=s.retries+(s.phase==='defeat'?1:0),checkpoint=clone(s.checkpoint);if(!checkpoint)reject('복원할 거점이 없습니다.');const restored=clone(checkpoint);for(const k of Object.keys(s))delete s[k];Object.assign(s,restored,{checkpoint,claimedEnding:clearedThisCampaign||!!restored.claimedEnding,retries,temporal:Math.min(2,Math.max(0,retries-1)),collection,history:[]});
    emit(events,'rewind','시간의 힘이 느껴집니다. 시계바늘이 거꾸로 움직입니다.',{retries,temporal:s.temporal});if(s.phase==='title')enterNode(s,events);else if(s.node===7){s.phase='base';s.healUsed=false;s.mode='route';s.battle=null;}break;
   }
   case 'newGame':{
-   const next=newCampaign(s,a.seed??Date.now());for(const k of Object.keys(s))delete s[k];Object.assign(s,next);emit(events,'newGame','새로운 캠페인을 시작합니다. 동료 해금과 기록은 남아 있습니다.');break;
+   const next=newCampaign(s,a.seed??Date.now());for(const k of Object.keys(s))delete s[k];Object.assign(s,next);
+   // After the tutorial a run always leaves from the lobby, where the party is picked.
+   if(s.collection.tutorialDone){s.phase='lobby';s.runActive=false;}
+   emit(events,'newGame','새로운 캠페인을 시작합니다. 동료 해금과 기록은 남아 있습니다.');break;
   }
   case 'undo':{
    if(s.phase!=='battle'||!s.battle)reject('전투 중에만 되돌릴 수 있습니다.');
@@ -774,6 +1068,7 @@ function perform(s,a,events){
    if(['lobby','saveData'].includes(s.phase))reject('이미 로비입니다.');if(s.mode==='raid')reject('레이드 중에는 로비로 돌아갈 수 없습니다.');
    if(s.phase==='base'){saveCheckpoint(s);s.savedExpedition=true;}
    // v0.27: the lobby sits outside the run; leaving mid-stage keeps the exact screen to resume.
+   if(s.tutorial?.active&&s.tutorial.step==='lobby-guide')s.tutorial={...s.tutorial,step:'return-guide'};
    s.resumePhase=['base','title'].includes(s.phase)?null:s.phase;s.phase='lobby';
    emit(events,'lobby','메인 로비로 귀환했습니다.');break;
   }
@@ -801,13 +1096,17 @@ function perform(s,a,events){
   }
   case 'newExpedition':{
    if(s.phase!=='lobby')reject('로비에서 새 원정을 시작할 수 있습니다.');if(s.runActive)reject('진행 중인 원정이 있습니다. 이어하거나 먼저 끝내 주세요.');
-   freshRun(s,{tutorial:!s.collection.tutorialDone});s.runActive=true;enterNode(s,events);emit(events,'newExpedition','새 원정을 시작합니다.');break;
+   const tutorial=!s.collection.tutorialDone,runs=(s.collection.runs||0)+1;
+   if(!tutorial){const error=formationError(s,a.party);if(error)reject(error);}
+   // 원정 난수 = 시드 + 원정 회차. 같은 시드의 같은 회차는 같은 지도와 같은 난수로 시작한다.
+   freshRun(s,{tutorial,seed:Number.isFinite(a.seed)?a.seed:isSeed(s.collection.seed)?expeditionSeed(s.collection.seed,runs):undefined});s.collection.runs=runs;if(!tutorial)deploy(s,a.party);s.runActive=true;if(tutorial&&a.prologue){s.phase='prologue';s.prologueLine=0;}else enterNode(s,events);emit(events,'newExpedition',tutorial?'새 원정을 시작합니다.':`${s.party.map(id=>HEROES[id].name).join(' · ')} 출전. 새 원정을 시작합니다.`);break;
   }
   case 'resumeExpedition':{
    if(s.phase!=='lobby')reject('로비에서 원정으로 출발할 수 있습니다.');if(!s.runActive)reject('진행 중인 원정이 없습니다. 새 원정을 시작하세요.');
+   if(s.tutorial?.active&&['lobby-guide','return-guide'].includes(s.tutorial.step))completeTutorial(s,events);
    if(s.resumePhase){s.phase=s.resumePhase;s.resumePhase=null;emit(events,'resume','원정으로 돌아왔습니다.');break;}
    if(s.savedExpedition||s.checkpoint){
-    s.savedExpedition=false;s.mode='route';s.phase='base';s.healUsed=false;s.battle=null;
+    s.savedExpedition=false;s.mode='route';s.phase='base';s.battle=null;
     emit(events,'base','임시저장된 거점으로 복귀했습니다.');
    }else{
     s.mode='route';enterNode(s,events);

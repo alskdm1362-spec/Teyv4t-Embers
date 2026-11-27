@@ -22,6 +22,7 @@ test('v0.16 battle undo restores AP, hand, enemy HP and decrements undoLeft (Var
  const atkCard = s.battle.hand.find(c => cardInfo(s, c).type === 'attack' && cardInfo(s, c).cost <= s.battle.ap);
  assert.ok(atkCard, 'expected an affordable attack card in starting hand');
  const enemy = s.battle.enemies[0];
+ enemy.hp = enemy.maxHp = 5000;
  const hpBefore = enemy.hp;
  const apBefore = s.battle.ap;
  const handCountBefore = s.battle.hand.length;
@@ -45,7 +46,7 @@ test('v0.16 battle undo restores AP, hand, enemy HP and decrements undoLeft (Var
  assert.equal(failUndo.ok, false);
 });
 
-test('v0.16 predictCardEffect accurately predicts lethal kill, wanderer echo, and injury penalty', () => {
+test('v0.16 predictCardEffect accurately predicts lethal kill, no echo, and injury penalty', () => {
  const s = startNonTutorialBattle(99);
  const atkCard = s.battle.hand.find(c => cardInfo(s, c).type === 'attack');
  assert.ok(atkCard);
@@ -59,15 +60,16 @@ test('v0.16 predictCardEffect accurately predicts lethal kill, wanderer echo, an
  assert.ok(predKill);
  assert.equal(predKill.enemies[enemy.id].willKill, true);
 
- // Wanderer echo prediction
+ // v0.36: the echo second life is gone; a wanderer simply dies.
  enemy.kind = 'wanderer';
  enemy.echo = false;
  enemy.hp = 5;
  const predEcho = predictCardEffect(s, atkCard.uid, enemy.id);
- assert.equal(predEcho.enemies[enemy.id].willEcho, true);
- assert.equal(predEcho.enemies[enemy.id].willKill, false);
+ assert.equal(predEcho.enemies[enemy.id].willEcho, false);
+ assert.equal(predEcho.enemies[enemy.id].willKill, true);
 
  // Injury penalty flag
+ applyInjury(s, atkCard.owner, 'rightArm');
  applyInjury(s, atkCard.owner, 'rightArm');
  applyInjury(s, atkCard.owner, 'rightArm');
  const predInj = predictCardEffect(s, atkCard.uid, enemy.id);

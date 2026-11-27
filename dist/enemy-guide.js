@@ -1,17 +1,11 @@
 // Describes the implemented attack cycles, not hypothetical monster skills.
-export const ENEMY_MOVES={
- trainingSlime:[['느린 몸통박치기','한 명에게 기본 피해 51. 침식과 부상 기술은 없습니다.']],
- hound:[['침식의 이빨','피해 85와 침식 2턴. 침식은 보호막을 무시하고 턴 종료마다 공용 체력 2를 깎습니다.'],['균열의 도약','다음 순서에서 피해 136. 두 공격을 번갈아 사용합니다.']],
- wanderer:[['흔적 추적','피해 85. 육체를 쓰러뜨려도 잔향이 남습니다.'],['잔향 복원','노출된 잔향을 한 턴 안에 제거하지 않으면 육체를 복원합니다.']],
- hunter:[['추적 표식','피해 85 · 정신 부담 5.'],['갈라진 추격','피해 204 · 정신 부담 8 · 신체 손상 위험. 표식 다음에 사용합니다.']],
- angler:[['연결된 장막','장막이 있는 동안 공격과 정신 부담 8을 가합니다. 연결된 장막 하나를 깨면 함께 무너집니다.'],['이끌림의 속삭임','장막이 없을 때 공격과 정신 부담 4를 가합니다.']],
- mimic:[['공허한 변형','피해 102 · 정신 부담 5. 장막은 공격 횟수로 벗겨집니다.'],['의태 · 강습','피해 272 · 정신 부담 12 · 신체 손상 위험. 변형과 번갈아 사용합니다.']],
- breacher:[['코어의 수축','장막이 남아 있으면 피해 119 · 정신 부담 7.'],['균열 분출','장막이 없으면 피해 221 · 정신 부담 7. 장막 파괴 시 한 번 행동이 중단됩니다.']],
- nightmare:[['어둠의 부름','연결체를 불러내며 피해 170 · 정신 부담 8.'],['내리꽂는 그림자','피해 170 · 정신 부담 8.'],['악몽의 파도','세 번째 순서의 강공격. 피해 306 · 정신 부담 20. 연결체를 쓰러뜨리면 본체의 장막도 약해집니다.']],
- keeper:[['영역 검출','피해 170 · 정신 부담 10. 자신을 반복 공격한 전투원을 관측합니다.'],['관측된 결말','관측이 두 번 쌓이면 해당 전투원을 겨눠 피해 323. 다른 동료의 공격으로 관측을 끊으세요.']],
- sentinel:[['타락한 별의 전개','별 두 개를 전개하고 피해 170 · 정신 부담 8.'],['침묵의 검출','피해 170 · 정신 부담 8.'],['별의 심판','별이 남으면 피해 408 · 정신 부담 20 · 신체 손상 위험. 별을 모두 없애면 피해 102 · 정신 부담 3으로 약화됩니다.']],
- star:[['심판에 힘을 보냄','직접 공격하지 않습니다. 파괴하면 파수의 별의 심판이 약해집니다.']]
-};
+import {ENEMY_CYCLES,STRESS_PIP,ELITE_MENTAL,BOSS_MENTAL} from './enemy-patterns.js';
+const BOSSES=new Set(['nightmare','keeper','sentinel']);
+// v0.36: generated from the same cycle table the engine uses. Damage is before the target's DEF.
+export const ENEMY_MOVES=Object.fromEntries(Object.entries(ENEMY_CYCLES).map(([kind,cycle])=>[kind,cycle.map((m,i)=>[m.name,[
+ `${i+1}번째 순서.`,m.damage?`피해 ${m.damage*17}(방어력 적용 전).`:'직접 공격하지 않습니다.',
+ m.mental?(BOSSES.has(kind)?`정신 공격: 정신 부담 +${BOSS_MENTAL*STRESS_PIP}, 보호막과 무관.`:`정예로 나오면 정신 공격: 정신 부담 +${ELITE_MENTAL*STRESS_PIP}, 보호막과 무관.`):'',
+ BOSSES.has(kind)&&i===0?'다음 행동이 미리 표시됩니다.':''].filter(Boolean).join(' ')])]));
 
 // Look-specific move names (same rules as the kind, different creature).
 export const LOOK_MOVES={

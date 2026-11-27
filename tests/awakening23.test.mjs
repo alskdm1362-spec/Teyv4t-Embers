@@ -18,10 +18,10 @@ test('combat awakening adds one persistent physical card; undo and replay reprod
 test('legacy expeditions keep removed card IDs and acquired starter cards',()=>{
  const s=qaFixture('base');
  for(const h of Object.values(s.heroes))delete h.acquired;
- s.heroes.lohen.removedCards=['lohen-l_guard-3'];
+ s.heroes.lohen.removedCards=['lohen-l_guard-2'];
  const migrated=hydrate(serialize(s));
- assert.equal(ownedDeck(migrated,'lohen').length,5);
- assert.ok(ownedDeck(migrated,'lohen').some(c=>c.key==='l_aim'));
+ assert.equal(ownedDeck(migrated,'lohen').length,3);
+ assert.ok(ownedDeck(migrated,'lohen').some(c=>c.key==='l_pierce'));
  assert.ok(!ownedDeck(migrated,'lohen').some(c=>c.key==='l_guard'));
 });
 test('every new loadout has four fixed cards and four distinct discoveries',()=>{
