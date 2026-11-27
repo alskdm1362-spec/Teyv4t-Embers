@@ -1,3 +1,4 @@
+import {expeditionSeed,isSeed} from './seed.js';
 import {STARTERS,DISCOVERIES,NEW_CARDS,REWARD_POOL} from './awakening.js';
 import {ensureMap,depthScale} from './map.js';
 import {ENEMY_LOOKS,KIND_LOOKS,RAID_LOOK,pickLook,lookName} from './enemy-looks.js';
@@ -172,7 +173,7 @@ function normalizeSave(s){
  if(!s.hpScaled&&Array.isArray(s.party)&&s.heroes){const max=partyMaxHp(s),ratio=s.hp/(s.maxHp||100);s.maxHp=max;s.hp=Math.max(s.hp>0?1:0,Math.round(ratio*max));s.shield=0;
   for(const e of s.battle?.enemies||[]){e.hp=Math.round(e.hp*ENEMY_HP_SCALE);e.maxHp=Math.round(e.maxHp*ENEMY_HP_SCALE);e.ward=Math.round((e.ward||0)*ENEMY_HP_SCALE);e.def??=ENEMIES[e.kind]?.def??(ENEMIES[e.kind]?.boss?25:10);if(e.intent?.damage>0&&!e.intent.raw){e.intent.raw=e.intent.damage;e.intent.damage=Math.round(e.intent.damage*ENEMY_DAMAGE_SCALE*defMitigation(heroStats(e.intent.target).def));}}
   s.hpScaled=true;}
- {const r=s.collection?.raid;if(r&&r.bossMaxHp&&r.bossMaxHp<1000){r.bossMaxHp*=10;r.totalDamage=(r.totalDamage||0)*10;for(const st of Object.values(r.recordStats||{}))st.bestDamage=(st.bestDamage||0)*10;}}s.runActive??=true;s.inventory??=[];s.baseId??='route-7';s.careUsed??=false;s.upgradeOffer??=null;s.careDialogue??=null;
+ {const r=s.collection?.raid;if(r&&r.bossMaxHp&&r.bossMaxHp<1000){r.bossMaxHp*=10;r.totalDamage=(r.totalDamage||0)*10;for(const st of Object.values(r.recordStats||{}))st.bestDamage=(st.bestDamage||0)*10;}}s.runActive??=true;if(s.collection){s.collection.runs??=s.phase==='title'?0:1;s.collection.clears??=(s.collection.endings||[]).length?1:0;if(!isSeed(s.collection.seed))s.collection.seed=null;}s.inventory??=[];s.baseId??='route-7';s.careUsed??=false;s.upgradeOffer??=null;s.careDialogue??=null;
  const equipped=Object.values(s.heroes).flatMap(h=>Object.values(h.equipment||{})).filter(Boolean);for(const key of new Set(equipped)){while(s.inventory.filter(x=>x===key).length<equipped.filter(x=>x===key).length)s.inventory.push(key);}
  s.mainFrontStarted??=s.node>7||s.battlesWon>2;
  s.removalCount=Math.max(0,s.removalCount||0);s.tutorial??={active:false,completed:true,chapter:2,step:'complete'};if(s.tutorial.step==='partner-intro')s.tutorial.step='partner-select';
@@ -820,7 +821,7 @@ export function travelOptions(s){return s.phase==='travel'?stageChoices(s,ROUTE)
 function selectStage(s,id,events){
  if(s.phase!=='travel')reject('이동할 지점을 선택하는 중이 아닙니다.');const choice=travelOptions(s).find(n=>n.id===id);if(!choice)reject('연결된 다음 지점을 선택하세요.');
  (s.journey??=[]).push({id:choice.id,name:choice.name,node:choice.node??s.node,mode:choice.mode,stage:choice.stage});s.journey=s.journey.slice(-30);s.battle=null;
- if(choice.type==='ending'){s.phase='ending';if(!s.collection.endings.includes('first-front'))s.collection.endings.push('first-front');s.claimedEnding=true;emit(events,'ending','첫 전선에 다시 바람이 흐릅니다.');return;}
+ if(choice.type==='ending'){s.phase='ending';if(!s.collection.endings.includes('first-front'))s.collection.endings.push('first-front');if(!s.claimedEnding)s.collection.clears=(s.collection.clears||0)+1;s.claimedEnding=true;emit(events,'ending','첫 전선에 다시 바람이 흐릅니다.');return;}
  if(choice.mode==='challenge'){s.challengeStage=choice.stage;s.selectedStage=null;s.hp=Math.min(s.maxHp,s.hp+hpPts(s,25));beginBattle(s,choice.enemies,events);return;}
  if(choice.id==='return-base'){returnFromFarm(s);saveCheckpoint(s,false);}else{s.mode=choice.mode;s.node=choice.node;if(choice.lane!==undefined)s.lane=choice.lane;s.selectedStage={...choice};enterNode(s,events);}
  emit(events,'travel',`${choice.name}에 도착했습니다.`);
@@ -829,7 +830,7 @@ function rewardAdvance(s,events){
  if(s.phase!=='reward')reject('다음 경로로 이동할 수 없습니다.');settleReward(s,false,events);s.selectedStage=null;
  if(s.mode==='farm'){returnFromFarm(s);saveCheckpoint(s,false);emit(events,'base','보급을 정산하고 거점으로 돌아왔습니다. 회복하려면 생명의 불꽃을 선택하세요.');return;}
  if(s.mode==='challenge'){
-  s.challengeStage++;if(s.challengeStage>=3){s.phase='ending';s.battle=null;if(!s.collection.endings.includes('first-front'))s.collection.endings.push('first-front');s.claimedEnding=true;emit(events,'ending','첫 전선에 다시 바람이 흐릅니다. 개발판 도전 완료.');return;}
+  s.challengeStage++;if(s.challengeStage>=3){s.phase='ending';s.battle=null;if(!s.collection.endings.includes('first-front'))s.collection.endings.push('first-front');if(!s.claimedEnding)s.collection.clears=(s.collection.clears||0)+1;s.claimedEnding=true;emit(events,'ending','첫 전선에 다시 바람이 흐릅니다. 개발판 도전 완료.');return;}
   s.hp=Math.min(s.maxHp,s.hp+hpPts(s,25));beginBattle(s,s.challengeStage===1?['keeper']:['sentinel'],events);return;
  }
  s.node=Math.min(ROUTE.length-1,s.node+1);s.battle=null;enterNode(s,events);
@@ -1081,9 +1082,10 @@ function perform(s,a,events){
   }
   case 'newExpedition':{
    if(s.phase!=='lobby')reject('로비에서 새 원정을 시작할 수 있습니다.');if(s.runActive)reject('진행 중인 원정이 있습니다. 이어하거나 먼저 끝내 주세요.');
-   const tutorial=!s.collection.tutorialDone;
+   const tutorial=!s.collection.tutorialDone,runs=(s.collection.runs||0)+1;
    if(!tutorial){const error=formationError(s,a.party);if(error)reject(error);}
-   freshRun(s,{tutorial,seed:Number.isFinite(a.seed)?a.seed:undefined});if(!tutorial)deploy(s,a.party);s.runActive=true;enterNode(s,events);emit(events,'newExpedition',tutorial?'새 원정을 시작합니다.':`${s.party.map(id=>HEROES[id].name).join(' · ')} 출전. 새 원정을 시작합니다.`);break;
+   // 원정 난수 = 시드 + 원정 회차. 같은 시드의 같은 회차는 같은 지도와 같은 난수로 시작한다.
+   freshRun(s,{tutorial,seed:Number.isFinite(a.seed)?a.seed:isSeed(s.collection.seed)?expeditionSeed(s.collection.seed,runs):undefined});s.collection.runs=runs;if(!tutorial)deploy(s,a.party);s.runActive=true;enterNode(s,events);emit(events,'newExpedition',tutorial?'새 원정을 시작합니다.':`${s.party.map(id=>HEROES[id].name).join(' · ')} 출전. 새 원정을 시작합니다.`);break;
   }
   case 'resumeExpedition':{
    if(s.phase!=='lobby')reject('로비에서 원정으로 출발할 수 있습니다.');if(!s.runActive)reject('진행 중인 원정이 없습니다. 새 원정을 시작하세요.');

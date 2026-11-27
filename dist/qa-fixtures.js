@@ -33,7 +33,7 @@ export function qaFixture(kind,{seed=20261122,hero='lohen',pair=['durin','illuga
  }
  if(kind==='reward'||kind==='travel'){s.battle=null;s.phase='reward';s.lastReward={gold:16,xp:10,pending:true};if(kind==='travel'){s.mode='route';s.node=8;s.selectedStage=null;go(s,{type:'claimReward'});}}
  if(kind==='defeat'){s.hp=0;s.phase='defeat';s.retries=1;}
- if(kind==='ending'){s.phase='ending';s.battle=null;s.claimedEnding=true;s.collection.endings=['first-front'];}
+ if(kind==='ending'){s.phase='ending';s.battle=null;s.claimedEnding=true;s.collection.endings=['first-front'];s.collection.clears=1;}
  return hydrate(serialize(s));
 }
 export function qaApplyCondition(state,{hero='lohen',part='eyes',stage=0,breakdown='',failures=0,stress=35,ap=3,support=6,scar=0}={}){
