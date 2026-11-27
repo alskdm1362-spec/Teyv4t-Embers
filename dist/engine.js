@@ -350,7 +350,8 @@ function restoreBodies(s){s.hp=Math.min(s.maxHp,s.hp+hpPts(s,30));for(const h of
 export function rollEventOffer(s){const seen=s.seenEvents||[],fresh=EVENTS.filter(e=>!seen.includes(e.id)),offer=clone(choose(s,fresh.length?fresh:EVENTS));s.seenEvents=fresh.length?[...seen,offer.id]:[offer.id];for(const c of offer.choices){const premium=c.benefit?.elite||c.benefit?.kind==='gold'&&c.benefit.amount>=40;if(!premium&&!c.dice&&!c.mystery&&!Object.keys(c.cost||{}).length)c.cost=clone(choose(s,[{},{},{hp:6},{stress:7}]));if(c.benefit?.kind==='equipment'&&!c.benefit.item)c.benefit.item=gearDrop(s,!!c.benefit.elite);}return offer;}
 function enterNode(s,events){
  const n=currentNode(s);s.eventResult=null;s.lastReward=null;s.eventOffer=null;if(n.type==='event')s.eventOffer=rollEventOffer(s);if(n.type==='camp'){s.campActions=[];s.upgradeOffer=random(s)<LOOT_RULES.baseRefinement?makeUpgradeOffer(s,'camp','camp'):null;}if(n.type==='recruit')s.recruitLine=0;
- if(n.type==='battle'||n.type==='elite')return beginBattle(s,n.enemies,events);
+ if(n.type==='recruit'&&s.party.length>=PARTY_SIZE&&s.node<ROUTE.length-1){s.node++;s.selectedStage=null;return enterNode(s,events);}
+ if(n.type==='battle'||n.type==='elite')return beginBattle(s,!s.tutorial?.active&&s.mode==='route'&&!s.selectedStage&&s.party.length>=PARTY_SIZE&&FULL_OPENING[s.node]||n.enemies,events);
  s.phase=n.type;
  if(n.type==='base'){
   const baseId='route-'+s.node;if(s.baseId!==baseId||!s.baseInitialized){s.baseId=baseId;s.baseInitialized=true;s.careUsed=false;s.healUsed=false;s.upgradeOffer=random(s)<LOOT_RULES.baseRefinement?makeUpgradeOffer(s,'base','base'):null;}s.collection.unlocked=[...new Set([...s.collection.unlocked,...Object.keys(HEROES)])];saveCheckpoint(s,true);
@@ -398,7 +399,27 @@ function settleRaid(s,events,reason='turnLimit'){
 // The raid borrows the run's hero slots; everything outside the collection is stashed and restored.
 function stashRun(s){const keep=new Set(['collection','raidStash']);s.raidStash=clone(Object.fromEntries(Object.entries(s).filter(([k])=>!keep.has(k))));}
 function restoreRaidStash(s){const stash=s.raidStash;if(!stash)return;const collection=s.collection,result=s.lastRaidResult;for(const k of Object.keys(s))delete s[k];Object.assign(s,stash,{collection,lastRaidResult:result,phase:'lobby'});}
-function freshRun(s,{tutorial=false}={}){const collection=s.collection,next=createGame(Date.now()^s.rng,{tutorial});for(const k of Object.keys(s))delete s[k];Object.assign(s,next,{collection});s.checkpoint=snapshot(s);}
+function freshRun(s,{tutorial=false,seed}={}){const collection=s.collection,next=createGame(seed??(Date.now()^s.rng),{tutorial});for(const k of Object.keys(s))delete s[k];Object.assign(s,next,{collection});s.checkpoint=snapshot(s);}
+// v0.36 stage 6: the roster is open. A normal expedition fields three picked heroes from the start;
+// until the first clear Lohen has to be one of them.
+export const PARTY_SIZE=3;
+export function expeditionCleared(s){return (s.collection?.endings||[]).length>0;}
+export function lohenFixed(s){return !expeditionCleared(s);}
+export function formationError(s,party){
+ if(!Array.isArray(party)||party.length!==PARTY_SIZE||new Set(party).size!==PARTY_SIZE||party.some(id=>!HEROES[id]))return `출전할 전투원 ${PARTY_SIZE}명을 고르세요.`;
+ if(lohenFixed(s)&&!party.includes('lohen'))return '첫 클리어 전에는 로엔이 함께 출전합니다.';
+ return '';
+}
+export function defaultFormation(s){
+ const last=(s.collection?.lastParty||[]).filter(id=>HEROES[id]),pick=[...new Set([...(lohenFixed(s)?['lohen']:[]),...last,'lohen','durin','illuga',...Object.keys(HEROES)])].slice(0,PARTY_SIZE);
+ return formationError(s,pick)?['lohen','durin','illuga']:pick;
+}
+function deploy(s,party){
+ s.party=[...party].sort((a,b)=>(b==='lohen')-(a==='lohen'));for(const id of Object.keys(s.heroes)){s.heroes[id].lost=0;s.heroes[id].scar=0;s.heroes[id].shield=0;}
+ s.maxHp=partyMaxHp(s);s.hp=s.maxHp;s.hpScaled=true;s.shield=0;s.collection.unlocked=Object.keys(HEROES);s.collection.lastParty=[...s.party];s.checkpoint=snapshot(s);
+}
+// The two opening fights were sized for one and two heroes; a full party meets a first-tier patrol instead.
+const FULL_OPENING={0:['hound','wanderer'],2:['wanderer','wanderer','hound']};
 export function saveEntries(s,hero){return s.collection.saveData?.[hero]||[];}
 function defeat(s,events){if(s.mode==='raid'&&s.raidRun){settleRaid(s,events,'defeat');return;}s.phase='defeat';emit(events,'defeat','더는 전선을 유지할 수 없습니다. 시간의 흐름이 흔들립니다.');}
 function damageEnemy(s,e,amount,owner,events,extraWard=0,opts={}){
@@ -885,7 +906,11 @@ function perform(s,a,events){
   case 'skipTutorial':if(!s.tutorial?.active||s.phase!=='battle')reject('진행 중인 조작 튜토리얼이 아닙니다.');s.node=s.party.length===1?1:3;s.selectedStage=null;s.lastReward=null;s.phase='recruit';s.battle=null;s.recruitLine=0;s.tutorial.step='recruit';break;
   case 'skipRecruitDialogue':if(s.phase!=='recruit')reject('지금은 지원 요청 대화가 아닙니다.');s.recruitLine=4;break;
   case 'ackRecruit':if(s.phase==='arrival'&&s.recruitNotice?.flow==='story'){s.phase='joinDialogue';s.recruitNotice.line=0;break;}if(!s.recruitNotice)reject('확인할 지원 응답이 없습니다.');const hero=s.recruitNotice.hero;s.recruitNotice=null;if(s.checkpoint?.recruitNotice?.hero===hero)s.checkpoint.recruitNotice=null;break;
-  case 'start':if(s.phase!=='title')reject('이미 시작한 원정입니다.');enterNode(s,events);break;
+  case 'start':{
+   if(s.phase!=='title')reject('이미 시작한 원정입니다.');
+   if(a.party){const error=formationError(s,a.party);if(error)reject(error);if(s.tutorial?.active)reject('튜토리얼에서는 동료를 길 위에서 만납니다.');deploy(s,a.party);s.runActive=true;enterNode(s,events);break;}
+   enterNode(s,events);break;
+  }
   case 'advance':rewardAdvance(s,events);break;
   case 'claimReward':if(s.phase!=='reward')reject('받을 보상이 없습니다.');settleReward(s,!!a.skip,events);s.phase='travel';if(!a.skip&&s.lastReward?.cardOffer){s.cardOffer={...clone(s.lastReward.cardOffer),then:s.lastReward.upgradeOffer?'refine':'travel'};s.phase='cardReward';break;}if(!a.skip&&s.lastReward?.upgradeOffer){s.upgradeOffer=clone(s.lastReward.upgradeOffer);s.upgradeOffer.returnPhase='travel';s.phase='refine';}break;
   case 'travel':selectStage(s,a.id,events);break;
@@ -953,7 +978,7 @@ function perform(s,a,events){
    if(!['base','camp'].includes(s.phase))reject('거점이나 야영에서 장비를 바꿀 수 있습니다.');const item=EQUIPMENT[a.item];if(!item||item.rarity==='elite'||item.slot!==a.slot||!s.collection.unlocked.includes(a.hero))reject('해당 칸에 장비할 수 없습니다.');if(s.heroes[a.hero].equipment[a.slot]===a.item)reject('이미 장비 중입니다.');if(s.gold<item.cost)reject('모라가 부족합니다.');s.gold-=item.cost;(s.inventory??=[]).push(a.item);s.heroes[a.hero].equipment[a.slot]=a.item;saveCheckpoint(s);emit(events,'equip',`${HEROES[a.hero].name} · ${item.name}`,{hero:a.hero});break;
   }
   case 'swap':{
-   if(!['base','camp'].includes(s.phase)||a.out==='lohen'||!s.party.includes(a.out)||s.party.includes(a.in)||!s.collection.unlocked.includes(a.in))reject('교체할 동료를 확인하세요.');s.party[s.party.indexOf(a.out)]=a.in;if(s.upgradeOffer){s.upgradeOffer.candidates=s.upgradeOffer.candidates.filter(c=>s.party.includes(c.owner));if(!s.upgradeOffer.candidates.length)s.upgradeOffer=null;}saveCheckpoint(s);emit(events,'swap',`${HEROES[a.in].name}에게 서풍 매로 지원을 요청했습니다.`,{hero:a.in});break;
+   if(!['base','camp'].includes(s.phase)||!s.party.includes(a.out)||s.party.includes(a.in)||!HEROES[a.in])reject('교체할 동료를 확인하세요.');if(a.out==='lohen'&&lohenFixed(s))reject('첫 클리어 전에는 로엔이 함께 출전합니다.');s.party[s.party.indexOf(a.out)]=a.in;s.collection.lastParty=[...s.party];refreshMaxHp(s);if(s.upgradeOffer){s.upgradeOffer.candidates=s.upgradeOffer.candidates.filter(c=>s.party.includes(c.owner));if(!s.upgradeOffer.candidates.length)s.upgradeOffer=null;}saveCheckpoint(s);emit(events,'swap',`${HEROES[a.in].name}에게 서풍 매로 지원을 요청했습니다.`,{hero:a.in});break;
   }
   case 'heal':{
    if(s.phase!=='base')reject('거점에서 치료할 수 있습니다.');if(s.healUsed)reject('생명의 불꽃은 거점마다 한 번만 받을 수 있습니다.');const needs=healingNeeds(s);s.healUsed=true;const heroes=[...new Set([...needs.injured,...needs.retired,...(needs.hp>0?s.party:[])])];restoreBodies(s);for(const id of s.party)s.heroes[id].stress=Math.max(0,s.heroes[id].stress-5);saveCheckpoint(s);emit(events,'heal','생명의 불꽃이 따스하게 몸을 감쌉니다. 부상 회복 · 체력 +30% · 출전원 정신 부담 -5. 거점마다 한 번 받을 수 있습니다.',{heroes:[...new Set([...heroes,...s.party])],hp:Math.min(hpPts(s,30),needs.hp)});break;
@@ -975,7 +1000,10 @@ function perform(s,a,events){
    emit(events,'rewind','시간의 힘이 느껴집니다. 시계바늘이 거꾸로 움직입니다.',{retries,temporal:s.temporal});if(s.phase==='title')enterNode(s,events);else if(s.node===7){s.phase='base';s.healUsed=false;s.mode='route';s.battle=null;}break;
   }
   case 'newGame':{
-   const next=newCampaign(s,a.seed??Date.now());for(const k of Object.keys(s))delete s[k];Object.assign(s,next);emit(events,'newGame','새로운 캠페인을 시작합니다. 동료 해금과 기록은 남아 있습니다.');break;
+   const next=newCampaign(s,a.seed??Date.now());for(const k of Object.keys(s))delete s[k];Object.assign(s,next);
+   // After the tutorial a run always leaves from the lobby, where the party is picked.
+   if(s.collection.tutorialDone){s.phase='lobby';s.runActive=false;}
+   emit(events,'newGame','새로운 캠페인을 시작합니다. 동료 해금과 기록은 남아 있습니다.');break;
   }
   case 'undo':{
    if(s.phase!=='battle'||!s.battle)reject('전투 중에만 되돌릴 수 있습니다.');
@@ -1053,7 +1081,9 @@ function perform(s,a,events){
   }
   case 'newExpedition':{
    if(s.phase!=='lobby')reject('로비에서 새 원정을 시작할 수 있습니다.');if(s.runActive)reject('진행 중인 원정이 있습니다. 이어하거나 먼저 끝내 주세요.');
-   freshRun(s,{tutorial:!s.collection.tutorialDone});s.runActive=true;enterNode(s,events);emit(events,'newExpedition','새 원정을 시작합니다.');break;
+   const tutorial=!s.collection.tutorialDone;
+   if(!tutorial){const error=formationError(s,a.party);if(error)reject(error);}
+   freshRun(s,{tutorial,seed:Number.isFinite(a.seed)?a.seed:undefined});if(!tutorial)deploy(s,a.party);s.runActive=true;enterNode(s,events);emit(events,'newExpedition',tutorial?'새 원정을 시작합니다.':`${s.party.map(id=>HEROES[id].name).join(' · ')} 출전. 새 원정을 시작합니다.`);break;
   }
   case 'resumeExpedition':{
    if(s.phase!=='lobby')reject('로비에서 원정으로 출발할 수 있습니다.');if(!s.runActive)reject('진행 중인 원정이 없습니다. 새 원정을 시작하세요.');
