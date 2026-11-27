@@ -4,11 +4,11 @@
 ## 실행 및 검증
 - Windows에서 압축을 완전히 해제하고 Node.js 22 이상에서 START-WINDOWS.cmd를 실행하세요. 터미널에서는 프로젝트 루트에서 node start.mjs를 실행하세요.
 - 본편 http://127.0.0.1:8080/ · QA http://127.0.0.1:8080/qa
-- npm test로 검사합니다. 별도의 npm install 없이 실행됩니다. 인계 시점에 192개 모두 통과했습니다.
+- npm test로 검사합니다. 별도의 npm install 없이 실행됩니다. 인계 시점에 193개 모두 통과했습니다.
 - dist/가 직접 편집하는 게임 소스와 리소스입니다. tests/에는 자동 테스트가 있습니다.
 
 ## 먼저 읽을 문서
-1. docs/V036-STAGE2-TERMS.md, docs/V036-STAGE1-STATS.md에서 최신 변경을 확인하세요. 기획 반영 순서는 프로젝트의 기획 문서 §0을 따릅니다(이전 변경은 docs/UI-REPAIR-35.md, 33.md, 30.md, 29.md, 28.md, 27.md, 26.md, 25.md). START-HERE.md와 GEMINI.md는 이전 시점의 인계 기록입니다.
+1. docs/V036-STAGE3-MONSTERS.md, docs/V036-STAGE2-TERMS.md, docs/V036-STAGE1-STATS.md에서 최신 변경을 확인하세요. 기획 반영 순서는 프로젝트의 기획 문서 §0을 따릅니다(이전 변경은 docs/UI-REPAIR-35.md, 33.md, 30.md, 29.md, 28.md, 27.md, 26.md, 25.md). START-HERE.md와 GEMINI.md는 이전 시점의 인계 기록입니다.
 2. docs/ILLUSTRATIONS-3.md와 dist/assets/update25/manifest.json에서 그림별 용도를 확인하세요. 몬스터 외형은 dist/enemy-looks.js, 전투원 포즈는 cast-art.js의 CAST_SPRITES, 전투 이펙트는 dist/battle-vfx.js, 정신 붕괴 컷인 배경은 dist/collapse-scene.js에 있습니다. 전투 스탠딩, HUD 초상, 카드, 필살기 및 붕괴 컷인은 별도 역할입니다.
 3. UI를 바꿀 때는 docs/UI-STYLE-GUIDE.md, 기존 화면 구조, docs/implementation-lessons.md를 함께 확인하세요.
 

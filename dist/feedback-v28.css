@@ -514,3 +514,8 @@ button.primary:hover:not(:disabled){filter:none;color:#fff3d6!important;box-shad
 .in-battle .hand-count.warn{color:#ff9a62;font-weight:700;text-shadow:0 0 8px rgba(255,120,60,.55);animation:handWarn 1.4s ease-in-out infinite}
 @keyframes handWarn{50%{opacity:.6}}
 @media (prefers-reduced-motion:reduce){.in-battle .hand-count.warn{animation:none}}
+/* ---------- v0.36 stage 3: boss next action, crack/wither badges ---------- */
+.in-battle .enemy .intent-next{margin-top:3px;padding:2px 8px;font-size:10px;letter-spacing:.03em;color:#e8d7b0;background:rgba(18,12,8,.82);border-left:2px solid var(--ui-gold,#c9a45c);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.in-battle .enemy .crack-badge,.in-battle .enemy .wither-badge{margin-left:6px;padding:0 6px;font-style:normal;font-size:10px;font-weight:700;border-radius:2px}
+.in-battle .enemy .crack-badge{color:#ffd2b0;background:rgba(150,52,24,.85)}
+.in-battle .enemy .wither-badge{color:#cfe3ff;background:rgba(40,60,110,.85)}
