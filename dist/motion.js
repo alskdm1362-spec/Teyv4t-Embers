@@ -102,6 +102,10 @@ export class BattleMotion{
   if(state.hp!==before.hp||state.shield!==before.shield)this.hudDamage(state.hp,state.shield);
   void unpose?.();setTimeout(()=>actor?.classList?.remove('acting'),this.ms(420));
  }
+ // 결합: the fragments left in hand slide together and flash before the merged card is dealt in.
+ async combine(){const cards=$$('.hand [data-card]').filter(el=>el.isConnected&&!el.classList.contains('leaving'));if(cards.length<2)return;const rects=cards.map(el=>el.getBoundingClientRect()),cx=rects.reduce((n,r)=>n+r.left+r.width/2,0)/rects.length,dur=this.ms(380);
+  void this.sound('card_flip',{gain:.8,ui:true});const runs=cards.map((el,i)=>{el.classList.add('combine-out');return el.animate?.([{translate:'0 0',scale:'1',filter:'brightness(1)',opacity:1},{translate:`${(cx-(rects[i].left+rects[i].width/2))*.92}px -26px`,scale:'1.04',filter:'brightness(1.9)',opacity:1,offset:.7},{translate:`${cx-(rects[i].left+rects[i].width/2)}px -30px`,scale:'.92',filter:'brightness(3)',opacity:0}],{duration:dur,easing:'cubic-bezier(.5,0,.2,1)',fill:'forwards'})?.finished?.catch(()=>{});});
+  await Promise.all([...runs,wait(dur)]);void this.sound('strike',{gain:.5});}
  async present(before,action,events){const after=this.getState(),plan=presentationPlan(before,after,action,events);this.onBusy(true);try{
  const wasBattle=before.phase==='battle'&&!!$('.battle');if(wasBattle){
   const departure=plan.played?this.leave(plan.played.uid,plan.played.destination,true):Promise.resolve();
@@ -109,6 +113,7 @@ export class BattleMotion{
   const special=events.find(e=>e.type==='ultimate'||e.type==='support');if(special)await this.cutin(special.hero,special.type);
   {const mode=events.find(e=>e.type==='mode');if(mode){if(mode.first&&!events.some(e=>e.type==='card'))await this.cutin('kinich','ultimate');const k=$('[data-ally="kinich"]');if(k){k.classList.remove('mode-flash');void k.offsetWidth;k.dataset.modeFlash=mode.mode;k.classList.add('mode-flash');setTimeout(()=>k.classList.remove('mode-flash'),this.ms(320));}void this.sound('card_flip',{gain:.7,ui:true});}}
   await this.playerEffects(before,action,plan.effects);await departure;
+  if(plan.combine)await this.combine();
   for(const e of events.filter(e=>e.type==='injury'&&e.stage===3&&(before.heroes[e.hero]?.body[e.part]||0)<3))await this.cutin(e.hero,'injury-'+e.part);
   for(const hero of plan.collapseCutins)await this.cutin(hero,'breakdown');
   await this.blindMorph(before);await this.morph(before,plan.changed);await Promise.all([...this.pending]);

@@ -537,3 +537,10 @@ button.primary:hover:not(:disabled){filter:none;color:#fff3d6!important;box-shad
 .in-battle .fighter.mode-flash[data-mode-flash="crush"] .sprite{animation-name:modeFlashCrush}
 @keyframes modeFlashCrush{0%{filter:brightness(2.4) drop-shadow(0 0 18px #ffb060)}100%{filter:none}}
 @media (prefers-reduced-motion:reduce){.in-battle .fighter.mode-flash .sprite{animation:none}}
+/* ---------- v0.36 stage 4: 심판의 편린 / 칠흑의 심판 (CZN 결합 덱 영상 참고) ---------- */
+.in-battle .hand .card.shard-card{box-shadow:0 0 0 1px rgba(170,140,255,.75),0 0 14px rgba(140,110,255,.45)}
+.in-battle .hand .card.judgment-card{box-shadow:0 0 0 2px #f2cf7a,0 0 26px rgba(255,205,96,.75),0 0 60px rgba(160,110,255,.35);animation:judgmentPulse 1.6s ease-in-out infinite}
+.in-battle .hand .card.judgment-card .card-head b{color:#ffe7a8}
+@keyframes judgmentPulse{50%{box-shadow:0 0 0 2px #fff0c0,0 0 36px rgba(255,220,130,.95),0 0 76px rgba(170,120,255,.5)}}
+.in-battle .hand .card.combine-out{z-index:40;pointer-events:none}
+@media (prefers-reduced-motion:reduce){.in-battle .hand .card.judgment-card{animation:none}}

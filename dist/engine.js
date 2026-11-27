@@ -680,7 +680,7 @@ function cardInfoV2(s,c,h,key,blind){
  const first=form.ops.find(o=>o.op==='dmg')||form.ops.find(o=>o.op==='shield'),st=heroStats(c.owner),dp=first?.op==='dmg'?((first.pct||0)+(first.perTrack||0)*tracks+(first.judgment?first.perAp*(b?.ap||0)+first.perShard*(c.shards||0)+(c.coef||0):0))*(first.hits||1):0;
  const amount=first?Math.round((first.op==='dmg'?dp*9/100:first.pct*7/200)*rate):1;
  const numbers=first?.op==='dmg'&&!first.basis?{damage:Math.round(dp*st.atk/100*rate),crit:st.cr,critDamage:Math.round(dp*st.atk/100*rate*st.cd)}:first?.op==='shield'?{shield:Math.round(first.pct*st.def/100*rate),party:first.who==='party'}:null;
- let desc=(keywords.length?keywordLine(keywords)+'. ':'')+form.text;if(c.parts)desc+=` (편린 ${c.shards}${c.coef?`, 계수 +${c.coef}%`:''})`;if(rate<1)desc+=` (팔 부상: 효과 ${Math.round(rate*100)}%)`;if(sparkInfo)desc+=' '+sparkInfo.desc;
+ let desc=(keywords.length?keywordLine(keywords)+'. ':'')+form.text;if(c.parts)desc+=` 지금 쓰면 피해 ${Math.round(dp)}% (편린 ${c.shards}${c.coef?`, 계수 +${c.coef}%`:''}).`;if(rate<1)desc+=` (팔 부상: 효과 ${Math.round(rate*100)}%)`;if(sparkInfo)desc+=' '+sparkInfo.desc;
  const actual={...form,name:base.name,title:spec?.title||null,amount,numbers,keywords,cost:c.epiphany&&!blind?0:cost,baseCost:cost,discounted,epiphany:!!c.epiphany&&!blind,desc,effects:{},exhaust:keywords.includes('exhaust'),upgraded:!!branch,branch,spark:sparkId,sparkName:sparkInfo?.name||null,effectiveKey:key,injuryRate:rate,blurred:h.body.eyes===2,v2:true};
  if(form.xCost)actual.displayCost='X';
  return blind?{...actual,name:'실명',desc:'??',displayCost:'?',upgraded:false,blind:true,target:'none',type:'blind',actual}:actual;

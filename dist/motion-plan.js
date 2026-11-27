@@ -7,7 +7,7 @@ export function presentationPlan(before,after,action,events){
  return {
   played:played?{uid:played.uid,destination:played.destination}:null,
   discarded:events.filter(e=>e.type==='discard').map(e=>e.uid),
-  drawn:events.filter(e=>['draw','createCard'].includes(e.type)).map(e=>e.uid),
+  drawn:events.filter(e=>['draw','createCard','combine'].includes(e.type)).map(e=>e.uid),combine:events.find(e=>e.type==='combine')||null,
   shuffled:events.some(e=>e.type==='shuffle'),
   attacks:groups,
   collapseCutins:collapseCutins(before,after),
