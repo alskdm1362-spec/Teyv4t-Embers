@@ -7,6 +7,7 @@ export {SAVE_SLOTS,SAVE_OUTCOMES,saveValue} from './savedata.js';
 import {INSIGHTS,INSIGHT_BRANCHES,insightSpec,compatibleSparkIds,effectDescription} from './card-insights.js';
 export {INSIGHTS,INSIGHT_BRANCHES} from './card-insights.js';
 import {stageChoices} from './journey.js';
+import {cycleMove,STRESS_PIP,HIT_STRESS,HIT_STRESS_CAP,ELITE_MENTAL,BOSS_MENTAL} from './enemy-patterns.js';
 import {cardKeywords,keywordLine,CRACK_MAX,CRACK_PER_STACK,WITHER_RATE,HAND_LIMIT} from './keywords.js';
 import {JOIN_LINES,CARE_SCRIPT} from './story-scripts.js';
 import {EXTRA_ROUTE,EVENTS,LOOT_RULES} from './expedition-content.js';
@@ -81,16 +82,16 @@ export const EQUIPMENT={
  calmRibbon:{name:'안정의 매듭',slot:'accessory',desc:'받는 정신력 피해 20% 감소.',stressReduction:.2,cost:30},
 };
 export const ENEMIES={
- trainingSlime:{name:'떠도는 점액',faction:'야생',hp:40,attack:3,tag:'훈련',desc:'움직임이 느린 작은 점액. 침식·잔향·부상 기술이 없어 기본 조작을 익히기 좋다.'},
- hound:{name:'심연 진드기',faction:'심연',hp:30,attack:6,tag:'침식',desc:'물린 상처가 보호막을 넘어 짧은 지속 피해를 남긴다.'},
- wanderer:{name:'되살아나는 마디벌레',faction:'심연',hp:27,attack:5,tag:'추적',desc:'몸을 쓰러뜨리면 잔향이 노출된다. 잔향까지 제거해야 한다.'},
- hunter:{name:'갈래낫 추적자',faction:'심연',hp:37,attack:8,tag:'추적',desc:'한 동료를 추적한다. 강한 공격을 미리 예고한다.'},
- angler:{name:'응시하는 부유체',faction:'심연',hp:31,attack:6,tag:'의태',ward:12,desc:'연결된 장막 중 하나를 깨면 이 개체의 장막도 함께 무너진다.'},
- mimic:{name:'가시심장 포식자',faction:'심연',hp:64,attack:10,tag:'의태',hits:3,desc:'장막은 여러 번의 공격으로 벗긴다. 강습이 예고된다.'},
- breacher:{name:'맥동하는 균열 고치',faction:'심연',hp:58,attack:9,tag:'침식',ward:16,desc:'장막을 파괴하면 공격을 한 번 중단한다.'},
- nightmare:{name:'천의 눈 · 모태',faction:'심연',hp:112,attack:14,tag:'의태',ward:22,boss:true,desc:'연결체를 불러낸다. 연결체를 쓰러뜨리면 본체의 장막도 약해진다.'},
- keeper:{name:'초승달의 관측자',faction:'천공',hp:94,attack:12,tag:'관측',boss:true,desc:'반복해서 공격한 전투원을 관측한다. 다른 동료의 공격으로 관측을 끊는다.'},
- sentinel:{name:'좌천사 · 별의 파수',faction:'천공',hp:128,attack:15,tag:'관측',boss:true,desc:'별을 전개해 큰 기술을 준비한다. 별을 모두 파괴하면 저지할 수 있다.'},
+ trainingSlime:{name:'떠도는 점액',faction:'야생',hp:40,attack:3,tag:'훈련',desc:'움직임이 느린 작은 점액. 특별한 기술이 없어 기본 조작을 익히기 좋다.'},
+ hound:{name:'심연 진드기',faction:'심연',hp:30,attack:6,tag:'침식',desc:'두 가지 물기를 번갈아 쓴다. 두 번째 도약이 더 아프다.'},
+ wanderer:{name:'되살아나는 마디벌레',faction:'심연',hp:27,attack:5,tag:'추적',desc:'느리지만 끈질기게 휘감는다. 쓰러뜨리면 그대로 끝난다.'},
+ hunter:{name:'갈래낫 추적자',faction:'심연',hp:37,attack:8,tag:'추적',desc:'표식을 남긴 다음 강한 추격을 이어 간다.'},
+ angler:{name:'응시하는 부유체',faction:'심연',hp:31,attack:6,tag:'의태',ward:12,desc:'촉수로 공격한다. 정예로 나오면 정신을 꿰뚫는 응시를 쓴다.'},
+ mimic:{name:'가시심장 포식자',faction:'심연',hp:64,attack:10,tag:'의태',hits:3,desc:'변형 뒤 강습을 노린다. 정예로 나오면 공허의 속삭임으로 정신을 공격한다.'},
+ breacher:{name:'맥동하는 균열 고치',faction:'심연',hp:58,attack:9,tag:'침식',ward:16,desc:'수축과 분출을 번갈아 쓴다. 정예로 나오면 맥동하는 공포로 정신을 공격한다.'},
+ nightmare:{name:'천의 눈 · 모태',faction:'심연',hp:112,attack:14,tag:'의태',ward:22,boss:true,desc:'세 동작을 정해진 순서로 반복한다. 세 번째 파도는 정신까지 덮친다. 다음 행동이 미리 보인다.'},
+ keeper:{name:'초승달의 관측자',faction:'천공',hp:94,attack:12,tag:'관측',boss:true,desc:'검출 → 시선(정신 공격) → 결말 순서로 반복한다. 다음 행동이 미리 보인다.'},
+ sentinel:{name:'좌천사 · 별의 파수',faction:'천공',hp:128,attack:15,tag:'관측',boss:true,desc:'검출 → 타락한 별빛(정신 공격) → 별의 심판 순서로 반복한다. 다음 행동이 미리 보인다.'},
  star:{name:'관측의 결정',faction:'천공',hp:12,attack:0,tag:'관측',desc:'파수가 준비하는 기술의 매개. 파괴하면 큰 공격이 약해진다.'},
 };
 export const ROUTE=[
@@ -270,25 +271,34 @@ export function cardInfo(s,c){
  const st=heroStats(c.owner),numbers=form.type==='attack'?{damage:Math.round(amount*st.atk*ATK_PER_POINT),crit:st.cr,critDamage:Math.round(amount*st.atk*ATK_PER_POINT*st.cd)}:['guard','counter'].includes(form.type)?{shield:Math.round(amount*SHIELD_PER_POINT*st.def*(partyGuard?PARTY_SHIELD_SHARE:1)),party:partyGuard}:null;
  const actual={...form,amount,numbers,keywords,cost:c.epiphany&&!blind?0:cost,baseCost:cost,epiphany:!!c.epiphany&&!blind,desc:desc.trim(),effects,upgraded:!!branch,branch,spark:sparkId,sparkName:sparkInfo?.name||null,effectiveKey,injuryRate:rate,blurred:h.body.eyes===2};return blind?{...actual,name:'실명',desc:'??',displayCost:'?',upgraded:false,blind:true,target:'none',type:'blind',actual}:actual;
 }
-function makeEnemy(s,kind,index){const d=ENEMIES[kind],hp=Math.round(d.hp*depthScale(s).hp*ENEMY_HP_SCALE)+Math.max(0,s.temporal)*3*ENEMY_HP_SCALE,realm=s.battle?.realm||s.pendingRealm||'abyss',look=s.mode==='raid'&&kind===(s.collection?.raid?.bossKind||'nightmare')&&index===0&&!s.battle?RAID_LOOK:pickLook(kind,realm,index+(s.node||0));return {id:`${kind}-${index}`,kind,look,name:ENEMY_LOOKS[look]?.name||d.name,hp,maxHp:hp,def:d.def??(d.boss?25:10),ward:(d.ward||0)*ENEMY_HP_SCALE,hitWard:d.hits||0,turn:0,stun:0,crack:0,wither:0,observed:null,observedCount:0,echo:false,intent:null};}
+function makeEnemy(s,kind,index){const d=ENEMIES[kind],hp=Math.round(d.hp*depthScale(s).hp*ENEMY_HP_SCALE)+Math.max(0,s.temporal)*3*ENEMY_HP_SCALE,realm=s.battle?.realm||s.pendingRealm||'abyss',look=s.mode==='raid'&&kind===(s.collection?.raid?.bossKind||'nightmare')&&index===0&&!s.battle?RAID_LOOK:pickLook(kind,realm,index+(s.node||0));return {id:`${kind}-${index}`,kind,look,name:ENEMY_LOOKS[look]?.name||d.name,hp,maxHp:hp,def:d.def??(d.boss?25:10),ward:s.mode==='raid'?(d.ward||0)*ENEMY_HP_SCALE:0,hitWard:s.mode==='raid'?d.hits||0:0,turn:0,stun:0,crack:0,wither:0,observed:null,observedCount:0,echo:false,intent:null};}
+function isEliteFight(s){return s.encounterType==='elite'||s.mode==='challenge';}
+function routeIntent(s,e,target,d,preview=false){
+ const move=cycleMove(e.kind,e.turn,e.look),boss=!!d.boss,mental=move.mental&&(boss||isEliteFight(s))?(boss?BOSS_MENTAL:ELITE_MENTAL)*STRESS_PIP:0;
+ let damage=move.damage>0?move.damage+(s.temporal||0):0;if(!mental&&move.mental)damage=Math.max(damage,Math.round((d.attack||5)*.8));
+ const intent={name:move.name,damage,stress:mental,mental:!!mental,target,tag:d.tag,boss};
+ if(preview){const scale=depthScale(s);intent.damage=intent.damage>0?Math.max(1,Math.round(intent.damage*scale.damage*ENEMY_DAMAGE_SCALE*defMitigation(heroStats(target).def))):0;}
+ return intent;
+}
 function plans(s){
  const b=s.battle,targets=active(s);if(!targets.length)return;
  for(const e of livingEnemies(s)){
   const d=ENEMIES[e.kind];let target=targets[(e.turn+b.turn)%targets.length];let intent={name:'공격',damage:d.attack+s.temporal,stress:0,target,tag:d.tag};
-  if(e.kind==='hound')intent={...intent,name:e.turn%2?'균열의 도약':'침식의 이빨',damage:e.turn%2?8:5,corrosion:e.turn%2?0:2};
-  if(e.kind==='wanderer')intent={...intent,name:e.echo?'잔향 복원':'흔적 추적',damage:e.echo?0:5,restore:e.echo};
-  if(e.kind==='hunter')intent={...intent,name:e.turn%2?'갈라진 추격':'추적 표식',damage:e.turn%2?12:5,stress:e.turn%2?8:5,injury:e.turn%2===1};
-  if(e.kind==='angler')intent={...intent,name:e.ward?'연결된 장막':'이끌림의 속삭임',stress:e.ward?8:4};
-  if(e.kind==='mimic')intent={...intent,name:e.turn%2?'의태 · 강습':'공허한 변형',damage:e.turn%2?16:6,stress:e.turn%2?12:5,injury:e.turn%2===1};
-  if(e.kind==='breacher')intent={...intent,name:e.ward?'코어의 수축':'균열 분출',damage:e.ward?7:13,stress:7};
-  if(e.kind==='nightmare'){const sky=ENEMY_LOOKS[e.look]?.realm==='celestial';intent={...intent,name:e.turn%3===0?(sky?'사도의 부름':'어둠의 부름'):e.turn%3===2?(sky?'천공의 파도':'악몽의 파도'):(sky?'내리꽂는 광휘':'내리꽂는 그림자'),damage:e.turn%3===2?18:10,stress:e.turn%3===2?20:8,summon:e.turn%3===0};}
-  if(e.kind==='keeper')intent={...intent,name:e.observedCount>=2?'관측된 결말':'영역 검출',damage:e.observedCount>=2?19:10,stress:10,target:e.observedCount>=2&&targets.includes(e.observed)?e.observed:target};
-  if(e.kind==='sentinel'){
+  if(s.mode!=='raid'){intent=routeIntent(s,e,target,d);e.next=d.boss?routeIntent(s,{...e,turn:e.turn+1},targets[(e.turn+1+b.turn+1)%targets.length],d,true):null;}
+  else if(e.kind==='hound')intent={...intent,name:e.turn%2?'균열의 도약':'침식의 이빨',damage:e.turn%2?8:5,corrosion:e.turn%2?0:2};
+  if(s.mode==='raid'&&e.kind==='wanderer')intent={...intent,name:e.echo?'잔향 복원':'흔적 추적',damage:e.echo?0:5,restore:e.echo};
+  if(s.mode==='raid'&&e.kind==='hunter')intent={...intent,name:e.turn%2?'갈라진 추격':'추적 표식',damage:e.turn%2?12:5,stress:e.turn%2?8:5,injury:e.turn%2===1};
+  if(s.mode==='raid'&&e.kind==='angler')intent={...intent,name:e.ward?'연결된 장막':'이끌림의 속삭임',stress:e.ward?8:4};
+  if(s.mode==='raid'&&e.kind==='mimic')intent={...intent,name:e.turn%2?'의태 · 강습':'공허한 변형',damage:e.turn%2?16:6,stress:e.turn%2?12:5,injury:e.turn%2===1};
+  if(s.mode==='raid'&&e.kind==='breacher')intent={...intent,name:e.ward?'코어의 수축':'균열 분출',damage:e.ward?7:13,stress:7};
+  if(s.mode==='raid'&&e.kind==='nightmare'){const sky=ENEMY_LOOKS[e.look]?.realm==='celestial';intent={...intent,name:e.turn%3===0?(sky?'사도의 부름':'어둠의 부름'):e.turn%3===2?(sky?'천공의 파도':'악몽의 파도'):(sky?'내리꽂는 광휘':'내리꽂는 그림자'),damage:e.turn%3===2?18:10,stress:e.turn%3===2?20:8,summon:e.turn%3===0};}
+  if(s.mode==='raid'&&e.kind==='keeper')intent={...intent,name:e.observedCount>=2?'관측된 결말':'영역 검출',damage:e.observedCount>=2?19:10,stress:10,target:e.observedCount>=2&&targets.includes(e.observed)?e.observed:target};
+  if(s.mode==='raid'&&e.kind==='sentinel'){
    const stars=livingEnemies(s).filter(x=>x.kind==='star').length;
    intent={...intent,name:e.turn%3===0?'타락한 별의 전개':e.turn%3===2?'별의 심판':'침묵의 검출',damage:e.turn%3===2?(stars?24:6):10,stress:e.turn%3===2?(stars?20:3):8,stars:e.turn%3===0,injury:e.turn%3===2&&stars>0};
   }
-  if(e.kind==='star')intent={...intent,name:'심판에 힘을 보냄',damage:0};
-  {const scale=depthScale(s);if(intent.damage>0)intent.damage=Math.round(intent.damage*scale.damage);if(intent.stress>0)intent.stress=Math.round(intent.stress*(1+(scale.damage-1)*.5));if(s.encounterType==='elite'&&intent.damage>=10)intent.injury=true;}
+  if(s.mode==='raid'&&e.kind==='star')intent={...intent,name:'심판에 힘을 보냄',damage:0};
+  {const scale=depthScale(s);if(intent.damage>0)intent.damage=Math.round(intent.damage*scale.damage);if(intent.stress>0)intent.stress=Math.round(intent.stress*(1+(scale.damage-1)*.5));if(s.mode==='raid'&&s.encounterType==='elite'&&intent.damage>=10)intent.injury=true;}
   if(intent.damage>0){const h=s.heroes[intent.target];intent.damage=Math.ceil(intent.damage*(1+.25*[h.body.leftLeg,h.body.rightLeg].filter(n=>n===3).length));}
   if(intent.damage>0&&e.wither)intent.damage=Math.max(1,Math.round(intent.damage*(1-WITHER_RATE)));
   if(intent.damage>0){intent.raw=intent.damage;intent.damage=Math.max(1,Math.round(intent.damage*ENEMY_DAMAGE_SCALE*defMitigation(heroStats(intent.target).def)));}
@@ -387,7 +397,7 @@ function defeat(s,events){if(s.mode==='raid'&&s.raidRun){settleRaid(s,events,'de
 function damageEnemy(s,e,amount,owner,events,extraWard=0,opts={}){
  if(!e||e.hp<=0)return;const st=heroStats(owner),atk=HEROES[owner]?(opts.stat==='def'?st.def:st.atk):100,crit=!!HEROES[owner]&&!s.battle?.forecast&&!s.battle?.noCrit&&random(s)<st.cr;
  let value=Math.max(0,Math.round(amount*atk*ATK_PER_POINT*(crit?st.cd:1)*defMitigation(e.def)*(1+CRACK_PER_STACK*Math.min(CRACK_MAX,e.crack||0))));extraWard=Math.round(extraWard*atk*ATK_PER_POINT);
- if(e.kind==='keeper'&&owner){if(e.observed===owner)e.observedCount++;else{e.observed=owner;e.observedCount=1;}if(e.observedCount>=3)value=Math.ceil(value*.7);}
+ if(s.mode==='raid'&&e.kind==='keeper'&&owner){if(e.observed===owner)e.observedCount++;else{e.observed=owner;e.observedCount=1;}if(e.observedCount>=3)value=Math.ceil(value*.7);}
  if(e.hitWard>0){e.hitWard--;value=Math.max(1,Math.floor(value*.35));if(!e.hitWard){e.stun=1;emit(events,'break',`${e.name}의 장막이 벗겨집니다.`,{enemy:e.id});}}
  if(e.ward>0){
   const removed=Math.min(e.ward,value+extraWard);e.ward-=removed;value=Math.max(0,value-Math.max(0,removed-extraWard));
@@ -396,8 +406,7 @@ function damageEnemy(s,e,amount,owner,events,extraWard=0,opts={}){
  e.hp=Math.max(0,e.hp-value);emit(events,'damage',`${e.name}에게 피해 ${value}${crit?' (치명)':''}`,{hero:owner,enemy:e.id,amount:value,crit});
  if(s.mode==='raid'&&s.raidRun&&e.kind===s.collection.raid.bossKind){s.raidRun.damageDealt=(s.raidRun.damageDealt||0)+value;}
  if(e.hp===0){
-  if((e.kind==='wanderer'||e.kind==='hunter')&&!e.echo){e.echo=true;e.hp=6*ENEMY_HP_SCALE;e.maxHp=Math.max(e.maxHp,e.hp);e.ward=0;emit(events,'echo',`${e.name}의 잔향이 드러납니다.`,{enemy:e.id});}
-  else{emit(events,'kill',`${e.name} 제압`,{enemy:e.id});if(e.kind==='angler')for(const boss of livingEnemies(s))if(boss.kind==='nightmare')boss.ward=Math.max(0,boss.ward-12*ENEMY_HP_SCALE);
+  {emit(events,'kill',`${e.name} 제압`,{enemy:e.id});if(e.kind==='angler')for(const boss of livingEnemies(s))if(boss.kind==='nightmare')boss.ward=Math.max(0,boss.ward-12*ENEMY_HP_SCALE);
    if(e.kind==='star'){const boss=livingEnemies(s).find(x=>x.kind==='sentinel');if(boss&&!livingEnemies(s).some(x=>x.kind==='star')){boss.stun=1;emit(events,'break','별이 사라져 심판을 저지했습니다.',{enemy:boss.id});}}
   }
  }
@@ -556,7 +565,7 @@ function endTurn(s,events){
   const th=s.heroes[it.target],blocked=Math.min(th?.shield||0,it.damage||0);if(th)th.shield-=blocked;syncShield(s);const taken=Math.max(0,(it.damage||0)-blocked);s.hp=Math.max(0,s.hp-taken);if(th&&taken){th.lost=Math.min(heroStats(it.target).hp,(th.lost||0)+taken);th.scar=(th.scar||0)+taken;}
   if(it.damage)emit(events,'enemyAttack',`${e.name} · ${it.name}: 피해 ${taken}`,{enemy:e.id,hero:it.target,amount:taken,blocked});
   if(blocked>0&&taken===0&&th?.buffs?.reflect&&e.hp>0){emit(events,'reflect',`${HEROES[it.target].name} · 되비춤`,{hero:it.target,enemy:e.id});damageEnemy(s,e,th.buffs.reflect,th.buffs.reflectBy||it.target,events,0,{stat:'def'});if(e.hp<=0)continue;}
-  const mental=(it.stress&&(!it.damage||taken>0)?it.stress:0)+Math.ceil(taken*100/Math.max(1,s.maxHp)*STRESS_PER_DAMAGE);if(mental)stress(s,it.target,mental,events,it.tag);
+  b.hitStress??={};let mental=it.stress||0;if(taken>0&&(b.hitStress[it.target]||0)<HIT_STRESS_CAP){b.hitStress[it.target]=(b.hitStress[it.target]||0)+1;mental+=ENEMIES[e.kind]?.boss?HIT_STRESS.boss:isEliteFight(s)?HIT_STRESS.elite:HIT_STRESS.normal;}if(mental)stress(s,it.target,mental,events,it.mental?'정신공격':it.tag);
   if(it.corrosion)b.corrosion=Math.max(b.corrosion,it.corrosion);
   if(taken>0&&injuryChance(s.heroes[it.target],!!it.injury)>0&&random(s)<injuryChance(s.heroes[it.target],!!it.injury))injury(s,it.target,null,events);
   if(it.summon&&livingEnemies(s).filter(x=>x.kind==='angler').length<2){const angler=makeEnemy(s,'angler',b.turn*10);b.enemies.push(angler);if(!s.collection.codex.includes('angler'))s.collection.codex.push('angler');if(!s.collection.codex.includes(angler.look))s.collection.codex.push(angler.look);emit(events,'summon',`${angler.name} 하나가 나타납니다.`);}
@@ -572,7 +581,7 @@ function endTurn(s,events){
   if(kw.includes('retain')){c.retained=(c.retained||0)+1;keep.push(c);emit(events,'retain',`${CARDS[c.key]?.name||'카드'} · 보존`,{uid:c.uid,hero:c.owner});continue;}
   emit(events,'discard',`${HEROES[c.owner].name}의 카드를 버립니다.`,{uid:c.uid,hero:c.owner});b.discard.push(c);delete c.initiative;}
   b.hand.push(...keep);}
- b.chainUsed={};b.turn++;b.ap=3;b.supportUsed=false;b.spent=0;b.supportCharged=false;b.recovered=false;b.effectUsed={};delete b.nextAttackDiscount;b.undoStack=[];
+ b.chainUsed={};b.hitStress={};b.turn++;b.ap=3;b.supportUsed=false;b.spent=0;b.supportCharged=false;b.recovered=false;b.effectUsed={};delete b.nextAttackDiscount;b.undoStack=[];
  if(s.mode==='raid'&&s.raidRun&&b.turn>(s.raidRun.maxTurns||6)){settleRaid(s,events,'turnLimit');return;}if(b.morale)b.morale--;draw(s,5,events);rollInitiative(s);plans(s);emit(events,'turn',`${b.turn}번째 턴`);
 }
 function settleReward(s,skip,events){

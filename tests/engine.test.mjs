@@ -115,11 +115,11 @@ test('all three parties can finish post-base challenge with modest preparation',
  }
 });
 
-test('breaking one linked angler ward removes all linked wards and interrupts attacks',()=>{
+test('v0.36: route anglers have no linked wards and elites may use a mental attack',()=>{
  const s=toBase(['durin','illuga']);s.node=6;s.phase='reward';s.node=5;action(s,{type:'advance'});
- assert.equal(s.battle.enemies.length,2);assert.ok(s.battle.enemies.every(e=>e.ward===120));s.support=2;
- action(s,{type:'support',hero:'lohen'});assert.ok(s.battle.enemies.every(e=>e.ward===0));assert.ok(s.battle.enemies.every(e=>e.intent.stunned));
- const hp=s.hp;action(s,{type:'endTurn'});assert.equal(s.hp,hp);
+ assert.equal(s.battle.enemies.length,2);assert.ok(s.battle.enemies.every(e=>e.ward===0&&e.hitWard===0));
+ for(let t=0;t<3;t++){if(s.phase!=='battle')break;for(const e of s.battle.enemies)e.hp=e.maxHp=99999;if(s.battle.enemies.some(e=>e.intent?.mental))break;action(s,{type:'endTurn'});}
+ assert.ok(s.battle.enemies.some(e=>e.intent?.mental&&e.intent.stress===20));
 });
 
 test('breakdown replacement of an exhaust card goes to discard, allowing repeated recovery attempts',()=>{
