@@ -603,3 +603,29 @@ button.primary:hover:not(:disabled){filter:none;color:#fff3d6!important;box-shad
 .deploy-footer p{margin:0;font-size:12px;color:#a9bcc6}
 @media(max-height:500px){.deploy-v36{gap:6px}.deploy-slots{gap:10px}.deploy-slot-copy{padding:16px 8px 4px}.deploy-slot-copy strong{font-size:14px}.deploy-slot-copy small{font-size:9.5px;line-height:1.3}.deploy-slot-copy em{font-size:9.5px;margin-top:1px}.deploy-card img{width:30px;height:30px}.modern-surface .deploy-card{padding:3px 2px;gap:2px}.deploy-card strong{font-size:11px}.deploy-card small{display:none}.deploy-footer p{font-size:10.5px}.formation-v19.roster-wide .formation-v19-roster{gap:4px}.formation-v19.roster-wide .formation-card-btn small{display:none}.formation-v19.roster-wide .formation-card-btn img{width:34px;height:34px}}
 .modern-surface .deploy-slot:disabled,.modern-surface .deploy-card.in-party:disabled{opacity:1;cursor:default}
+
+/* v0.36 7단계 — 시드 · 저장 옮기기 */
+.seed-entry{display:flex;flex-direction:column;gap:10px;text-align:left}
+.seed-entry h3{margin:0;font-size:19px}.seed-entry p{margin:0;font-size:13px;line-height:1.65;color:#c9d6dc}
+.seed-field{display:flex;align-items:center;gap:8px;border-bottom:2px solid #ff9d4a;padding:6px 2px;font-size:24px;font-weight:700;letter-spacing:3px;color:#ffb877}
+.seed-field input{flex:1;min-width:0;background:none;border:0;outline:0;color:#f3f6f4;font:inherit;letter-spacing:6px;text-transform:uppercase;user-select:text}
+.seed-field input::placeholder{color:#6f838d;font-size:14px;letter-spacing:1px;font-weight:500}
+.save-error{min-height:1.2em;color:#ff9aa5!important}
+.seed-actions{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-top:4px}
+.save-text{width:100%;min-height:150px;background:#0b121be0;color:#e7ece3;border:0;border-left:2px solid #ff9d4a;padding:10px 12px;user-select:text;resize:vertical;font:12px/1.5 ui-monospace,monospace;word-break:break-all}
+.save-compare{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
+.save-compare section{border-left:2px solid #5d7480;padding-left:12px}.save-compare section.incoming{border-left-color:#ff9d4a}
+.save-compare small{font-size:11px;letter-spacing:1px;color:#93a7b0}
+.save-compare-rows{margin:6px 0 0;display:grid;gap:4px}.save-compare-rows div{display:grid;grid-template-columns:86px 1fr;gap:8px;font-size:12px}
+.save-compare-rows dt{color:#93a7b0}.save-compare-rows dd{margin:0;color:#eef3f1}
+.save-warning{color:#ffc089!important}.save-warning b,.seed-entry p b{color:#ffb877}
+.seed-card{display:grid;grid-template-columns:auto 1fr auto;align-items:baseline;gap:4px 14px;border-left:2px solid #ff9d4a;padding:4px 0 4px 14px;margin:6px 0 14px}
+.seed-card small{font-size:11px;letter-spacing:2px;color:#93a7b0}.seed-card strong{font-size:22px;letter-spacing:3px;color:#ffb877;user-select:text}
+.seed-card button{font-size:12px;padding:4px 10px;border:0;border-bottom:1px solid #ffffff44;background:none;color:#dfe8ea}
+.seed-card p{grid-column:1/-1;margin:0;font-size:11.5px;color:#a9bcc6}
+.seed-actions .danger{color:#ffb0b8;border-bottom:2px solid #ff5a6e}
+.title-option-seed{font-size:.56em;letter-spacing:2px;color:#ffb877;white-space:nowrap;vertical-align:middle}
+.title-option-label{white-space:nowrap}
+.title-menu.title-menu-four{top:47%;gap:3px}.title-menu.title-menu-four .title-option{min-height:50px;padding:8px 18px}.title-menu.title-menu-four .title-option-label{font-size:23px}
+@media(max-height:550px) and (orientation:landscape){.title-menu.title-menu-four{top:40%;gap:0}.title-menu.title-menu-four .title-option{min-height:37px;padding:4px 14px}.title-menu.title-menu-four .title-option-label{font-size:19px}.title-menu.title-menu-four .title-menu-caption{margin-top:5px}}
+.seed-field input:focus,.seed-field input:focus-visible{outline:0!important;box-shadow:none!important}
