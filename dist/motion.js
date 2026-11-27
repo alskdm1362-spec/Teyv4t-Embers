@@ -61,7 +61,7 @@ export class BattleMotion{
  }
  async playerEffects(before,action,effects){
   const state=this.getState(),owner=action._owner||action.hero,actor=$(`[data-ally="${owner}"]`),source=this.unit(actor),hits=effects.filter(e=>e.type==='damage');
-  actor?.classList?.add('acting');const isMelee=['lohen','illuga','jahoda'].includes(owner)&&action.type==='play'&&hits.length>0,unpose=['play','ultimate'].includes(action.type)?this.pose(owner,action,before,effects,source):null;
+  actor?.classList?.add('acting');const isMelee=['lohen','illuga','jahoda','kinich','cyno'].includes(owner)&&action.type==='play'&&hits.length>0,unpose=['play','ultimate'].includes(action.type)?this.pose(owner,action,before,effects,source):null;
   let dashDist=null,dashHold=null;
   if(hits.length){
    if(isMelee&&actor&&source){
@@ -78,7 +78,7 @@ export class BattleMotion{
    }else void this.animate(source,[{transform:'translateX(0)'},{transform:'translateX(20px)',offset:.5},{transform:'translateX(0)'}],260);
    await Promise.all(hits.map(async(e,index)=>{
     const enemy=$(`[data-enemy="${e.enemy}"]`);if(!enemy)return;
-    const repeat=hits.slice(0,index).some(hit=>hit.enemy===e.enemy),kind=repeat?'counter':action.type==='support'?({lohen:'wind-cleave',durin:'veil',illuga:'night-thrust',jahoda:'venom-mark'})[owner]:action.type==='ultimate'?({lohen:'frost-finisher',durin:'arcane-wave',illuga:'counter',jahoda:'feint'})[owner]:({lohen:'spear',durin:'arcane-wave',illuga:'counter',jahoda:'feint'})[owner]||'spear';
+    const repeat=hits.slice(0,index).some(hit=>hit.enemy===e.enemy),kind=repeat?'counter':action.type==='support'?({lohen:'wind-cleave',durin:'veil',illuga:'night-thrust',jahoda:'venom-mark',kinich:'wind-cleave',lyney:'veil',cyno:'venom-mark'})[owner]:action.type==='ultimate'?({lohen:'frost-finisher',durin:'arcane-wave',illuga:'counter',jahoda:'feint',kinich:'spear',lyney:'arcane-wave',cyno:'frost-finisher'})[owner]:({lohen:'spear',durin:'arcane-wave',illuga:'counter',jahoda:'feint'})[owner]||'spear';
     if(repeat)await wait(this.ms(100));const cue=(action.type==='ultimate'&&ATTACK_SOUNDS[kind+':ult'])||ATTACK_SOUNDS[kind]||ATTACK_SOUNDS.spear;if(index===0)void this.sound(cue[0],{gain:.7});const wing=owner==='durin'&&action.type==='ultimate',visual=wing&&index>0?Promise.resolve():this.effect(kind,wing?source:this.unit(enemy),{from:source,hero:owner,ultimate:action.type==='ultimate',scale:action.type==='ultimate'?1.3:1,strength:action.type==='ultimate'?2:1});await wait(this.ms(90));if(index===0||repeat)void this.sound(cue[1],{gain:repeat ? .6 : 1});this.camera.hit(action.type==='ultimate'?2:repeat ? .5 : .8);enemy.classList.add('enemy-hit');const damageText=this.float(enemy,e.amount);
     const next=state.battle?.enemies.find(n=>n.id===e.enemy);if(next){const bar=enemy.querySelector('.hpbar i');if(bar)bar.style.width=(next.hp/next.maxHp*100)+'%';const label=enemy.querySelector('.enemy-name>b');if(label)label.innerHTML=`${next.hp}<small> / ${next.maxHp}</small>`;}
     await wait(this.ms(120));enemy.classList.remove('enemy-hit');await Promise.all([visual,damageText]);
@@ -107,6 +107,7 @@ export class BattleMotion{
   const departure=plan.played?this.leave(plan.played.uid,plan.played.destination,true):Promise.resolve();
   if(plan.attacks.length){$$('.threat-path').forEach(n=>n.style.opacity='0');this.callout('ENEMY TURN',true);const live={hp:before.hp,shield:before.shield,stress:Object.fromEntries(before.party.map(id=>[id,before.heroes[id].stress]))};for(const group of plan.attacks){const line=$(`[data-threat="${group.enemy}"]`);if(line)line.style.opacity='1';await this.enemyStep(group,live);if(line)line.style.opacity='0';}}
   const special=events.find(e=>e.type==='ultimate'||e.type==='support');if(special)await this.cutin(special.hero,special.type);
+  {const mode=events.find(e=>e.type==='mode');if(mode){if(mode.first&&!events.some(e=>e.type==='card'))await this.cutin('kinich','ultimate');const k=$('[data-ally="kinich"]');if(k){k.classList.remove('mode-flash');void k.offsetWidth;k.dataset.modeFlash=mode.mode;k.classList.add('mode-flash');setTimeout(()=>k.classList.remove('mode-flash'),this.ms(320));}void this.sound('card_flip',{gain:.7,ui:true});}}
   await this.playerEffects(before,action,plan.effects);await departure;
   for(const e of events.filter(e=>e.type==='injury'&&e.stage===3&&(before.heroes[e.hero]?.body[e.part]||0)<3))await this.cutin(e.hero,'injury-'+e.part);
   for(const hero of plan.collapseCutins)await this.cutin(hero,'breakdown');

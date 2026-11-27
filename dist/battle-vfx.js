@@ -20,6 +20,9 @@ export const VFX_COLORS=Object.freeze({
  holy:{core:'#fffdf0',main:'#ffe08a',deep:'#c58a25',spark:'#fff4c4'},
  glint:{core:'#ffffff',main:'#fff3c2',deep:'#ffbf4a',spark:'#ffffff'},
  heal:{core:'#fff8e6',main:'#ffb04a',deep:'#e0521c',spark:'#ffe39a'},
+ jungle:{core:'#f2ffe8',main:'#63e08a',deep:'#127a3a',spark:'#c9ffb0'},
+ show:{core:'#fff2e2',main:'#ff6a4a',deep:'#a81c3a',spark:'#ffd08a',smoke:'#1a0508'},
+ judge:{core:'#f6eaff',main:'#b06bff',deep:'#4a1a9e',spark:'#e0c4ff'},
 });
 const glowCache=new Map(),flameCache=new Map();
 // One pre-rendered flame tongue per colour set; particles only scale and rotate it.
@@ -139,6 +142,9 @@ export function vfxPlan(kind,o={}){
   if(o.hero==='durin')return [{fx:'hellfire',at:'center',cols:C.hellfire,opts:{big:ult}}];
   if(o.hero==='illuga')return [{fx:'slash',at:'center',cols:C.lantern,opts:ult?{r:92,w:34,big:true}:{}}];
   if(o.hero==='jahoda')return [{fx:'kick',at:'center',cols:C.kick,opts:{big:ult}}];
+  if(o.hero==='kinich')return [{fx:'greatsword',at:'center',cols:C.jungle}];
+  if(o.hero==='lyney')return ult?[{fx:'hellfire',at:'center',cols:C.show,opts:{big:true}}]:[{fx:'thrust',at:'center',cols:C.show,from:true}];
+  if(o.hero==='cyno')return ult?[{fx:'thunder',at:'center',cols:C.judge}]:[{fx:'slash',at:'center',cols:C.judge,opts:{}}];
   if(kind==='counter'&&!ult)return [{fx:'kick',at:'center',cols:C.ice,opts:{}}];
   return ult?[{fx:'daggers',at:'center',cols:C.ice,from:true}]:[{fx:'thrust',at:'center',cols:C.ice,from:true}];
  }
@@ -147,7 +153,7 @@ export function vfxPlan(kind,o={}){
  if(kind==='venom-mark')return [{fx:'kick',at:'center',cols:C.venom,opts:{rise:true}},{fx:'mist',at:'center',cols:C.venom,delay:120}];
  if((kind==='guard'||kind==='veil')&&o.shield){if(o.enemy)return [{fx:'shield',at:'body',cols:o.celestial?C.holy:C.abyss,opts:{r:64},hold:300}];
   if(o.hero==='illuga')return [{fx:'lantern',at:'body',cols:C.lantern,hold:300}];
-  return [{fx:'shield',at:'body',cols:kind==='veil'?C.hellfire:o.hero==='durin'?{...C.hellfire,core:'#ffd9b0'}:o.hero==='jahoda'?C.kick:C.ice,hold:300}];}
+  return [{fx:'shield',at:'body',cols:kind==='veil'?C.hellfire:o.hero==='durin'?{...C.hellfire,core:'#ffd9b0'}:o.hero==='jahoda'?C.kick:o.hero==='kinich'?C.jungle:o.hero==='lyney'?C.show:o.hero==='cyno'?C.judge:C.ice,hold:300}];}
  if(kind==='guard-hit')return [{fx:'block',at:'body',flip:!!o.enemy,cols:o.enemy?(o.celestial?C.holy:C.abyss):C.ice}];
  if(kind==='abyss-hit'||kind==='celestial-hit')return [{fx:'enemyHit',at:'center',flip:true,cols:kind==='abyss-hit'?C.abyss:C.holy}];
  if(kind==='abyss-charge'||kind==='celestial-charge')return [{fx:'charge',at:'center',cols:kind==='abyss-charge'?C.abyss:C.holy}];

@@ -519,3 +519,21 @@ button.primary:hover:not(:disabled){filter:none;color:#fff3d6!important;box-shad
 .in-battle .enemy .crack-badge,.in-battle .enemy .wither-badge{margin-left:6px;padding:0 6px;font-style:normal;font-size:10px;font-weight:700;border-radius:2px}
 .in-battle .enemy .crack-badge{color:#ffd2b0;background:rgba(150,52,24,.85)}
 .in-battle .enemy .wither-badge{color:#cfe3ff;background:rgba(40,60,110,.85)}
+/* ---------- v0.36 stage 4: new fighters ---------- */
+.in-battle .fighter .fighter-track{position:absolute;left:50%;bottom:calc(100% + 18px);transform:translateX(-50%);z-index:4;padding:1px 8px;font:700 10px/1.5 inherit;letter-spacing:.03em;white-space:nowrap;color:#eafff2;background:rgba(10,40,28,.9);border:1px solid rgba(110,230,170,.7);pointer-events:none}
+.in-battle .fighter .fighter-track[data-mode="crush"]{color:#fff0dc;background:rgba(60,28,6,.9);border-color:rgba(255,160,70,.8)}
+.in-battle .fighter .fighter-track[data-mode="lantern"]{color:#fff6d8;background:rgba(56,40,6,.9);border-color:rgba(255,210,110,.8)}
+.in-battle .fighter .ajaw-companion{position:absolute;left:calc(50% + 34px);bottom:56%;width:34px;height:auto;image-rendering:pixelated;pointer-events:none;animation:ajawBob 2.4s ease-in-out infinite;z-index:3}
+@keyframes ajawBob{50%{translate:0 -5px}}
+@media (prefers-reduced-motion:reduce){.in-battle .fighter .ajaw-companion{animation:none}}
+.in-battle .ability-button[data-mode="chase"]{box-shadow:inset 0 -2px 0 #4fe0c4}
+.in-battle .ability-button[data-mode="crush"]{box-shadow:inset 0 -2px 0 #ff9c46}
+.in-battle .enemy .aim-badge{margin-left:6px;padding:0 6px;font-style:normal;font-size:10px;font-weight:700;border-radius:2px;color:#e9ffd9;background:rgba(40,110,50,.9)}
+.in-battle .hand-hint .persist-chips{margin-left:10px}
+.in-battle .hand-hint .persist-chips i{display:inline-block;margin-right:6px;padding:0 7px;font-style:normal;font-size:10px;color:#fff;border-left:2px solid var(--accent,#c9a45c);background:rgba(10,12,18,.8)}
+.discard-actions{display:flex;justify-content:center;margin:4px 0 10px}
+.in-battle .fighter.mode-flash .sprite{animation:modeFlash .3s ease-out}
+@keyframes modeFlash{0%{filter:brightness(2.4) drop-shadow(0 0 18px #7dffc0)}100%{filter:none}}
+.in-battle .fighter.mode-flash[data-mode-flash="crush"] .sprite{animation-name:modeFlashCrush}
+@keyframes modeFlashCrush{0%{filter:brightness(2.4) drop-shadow(0 0 18px #ffb060)}100%{filter:none}}
+@media (prefers-reduced-motion:reduce){.in-battle .fighter.mode-flash .sprite{animation:none}}

@@ -20,8 +20,8 @@ test('v0.36 stage 1: damage uses ATK, crit and DEF; shields are personal except 
  const s=qaFixture('battle');s.battle.noCrit=true;s.battle.ap=6;const e=s.battle.enemies[0];e.hp=e.maxHp=9999;e.ward=0;e.hitWard=0;e.vulnerable=0;
  s.battle.hand=[{uid:'a',owner:'lohen',key:'l_strike'},{uid:'g',owner:'lohen',key:'l_guard'},{uid:'w',owner:'illuga',key:'i_guard'}];
  const before=s.heroes.lohen.level;const hit=go(s,{type:'play',uid:'a',target:e.id}).events.find(x=>x.type==='damage');
- const pts=cardInfo(s,{owner:'lohen',key:'l_strike'}).amount+(before-1)*2;assert.equal(hit.amount,Math.round(pts*110/9*defMitigation(e.def)));
- go(s,{type:'play',uid:'g'});assert.equal(s.heroes.lohen.shield,Math.round((7+before-1)*2/7*40));assert.equal(s.heroes.durin.shield,0);
+ assert.equal(hit.amount,Math.round(110*(1+(before-1)*.1)*defMitigation(e.def)));
+ go(s,{type:'play',uid:'g'});assert.equal(s.heroes.lohen.shield,Math.round(40*2*(1+(before-1)*.1)));assert.equal(s.heroes.durin.shield,0);
  go(s,{type:'play',uid:'w'});assert.ok(s.party.every(id=>s.heroes[id].shield>0));assert.equal(s.shield,s.party.reduce((n,id)=>n+s.heroes[id].shield,0));
 });
 

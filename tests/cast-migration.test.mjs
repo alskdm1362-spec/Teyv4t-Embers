@@ -38,5 +38,5 @@ test('cast artwork retains non-collapse cutins and resolves replacement collapse
   const key=Object.keys(CARDS).find(k=>CARDS[k].owner===id);assert.match(cardArtwork(id,{cost:1},key),/skill-/);assert.match(cardArtwork(id,{upgraded:true},key),/skill-/);assert.match(cardArtwork(id,{breakdown:true,breakdownType:'frenzy',failures:4},key),/collapse-2/);
  }
  for(const a of manifest.assets){const bytes=fs.readFileSync(new URL(a.path,root));assert.equal(bytes.length,a.bytes);assert.equal(crypto.createHash('sha256').update(bytes).digest('hex'),a.sha256);}
- assert.equal(resolved.size,40);assert.equal(createGame().version,3);
+ assert.equal(resolved.size,64);assert.equal(createGame().version,3);
 });
