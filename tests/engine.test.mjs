@@ -179,7 +179,7 @@ test('ultimate validates target and gauge atomically and rejects retired or coll
 test('Durin ultimate hits all enemies while Illuga ultimate sets shield and a real counter',()=>{
  const s=toBase(['durin','illuga']);action(s,{type:'farm'});s.support=6;
  const hp=s.battle.enemies.map(e=>e.hp);action(s,{type:'ultimate',hero:'durin'});assert.ok(s.battle.enemies.every((e,i)=>e.hp<hp[i]));
- action(s,{type:'ultimate',hero:'illuga'});assert.equal(s.shield,3*Math.round(25*2/7*80/3));assert.ok(s.party.every(id=>s.heroes[id].shield>0));assert.equal(s.heroes.illuga.buffs.counterReady,12);action(s,{type:'endTurn'});assert.equal(s.heroes.illuga.buffs.counter,12);
+ action(s,{type:'ultimate',hero:'illuga'});assert.equal(s.shield,3*Math.round(25*2/7*80/3));assert.ok(s.party.every(id=>s.heroes[id].shield>0));assert.ok(s.party.every(id=>s.heroes[id].buffs.reflect===12));for(const e of s.battle.enemies)if(e.intent?.damage)e.intent.damage=1;const end=action(s,{type:'endTurn'});assert.ok(end.events.some(e=>e.type==='reflect'));
 });
 
 test('Jahoda ultimate caps AP at six, draws two without discard, and resets only next battle',()=>{
@@ -191,7 +191,7 @@ test('Jahoda ultimate caps AP at six, draws two without discard, and resets only
 test('card descriptions show upgraded numeric effects and B branches have actual benefits',()=>{
  const s=toBase(['durin','jahoda']);s.heroes.lohen.upgrades.l_strike='A';let info=cardInfo(s,{owner:'lohen',key:'l_strike'});assert.equal(info.amount,13);assert.match(info.desc,/피해 144%/);assert.doesNotMatch(info.desc,/피해 100%/);
  s.heroes.lohen.upgrades.l_guard='B';info=cardInfo(s,{owner:'lohen',key:'l_guard'});assert.equal(info.amount,6);assert.match(info.desc,/보호막 171%/);assert.match(info.desc,/다음 자신의 공격 피해 \+56%/);
- s.heroes.jahoda.upgrades.j_strike='B';action(s,{type:'farm'});const all=[...s.battle.hand,...s.battle.draw];const c=all.find(c=>c.key==='j_strike');s.battle.draw=s.battle.draw.filter(x=>x.uid!==c.uid);if(!s.battle.hand.some(x=>x.uid===c.uid))s.battle.hand.push(c);const shield=s.shield;action(s,{type:'play',uid:c.uid,target:s.battle.enemies[0].id});assert.equal(s.shield,shield);assert.equal(s.battle.enemies[0].vulnerable,1);
+ s.heroes.jahoda.upgrades.j_strike='B';action(s,{type:'farm'});const all=[...s.battle.hand,...s.battle.draw];const c=all.find(c=>c.key==='j_strike');s.battle.draw=s.battle.draw.filter(x=>x.uid!==c.uid);if(!s.battle.hand.some(x=>x.uid===c.uid))s.battle.hand.push(c);const shield=s.shield;action(s,{type:'play',uid:c.uid,target:s.battle.enemies[0].id});assert.equal(s.shield,shield);assert.equal(s.battle.enemies[0].crack,2);
 });
 test('attack-focused starter pools keep one defense while preserving four cards per owner',()=>{
  const s=toBase(['durin','illuga']);action(s,{type:'farm'});const cards=[...s.battle.hand,...s.battle.draw];
