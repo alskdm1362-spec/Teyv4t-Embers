@@ -16,7 +16,7 @@ function oneHit(pct,shieldPct){const s=qaFixture('battle'),damage=Math.round(pct
 test('v0.36: an unblocked hit adds +5 (normal), +10 (elite) or +15 (boss) stress, counted at most twice per turn; blocked hits add none',()=>{
  {const s=qaFixture('battle');for(const id of s.party)s.heroes[id].shield=0;for(const h of Object.values(s.heroes)){h.stress=0;h.equipment.accessory=null;}const e0=s.battle.enemies[0];s.battle.enemies=[0,1,2].map(i=>({...e0,id:'t'+i,hp:9999,maxHp:9999,stun:0,intent:{name:'시험',damage:30,stress:0,target:'lohen',tag:'시험'}}));go(s,{type:'endTurn'});assert.equal(s.heroes.lohen.stress,10);}
  {const s=qaFixture('battle');s.encounterType='elite';for(const id of s.party)s.heroes[id].shield=0;for(const h of Object.values(s.heroes)){h.stress=0;h.equipment.accessory=null;}const e0=s.battle.enemies[0];s.battle.enemies=[{...e0,id:'t0',hp:9999,maxHp:9999,stun:0,intent:{name:'시험',damage:30,stress:0,target:'lohen',tag:'시험'}},{...e0,id:'t1',kind:'keeper',hp:9999,maxHp:9999,stun:0,intent:{name:'시험',damage:30,stress:0,target:'durin',tag:'시험'}}];go(s,{type:'endTurn'});assert.equal(s.heroes.lohen.stress,10);assert.equal(s.heroes.durin.stress,15);}
- const hit=oneHit(12,0);assert.equal(hit.heroes.lohen.stress,5);assert.equal(hit.heroes.lohen.scar,Math.round(12*hit.maxHp/100));assert.equal(hit.heroes.durin.stress,0);
+ const hit=oneHit(12,0);assert.equal(hit.heroes.lohen.stress,5);assert.equal(hit.heroes.lohen.scar,Math.round(12*hit.maxHp/100)%210);assert.equal(hit.heroes.durin.stress,0);
  const blocked=oneHit(12,20);assert.equal(blocked.heroes.lohen.stress,0);
  const partial=oneHit(12,8);assert.equal(partial.heroes.lohen.stress,5);
 });

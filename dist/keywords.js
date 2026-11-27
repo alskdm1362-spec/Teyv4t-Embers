@@ -25,7 +25,7 @@ export const EMBER_TERMS={
  track:{name:'추적흔',kind:'키니치 전용',desc:'연타 1타마다 1(최대 10). 분쇄 카드가 소모'},
  aim:{name:'조준점',kind:'타이나리 전용',desc:'붙은 적에게 사이노 치명확률 +30%'},
  solar:{name:'태양화',kind:'알베도 전용',desc:'협공 발동마다 1. 3이 되면 강화 협공'},
- scar:{name:'상흔',kind:'부상 누적',desc:'개인이 받은 HP 피해 누적. 최대 HP의 25%에 닿으면 부상 이벤트'},
+ scar:{name:'상흔',kind:'부상 누적',desc:'개인이 받은 HP 피해 누적. 개인 최대 HP의 절반에 닿으면 부상 룰렛'},
  stress:{name:'정신부담',kind:'기존 유지',desc:'초상화 옆 이름 아래 게이지. 가득 차면 정신 붕괴'},
 };
 export const CRACK_MAX=5,CRACK_PER_STACK=.08,WITHER_RATE=.25,HAND_LIMIT=10,HAND_WARN=9;

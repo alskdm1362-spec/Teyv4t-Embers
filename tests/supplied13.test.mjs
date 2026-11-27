@@ -6,8 +6,7 @@ import {CAST_VFX,shieldEffect,suppliedEffect,hasPartyCollapse,blindnessTransitio
 import {galleryItems,ALLIES} from '../dist/archive-ui.js';
 import {surfaceMarkup} from '../dist/menu-ui.js';
 import {qaFixture,qaApplyCondition} from '../dist/qa-fixtures.js';
-import {PolyhedralDiceEngine} from '../dist/vendor/polyhedral-dice.js';
-const THREE=globalThis.THREE;
+import {FACES,VERTS,faceRotation,rollPose,rollHeight,impactTimes,ROLL_MS,FAST_MS} from '../dist/dice.js';
 test('supplied cast attacks and shields keep authored sky, gold, cyan/pink and dark red families',()=>{
  assert.deepEqual(Object.values(CAST_VFX).map(x=>x.guard),['guardSky','guardGold','guardCyanPink','guardDarkRed']);
  for(const [hero,d] of Object.entries(CAST_VFX)){assert.equal(suppliedEffect('spear',{hero}),d.attack);assert.equal(suppliedEffect('spear',{hero,ultimate:true}),d.ultimate);assert.equal(suppliedEffect('guard',{hero,shield:true}),d.guard);for(const kind of ['guard','guard-hit','veil'])assert.ok(!['guardWhite','guardPinkPurple'].includes(suppliedEffect(kind,{hero,shield:true})));}
@@ -27,14 +26,26 @@ test('standing art is one gallery entry with normal/collapse variants; partners 
  for(const a of ALLIES){const items=galleryItems(a.hero,a.partner);assert.ok(!items.some(i=>['battle','battleCollapsed','collapse-standing'].includes(i.id)));const standing=items.find(i=>i.id==='standing');if(a.partner)assert.equal(standing.variants,undefined);else{assert.deepEqual(standing.variants.map(v=>v.name),['기본','붕괴']);for(const v of standing.variants)assert.ok(fs.existsSync(new URL('../dist/'+v.src,import.meta.url)));}}
  const html=surfaceMarkup('확대','<img alt="원본">','media-viewer');assert.ok(html.includes('aria-modal="true"'));assert.ok(!html.includes('<header'));assert.ok(!html.includes('modern-surface'));
 });
-function dice(){const e=Object.create(PolyhedralDiceEngine.prototype);Object.assign(e,{dice:[],scene:new THREE.Scene(),camera:new THREE.PerspectiveCamera(28,2,.5,60),sound:{init(){},playImpact(){}},isRolling:false,materialCache:new Map(),onRollStart(){},onRollComplete(){}});e.camera.position.set(0,0,16);e._createFaceMaterial=()=>new THREE.MeshStandardMaterial();return e;}
-test('all supplied polyhedra align every labeled face upright toward camera',()=>{
- const e=dice();for(const type of ['d4','d6','d8','d10','d12','d20']){const d=e._buildDieMesh(type);assert.equal(d.faceTargets.length,Number(type.slice(1)));for(const face of d.faceTargets){const q=e._quatForFace(face),normal=face.normal.clone().applyQuaternion(q),up=face.tangentV.clone().applyQuaternion(q),right=face.tangentU.clone().applyQuaternion(q);assert.ok(normal.distanceTo(new THREE.Vector3(0,0,1))<1e-6,type+face.value);assert.ok(up.distanceTo(new THREE.Vector3(0,1,0))<1e-6);assert.ok(right.distanceTo(new THREE.Vector3(1,0,0))<1e-6);}}
+const apply=(m,v)=>m.map(r=>r[0]*v[0]+r[1]*v[1]+r[2]*v[2]),near=(a,b)=>a.every((x,i)=>Math.abs(x-b[i])<1e-9);
+test('the library-free d20 has twenty numbered faces, opposite faces sum to 21, and every face can stand upright toward the viewer',()=>{
+ assert.equal(VERTS.length,12);assert.deepEqual(FACES.map(f=>f.value),Array.from({length:20},(_,i)=>i+1));
+ for(const f of FACES){const back=FACES.find(o=>o.normal.every((x,i)=>Math.abs(x+f.normal[i])<1e-9));assert.equal(f.value+back.value,21);
+  const m=faceRotation(f.value);assert.ok(near(apply(m,f.normal),[0,0,1]),'normal '+f.value);assert.ok(near(apply(m,f.up),[0,1,0]));assert.ok(near(apply(m,f.right),[1,0,0]));
+  const det=m[0][0]*(m[1][1]*m[2][2]-m[1][2]*m[2][1])-m[0][1]*(m[1][0]*m[2][2]-m[1][2]*m[2][0])+m[0][2]*(m[1][0]*m[2][1]-m[1][1]*m[2][0]);assert.ok(Math.abs(det-1)<1e-9);}
 });
-test('supplied d20 physics settles exactly on each committed 1–20 result and calls completion once',()=>{
- const e=dice();let complete=0,result;e.onRollComplete=r=>{complete++;result=r[0].value;};for(let value=1;value<=20;value++){e.roll([{type:'d20',targetValue:value}]);for(let i=0;i<1000&&e.isRolling;i++)e._stepPhysics(1/60);assert.equal(e.isRolling,false);assert.equal(result,value);assert.equal(complete,value);const d=e.dice[0];assert.ok(d.mesh.quaternion.angleTo(d.targetQuat)<1e-6);assert.ok(d.pos.distanceTo(d.targetPos)<1e-6);e._stepPhysics(.04);assert.equal(complete,value);}
+test('the d20 roll is thrown, bounces twice, slows, then clicks onto the committed face within a second',()=>{
+ assert.ok(ROLL_MS<=1000);assert.ok(FAST_MS<ROLL_MS/3);const hits=impactTimes();assert.equal(hits.length,3);
+ assert.equal(rollHeight(0),1);for(const t of hits)assert.ok(rollHeight(t)<1e-9);assert.ok(rollHeight((hits[0]+hits[1])/2)>.3);assert.ok(rollHeight((hits[1]+hits[2])/2)>.1&&rollHeight((hits[1]+hits[2])/2)<rollHeight((hits[0]+hits[1])/2));assert.equal(rollHeight(.95),0);
+ for(let value=1;value<=20;value++){const end=rollPose(1,value),f=FACES[value-1];assert.ok(near(apply(end.rotation,f.normal),[0,0,1]),'front '+value);assert.ok(near(apply(end.rotation,f.up),[0,1,0]));assert.equal(end.height,0);assert.ok(Math.abs(end.x)<1e-9);assert.ok(end.done);
+  const rest=rollPose(.86,value),tilt=Math.acos(Math.min(1,apply(rest.rotation,f.normal)[2]));assert.ok(tilt>.1&&tilt<.4,'the face rests a little off before the click');
+  const start=rollPose(0,value);assert.ok(start.x<-.5&&start.height===1);}
+ const turn=(a,b)=>{const m=rollPose(a,7).rotation,n=rollPose(b,7).rotation;return Math.acos(Math.max(-1,Math.min(1,(m[0][0]*n[0][0]+m[0][1]*n[0][1]+m[0][2]*n[0][2]+m[1][0]*n[1][0]+m[1][1]*n[1][1]+m[1][2]*n[1][2]+m[2][0]*n[2][0]+m[2][1]*n[2][1]+m[2][2]*n[2][2]-1)/2)));};
+ assert.ok(turn(.05,.1)>turn(.6,.65)&&turn(.6,.65)>turn(.8,.85),'spin slows down');
 });
-
+test('the game no longer ships a 3D library for the dice',()=>{
+ assert.ok(!fs.existsSync(new URL('../dist/vendor/three-r128.min.js',import.meta.url)));assert.ok(!fs.existsSync(new URL('../dist/vendor/polyhedral-dice.js',import.meta.url)));
+ const src=fs.readFileSync(new URL('../dist/dice.js',import.meta.url),'utf8');assert.ok(!/import\s/.test(src));assert.ok(src.length<12000);
+});
 test('atmosphere keeps a single canvas, stops when the last party collapse clears, and resumes after visibility',()=>{
  const keys=['document','window','innerWidth','innerHeight','requestAnimationFrame','cancelAnimationFrame','GameVFXManager','GameVFXRenderers'];const old=Object.fromEntries(keys.map(k=>[k,Object.getOwnPropertyDescriptor(globalThis,k)]));const events={},canvases=[];let frame=0,cancelled=0,short=false;
  try{globalThis.GameVFXManager=class{};globalThis.GameVFXRenderers={};globalThis.innerWidth=844;globalThis.innerHeight=390;globalThis.document={hidden:false,createElement(){const n={style:{},dataset:{},isConnected:true,setAttribute(){},remove(){this.isConnected=false;}};canvases.push(n);return n;},body:{append(){}},querySelector(){return null;},addEventListener(k,fn){events[k]=fn;},removeEventListener(){}};globalThis.window={addEventListener(){},removeEventListener(){}};globalThis.requestAnimationFrame=()=>++frame;globalThis.cancelAnimationFrame=()=>cancelled++;
@@ -43,4 +54,4 @@ test('atmosphere keeps a single canvas, stops when the last party collapse clear
  }finally{for(const key of keys)if(old[key])Object.defineProperty(globalThis,key,old[key]);else delete globalThis[key];}
 });
 
-test('supplied originals and pinned Three distribution retain recorded source hashes',()=>{const record=JSON.parse(fs.readFileSync(new URL('../references/supplied/provenance.json',import.meta.url)));for(const [path,hash] of Object.entries(record.files))assert.equal(crypto.createHash('sha256').update(fs.readFileSync(new URL('../'+path,import.meta.url))).digest('hex'),hash,path);});
+test('supplied originals retain recorded source hashes',()=>{const record=JSON.parse(fs.readFileSync(new URL('../references/supplied/provenance.json',import.meta.url)));for(const [path,hash] of Object.entries(record.files))assert.equal(crypto.createHash('sha256').update(fs.readFileSync(new URL('../'+path,import.meta.url))).digest('hex'),hash,path);});

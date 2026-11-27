@@ -26,7 +26,7 @@ function turn(s){
   if(i.xCost)value=b.ap>=2?60:-100;
   return {...x,value};
  }).sort((a,b)=>b.value-a.value);
- if(cards[0]?.value>0){const {c,i}=cards[0];action(s,{type:'play',uid:c.uid,target:i.target==='ally'?s.party[0]:target.id});return;}
+ if(cards[0]?.value>0){const {c,i}=cards[0];action(s,{type:'play',uid:c.uid,target:i.target==='ally'?s.party.find(id=>!s.heroes[id].retired):target.id});return;}
  action(s,{type:'endTurn'});
 }
 

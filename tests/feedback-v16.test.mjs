@@ -71,6 +71,7 @@ test('v0.16 predictCardEffect accurately predicts lethal kill, no echo, and inju
  // Injury penalty flag
  applyInjury(s, atkCard.owner, 'rightArm');
  applyInjury(s, atkCard.owner, 'rightArm');
+ applyInjury(s, atkCard.owner, 'rightArm');
  const predInj = predictCardEffect(s, atkCard.uid, enemy.id);
  assert.equal(predInj.injured, true);
  assert.ok(predInj.injuryPct < 100);
