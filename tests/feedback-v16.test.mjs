@@ -113,7 +113,7 @@ test('v0.16 breakdown recovery grants awaken buff and triggers partner passives'
  assert.equal(hAfter.stress, 40);
  assert.equal(hAfter.buffs.awaken, 6);
  // Varka passive (+4 shield) & Albedo passive (+1 AP, since durin is in party)
- assert.equal(s.shield, shieldBefore + 4);
+ assert.equal(s.shield, shieldBefore + Math.round(4*2/7*40));
  assert.equal(s.battle.ap, Math.min(6, apBefore - 1 + 1));
  assert.ok(PARTNER_PASSIVES.varka && PARTNER_PASSIVES.albedo && PARTNER_PASSIVES.flins && PARTNER_PASSIVES.nefer);
 });

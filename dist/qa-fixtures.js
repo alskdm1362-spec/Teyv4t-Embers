@@ -9,7 +9,7 @@ export function qaFixture(kind,{seed=20261122,hero='lohen',pair=['durin','illuga
  const choices=[...new Set(pair.filter(id=>['durin','illuga','jahoda'].includes(id)))];for(const id of ['durin','illuga','jahoda'])if(choices.length<2&&!choices.includes(id))choices.push(id);
  if(hero!=='lohen'&&!choices.includes(hero))choices[1]=hero;
  if(['arrival','joinDialogue'].includes(kind)&&hero!=='lohen'){choices[0]=hero;}go(s,{type:'recruit',hero:choices[0]});if(kind==='arrival')return s;go(s,{type:'ackRecruit'});if(kind==='joinDialogue')return s;while(s.phase==='joinDialogue')go(s,{type:'joinNext'});if(kind==='partner')return s;go(s,{type:'skipTutorial'});if(kind==='recruitTalk2')return s;go(s,{type:'skipRecruitDialogue'});if(kind==='recruit2')return s;go(s,{type:'recruit',hero:choices[1]});go(s,{type:'ackRecruit'});while(s.phase==='joinDialogue')go(s,{type:'joinNext'});
- s.gold=250;s.hp=76;s.support=6;for(const h of Object.values(s.heroes)){h.level=2;h.xp=8;h.stress=35;}
+ s.gold=250;s.hp=Math.round(s.maxHp*.76);s.support=6;for(const h of Object.values(s.heroes)){h.level=2;h.xp=8;h.stress=35;}
  if(kind==='equipment'){s.inventory=['emberLance'];s.pendingEquip=['emberLance'];return s;}
  if(kind==='loot'){s.phase='reward';s.lastReward={gold:24,xp:10,pending:true,...rollLoot(s,true),upgradeOffer:makeUpgradeOffer(s,'loot','travel')};return s;}if(kind==='eventRemove'){s.phase='event';s.eventOffer=JSON.parse(JSON.stringify(EVENTS[1]));go(s,{type:'event',choice:'remove'});return s;}
  if(kind==='refine'){s.upgradeOffer=makeUpgradeOffer(s,'qa','travel');s.phase='refine';return s;}if(kind==='care'){s.heroes[hero].breakdown={type:breakdown,failures:Math.max(0,Math.min(10,Number(failures)||0))};s.heroes[hero].stress=100;}if(kind==='lateBase'){s.node=11;s.selectedStage=null;s.baseId='route-11';s.careUsed=false;}
@@ -23,7 +23,7 @@ export function qaFixture(kind,{seed=20261122,hero='lohen',pair=['durin','illuga
  if(kind==='special'){s.heroes.durin.acquired=['d_charge'];s.heroes.jahoda.acquired=['j_draw'];}
  if(kind==='boss')s.node=ROUTE.length-1;go(s,{type:kind==='boss'?'challenge':'farm'});
  if(kind==='boss')return s;
- if(kind==='awakening'){s.rng=2100;for(const e of s.battle.enemies)e.hp=e.maxHp=90;}
+ if(kind==='awakening'){s.rng=2103;for(const e of s.battle.enemies)e.hp=e.maxHp=900;}
  if(kind==='special'){s.heroes.durin.upgrades.d_charge='D';s.heroes.jahoda.upgrades.j_draw='D';const all=[...s.battle.hand,...s.battle.draw];const keep=all.filter(c=>['d_charge','j_draw'].includes(c.key));s.battle.hand=[...keep,...all.filter(c=>!keep.includes(c)).slice(0,3)];const uids=new Set(s.battle.hand.map(c=>c.uid));s.battle.draw=all.filter(c=>!uids.has(c.uid));}
  if(['eyesSerious','eyesLoss'].includes(kind))s.heroes[hero].body.eyes=kind==='eyesLoss'?3:2;
  if(['collapse','collapseStep'].includes(kind)){s.heroes[hero].stress=100;s.heroes[hero].breakdown={type:breakdown,failures:kind==='collapseStep'?3:Math.max(0,Math.min(10,Number(failures)||0))};}

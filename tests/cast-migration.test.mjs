@@ -11,7 +11,7 @@ const command=(s,a)=>{const r=act(s,a);assert.ok(r.ok,r.error);return r;};
 test('v0.4 saves migrate live combat and checkpoint without losing growth, wounds, RNG or targets',()=>{
  const old=JSON.parse(fixture),s=hydrate(fixture);
  assert.equal(s.version,3);assert.deepEqual(s.party,['lohen','durin','illuga']);assert.equal(HEROES.mitya,undefined);
- assert.deepEqual([s.hp,s.gold,s.rng,s.support,s.retries,s.temporal],[old.hp,old.gold,old.rng,old.support,old.retries,old.temporal]);
+ assert.deepEqual([s.hp,s.gold,s.rng,s.support,s.retries,s.temporal],[Math.round(old.hp/100*s.maxHp),old.gold,old.rng,old.support,old.retries,old.temporal]);assert.equal(s.maxHp,420+400+560);
  const h=s.heroes.durin;assert.equal(h.level,3);assert.equal(h.xp,25);assert.equal(h.body.leftArm,2);assert.equal(h.breakdown.failures,10);assert.equal(h.upgrades.d_wave,'B');assert.equal(h.equipment.weapon,'plainSpear');
  assert.equal(s.battle.hand[0].owner,'durin');assert.ok(CARDS[s.battle.hand[0].key]);assert.equal(s.battle.ultimates.durin,true);assert.equal(s.battle.enemies[0].observed,'durin');assert.equal(s.battle.enemies[0].intent.target,'durin');
  assert.ok(s.collection.cutins.includes('support-albedo'));assert.ok(s.collection.cutins.includes('ultimate-durin'));assert.deepEqual(s.collection.endings,['first-front']);
@@ -23,7 +23,7 @@ test('migrated collapse can recover; Albedo support and checkpoint restore remai
  const s=hydrate(fixture),hp=s.hp;command(s,{type:'play',uid:s.battle.hand[0].uid});assert.equal(s.heroes.durin.breakdown,null);assert.equal(s.heroes.durin.stress,40);assert.equal(s.hp,hp);
  s.heroes.durin.retired=true;s.heroes.durin.breakdown={type:'panic',failures:2};s.support=6;
  const r=command(s,{type:'support',hero:'durin'});assert.ok(r.events.some(e=>e.partner==='albedo'));assert.equal(s.heroes.durin.retired,true);assert.equal(s.heroes.durin.breakdown.type,'panic');assert.equal(s.support,4);
- s.phase='defeat';s.hp=0;command(s,{type:'restart'});assert.equal(s.hp,57);assert.equal(s.heroes.durin.body.leftArm,2);assert.equal(s.heroes.durin.upgrades.d_wave,'B');assert.equal(s.heroes.durin.breakdown.failures,10);assert.equal(s.retries,3);
+ s.phase='defeat';s.hp=0;command(s,{type:'restart'});assert.equal(s.hp,Math.round(.57*1380));assert.equal(s.heroes.durin.body.leftArm,2);assert.equal(s.heroes.durin.upgrades.d_wave,'B');assert.equal(s.heroes.durin.breakdown.failures,10);assert.equal(s.retries,3);
 });
 
 test('cast artwork retains non-collapse cutins and resolves replacement collapse stages',()=>{

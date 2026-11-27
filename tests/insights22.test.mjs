@@ -9,8 +9,8 @@ import {sortSceneDepth} from '../dist/scene-interactions.js';
 const go=(s,a)=>{const r=act(s,a);assert.ok(r.ok,r.error);return r;};
 function battle(key,branch=null){
  const owner=CARDS[key].owner,s=createGame(38,{tutorial:false});s.party=[...new Set(['lohen',owner,...['durin','illuga','jahoda'].filter(x=>x!==owner)])].slice(0,3);s.phase='base';s.node=7;go(s,{type:'farm'});
- s.hp=50;s.shield=30;s.support=0;s.battle.ap=6;s.battle.hand=[{uid:'one',owner,key}];s.battle.draw=[];s.battle.discard=[];s.battle.exhaust=[];
- for(const e of s.battle.enemies){e.kind='hound';e.hp=e.maxHp=500;e.ward=0;e.hitWard=0;}
+ s.hp=Math.round(s.maxHp*.5);for(const id of s.party)s.heroes[id].shield=0;s.shield=0;s.support=0;s.battle.ap=6;s.battle.noCrit=true;s.battle.hand=[{uid:'one',owner,key}];s.battle.draw=[];s.battle.discard=[];s.battle.exhaust=[];
+ for(const e of s.battle.enemies){e.kind='hound';e.hp=e.maxHp=5000;e.ward=0;e.hitWard=0;}
  if(branch)s.heroes[owner].upgrades[key]=branch;return s;
 }
 function play(s,uid='one'){const c=s.battle.hand.find(x=>x.uid===uid),d=cardInfo(s,c);return go(s,{type:'play',uid,target:d.target==='ally'?'lohen':s.battle.enemies[0].id});}
@@ -22,14 +22,14 @@ test('all 28 ordinary cards have four distinct tactics and every branch resolves
  }
 });
 test('pierce forecast includes all insight pressure, leaves state untouched, and matches damage',()=>{
- const s=battle('l_pierce','A');s.battle.enemies[0].ward=14;const before=serialize(s),enemy=s.battle.enemies[0].id,p=predictCardEffect(s,'one',enemy);
- assert.equal(serialize(s),before);assert.equal(p.enemies[enemy].damage,17);assert.equal(p.enemies[enemy].wardBroken,true);assert.match(cardInfo(s,s.battle.hand[0]).desc,/장막 추가 압박 8/);
- const result=play(s);assert.equal(result.events.find(e=>e.type==='damage').amount,17);assert.equal(s.battle.enemies[0].hp,483);
+ const s=battle('l_pierce','A');s.battle.enemies[0].ward=140;const before=serialize(s),enemy=s.battle.enemies[0].id,p=predictCardEffect(s,'one',enemy);
+ assert.equal(serialize(s),before);assert.equal(p.enemies[enemy].damage,214);assert.equal(p.enemies[enemy].wardBroken,true);assert.match(cardInfo(s,s.battle.hand[0]).desc,/장막 추가 압박 89%/);
+ const result=play(s);assert.equal(result.events.find(e=>e.type==='damage').amount,214);assert.equal(s.battle.enemies[0].hp,4786);
 });
 test('shield conversion, healing and block-triggered counter have different payoffs',()=>{
- const attack=battle('i_strike','B');assert.equal(predictCardEffect(attack,'one',attack.battle.enemies[0].id).enemies[attack.battle.enemies[0].id].damage,15);assert.equal(play(attack).events.find(e=>e.type==='damage').amount,15);
- const heal=battle('i_guard','C');heal.battle.hand.push({uid:'two',owner:'illuga',key:'i_guard'});play(heal);assert.equal(heal.hp,54);assert.equal(heal.shield,38);play(heal,'two');assert.equal(heal.hp,54);assert.equal(heal.shield,46);
- const counter=battle('i_guard','B');play(counter);go(counter,{type:'endTurn'});assert.equal(counter.heroes.illuga.buffs.counter,8);counter.battle.hand=[{uid:'after',owner:'illuga',key:'i_strike'}];const foe=counter.battle.enemies[0].id,forecast=predictCardEffect(counter,'after',foe);assert.equal(forecast.enemies[foe].damage,15);const r=play(counter,'after');assert.deepEqual(r.events.filter(e=>e.type==='damage').map(e=>e.amount),[7,8]);
+ const attack=battle('i_strike','B');attack.heroes.illuga.shield=300;attack.shield=300;assert.equal(predictCardEffect(attack,'one',attack.battle.enemies[0].id).enemies[attack.battle.enemies[0].id].damage,114);assert.equal(play(attack).events.find(e=>e.type==='damage').amount,114);
+ const heal=battle('i_guard','C');heal.battle.hand.push({uid:'two',owner:'illuga',key:'i_guard'});const hp0=heal.hp;play(heal);assert.equal(heal.hp,hp0+Math.round(heal.maxHp*.04));assert.equal(heal.shield,183);play(heal,'two');assert.equal(heal.hp,hp0+Math.round(heal.maxHp*.04));assert.equal(heal.shield,366);
+ const counter=battle('i_guard','B');play(counter);go(counter,{type:'endTurn'});assert.equal(counter.heroes.illuga.buffs.counter,8);counter.battle.hand=[{uid:'after',owner:'illuga',key:'i_strike'}];const foe=counter.battle.enemies[0].id,forecast=predictCardEffect(counter,'after',foe);assert.equal(forecast.enemies[foe].damage,114);const r=play(counter,'after');assert.deepEqual(r.events.filter(e=>e.type==='damage').map(e=>e.amount),[53,61]);
 });
 test('zero-cost self-redraw cannot cycle beyond one proc for the same card name per turn',()=>{
  const s=battle('l_strike','C');s.heroes.lohen.sparks.l_strike='ember_cost';s.battle.ap=0;
@@ -43,7 +43,7 @@ test('duplicate cards share draw/refund limits and an Ember draw limit is shared
 });
 test('Durin generates a distinct disposable AOE and only one such card per battle',()=>{
  const s=battle('d_charge','D');s.battle.hand.push({uid:'two',owner:'durin',key:'d_charge'});const before=hydrate(serialize(s)),r=play(s),generated=s.battle.hand.find(c=>c.key==='d_resonance');assert.ok(generated);assert.ok(presentationPlan(before,s,{type:'play'},r.events).drawn.includes(generated.uid));
- play(s,'two');assert.equal(s.battle.hand.filter(c=>c.key==='d_resonance').length,1);const hit=play(s,generated.uid);assert.deepEqual(hit.events.filter(e=>e.type==='damage').map(e=>e.amount),[16,16]);assert.ok(s.battle.exhaust.some(c=>c.uid===generated.uid));assert.ok(s.battle.enemies.every(e=>e.vulnerable===1));assert.ok(!ownedDeck(s,'durin').some(c=>c.key==='d_resonance'));
+ play(s,'two');assert.equal(s.battle.hand.filter(c=>c.key==='d_resonance').length,1);const hit=play(s,generated.uid);assert.deepEqual(hit.events.filter(e=>e.type==='damage').map(e=>e.amount),[154,154]);assert.ok(s.battle.exhaust.some(c=>c.uid===generated.uid));assert.ok(s.battle.enemies.every(e=>e.vulnerable===1));assert.ok(!ownedDeck(s,'durin').some(c=>c.key==='d_resonance'));
 });
 test('Jahoda generates a utility card with draw/discard and support; generated cards cannot be upgraded',()=>{
  const s=battle('j_draw','D');play(s);const c=s.battle.hand.find(c=>c.key==='j_dossier');assert.ok(c);s.battle.draw=[{uid:'d1',owner:'lohen',key:'l_strike'},{uid:'d2',owner:'lohen',key:'l_strike'}];const support=s.support;play(s,c.uid);assert.equal(s.support,support+1);assert.equal(s.battle.chooseDiscard,1);assert.ok(s.battle.exhaust.some(x=>x.uid===c.uid));
