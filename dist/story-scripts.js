@@ -25,3 +25,23 @@ Object.assign(CARE_SCRIPT,{
  lyney:[line('lynette','오빠. 숨.'),line('lyney','…하하, 들켰네. 웃는 얼굴이 잘 안 만들어져서.'),line('lynette','지금은 무대가 아니야. 안 웃어도 돼.'),line('lyney','…고마워, 리넷.',{normal:true})],
  cyno:[line('tighnari','사이노, 내 말 들려? 숫자 세면서 숨 쉬어.'),line('cyno','…셋. 넷.'),line('tighnari','그래, 그 정도면 됐어. 이번엔 농담도 들어 줄게.'),line('cyno','…그 약속, 기억해 두지.',{normal:true})],
 });
+
+// v0.36 8단계: 프롤로그 대본(나모 님 원문). scene 은 화면, speaker 가 없으면 이름을 띄우지 않는다.
+// noise: 통신이 불안정한 구간. "드디어 연결됐네!"부터 또렷해진다.
+export const PROLOGUE=[
+ {scene:'black',text:'……'},
+ {scene:'black',text:'…… 아'},
+ {scene:'radio',speaker:'???',noise:true,text:'…, … 셋'},
+ {scene:'radio',speaker:'???',noise:true,text:'마이크 테스트~, 하나 둘 셋.'},
+ {scene:'radio',speaker:'???',text:'아, 드디어 연결됐네!'},
+ {scene:'radio',speaker:'앨리스',text:'모두가 보고 싶어할 앨리스 아줌마란다!'},
+ {scene:'city',speaker:'앨리스',text:'길게 설명해주고 싶지만 성토화의 영향으로 보급형 도도통신기로는 한계가 있으니까 짧게 말할게.'},
+ {scene:'city',speaker:'앨리스',text:'어느정도 소강 상태에 이르렀지만 아직도 각지에서 마물들이 나타나고 있어.'},
+ {scene:'city',speaker:'앨리스',text:'그 중에서 정신에 간섭을 하는 위험한 마물들이 흘러나오는 공간의 소탕을 네가 맡아주면 해.'},
+ {scene:'city',speaker:'앨리스',text:'……… 라고~, 바르카가 전해달라고 했었지?'},
+ {scene:'city',speaker:'앨리스',text:'클레의 좋은 오빠가 되어주고 있는 네가 그런 위험한 곳에 가는 건 솔직히 말해 반대하고 싶지만~.'},
+ {scene:'city',speaker:'앨리스',text:'이런 임무라도 주지 않는다면 분명 아무런 준비도 없이 혼자 쳐들어가버릴거라 했어.'},
+ {scene:'city',speaker:'앨리스',text:'응, 그 표정을 보니 바르카가 한 말이 맞았네!'},
+ {scene:'cutscene',speaker:'앨리스',text:'각 국가의 일곱 집정관의 약간의 협력과, 소소한 선물과 함께 하렴.'},
+ {scene:'cutscene',speaker:'앨리스',text:'티바트의 잔불을 부탁할게.'},
+];

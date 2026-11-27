@@ -12,7 +12,7 @@ import {cycleMove,STRESS_PIP,HIT_STRESS,HIT_STRESS_CAP,ELITE_MENTAL,BOSS_MENTAL}
 import {V2_CARDS,V2_BRANCHES,V2_PARTNERS,V2_PASSIVES,SPECIAL_CARDS} from './cards-v2.js';
 export {V2_PASSIVES,V2_PARTNERS,SPECIAL_CARDS} from './cards-v2.js';
 import {cardKeywords,keywordLine,CRACK_MAX,CRACK_PER_STACK,WITHER_RATE,HAND_LIMIT} from './keywords.js';
-import {JOIN_LINES,CARE_SCRIPT} from './story-scripts.js';
+import {JOIN_LINES,CARE_SCRIPT,PROLOGUE} from './story-scripts.js';
 import {EXTRA_ROUTE,EVENTS,LOOT_RULES} from './expedition-content.js';
 export {LOOT_RULES} from './expedition-content.js';
 export const HEROES = {
@@ -879,7 +879,9 @@ export function makeUpgradeOffer(s,source='event',returnPhase='reward'){
 function gearDrop(s,elite=false){const keys=Object.keys(EQUIPMENT).filter(key=>(EQUIPMENT[key].rarity==='elite')===elite);return choose(s,keys);}
 export function rollLoot(s,elite=false){return {elite,equipment:random(s)<(elite?LOOT_RULES.eliteEquipment:LOOT_RULES.normalEquipment)?[gearDrop(s,elite&&random(s)<LOOT_RULES.eliteRarity)]:[],upgradeOffer:random(s)<(elite?LOOT_RULES.eliteUpgrade:LOOT_RULES.normalUpgrade)?makeUpgradeOffer(s,elite?'elite':'loot','travel'):null};}
 function returnFromFarm(s){const loc=s.farmReturn||{node:7,mode:'route',selectedStage:null};s.mode=loc.mode;s.node=loc.node;if(loc.lane!==undefined)s.lane=loc.lane;s.selectedStage=loc.selectedStage;s.farmReturn=null;s.phase='base';s.healUsed=false;s.battle=null;s.upgradeOffer=null;}
-function finishRecruit(s,events){s.recruitNotice=null;s.battle=null;if(s.tutorial?.active){s.selectedStage=null;if(s.party.length<3){s.node=2;beginBattle(s,['trainingSlime','trainingSlime'],events);}else{s.tutorial={...s.tutorial,active:false,completed:true,step:'complete'};s.collection.tutorialDone=true;s.node=7;enterNode(s,events);}}else{s.phase='reward';s.lastReward=null;}}
+function finishRecruit(s,events){s.recruitNotice=null;s.battle=null;if(s.tutorial?.active){s.selectedStage=null;if(s.party.length<3){s.node=2;beginBattle(s,['trainingSlime','trainingSlime'],events);}else{s.tutorial={...s.tutorial,step:'lobby-guide'};s.node=7;enterNode(s,events);}}else{s.phase='reward';s.lastReward=null;}}
+// 튜토리얼의 끝: 거점에서 로비로 갔다가 돌아오면 마친다. 안내를 따르지 않고 길을 떠나도 거기서 마친다.
+function completeTutorial(s,events){if(!s.tutorial?.active)return;s.tutorial={...s.tutorial,active:false,completed:true,step:'complete'};s.collection.tutorialDone=true;if(s.checkpoint?.tutorial)s.checkpoint.tutorial={...s.tutorial};emit(events,'tutorialDone','튜토리얼을 마쳤습니다. 로비와 원정은 언제든 오갈 수 있습니다.');}
 function applyEventCost(s,cost,events){
  s.hp=Math.max(0,s.hp-hpPts(s,cost.hp||0));if(cost.gold)s.gold=Math.max(0,s.gold-cost.gold);if(cost.stress)for(const id of s.party)stress(s,id,cost.stress,events);
  if(cost.curse){const hero=choose(s,s.party);for(let i=0;i<cost.curse;i++)s.heroes[hero].curses.push({key:'curse_echo',uid:`curse-${s.rng}-${s.node}-${s.heroes[hero].curses.length}`});}
@@ -910,7 +912,18 @@ function perform(s,a,events){
   case 'start':{
    if(s.phase!=='title')reject('이미 시작한 원정입니다.');
    if(a.party){const error=formationError(s,a.party);if(error)reject(error);if(s.tutorial?.active)reject('튜토리얼에서는 동료를 길 위에서 만납니다.');deploy(s,a.party);s.runActive=true;enterNode(s,events);break;}
+   // v0.36 stage 8: the first run opens with the prologue. Screens ask for it; fixtures and tests skip it.
+   if(a.prologue&&s.tutorial?.active){s.phase='prologue';s.prologueLine=0;emit(events,'prologue','……');break;}
    enterNode(s,events);break;
+  }
+  case 'prologueNext':case 'skipPrologue':{
+   if(s.phase!=='prologue')reject('진행할 프롤로그가 없습니다.');s.prologueLine=a.type==='skipPrologue'?PROLOGUE.length:(s.prologueLine||0)+1;
+   if(s.prologueLine>=PROLOGUE.length){delete s.prologueLine;s.collection.prologueSeen=true;enterNode(s,events);}break;
+  }
+  case 'guideSeen':{
+   // The guide remembers which pages were opened; it lives with the collection so it follows the save.
+   const ids=(Array.isArray(a.ids)?a.ids:[a.id]).filter(id=>typeof id==='string'&&id.length<60);if(!ids.length)reject('가이드 항목을 확인하세요.');
+   s.collection.guideSeen=[...new Set([...(s.collection.guideSeen||[]),...ids])].slice(-200);break;
   }
   case 'advance':rewardAdvance(s,events);break;
   case 'claimReward':if(s.phase!=='reward')reject('받을 보상이 없습니다.');settleReward(s,!!a.skip,events);s.phase='travel';if(!a.skip&&s.lastReward?.cardOffer){s.cardOffer={...clone(s.lastReward.cardOffer),then:s.lastReward.upgradeOffer?'refine':'travel'};s.phase='cardReward';break;}if(!a.skip&&s.lastReward?.upgradeOffer){s.upgradeOffer=clone(s.lastReward.upgradeOffer);s.upgradeOffer.returnPhase='travel';s.phase='refine';}break;
@@ -991,10 +1004,10 @@ function perform(s,a,events){
    const d=s.careDialogue;if(!canCare(s,a.hero)||d?.hero!==a.hero||d.line<CARE_SCRIPT[a.hero].length-1)reject('선택한 파트너와 대화를 마쳐 주세요.');s.heroes[a.hero].stress=0;s.heroes[a.hero].breakdown=null;s.careUsed=true;s.careDialogue=null;saveCheckpoint(s);emit(events,'calm',`${HEROES[a.hero].partnerName}와 대화를 마쳤습니다. 붕괴 극복 · 정신 부담 0.`,{hero:a.hero});break;
   }
   case 'farm':{
-   if(s.phase!=='base')reject('거점에서 이전 지역으로 출발할 수 있습니다.');saveCheckpoint(s);s.farmReturn={node:s.node,mode:s.mode,lane:s.lane??1,selectedStage:clone(s.selectedStage||null)};s.upgradeOffer=null;s.mode='farm';s.selectedStage=null;s.lastReward=null;s.farmCount++;beginBattle(s,s.farmCount%2?['hound','wanderer']:['hunter','breacher'],events);break;
+   if(s.phase!=='base')reject('거점에서 이전 지역으로 출발할 수 있습니다.');completeTutorial(s,events);saveCheckpoint(s);s.farmReturn={node:s.node,mode:s.mode,lane:s.lane??1,selectedStage:clone(s.selectedStage||null)};s.upgradeOffer=null;s.mode='farm';s.selectedStage=null;s.lastReward=null;s.farmCount++;beginBattle(s,s.farmCount%2?['hound','wanderer']:['hunter','breacher'],events);break;
   }
   case 'challenge':{
-   if(s.phase!=='base')reject('거점에서 도전 구간으로 출발할 수 있습니다.');if(s.node===7)s.mainFrontStarted=true;saveCheckpoint(s);s.upgradeOffer=null;if(s.node<ROUTE.length-1){s.mode='route';s.selectedStage=null;s.lastReward=null;s.eventResult=null;s.phase='travel';emit(events,'travel','다음 지점을 지도에서 고르세요.');break;}s.mode='challenge';s.selectedStage=null;s.lastReward=null;s.challengeStage=0;beginBattle(s,['nightmare'],events);break;
+   if(s.phase!=='base')reject('거점에서 도전 구간으로 출발할 수 있습니다.');completeTutorial(s,events);if(s.node===7)s.mainFrontStarted=true;saveCheckpoint(s);s.upgradeOffer=null;if(s.node<ROUTE.length-1){s.mode='route';s.selectedStage=null;s.lastReward=null;s.eventResult=null;s.phase='travel';emit(events,'travel','다음 지점을 지도에서 고르세요.');break;}s.mode='challenge';s.selectedStage=null;s.lastReward=null;s.challengeStage=0;beginBattle(s,['nightmare'],events);break;
   }
   case 'restart':{
    if(!['defeat','ending'].includes(s.phase))reject('전멸 또는 클리어 후 거점으로 돌아갈 수 있습니다.');const clearedThisCampaign=!!s.claimedEnding||s.phase==='ending',collection=clone(s.collection),retries=s.retries+(s.phase==='defeat'?1:0),checkpoint=clone(s.checkpoint);if(!checkpoint)reject('복원할 거점이 없습니다.');const restored=clone(checkpoint);for(const k of Object.keys(s))delete s[k];Object.assign(s,restored,{checkpoint,claimedEnding:clearedThisCampaign||!!restored.claimedEnding,retries,temporal:Math.min(2,Math.max(0,retries-1)),collection,history:[]});
@@ -1055,6 +1068,7 @@ function perform(s,a,events){
    if(['lobby','saveData'].includes(s.phase))reject('이미 로비입니다.');if(s.mode==='raid')reject('레이드 중에는 로비로 돌아갈 수 없습니다.');
    if(s.phase==='base'){saveCheckpoint(s);s.savedExpedition=true;}
    // v0.27: the lobby sits outside the run; leaving mid-stage keeps the exact screen to resume.
+   if(s.tutorial?.active&&s.tutorial.step==='lobby-guide')s.tutorial={...s.tutorial,step:'return-guide'};
    s.resumePhase=['base','title'].includes(s.phase)?null:s.phase;s.phase='lobby';
    emit(events,'lobby','메인 로비로 귀환했습니다.');break;
   }
@@ -1085,13 +1099,14 @@ function perform(s,a,events){
    const tutorial=!s.collection.tutorialDone,runs=(s.collection.runs||0)+1;
    if(!tutorial){const error=formationError(s,a.party);if(error)reject(error);}
    // 원정 난수 = 시드 + 원정 회차. 같은 시드의 같은 회차는 같은 지도와 같은 난수로 시작한다.
-   freshRun(s,{tutorial,seed:Number.isFinite(a.seed)?a.seed:isSeed(s.collection.seed)?expeditionSeed(s.collection.seed,runs):undefined});s.collection.runs=runs;if(!tutorial)deploy(s,a.party);s.runActive=true;enterNode(s,events);emit(events,'newExpedition',tutorial?'새 원정을 시작합니다.':`${s.party.map(id=>HEROES[id].name).join(' · ')} 출전. 새 원정을 시작합니다.`);break;
+   freshRun(s,{tutorial,seed:Number.isFinite(a.seed)?a.seed:isSeed(s.collection.seed)?expeditionSeed(s.collection.seed,runs):undefined});s.collection.runs=runs;if(!tutorial)deploy(s,a.party);s.runActive=true;if(tutorial&&a.prologue){s.phase='prologue';s.prologueLine=0;}else enterNode(s,events);emit(events,'newExpedition',tutorial?'새 원정을 시작합니다.':`${s.party.map(id=>HEROES[id].name).join(' · ')} 출전. 새 원정을 시작합니다.`);break;
   }
   case 'resumeExpedition':{
    if(s.phase!=='lobby')reject('로비에서 원정으로 출발할 수 있습니다.');if(!s.runActive)reject('진행 중인 원정이 없습니다. 새 원정을 시작하세요.');
+   if(s.tutorial?.active&&['lobby-guide','return-guide'].includes(s.tutorial.step))completeTutorial(s,events);
    if(s.resumePhase){s.phase=s.resumePhase;s.resumePhase=null;emit(events,'resume','원정으로 돌아왔습니다.');break;}
    if(s.savedExpedition||s.checkpoint){
-    s.savedExpedition=false;s.mode='route';s.phase='base';s.healUsed=false;s.battle=null;
+    s.savedExpedition=false;s.mode='route';s.phase='base';s.battle=null;
     emit(events,'base','임시저장된 거점으로 복귀했습니다.');
    }else{
     s.mode='route';enterNode(s,events);
