@@ -11,6 +11,7 @@ const server=http.createServer(async(req,res)=>{
   if(!['GET','HEAD'].includes(req.method)){res.writeHead(405);return res.end();}
   let pathname=decodeURIComponent(new URL(req.url,'http://localhost').pathname);
   if(pathname==='/qa')pathname='/qa.html';
+  if(pathname==='/lab')pathname='/vfx-lab.html';
   if(pathname.endsWith('/'))pathname+='index.html';
   const file=path.resolve(root,'.'+pathname);
   if(!file.startsWith(root)){res.writeHead(403);return res.end();}
@@ -21,4 +22,4 @@ const server=http.createServer(async(req,res)=>{
  }catch{if(!res.headersSent)res.writeHead(404);res.end('Not found');}
 });
 server.on('error',e=>{console.error(e.message);process.exitCode=1;});
-server.listen(port,'127.0.0.1',()=>console.log(`Game: http://127.0.0.1:${port}/\nQA: http://127.0.0.1:${port}/qa.html\nStop: Ctrl+C`));
+server.listen(port,'127.0.0.1',()=>console.log(`Game: http://127.0.0.1:${port}/\nQA: http://127.0.0.1:${port}/qa.html\nVFX: http://127.0.0.1:${port}/lab\nStop: Ctrl+C`));

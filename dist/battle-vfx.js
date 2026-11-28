@@ -3,7 +3,7 @@
 // Continuous time (no stepped frames). One canvas per layer: under cut-ins (47) and above them (80).
 const TAU=Math.PI*2,clamp=(v,a=0,b=1)=>Math.max(a,Math.min(b,v)),lerp=(a,b,t)=>a+(b-a)*t;
 const out3=t=>1-Math.pow(1-clamp(t),3),out5=t=>1-Math.pow(1-clamp(t),5),in2=t=>clamp(t)*clamp(t),bell=t=>Math.sin(Math.PI*clamp(t));
-import {brushStroke,brushBolt,brushRing,spikeStar,fleck} from './fx-brush.js';
+import {brushStroke,brushBolt,brushRing,spikeStar,fleck,crescent} from './fx-brush.js';
 // v0.37 개정: 선은 붓획(양 끝 뾰족·흐릿, 넓은 흰 심지)으로 — docs/V037-FX-STYLE.md
 function rnd(seed){let a=seed>>>0||1;return ()=>{a=(a+0x6d2b79f5)>>>0;let t=a;t=Math.imul(t^t>>>15,t|1);t^=t+Math.imul(t^t>>>7,t|61);return ((t^t>>>14)>>>0)/4294967296;};}
 const hex=h=>{const n=parseInt(h.slice(1),16);return [n>>16&255,n>>8&255,n&255];};
@@ -79,7 +79,7 @@ const FX={
  daggers(cols,{from}){const hits=[.16,.24,.32];let n=0;const off=[[-10,-18],[6,4],[-4,20]];return {dur:.95,spawn(sys,t,R,s){while(n<3&&t>=hits[n]){const [ox,oy]=off[n];burst(sys,ox*s,oy*s,cols,R,{n:10,speed:460*s,size:5*s,spread:1.8});burst(sys,ox*s,oy*s,cols,R,{n:5,speed:260*s,size:8*s,shard:true});n++;}},
   draw(c,t,s){const f=from||{x:-300*s,y:-40*s};for(let i=0;i<3;i++){const t0=hits[i]-.12,u=(t-t0)/.12,[ox,oy]=off[i];if(u<0)continue;const tx=ox*s,ty=oy*s;
    if(u<1){const k=out3(u),x=lerp(f.x,tx,k),y=lerp(f.y,ty,k)-Math.sin(Math.PI*k)*30*s,ang=Math.atan2(ty-f.y,tx-f.x);streak(c,x-Math.cos(ang)*90*s,y-Math.sin(ang)*90*s,x,y,4*s,cols,1);
-    c.save();c.translate(x,y);c.rotate(ang);c.globalCompositeOperation='lighter';c.fillStyle=cols.core;c.beginPath();c.moveTo(10*s,0);c.lineTo(-8*s,-3*s);c.lineTo(-8*s,3*s);c.closePath();c.fill();c.restore();}
+    brushStroke(c,[[x-Math.cos(ang)*22*s,y-Math.sin(ang)*22*s],[x+Math.cos(ang)*10*s,y+Math.sin(ang)*10*s]],{w:7*s,alpha:1,cols,tail:'soft',head:'sharp',belly:.7,glow:1.8});}
    else{const v=(t-hits[i]);flash(c,tx,ty,55*s,cols.main,1-v/.25);drawGlint(c,tx,ty,60*s*(1-v/.3),cols.main,i);ring(c,tx,ty,14*s+70*s*out3(v/.35),6*s,cols.core,1-v/.35,.5);}}}};},
  // Durin: black-and-red fire that wraps the target and climbs.
  hellfire(cols,{big=false}){let last=0;const D=big?1.5:1.05;return {dur:D+.6,spawn(sys,t,R,s){const S=s*(big?1.6:1);while(last<Math.min(t,D)){last+=1/100;const a=R()*TAU,d=(big?46:30)*S*Math.sqrt(R());const x=Math.cos(a)*d,y=Math.sin(a)*d*.45+20*S;
@@ -94,7 +94,7 @@ const FX={
  // Illuga's lantern: warm light opens from the lantern bearer and settles on an ally as a halo shield.
  lantern(cols,{r=58}){let n=0;return {dur:1.1,spawn(sys,t,R,s){while(n<Math.min(36,t*60)){n++;const a=R()*TAU,d=r*s*(.6+R()*.5);sys.add(new Particle({x:Math.cos(a)*d,y:Math.sin(a)*d*.9-10*s,vx:-Math.cos(a)*30*s,vy:-30*s-R()*30*s,drag:1.5,life:.6+R()*.5,size:(3+R()*4)*s,color:R()<.5?cols.core:cols.main,kind:R()<.25?'glint':'glow',rot:R()}));}},
   draw(c,t,s){const o=out3(t/.25),f=1-in2((t-.55)/.55),rr=r*s*(.75+.25*o);flash(c,0,-10*s,rr*2.2,cols.deep,.35*o*f);flash(c,0,-10*s,rr*1.2,cols.main,.5*o*f);rays(c,0,-10*s,rr*1.9,12,cols.main,.45*o*f,t*.6,.07);
-   c.save();c.globalCompositeOperation='lighter';c.globalAlpha=.35*o*f;c.strokeStyle=cols.core;c.lineWidth=1.5*s;c.beginPath();c.ellipse(0,-10*s,rr,rr*1.08,0,0,TAU);c.stroke();c.globalAlpha=.4*o*f;c.lineWidth=7*s;c.strokeStyle=cols.main;c.stroke();c.restore();
+   brushRing(c,0,-10*s,rr,1.08,{w:6*s,alpha:.7*o*f,cols,pieces:3,front:Math.PI/2,seed:11,gap:.3,glow:2});
    drawGlint(c,-rr*.55,-rr*.75,26*s*bell(t/.6),cols.main,.4);}};},
  // Jahoda / Nefer: a kick — a short curved swoosh that ends in a punchy impact and a dust ring.
  kick(cols,{rise=false,big=false}){const hits=big?[.1,.22,.36]:[.1];let n=0;return {dur:big?.95:.65,spawn(sys,t,R,s){while(n<hits.length&&t>=hits[n]){const ox=(n-1)*16*s*(big?1:0),oy=(n%2?-14:8)*s*(big?1:0);burst(sys,ox,oy,cols,R,{n:14,speed:520*s,size:5.5*s});n++;}},
@@ -115,7 +115,7 @@ const FX={
  // A clear shield bubble for everyone but Illuga.
  shield(cols,{r=56}){return {dur:.9,spawn(sys,t,R,s){if(!this.s&&t>.05){this.s=1;motes(sys,0,0,cols,R,{n:10,r:r*s,rise:40*s,life:.8,size:4*s,kind:'glint'});}},
   draw(c,t,s){const o=out3(t/.2),f=1-in2((t-.5)/.4),rr=r*s*(.85+.15*o);c.save();c.globalCompositeOperation='lighter';const g=c.createRadialGradient(-rr*.3,-rr*.4,rr*.1,0,0,rr);g.addColorStop(0,rgba(cols.core,.06*f));g.addColorStop(.8,rgba(cols.main,.16*f));g.addColorStop(1,rgba(cols.core,.6*f*o));c.fillStyle=g;c.beginPath();c.ellipse(0,0,rr,rr*1.1,0,0,TAU);c.fill();
-   c.globalAlpha=.8*f;c.strokeStyle=cols.core;c.lineWidth=1.6*s;c.beginPath();c.ellipse(0,0,rr,rr*1.1,0,-2.6,-1.3);c.stroke();c.restore();ring(c,0,0,rr*(1+.4*out3((t-.05)/.4)),6*s,cols.main,(1-t/.45)*.7,1.1);}};},
+   c.restore();crescent(c,0,0,rr*.94,rr*1.03,-2.7,-1.25,{w:4.5*s,alpha:.85*f,cols,glow:1.8});ring(c,0,0,rr*(1+.4*out3((t-.05)/.4)),6*s,cols.main,(1-t/.45)*.7,1.1);}};},
  block(cols){return {dur:.5,spawn(sys,t,R,s){if(!this.s){this.s=1;burst(sys,30*s,0,cols,R,{n:12,speed:420*s,size:5*s,spread:2.2,dir:0});}},
   draw(c,t,s){c.save();c.translate(30*s,0);c.scale(.45,1);ring(c,0,0,56*s,14*s*(1-t/.4),cols.main,1-t/.4,1);c.restore();flash(c,30*s,0,60*s,cols.core,1-t/.2);}};},
  // Enemy blows on allies.
@@ -128,9 +128,14 @@ const FX={
   draw(c,t,s){flash(c,0,0,80*s,cols.main,.6*(1-t/.4));}};},
  // Venom, for Nefer's follow-up mist.
  mist(cols){return {dur:.9,spawn(sys,t,R,s){if(!this.s){this.s=1;motes(sys,0,0,{...cols,main:cols.deep,core:cols.main},R,{n:12,r:30*s,rise:40*s,life:.9,size:26*s,kind:'smoke'});}},draw(){}};},
- // Victory: a sunrise burst over the field with rays, a wide ring and drifting glints.
- victory(cols){let n=0;return {dur:2,spawn(sys,t,R,s){while(n<Math.min(70,t*90)){n++;const a=R()*TAU,v=(120+R()*360)*s;sys.add(new Particle({x:0,y:0,vx:Math.cos(a)*v,vy:Math.sin(a)*v*.6-60*s,ay:80*s,drag:1.4,life:1+R()*.8,size:(8+R()*14)*s,size1:1,color:R()<.5?cols.main:cols.core,kind:R()<.45?'glint':'glow',rot:R()}));}},
-  draw(c,t,s){const o=out3(t/.4),f=1-in2((t-1.1)/.9);flash(c,0,0,420*s*o,cols.deep,.35*f);flash(c,0,0,220*s*o,cols.main,.55*f);rays(c,0,0,520*s*o,18,cols.main,.5*f,t*.25,.05);ring(c,0,0,60*s+620*s*out3(t/.9),18*s,cols.core,(1-t/.9)*.8,.42);drawGlint(c,0,0,160*s*bell(t/.7),cols.main,.2);}};},
+ // Victory (v0.37): 어두운 전장에 맞게 줄였다 — 화면을 덮는 큰 빛과 방사 광선 대신, 가로로 지나가는 가는 빛줄기,
+ // 길이가 다른 가시 별 하나, 얇은 붓 고리, 천천히 떠오르는 작은 반짝임. 가장 밝은 순간도 화면의 일부만 밝힌다.
+ victory(cols){let n=0;return {dur:1.5,spawn(sys,t,R,s){while(n<Math.min(22,t*40)){n++;const a=-Math.PI/2+(R()-.5)*2.2,v=(60+R()*140)*s;sys.add(new Particle({x:(R()-.5)*260*s,y:(R()-.3)*40*s,vx:Math.cos(a)*v*.4,vy:Math.sin(a)*v,ay:-10*s,drag:1.2,life:.9+R()*.6,size:(6+R()*8)*s,size1:1,color:R()<.5?cols.main:cols.core,kind:R()<.6?'glint':'spark',stretch:.04,rot:R()*.5}));}},
+  draw(c,t,s){const pop=t<.08?t/.08:1-out3((t-.08)/.7),line=1-in2((t-.1)/.9);
+   flash(c,0,0,150*s,cols.main,.22*pop);
+   if(line>0)brushStroke(c,[[-420*s*out3(t/.25),0],[420*s*out3(t/.25),0]],{w:9*s*line,alpha:.75*line,cols,tail:'soft',head:'soft',belly:.5,glow:2,core:.45});
+   if(pop>0)spikeStar(c,0,0,110*s*(1-.4*out3(t/.6)),{alpha:.85*pop,cols,rot:-.2,seed:4,thick:.1,glow:1.8});
+   ring(c,0,0,40*s+300*s*out3(t/1),5*s*(1-t/1),cols.core,(1-t/1)*.55,.3);}};},
  // Living flame: warm flames curl up around each hero and heal motes rise.
  lifeFlame(cols){let last=0;return {dur:1.6,spawn(sys,t,R,s){while(last<Math.min(t,1.1)){last+=1/70;const a=R()*TAU,d=36*s*Math.sqrt(R());sys.add(new Particle({x:Math.cos(a)*d,y:30*s+Math.sin(a)*d*.35,vx:(R()-.5)*30*s,vy:-(120+R()*110)*s,drag:1.4,life:.55+R()*.4,size:(10+R()*9)*s,size1:2*s,kind:'flame',cols:R()<.4?['#fffbe6','#ffd27a','#ff8a2a']:['#ffe9a8','#ff9a3a','#d8401a'],alpha:.6,rot:R()*9}));if(R()<.25)sys.add(new Particle({x:(R()-.5)*60*s,y:20*s,vx:(R()-.5)*20*s,vy:-(60+R()*80)*s,drag:.6,life:1+R()*.5,size:4*s,color:R()<.5?'#bfffd6':'#fff1b0',kind:'glint',rot:R()}));}},
   draw(c,t,s){flash(c,0,0,110*s,'#ff9a3a',.4*bell(t/1.4));ring(c,0,40*s,20*s+80*s*out3(t/.8),8*s,'#ffd27a',(1-t/.8)*.8,.3);}};},

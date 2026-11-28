@@ -52,3 +52,10 @@ test('v0.37 이펙트 붓: 뾰족한 끝은 굵기 0, 흐릿한 끝은 얇게 �
  assert.ok(taperWidth(0)<1e-6&&taperWidth(1)<1e-6);assert.equal(taperWidth(.5),1);
  assert.ok(taperWidth(0,{tail:'soft'})>.1&&taperWidth(1,{tail:'soft'})<1e-6);assert.ok(taperWidth(.7,{belly:.7})>=taperWidth(.4,{belly:.7}));
 });
+test('v0.37 이펙트 시험장: /lab 주소, 쓰는 그림과 모듈이 모두 있다',async()=>{
+ const fs=await import('node:fs');const read=p=>fs.readFileSync(new URL('../'+p,import.meta.url),'utf8');
+ assert.match(read('start.mjs'),/pathname==='\/lab'\)pathname='\/vfx-lab.html'/);
+ const html=read('dist/vfx-lab.html'),js=read('dist/vfx-lab.js');assert.match(html,/src="vfx-lab.js"/);
+ for(const m of (html+js).matchAll(/assets\/[a-z0-9/_-]+\.webp/g))assert.ok(fs.existsSync(new URL('../dist/'+m[0],import.meta.url)),m[0]);
+ for(const m of js.matchAll(/from '\.\/([a-z0-9-]+\.js)'/g))assert.ok(fs.existsSync(new URL('../dist/'+m[1],import.meta.url)),m[1]);
+});
