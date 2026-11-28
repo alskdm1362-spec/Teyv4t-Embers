@@ -6,6 +6,7 @@ import {presentationPlan} from './motion-plan.js';
 import {SuppliedVFX,blindnessTransitions,cardTexture} from './supplied-vfx.js';
 import {CameraFeedback} from './feedback.js';
 import {ATTACK_SOUNDS} from './sound.js';
+import {judgmentScene,combineFlash} from './judgment-vfx.js';
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const wait=ms=>new Promise(resolve=>setTimeout(resolve,ms));
 const center=(el,y=.5)=>{const r=el.getBoundingClientRect();return {x:r.left+r.width*.5,y:r.top+r.height*y};};
@@ -74,6 +75,10 @@ export class BattleMotion{
   const state=this.getState(),owner=action._owner||action.hero,actor=$(`[data-ally="${owner}"]`),source=this.unit(actor),hits=effects.filter(e=>e.type==='damage');
   actor?.classList?.add('acting');const isMelee=['lohen','illuga','jahoda','kinich','cyno'].includes(owner)&&action.type==='play'&&hits.length>0,unpose=['play','ultimate'].includes(action.type)?this.pose(owner,action,before,effects,source):null;
   let dashDist=null,dashHold=null;
+  // v0.37 칠흑의 심판: 문양이 써지고 세상이 어두워진 뒤, 번개가 닿는 순간에 맞춰 사이노가 뛰어든다.
+  const judging=action.type==='play'&&owner==='cyno'&&hits.length>0&&before.battle?.hand?.find(c=>c.uid===action.uid)?.key==='c_judgment';let scene=null;
+  if(judging){const first=$(`[data-enemy="${hits[0].enemy}"]`);scene=judgmentScene({target:first&&this.unit(first),short:this.short(),calm:matchMedia('(prefers-reduced-motion: reduce)').matches,sound:(k,o)=>void this.sound(k,o)});
+   await wait(Math.max(0,(this.short()?620/1.8:620)-200));}
   if(hits.length){
    if(isMelee&&actor&&source){
     const firstEnemy=$(`[data-enemy="${hits[0].enemy}"]`),sc=parseFloat($('#game')?.style.getPropertyValue('--scale'))||1;
@@ -90,7 +95,7 @@ export class BattleMotion{
    await Promise.all(hits.map(async(e,index)=>{
     const enemy=$(`[data-enemy="${e.enemy}"]`);if(!enemy)return;
     const repeat=hits.slice(0,index).some(hit=>hit.enemy===e.enemy),kind=repeat?'counter':action.type==='support'?({lohen:'wind-cleave',durin:'veil',illuga:'night-thrust',jahoda:'venom-mark',kinich:'wind-cleave',lyney:'veil',cyno:'venom-mark'})[owner]:action.type==='ultimate'?({lohen:'frost-finisher',durin:'arcane-wave',illuga:'counter',jahoda:'feint',kinich:'spear',lyney:'arcane-wave',cyno:'frost-finisher'})[owner]:({lohen:'spear',durin:'arcane-wave',illuga:'counter',jahoda:'feint'})[owner]||'spear';
-    if(repeat)await wait(this.ms(100));const cue=(action.type==='ultimate'&&ATTACK_SOUNDS[kind+':ult'])||ATTACK_SOUNDS[kind]||ATTACK_SOUNDS.spear;if(index===0)void this.sound(cue[0],{gain:.7});const wing=owner==='durin'&&action.type==='ultimate',visual=wing&&index>0?Promise.resolve():this.effect(kind,wing?source:this.unit(enemy),{from:source,hero:owner,ultimate:action.type==='ultimate',scale:action.type==='ultimate'?1.3:1,strength:action.type==='ultimate'?2:1});await wait(this.ms(90));if(index===0||repeat)void this.sound(cue[1],{gain:repeat ? .6 : 1});this.camera.hit(action.type==='ultimate'?2:repeat ? .5 : .8);enemy.classList.add('enemy-hit');const damageText=this.float(enemy,e.amount);
+    if(repeat)await wait(this.ms(100));const cue=(action.type==='ultimate'&&ATTACK_SOUNDS[kind+':ult'])||ATTACK_SOUNDS[kind]||ATTACK_SOUNDS.spear;if(index===0)void this.sound(cue[0],{gain:.7});const wing=owner==='durin'&&action.type==='ultimate',visual=scene&&index===0?scene.done:wing&&index>0?Promise.resolve():this.effect(kind,wing?source:this.unit(enemy),{from:source,hero:owner,ultimate:action.type==='ultimate',scale:action.type==='ultimate'?1.3:1,strength:action.type==='ultimate'?2:1});if(scene&&index===0){await scene.strike;void this.sound('heavy_hit',{gain:1});setTimeout(()=>void this.sound('arcane_hit',{gain:.55}),this.ms(140));}else await wait(this.ms(90));if(!(scene&&index===0)&&(index===0||repeat))void this.sound(cue[1],{gain:repeat ? .6 : 1});this.camera.hit(action.type==='ultimate'||(scene&&index===0)?2.2:repeat ? .5 : .8);enemy.classList.add('enemy-hit');const damageText=this.float(enemy,e.amount);
     const next=state.battle?.enemies.find(n=>n.id===e.enemy);if(next){const bar=enemy.querySelector('.hpbar i');if(bar)bar.style.width=(next.hp/next.maxHp*100)+'%';const label=enemy.querySelector('.enemy-name>b');if(label)label.innerHTML=`${next.hp}<small> / ${next.maxHp}</small>`;}
     await wait(this.ms(120));enemy.classList.remove('enemy-hit');await Promise.all([visual,damageText]);
     if(effects.some(x=>x.type==='kill'&&x.enemy===e.enemy)){await this.effect('dissolve',this.unit(enemy),{scale:.8});await this.animate(enemy,[{opacity:1},{opacity:0,transform:'translateY(7px)'}],200);enemy.style.opacity='0';}
@@ -117,14 +122,18 @@ export class BattleMotion{
  // 결합: the fragments left in hand slide together and flash before the merged card is dealt in.
  async combine(){const cards=$$('.hand [data-card]').filter(el=>el.isConnected&&!el.classList.contains('leaving'));if(cards.length<2)return;const rects=cards.map(el=>el.getBoundingClientRect()),cx=rects.reduce((n,r)=>n+r.left+r.width/2,0)/rects.length,dur=this.ms(380);
   void this.sound('card_flip',{gain:.8,ui:true});const runs=cards.map((el,i)=>{el.classList.add('combine-out');return el.animate?.([{translate:'0 0',scale:'1',filter:'brightness(1)',opacity:1},{translate:`${(cx-(rects[i].left+rects[i].width/2))*.92}px -26px`,scale:'1.04',filter:'brightness(1.9)',opacity:1,offset:.7},{translate:`${cx-(rects[i].left+rects[i].width/2)}px -30px`,scale:'.92',filter:'brightness(3)',opacity:0}],{duration:dur,easing:'cubic-bezier(.5,0,.2,1)',fill:'forwards'})?.finished?.catch(()=>{});});
-  await Promise.all([...runs,wait(dur)]);void this.sound('strike',{gain:.5});}
+  // (the flash peaks as the fragments vanish into one: started at 70% of the merge)
+  const y=rects.reduce((n,r)=>n+r.top+r.height*.4,0)/rects.length-30,flash=wait(dur*.7).then(()=>{void this.sound('strike',{gain:.5});return combineFlash(cx,y,{short:this.short(),scale:Math.max(.7,Math.min(1.3,rects[0].height/150))});});
+  await Promise.all([...runs,wait(dur),flash]);}
  async present(before,action,events){const after=this.getState(),plan=presentationPlan(before,after,action,events);this.onBusy(true);try{
  const wasBattle=before.phase==='battle'&&!!$('.battle');if(wasBattle){
   const departure=plan.played?this.leave(plan.played.uid,plan.played.destination,true):Promise.resolve();
+  // v0.37: the turn ended inside this play (last AP spent) — show the play's own hits before the enemy turn.
+  const early=action.type==='play'&&plan.attacks.length&&plan.effects.length;if(early){await this.playerEffects(before,action,plan.effects);await departure;}
   if(plan.attacks.length){$$('.threat-path').forEach(n=>n.style.opacity='0');this.callout('ENEMY TURN',true);const live={hp:before.hp,shield:before.shield,stress:Object.fromEntries(before.party.map(id=>[id,before.heroes[id].stress]))};for(const group of plan.attacks){const line=$(`[data-threat="${group.enemy}"]`);if(line)line.style.opacity='1';await this.enemyStep(group,live);if(line)line.style.opacity='0';}}
   const special=events.find(e=>e.type==='ultimate'||e.type==='support');if(special)await this.cutin(special.hero,special.type);
   {const mode=events.find(e=>e.type==='mode');if(mode){if(mode.first&&!events.some(e=>e.type==='card'))await this.cutin('kinich','ultimate');const k=$('[data-ally="kinich"]');if(k){k.classList.remove('mode-flash');void k.offsetWidth;k.dataset.modeFlash=mode.mode;k.classList.add('mode-flash');setTimeout(()=>k.classList.remove('mode-flash'),this.ms(320));}void this.sound('card_flip',{gain:.7,ui:true});}}
-  await this.playerEffects(before,action,plan.effects);await departure;
+  if(!early){await this.playerEffects(before,action,plan.effects);await departure;}
   if(plan.combine)await this.combine();
   for(const e of events.filter(e=>e.type==='injury'&&e.stage===3&&(before.heroes[e.hero]?.body[e.part]||0)<3))await this.cutin(e.hero,'injury-'+e.part);
   for(const hero of plan.collapseCutins)await this.cutin(hero,'breakdown');

@@ -12,7 +12,9 @@ export function presentationPlan(before,after,action,events){
   attacks:groups,
   collapseCutins:collapseCutins(before,after),
   changed:after.party.filter(id=>JSON.stringify(before.heroes[id]?.breakdown)!==JSON.stringify(after.heroes[id]?.breakdown)),
-  effects:groups.length?[]:events.filter(e=>!['card','draw','discard','shuffle','battle','turn'].includes(e.type)),
+  // A card that spends the last AP ends the turn in the same action: its own hits come before the first enemy action
+  // and are shown first (v0.37; before this they were dropped, so 칠흑의 심판 showed no strike at all).
+  effects:(groups.length?(action.type==='play'?events.slice(0,events.findIndex(e=>e.type==='enemyAction')):[]):events).filter(e=>!['card','draw','discard','shuffle','battle','turn'].includes(e.type)),
   newBattle:after.phase==='battle'&&(before.phase!=='battle'||action.type==='restart'),
  };
 }
