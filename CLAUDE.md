@@ -4,7 +4,7 @@
 ## 실행 및 검증
 - Windows에서 압축을 완전히 해제하고 Node.js 22 이상에서 START-WINDOWS.cmd를 실행하세요. 터미널에서는 프로젝트 루트에서 node start.mjs를 실행하세요.
 - 본편 http://127.0.0.1:8080/ · QA http://127.0.0.1:8080/qa
-- 이펙트만 볼 때는 http://127.0.0.1:8080/lab (이펙트 시험장, docs/V037-VFX-LAB.md).
+- 이펙트만 볼 때는 QA 화면의 「이펙트 시험장」 탭 (qa.html#lab, docs/V037-VFX-LAB.md).
 - npm test로 검사합니다. 별도의 npm install 없이 실행됩니다. 인계 시점에 239개 모두 통과했습니다.
 - dist/가 직접 편집하는 게임 소스와 리소스입니다. tests/에는 자동 테스트가 있습니다.
 

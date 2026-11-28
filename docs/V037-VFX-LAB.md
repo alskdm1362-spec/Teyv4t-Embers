@@ -1,10 +1,13 @@
-# v0.37 — 이펙트 시험장 (`/lab`)
+# v0.37 — 이펙트 시험장 (QA 화면 탭 · `qa.html#lab`)
 
 게임을 켜고 전투까지 가지 않아도, 원하는 이펙트만 골라 볼 수 있는 페이지.
 
-- 주소: `node start.mjs` 실행 후 **http://127.0.0.1:8080/lab** (파일은 `dist/vfx-lab.html`, `dist/vfx-lab.js`)
+- **QA 화면 안의 「이펙트 시험장」 탭** — 게임 미리보기 위 탭, 또는 왼쪽의 「이펙트 시험장 열기」 버튼.
+  - GitHub Pages: https://alskdm1362-spec.github.io/Teyv4t-Embers/qa.html#lab
+  - 로컬: `node start.mjs` 후 http://127.0.0.1:8080/qa.html#lab (단독 페이지 `/lab` = `vfx-lab.html`도 그대로 열린다. 짧은 주소 `/lab`은 로컬 실행기에만 있다)
+- 파일은 `dist/vfx-lab.html`, `dist/vfx-lab.js`
 - 게임과 **같은 코드**(SuppliedVFX → battle-vfx.js / 원본 묶음, judgment-vfx.js)를 가짜 전장 위에서 부른다. 여기서 보이는 그대로 게임에 나온다.
-- 바로가기: 주소 끝에 `#그룹/이름`을 붙이면 열자마자 재생한다. 예) `/lab#사이노/심판`, `/lab#공용/클리어`
+- 바로가기: `qa.html#lab/그룹/이름` 으로 열면 시험장 탭이 열리고 바로 재생한다. 예) `qa.html#lab/사이노/심판`, `qa.html#lab/공용/클리어`
 
 ## 목록
 - 전투원 7명: 공격 · 필살기 타격 · 보호막
