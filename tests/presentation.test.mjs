@@ -47,3 +47,8 @@ test('v0.37: 심판 연출 — 번개 길은 끝에서 대상에 정확히 닿�
  for(const seed of [1,7,42]){const p=boltPath(100,-30,400,300,seed,120);assert.deepEqual(p.at(-1),[400,300]);assert.deepEqual(p[0],[100,-30]);assert.ok(p.every(([x,y])=>Number.isFinite(x)&&Number.isFinite(y)));}
  const order=['vortex','orb','strike','shards','eye','end'];for(let i=1;i<order.length;i++)assert.ok(BEATS[order[i-1]]<BEATS[order[i]],order[i]);assert.ok(BEATS.end>=1.4&&BEATS.end<=1.8);
 });
+test('v0.37 이펙트 붓: 뾰족한 끝은 굵기 0, 흐릿한 끝은 얇게 남고, 몸통이 가장 두껍다',async()=>{
+ const {taperWidth}=await import('../dist/fx-brush.js');
+ assert.ok(taperWidth(0)<1e-6&&taperWidth(1)<1e-6);assert.equal(taperWidth(.5),1);
+ assert.ok(taperWidth(0,{tail:'soft'})>.1&&taperWidth(1,{tail:'soft'})<1e-6);assert.ok(taperWidth(.7,{belly:.7})>=taperWidth(.4,{belly:.7}));
+});

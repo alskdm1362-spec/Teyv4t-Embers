@@ -9,6 +9,8 @@
 // 밝은 배경에서도 읽히게 빛 바깥에 어두운 그늘, 노이즈 경로 번개, 순서가 있는 사라짐.
 // 짧은 연출이면 1.8배 빠르다. 움직임 줄이기 설정이면 섬광이 약하다.
 
+import {brushStroke,brushBolt,brushRing,crescent,spikeStar,fleck,inkStroke,arcPoints,quadPoints} from './fx-brush.js';
+// v0.37 개정: 모든 선을 fx-brush.js 붓획으로 — 양 끝이 뾰족하거나 흐릿하고, 흰 심지가 넓다(레퍼런스 13장 분석, docs/V037-FX-STYLE.md).
 const TAU=Math.PI*2,clamp=(v,a=0,b=1)=>Math.max(a,Math.min(b,v)),lerp=(a,b,t)=>a+(b-a)*t;
 const smooth=(a,b,t)=>{const x=clamp((t-a)/(b-a));return x*x*(3-2*x);},out3=t=>1-Math.pow(1-clamp(t),3);
 const hash=(i,s)=>{const x=Math.sin(i*127.1+s*311.7)*43758.5453;return x-Math.floor(x);};
@@ -26,23 +28,19 @@ export function boltPath(x0,y0,x1,y1,seed,amp,steps=26){
   pts.push([x0+dx*s+nx*off,y0+dy*s+ny*off]);}
  pts[steps]=[x1,y1];return pts;}
 
-function stroke(c,pts,w,color,alpha){if(alpha<=0)return;c.globalAlpha=alpha;c.strokeStyle=color;c.lineWidth=w;c.beginPath();pts.forEach(([x,y],i)=>i?c.lineTo(x,y):c.moveTo(x,y));c.stroke();}
-// 빛나는 선: 어두운 그늘 → 넓은 후광 → 몸 → 흰 심지
-function litLine(c,pts,w,a){c.lineCap='round';c.lineJoin='round';c.globalCompositeOperation='source-over';stroke(c,pts,w*4,JUDGE.ink,a*.3);
- c.globalCompositeOperation='lighter';stroke(c,pts,w*7,JUDGE.main,a*.16);stroke(c,pts,w*2.6,JUDGE.main,a*.65);stroke(c,pts,w,JUDGE.core,a);c.globalCompositeOperation='source-over';c.globalAlpha=1;}
-function glowDot(c,x,y,r,a){if(a<=0||r<=0)return;const g=c.createRadialGradient(x,y,0,x,y,r);g.addColorStop(0,JUDGE.core);g.addColorStop(.3,`rgba(190,130,255,${.75})`);g.addColorStop(1,'rgba(90,36,200,0)');c.globalAlpha=a;c.fillStyle=g;c.beginPath();c.arc(x,y,r,0,TAU);c.fill();c.globalAlpha=1;}
-// 먹 리본: 끝이 가늘어지는 초승달 띠 (타원 위의 호를 따라)
-function ribbon(c,cx,cy,rx,ry,a0,sweep,w,color,alpha){if(alpha<=0)return;const n=18;c.globalAlpha=alpha;c.fillStyle=color;c.beginPath();
- for(let i=0;i<=n;i++){const t=i/n,a=a0+sweep*t,k=Math.sin(Math.PI*t)*w;c.lineTo(cx+Math.cos(a)*(rx+k),cy+Math.sin(a)*(ry+k*.35));}
- for(let i=n;i>=0;i--){const t=i/n,a=a0+sweep*t,k=Math.sin(Math.PI*t)*w;c.lineTo(cx+Math.cos(a)*(rx-k*.4),cy+Math.sin(a)*(ry-k*.14));}
- c.closePath();c.fill();c.globalAlpha=1;}
-// 아누비스의 눈: 원 하나와, 좌우로 뾰족하게 뻗는 눈꼬리 두 쌍
-export function drawEye(c,R,a,lw){c.globalCompositeOperation='lighter';
- for(const [w,col,k] of [[lw*4,JUDGE.main,.18],[lw*1.6,JUDGE.main,.6],[lw*.7,JUDGE.core,.95]]){c.strokeStyle=col;c.lineWidth=w;c.globalAlpha=a*k;
-  c.beginPath();c.arc(0,0,R,0,TAU);c.stroke();
-  for(const sgn of [-1,1]){c.beginPath();c.moveTo(sgn*R*.72,-R*.62);c.quadraticCurveTo(sgn*R*1.35,-R*.35,sgn*R*1.9,0);c.quadraticCurveTo(sgn*R*1.35,R*.35,sgn*R*.72,R*.62);c.stroke();
-   c.beginPath();c.moveTo(sgn*R*1.02,-R*.2);c.quadraticCurveTo(sgn*R*1.4,-R*.08,sgn*R*1.62,0);c.stroke();}}
- c.globalAlpha=1;c.globalCompositeOperation='source-over';}
+// 빛나는 선(번개): 뾰족한 양 끝, 넓은 흰 심지, 보라 몸통과 빛무리
+function litLine(c,pts,w,a,soft=false){brushBolt(c,pts,{w:w*2.8,alpha:a,cols:JUDGE,tail:soft?'soft':'sharp'});}
+function glowDot(c,x,y,r,a){if(a<=0||r<=0)return;const g=c.createRadialGradient(x,y,0,x,y,r);g.addColorStop(0,JUDGE.core);g.addColorStop(.3,'rgba(190,130,255,.75)');g.addColorStop(1,'rgba(90,36,200,0)');c.globalAlpha=a;c.fillStyle=g;c.beginPath();c.arc(x,y,r,0,TAU);c.fill();c.globalAlpha=1;}
+// 먹 리본: 타원 위를 도는 초승달 — 머리는 뾰족, 꼬리는 흐릿
+function ribbon(c,cx,cy,rx,ry,a0,sweep,w,color,alpha){inkStroke(c,arcPoints(cx,cy,rx,ry,a0,a0+sweep,24),{w:w*2,alpha,color,rim:JUDGE.main,head:'sharp',tail:'soft',belly:.62});}
+// 빛 리본: 같은 모양을 빛으로
+function lightRibbon(c,cx,cy,rx,ry,a0,sweep,w,alpha){crescent(c,cx,cy,rx,ry,a0,a0+sweep,{w,alpha,cols:JUDGE,glow:2.2});}
+// 아누비스의 눈: 붓으로 그린 고리(아래가 두껍고 위가 가늘며 끊김)와, 좌우로 뾰족하게 뻗는 눈꼬리 두 쌍. thin 0→1이면 획이 가늘어지며 사라진다.
+export function drawEye(c,R,a,lw,thin=0){const w=lw*3.2*(1-.75*thin);if(a<=0||w<=0)return;
+ brushRing(c,0,0,R,1,{w,alpha:a,cols:JUDGE,pieces:4,front:Math.PI/2,gap:.18,seed:7,glow:2});
+ for(const sgn of [-1,1]){brushStroke(c,quadPoints(sgn*R*.7,-R*.64,sgn*R*1.4,-R*.38,sgn*R*1.95,0),{w:w*.9,alpha:a,cols:JUDGE,tail:'soft',head:'sharp',belly:.35});
+  brushStroke(c,quadPoints(sgn*R*.7,R*.64,sgn*R*1.4,R*.38,sgn*R*1.95,0),{w:w*.9,alpha:a,cols:JUDGE,tail:'soft',head:'sharp',belly:.35});
+  brushStroke(c,quadPoints(sgn*R*1.02,-R*.2,sgn*R*1.4,-R*.08,sgn*R*1.62,0),{w:w*.6,alpha:a*.9,cols:JUDGE,tail:'soft',head:'sharp',belly:.4});}}
 
 function makeCanvas(z){const cv=document.createElement('canvas');cv.className='judgment-vfx';cv.setAttribute('aria-hidden','true');Object.assign(cv.style,{position:'fixed',inset:'0',width:'100%',height:'100%',pointerEvents:'none',zIndex:String(z)});document.body.append(cv);return cv;}
 function fit(cv){const dpr=Math.min(1.5,devicePixelRatio||1),W=Math.round(innerWidth*dpr),H=Math.round(innerHeight*dpr);if(cv.width!==W||cv.height!==H){cv.width=W;cv.height=H;}const c=cv.getContext('2d');c.setTransform(1,0,0,1,0,0);c.clearRect(0,0,W,H);c.setTransform(dpr,0,0,dpr,0,0);return c;}
@@ -71,21 +69,21 @@ export function judgmentScene({target,short=false,calm=false,onStrike=()=>{},sou
   if(dim>0){const gr=c.createRadialGradient(g.x,g.y,g.size*.45,g.x,g.y,g.size*1.6+g.R*1.4);gr.addColorStop(0,'rgba(14,6,28,0)');gr.addColorStop(1,`rgba(14,6,28,${dim})`);c.fillStyle=gr;c.fillRect(0,0,innerWidth,innerHeight);}
   // ① 그림자 소용돌이: 땅을 도는 먹 리본, 그 아래 보라 고리
   if(T<B.strike+.12){const k=smooth(0,.18,T)*(1-smooth(B.strike-.04,B.strike+.12,T)),rx=g.R*(1.05-.25*smooth(0,B.strike,T)),ry=rx*.3,spin=T*7;
-   c.globalCompositeOperation='lighter';c.globalAlpha=k*.55;c.strokeStyle=JUDGE.main;c.lineWidth=7*u;c.beginPath();c.ellipse(g.x,g.feet,rx*.92,ry*.92,0,0,TAU);c.stroke();
-   c.globalAlpha=k*.9;c.strokeStyle=JUDGE.core;c.lineWidth=1.6*u;c.stroke();c.globalCompositeOperation='source-over';c.globalAlpha=1;
+   brushRing(c,g.x,g.feet,rx*.92,.3,{w:5*u,alpha:k*.85,cols:JUDGE,pieces:3,front:Math.PI/2,rot:0,seed:seed%97,gap:.35});
    for(let i=0;i<5;i++){const a0=spin+i/5*TAU+hash(i,seed)*.5;ribbon(c,g.x,g.feet-6*u,rx*(.95+.12*hash(i,seed+1)),ry*(.95+.12*hash(i,seed+1)),a0,1.6+.6*hash(i,seed+2),(9+6*hash(i,seed+3))*u,JUDGE.ink,k*.92);
-    c.globalCompositeOperation='lighter';ribbon(c,g.x,g.feet-6*u,rx*1.02,ry*1.02,a0+.25,.9,3*u,JUDGE.main,k*.55);c.globalCompositeOperation='source-over';}
+    lightRibbon(c,g.x,g.feet-6*u,rx*1.02,ry*1.02,a0+.25,.9,4*u,k*.7);}
    // 먼저 휘두른 초승달 두 줄 (영상 3.4초)
    const sw=smooth(0,.14,T)*(1-smooth(.14,.28,T));if(sw>0)for(let j=0;j<2;j++)ribbon(c,g.x,g.y,g.R*(.7+j*.15),g.R*(.55+j*.12),-2.4+j*.3+T*4,1.5,7*u,JUDGE.ink,sw*.8);}
   // ② 구체와 지그재그 번개
   if(T>=B.vortex*.85&&T<B.strike+.08){const k=smooth(B.vortex*.85,B.vortex+.06,T)*(1-smooth(B.strike,B.strike+.08,T));c.globalCompositeOperation='lighter';glowDot(c,g.x,g.y,g.size*.42*(1+.15*Math.sin(T*40)),k);c.globalCompositeOperation='source-over';
    const fl=Math.floor(T*24);for(let j=0;j<2;j++){if(hash(fl,j+seed)<.35)continue;const a=hash(fl*3+j,seed)*TAU,r=g.size*.55;litLine(c,boltPath(g.x+Math.cos(a)*r*.2,g.y+Math.sin(a)*r*.2,g.x+Math.cos(a+1.2)*r,g.y+Math.sin(a+1.2)*r,fl+j*13,g.size*.18,10),1.3*u,k*.85);}
    // 위로 튀는 불꽃 한 줄
-   const sp=smooth(B.vortex,B.orb,T);c.globalCompositeOperation='lighter';c.globalAlpha=k;c.strokeStyle=JUDGE.core;c.lineWidth=2.5*u;c.lineCap='round';c.beginPath();c.moveTo(g.x+g.size*.3,g.y-g.size*.1-sp*g.size*.6);c.lineTo(g.x+g.size*.33,g.y-g.size*.1-sp*g.size*.6+18*u);c.stroke();c.globalCompositeOperation='source-over';c.globalAlpha=1;}
+   const sp=smooth(B.vortex,B.orb,T),sy=g.y-g.size*.1-sp*g.size*.6;brushStroke(c,[[g.x+g.size*.33,sy+26*u],[g.x+g.size*.3,sy]],{w:5*u,alpha:k,cols:JUDGE,tail:'soft',head:'sharp',belly:.7});}
   // ③ 번개 창: 오른쪽 위 하늘에서 비스듬히, 마디 고리 둘과 곁가지
   if(T>=B.strike-.03&&T<B.strike+.3){const bt=T-B.strike,a=bt<0?smooth(-.03,0,bt):bt<.1?1:(Math.floor(bt*30)%3?.9:.35)*(1-smooth(.18,.3,bt)),re=Math.floor(Math.max(0,bt)*18);
-   const x0=g.x+Math.min(innerWidth*.45,g.size*2.6),y0=-40,beam=boltPath(x0,y0,g.x,g.feet-4*u,seed+re*31,g.size*.22,30);litLine(c,beam,(calm?5:8)*u,a);
-   for(const at of [.45,.75]){const [px,py]=beam[Math.round(at*30)];c.globalCompositeOperation='lighter';c.globalAlpha=a;c.strokeStyle=JUDGE.core;c.lineWidth=2.2*u;c.beginPath();c.ellipse(px,py,14*u,9*u,-.6,0,TAU);c.stroke();glowDot(c,px,py,22*u,a*.7);c.globalCompositeOperation='source-over';}
+   const x0=g.x+Math.min(innerWidth*.45,g.size*2.6),y0=-40,beam=boltPath(x0,y0,g.x,g.feet-4*u,seed+re*31,g.size*.22,30);litLine(c,beam,(calm?5:8)*u,a,true);
+   for(const at of [.45,.75]){const [px,py]=beam[Math.round(at*30)];brushRing(c,px,py,15*u,.6,{w:3.4*u,alpha:a,cols:JUDGE,pieces:2,front:-.6+Math.PI/2,rot:-.6,seed:at*10,gap:.5});c.globalCompositeOperation='lighter';glowDot(c,px,py,22*u,a*.6);c.globalCompositeOperation='source-over';}
+   if(bt>=0&&bt<.12)spikeStar(c,g.x,g.feet-8*u,g.size*1.1*(1-bt*3),{alpha:1-bt/.12,cols:JUDGE,rot:-.35,seed:seed%31,thick:.13,extra:4});
    for(let f=0;f<3;f++){const at=8+Math.floor(hash(f,seed+re)*18),[fx,fy]=beam[at],side=f%2?1:-1,len=g.size*(.35+hash(f,seed)*.3);litLine(c,boltPath(fx,fy,fx+side*len,fy+len*.5,seed+re*7+f*5,len*.3,10),1.6*u,a*.7);}}
   // ④ 땅 섬광 · 수평 번개
   if(T>=B.strike&&T<B.strike+.4){const bt=T-B.strike,k=1-smooth(.05,.4,bt),R=g.R*(1+1.1*out3(bt/.25));c.globalCompositeOperation='lighter';
@@ -94,18 +92,18 @@ export function judgmentScene({target,short=false,calm=false,onStrike=()=>{},sou
    for(let j=0;j<4;j++){const side=j%2?1:-1,len=g.R*(1.3+hash(j,seed+60)*1.1)*out3(bt/.15);if(len<2)continue;litLine(c,boltPath(g.x,g.feet-4*u,g.x+side*len,g.feet-4*u+(hash(j,seed+61)-.5)*30*u,seed+j*9+Math.floor(bt*20),18*u,12),1.5*u,k*.8);}}
   // ⑤ 먹 조각 · 바위 · 불티
   for(let i=parts.length-1;i>=0;i--){const p=parts[i];p.t+=dt;if(p.t>p.life){parts.splice(i,1);continue;}const q=p.t/p.life;
-   if(p.kind==='shard'){const r=p.r0+(p.reach-p.r0)*out3(q),x=p.cx+Math.cos(p.a)*r,y=p.cy+Math.sin(p.a)*r*.32,ang=Math.atan2(Math.sin(p.a)*.32,Math.cos(p.a)),fade=1-smooth(.5,1,q);
-    c.save();c.translate(x,y);c.rotate(ang);c.globalAlpha=.9*fade;c.fillStyle=JUDGE.ink;c.beginPath();c.moveTo(-p.len*.5,0);c.quadraticCurveTo(0,-p.w*.5,p.len*.5,0);c.quadraticCurveTo(0,p.w*.18,-p.len*.5,0);c.fill();
-    c.globalCompositeOperation='lighter';c.globalAlpha=.5*fade;c.strokeStyle=JUDGE.main;c.lineWidth=1.2*u;c.stroke();c.restore();c.globalCompositeOperation='source-over';c.globalAlpha=1;continue;}
+   if(p.kind==='shard'){// 먹 조각: 바깥으로 미끄러지며, 꼬리부터 깎여 짧아지고 가늘어진다
+    const r=p.r0+(p.reach-p.r0)*out3(q),hx=p.cx+Math.cos(p.a)*r,hy=p.cy+Math.sin(p.a)*r*.32,dx=Math.cos(p.a),dy=Math.sin(p.a)*.32,dl=Math.hypot(dx,dy),len=p.len*(1-.8*smooth(.35,1,q)),w=p.w*(1-.6*smooth(.4,1,q));
+    inkStroke(c,[[hx-dx/dl*len,hy-dy/dl*len],[hx,hy]],{w,alpha:.95*(1-smooth(.8,1,q)),color:JUDGE.ink,rim:JUDGE.main,tail:'soft',head:'sharp',belly:.7});continue;}
    const d=Math.exp(-p.drag*dt);p.vx*=d;p.vy=p.vy*d+p.grav*dt;p.x+=p.vx*dt;p.y+=p.vy*dt;if(p.kind==='rock'){p.spin+=p.vs*dt;if(p.y>g.feet+8*u){p.y=g.feet+8*u;p.vy*=-.3;p.vx*=.6;}}
    const s=p.size*(1-smooth(.6,1,q));c.save();c.translate(p.x,p.y);
    if(p.kind==='rock'){c.rotate(p.spin);c.globalAlpha=1;c.fillStyle='#1d1430';c.beginPath();c.moveTo(-s*.6,-s*.3);c.lineTo(-s*.1,-s*.6);c.lineTo(s*.6,-s*.2);c.lineTo(s*.4,s*.5);c.lineTo(-s*.5,s*.4);c.closePath();c.fill();c.globalAlpha=.6;c.strokeStyle=JUDGE.main;c.lineWidth=1;c.stroke();}
-   else{c.globalCompositeOperation='lighter';c.globalAlpha=.95;c.fillStyle=hash(i,seed)<.3?JUDGE.core:JUDGE.main;c.fillRect(-s/2,-s/2,s,s);}
+   else{c.restore();fleck(c,p.x,p.y,p.vx,p.vy,s*1.4,hash(i,seed)<.3?JUDGE.core:JUDGE.main,.95);c.save();}
    c.restore();c.globalCompositeOperation='source-over';c.globalAlpha=1;}
   // 잔전기 (조각이 깔린 동안 대상 주변에서 튄다)
   if(T>B.shards&&T<B.eye+.15){const k=1-smooth(B.eye-.1,B.eye+.15,T),fl=Math.floor(T*20);if(hash(fl,seed+80)>.4){const a=hash(fl,seed+81)*TAU,r=g.size*.5;litLine(c,boltPath(g.x+Math.cos(a)*r*.3,g.y+Math.sin(a)*r*.3,g.x+Math.cos(a+.8)*r,g.y+Math.sin(a+.8)*r*.8,fl,g.size*.12,8),1*u,k*.7);}}
   // ⑥ 아누비스의 눈 고리: 퍼지면서 사라진다
-  if(T>=B.eye-.05){const k=smooth(B.eye-.05,B.eye+.12,T)*(1-smooth(B.end-.35,B.end,T)),R=g.size*(.62+.16*out3((T-B.eye)/.6));if(k>0){c.save();c.translate(g.x,g.y);drawEye(c,R,k,2.2*u);c.restore();}}
+  if(T>=B.eye-.05){const k=smooth(B.eye-.05,B.eye+.12,T)*(1-smooth(B.end-.35,B.end,T)),R=g.size*(.62+.16*out3((T-B.eye)/.6));if(k>0){c.save();c.translate(g.x,g.y);drawEye(c,R,Math.min(1,k*1.4),2.2*u,smooth(B.end-.55,B.end,T));c.restore();}}
   c.globalAlpha=1;c.globalCompositeOperation='source-over';
  }
  const start=performance.now();
@@ -127,17 +125,17 @@ export function verdictSpark(target,{part='sin',short=false}={}){
  const cv=makeCanvas(79),speed=short?1.8:1,start=performance.now(),dur=.38,seed=(Math.random()*1e4)|0;
  return new Promise(resolve=>{const tick=now=>{if(!target.isConnected){cv.remove();resolve();return;}const t=(now-start)/1000*speed,g=geoOf(target),c=fit(cv),k=t<.06?t/.06:1-smooth(.12,dur,t),side=part==='sin'?-1:1;
   ribbon(c,g.x,g.y,g.size*.55,g.size*.38,side<0?-2.6+t*5:-.6-t*5,1.6,10*g.u,JUDGE.ink,k*.9);
-  litLine(c,boltPath(g.x+side*g.size*1.2,g.y-g.size*1.6,g.x,g.y,seed+Math.floor(t*25),g.size*.2,16),3.6*g.u,k);
-  c.globalCompositeOperation='lighter';glowDot(c,g.x,g.y,g.size*.42,k*.85);c.globalCompositeOperation='source-over';
+  litLine(c,boltPath(g.x+side*g.size*1.2,g.y-g.size*1.6,g.x,g.y,seed+Math.floor(t*25),g.size*.2,16),3.6*g.u,k,true);
+  c.globalCompositeOperation='lighter';glowDot(c,g.x,g.y,g.size*.36,k*.7);c.globalCompositeOperation='source-over';if(t<.14)spikeStar(c,g.x,g.y,g.size*.7,{alpha:1-t/.14,cols:JUDGE,rot:side*.4,seed:seed%13,thick:.14});
   if(t<dur)requestAnimationFrame(tick);else{cv.remove();resolve();}};requestAnimationFrame(tick);});
 }
 
-/** 결합 순간의 반짝임: 네 갈래 별빛 + 고리. */
+/** 결합 순간의 반짝임: 길이가 다른 네 갈래 별 + 붓 고리 (레퍼런스의 타격 반짝임). */
 export function combineFlash(x,y,{short=false,scale=1}={}){
  const cv=makeCanvas(81),speed=short?1.8:1,start=performance.now(),dur=.5;
- return new Promise(resolve=>{const tick=now=>{const t=(now-start)/1000*speed,c=fit(cv);c.translate(x,y);c.globalCompositeOperation='lighter';const k=clamp(t/dur),a=Math.exp(-Math.pow((k-.18)/.22,2)),L=(140+180*k)*scale;
-  for(const [rx,ry,w] of [[L,0,7],[0,L*.7,7],[L*.35,L*.35,3],[-L*.35,L*.35,3]]){const g=c.createLinearGradient(-rx,-ry,rx,ry);g.addColorStop(0,'rgba(180,108,255,0)');g.addColorStop(.5,`rgba(255,250,255,${a})`);g.addColorStop(1,'rgba(180,108,255,0)');c.strokeStyle=g;c.lineWidth=w*scale;c.beginPath();c.moveTo(-rx,-ry);c.lineTo(rx,ry);c.stroke();}
-  const gr=c.createRadialGradient(0,0,0,0,0,70*scale);gr.addColorStop(0,`rgba(255,255,255,${a})`);gr.addColorStop(.4,`rgba(180,108,255,${a*.6})`);gr.addColorStop(1,'rgba(90,30,200,0)');c.fillStyle=gr;c.beginPath();c.arc(0,0,70*scale,0,TAU);c.fill();
-  c.globalAlpha=(1-k)*.8;c.strokeStyle=JUDGE.core;c.lineWidth=3*scale;c.beginPath();c.arc(0,0,(30+150*out3(k))*scale,0,TAU);c.stroke();c.globalAlpha=1;
+ return new Promise(resolve=>{const tick=now=>{const t=(now-start)/1000*speed,c=fit(cv),k=clamp(t/dur),a=k<.12?1:1-smooth(.12,1,k);
+  c.globalCompositeOperation='lighter';glowDot(c,x,y,70*scale*(1-k*.4),a*.8);c.globalCompositeOperation='source-over';
+  spikeStar(c,x,y,(150+120*out3(k))*scale*(1-.5*smooth(.3,1,k)),{alpha:a,cols:JUDGE,rot:-.12,seed:3,thick:.12*(1-.6*k),extra:3});
+  brushRing(c,x,y,(36+150*out3(k))*scale,.55,{w:7*scale*(1-k),alpha:a*.9,cols:JUDGE,pieces:3,front:Math.PI/2,seed:5,gap:.4});
   if(k<1)requestAnimationFrame(tick);else{cv.remove();resolve();}};requestAnimationFrame(tick);});
 }
