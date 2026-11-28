@@ -22,7 +22,7 @@ export const HEROES = {
  jahoda:{id:'jahoda',name:'야호다',role:'행동력 보충',partner:'nefer',partnerName:'네페르',color:'#ee99bf',weakness:'추적',summary:'0코스트 태엽 카드로 행동력을 채워 동료의 큰 카드를 돕는다.'},
  kinich:{id:'kinich',name:'키니치',role:'모드 전환 연타',partner:'mualani',partnerName:'말라니',partners:['mualani','kachina'],partnerNames:{mualani:'말라니',kachina:'카치나'},color:'#58c98a',weakness:'침식',summary:'「추적」 모드의 연타로 추적흔을 쌓고 「분쇄」 모드에서 터뜨린다. 필살기 버튼이 모드 전환이다.'},
  lyney:{id:'lyney',name:'리니',role:'드로우 보충',partner:'lynette',partnerName:'리넷',color:'#e2607c',weakness:'관측',summary:'카드를 빠르게 뽑는다. 손패 10장에 막히기 전에 버리는 마술로 푼다.'},
- cyno:{id:'cyno',name:'사이노',role:'결합형 X코스트 한방',partner:'tighnari',partnerName:'타이나리',color:'#9d86f5',weakness:'의태',summary:'손에 심판의 편린만 남기면 칠흑의 심판으로 결합해, 남은 행동력을 한 번에 쏟는다.'},
+ cyno:{id:'cyno',name:'사이노',role:'명암 결합 한방',partner:'tighnari',partnerName:'타이나리',color:'#9d86f5',weakness:'의태',summary:'「심판」이 턴마다 죄·명계·의식으로 나뉘고, 손을 비우면 다시 하나로 합쳐 판정만큼 커진 한 방을 낸다.'},
 };
 export const PARTNER_PASSIVES = {
  varka:{id:'varka',hero:'lohen',name:'서풍의 전술 감각',desc:V2_PARTNERS.varka+' · 전투당 되돌리기 +1회 · 붕괴 극복 시 보호막'},
@@ -196,7 +196,7 @@ export function legLocked(s,choice,offer=s.eventOffer){return !!choice?.move&&s.
 function uidHash(uid){let h=2166136261;for(const ch of String(uid))h=Math.imul(h^ch.charCodeAt(0),16777619);return h>>>0;}
 // Eyes: stage 1 blurs one card in hand, stage 2 mixes one 실명 card into the deck, stage 3 blurs half the hand as well.
 export function isBlurred(s,c){const h=s.heroes[c?.owner],eyes=h?.body.eyes||0,b=s.battle;if(!eyes||!b||s.phase!=='battle')return false;const mine=b.hand.filter(x=>x.owner===c.owner&&!x.blindMark).sort((x,y)=>uidHash(x.uid)-uidHash(y.uid)),n=eyes>=3?Math.ceil(mine.length/2):1;return mine.slice(0,n).some(x=>x.uid===c.uid);}
-function markBlind(s,id){const b=s.battle,h=s.heroes[id];if(!b||(h.body.eyes||0)<2)return;const all=['draw','hand','discard'].flatMap(z=>b[z]).filter(c=>c.owner===id&&!c.gen&&!c.parts);if(!all.length||all.some(c=>c.blindMark))return;const c=choose(s,all);c.blindMark=true;bindBlind(s,c,true);}
+function markBlind(s,id){const b=s.battle,h=s.heroes[id];if(!b||(h.body.eyes||0)<2)return;const all=['draw','hand','discard'].flatMap(z=>b[z]).filter(c=>c.owner===id&&!c.gen&&!c.parts&&!VERDICT_KEYS.includes(c.key));if(!all.length||all.some(c=>c.blindMark))return;const c=choose(s,all);c.blindMark=true;bindBlind(s,c,true);}
 function turnAp(s){const b=s.battle;b.legDebt=(b.legDebt||0)+legPenalty(s);const cut=Math.floor(b.legDebt);b.legDebt-=cut;const ap=3+(b.apNext||0)-cut;b.apNext=0;b.legCut=cut;return Math.max(cut?1:0,ap);}
 function scarCheck(s,id,events){const h=s.heroes[id],limit=scarLimit(id);for(let i=0;i<5&&h&&!h.retired&&(h.scar||0)>=limit;i++){const open=PARTS.filter(p=>h.body[p]<3);if(!open.length){h.scar=limit-1;break;}h.scar-=limit;injury(s,id,choose(s,open),events,{roulette:true,open});}}
 export function armEffectRate(h){return Math.max(.6,1-.2*[h.body.leftArm,h.body.rightArm].filter(n=>n>=2).length);}
@@ -340,7 +340,7 @@ function beginBattle(s,kinds,events){
    const c=at<0?makeCard(s,'lohen',key,'lesson-'+index):s.battle.draw.splice(at,1)[0];
    s.battle.hand.push(c);emit(events,'draw','훈련 카드를 받았습니다.',{uid:c.uid,hero:c.owner});
   }
- }else{draw(s,5,events);rollInitiative(s);}plans(s);emit(events,'battle','전투가 시작되었습니다.');
+ }else{splitVerdict(s,events);draw(s,5,events);rollInitiative(s);}plans(s);emit(events,'battle','전투가 시작되었습니다.');
  for(const k of kinds)if(!s.collection.codex.includes(k))s.collection.codex.push(k);for(const e of s.battle?.enemies||[])if(e.look&&!s.collection.codex.includes(e.look))s.collection.codex.push(e.look);
 }
 export function healingNeeds(s){
@@ -576,14 +576,15 @@ function dmgInc(s,id,info){const h=s.heroes[id],b=s.battle,item=EQUIPMENT[h.equi
 function kinichMode(b,m){return !!b&&(b.bothModes||(b.kmode||'chase')===m);}
 function addTracks(s,n,events){const b=s.battle,before=b.tracks||0;b.tracks=Math.max(0,Math.min(10,before+n));if(b.tracks!==before)emit(events,'track',`추적흔 ${b.tracks}`,{hero:'kinich',amount:b.tracks});}
 function lastTarget(s){const live=livingEnemies(s);return live.find(e=>e.id===s.battle.lastTarget)||live[0]||null;}
-function giveShield(s,owner,ids,pct,events,label=''){ids=ids.filter(id=>s.party.includes(id)&&!s.heroes[id].retired);if(!ids.length||pct<=0)return 0;const each=Math.max(1,Math.round(heroStats(owner).def*pct/100));for(const id of ids)s.heroes[id].shield=(s.heroes[id].shield||0)+each;syncShield(s);emit(events,'shield',`${label||(HEROES[owner]?.name||'')+' 보호막'} +${each}${ids.length>1?' · 파티 전원':''}`,{hero:owner,amount:each*ids.length,each,targets:ids});return each;}
-function gainAp(s,owner,n,events){const b=s.battle;if(n>0){b.ap=Math.min(6,b.ap+n);b.apRestored=true;emit(events,'resource',`행동력 +${n}`,{hero:owner,amount:n});if(owner==='jahoda'&&active(s).includes('jahoda')){const e=[...livingEnemies(s)].sort((x,y)=>y.hp-x.hp)[0];if(e)addCrack(e,1,events);}}else b.ap=Math.max(0,b.ap+n);}
-function drawN(s,n,events){const b=s.battle,before=new Set(b.hand.map(c=>c.uid));if(n>0)draw(s,n,events);const drawn=b.hand.filter(c=>!before.has(c.uid));b.drawnThisTurn=(b.drawnThisTurn||0)+drawn.length;return drawn;}
+function giveShield(s,owner,ids,pct,events,label=''){ids=ids.filter(id=>s.party.includes(id)&&!s.heroes[id].retired);if(!ids.length||pct<=0)return 0;const each=Math.max(1,Math.round(heroStats(owner).def*pct/100));for(const id of ids)s.heroes[id].shield=(s.heroes[id].shield||0)+each;syncShield(s);emit(events,'shield',`${label||(HEROES[owner]?.name||'')+' 보호막'} +${each}${ids.length>1?' · 파티 전원':''}`,{hero:owner,amount:each*ids.length,each,targets:ids});if(ids.includes('cyno'))verdictHook(s,'cynoShield',events);return each;}
+function gainAp(s,owner,n,events){const b=s.battle;if(n>0){b.ap=Math.min(6,b.ap+n);b.apRestored=true;emit(events,'resource',`행동력 +${n}`,{hero:owner,amount:n});verdictHook(s,'apGain',events);if(owner==='jahoda'&&active(s).includes('jahoda')){const e=[...livingEnemies(s)].sort((x,y)=>y.hp-x.hp)[0];if(e)addCrack(e,1,events);}}else b.ap=Math.max(0,b.ap+n);}
+function drawN(s,n,events){const b=s.battle,before=new Set(b.hand.map(c=>c.uid));if(n>0)draw(s,n,events);const drawn=b.hand.filter(c=>!before.has(c.uid));b.drawnThisTurn=(b.drawnThisTurn||0)+drawn.length;if(drawn.length)verdictHook(s,'abilityDraw',events);return drawn;}
 function createCard(s,owner,key,events,o={}){const b=s.battle;if(!CARDS[key])return null;if(key==='l_frost'&&!o.force&&b.hand.filter(c=>c.key==='l_frost').length>=3)return null;if(!o.force&&b.hand.length>=HAND_LIMIT)return null;
  b.genSeq=(b.genSeq||0)+1;const c={owner,key,uid:`gen-${key}-${b.turn}-${b.genSeq}`,gen:true};if(o.retain)c.keepRetain=true;bindBlind(s,c,true);b.hand.push(c);emit(events,'createCard',`${CARDS[key].name} 생성`,{hero:owner,uid:c.uid});return c;}
 // A card leaves the hand without being played. Returns 'frost' for 서리 파편 so callers can batch the follow-up.
 function discardCard(s,c,events,o={}){const b=s.battle;b.discardedThisTurn=(b.discardedThisTurn||0)+1;delete c.retained;delete c.initiative;const view=cardInfo(s,c),info=view?.actual||view;
  emit(events,'discard',`${CARDS[c.key]?.name||'카드'} 버림`,{uid:c.uid,hero:c.owner});
+ if(!VERDICT_KEYS.includes(c.key))verdictHook(s,'abilityDiscard',events);
  if(c.key==='l_frost'){b.exhaust.push(c);return 'frost';}
  if(c.parts){b.discard.push(...c.parts);return 'ok';}
  if(o.toTop)b.draw.push(c);else if(o.toBottom)b.draw.unshift(c);else if(o.returnShards&&info?.shard&&b.hand.length<HAND_LIMIT)b.hand.push(c);else toDiscard(s,c,events);
@@ -600,13 +601,43 @@ function durinAssist(s,c,events){const b=s.battle;if(c.owner==='durin'||b.foreca
 function switchMode(s,events,{free=false}={}){const b=s.battle;b.kmode=(b.kmode||'chase')==='chase'?'crush':'chase';const first=!b.modeSwitched;b.modeSwitched=true;if(!free)b.modeLeft=Math.max(0,(b.modeLeft??1)-1);
  emit(events,'mode',`키니치 · 「${b.kmode==='chase'?'추적':'분쇄'}」 모드`,{hero:'kinich',mode:b.kmode,first,partner:b.kmode==='chase'?'mualani':'kachina'});createCard(s,'kinich','k_ajaw',events);}
 function shardInfo(s,c){const v=cardInfo(s,c);return v?.actual||v;}
-// 결합: after a Cyno card, a hand of two or more 심판의 편린 and nothing else merges into 칠흑의 심판.
-function tryCombine(s,events){const b=s.battle;if(!b||s.phase!=='battle'||!active(s).includes('cyno')||s.heroes.cyno.breakdown||b.chooseDiscard||b.pickDraw||b.hand.length<2)return;
- if(!b.hand.every(c=>c.owner==='cyno'&&shardInfo(s,c)?.shard))return;const parts=b.hand.splice(0);let shards=parts.length,coef=(b.combineCoef||0)+(b.combineGrow||0);
- for(const p of parts){const i=shardInfo(s,p);if(i.shardCoefPerRetain)coef+=i.shardCoefPerRetain*(p.retained||0);}
- if(!b.combined&&b.combineFirstPlus)shards+=b.combineFirstPlus;if(b.combinePlus){shards+=b.combinePlus;b.combinePlus=0;}if(livingEnemies(s).some(e=>e.aim))shards++;
- b.combineCoef=0;if((b.persist||[]).some(p=>p.watch==='combineGrow'))b.combineGrow=(b.combineGrow||0)+15;b.combined=(b.combined||0)+1;
- const j={owner:'cyno',key:'c_judgment',uid:`judgment-${b.turn}-${b.combined}`,parts,shards,coef,gen:true};b.hand.push(j);emit(events,'combine',`심판의 편린 ${parts.length}장 결합 · 칠흑의 심판 (편린 ${shards})`,{hero:'cyno',uid:j.uid});}
+// ---- v0.37 사이노 「심판」 명암 (로스바이세 명멸검 구조) ----
+export const VERDICT_KEYS=['c_judgment','c_sin','c_dark','c_rite'];
+export const VERDICT_MAX=20,VERDICT_PCT=80;
+// 심판의 분기에 따라 죄·명계가 저절로 발동하는 조건: [죄, 명계, 턴당 횟수]
+export const VERDICT_RULES={base:['cynoCard','allyCards',2],cycle:['abilityDiscard','abilityDraw',2],aegis:['cynoHit','cynoShield',1],unbound:['apGain','costCard',2]};
+const VERDICT_TEXT={cynoCard:'사이노 카드를 쓸 때마다',allyCards:'동료 카드를 2장 쓸 때마다',abilityDiscard:'능력으로 카드를 버릴 때마다',abilityDraw:'능력으로 카드를 뽑을 때마다',cynoHit:'사이노가 피격될 때',cynoShield:'사이노가 보호막을 얻을 때',apGain:'능력으로 행동력을 얻을 때마다',costCard:'비용 1 이상 카드를 쓸 때마다'};
+function verdictForm(s){const br=s.heroes.cyno?.upgrades?.c_judgment,spec=br?V2_BRANCHES.c_judgment?.[br]:null;return {rule:VERDICT_RULES[spec?.verdictRule||'base'],pct:spec?.verdictPct||VERDICT_PCT};}
+function verdictLive(s){const h=s.heroes.cyno;return s.phase==='battle'&&!!s.battle&&active(s).includes('cyno')&&!h.retired&&!h.breakdown;}
+const verdictZones=b=>['hand','draw','discard','exhaust'];
+function takeVerdict(b,keys){const out=[];for(const z of verdictZones(b))b[z]=b[z].filter(c=>{if(keys.includes(c.key)){out.push(c);return false;}return true;});return out;}
+// 턴 시작(전투 시작 포함): 죄·명계가 손에 없으면 「심판」을 손으로 가져와 죄(맨 왼쪽)·명계(맨 오른쪽)·의식으로 나눈다. 턴당 1회.
+function splitVerdict(s,events){const b=s.battle;if(!verdictLive(s)||b.splitTurn===b.turn)return;if(b.hand.some(c=>c.key==='c_sin'||c.key==='c_dark'))return;
+ const owned=[...b.hand,...b.draw,...b.discard].some(c=>c.key==='c_judgment')||b.verdictWhole;if(!owned)return;
+ b.splitTurn=b.turn;const whole=takeVerdict(b,['c_judgment'])[0]||b.verdictWhole;const strays=takeVerdict(b,['c_sin','c_dark','c_rite']);const keep=strays.find(c=>c.key==='c_rite');
+ b.verdictWhole={owner:'cyno',key:'c_judgment',uid:whole.uid};b.genSeq=(b.genSeq||0)+1;const n=b.genSeq,mk=key=>({owner:'cyno',key,uid:`verdict-${key}-${b.turn}-${n}`,gen:true});
+ const sin=mk('c_sin'),dark=mk('c_dark'),rite=keep||mk('c_rite');rite.verdict=Math.min(VERDICT_MAX,Math.max(rite.verdict||1,1+(b.verdictStart||0)+(b.combineGrow||0))+(b.verdictCarry||0));b.verdictCarry=0;delete rite.retained;
+ b.hand.unshift(sin);b.hand.push(rite,dark);
+ emit(events,'split','심판 · 죄와 명계, 의식으로 나뉩니다.',{hero:'cyno',uids:[sin.uid,dark.uid,rite.uid]});for(const c of [sin,dark,rite])emit(events,'createCard',`${CARDS[c.key].name} 생성`,{hero:'cyno',uid:c.uid});}
+function riteCard(s){return s.battle?.hand.find(c=>c.key==='c_rite');}
+function addVerdict(s,n,events){const b=s.battle;if(!b)return;let r=riteCard(s);if(!r){r=createCard(s,'cyno','c_rite',events,{force:true});if(!r){b.verdictCarry=(b.verdictCarry||0)+n;return;}r.verdict=0;}
+ const before=r.verdict||0;r.verdict=Math.min(VERDICT_MAX,before+n);if(r.verdict>before)emit(events,'verdict',`의식 · 판정 ${r.verdict}`,{hero:'cyno',uid:r.uid,amount:r.verdict});}
+// 손에 있는 죄·명계가 조건에 맞으면 저절로 발동한다(무작위 적 피해, 판정 +1).
+function verdictHook(s,kind,events){if(!verdictLive(s)||b0(s).verdictBusy)return;const b=s.battle,{rule}=verdictForm(s);
+ for(const [i,key] of [[0,'c_sin'],[1,'c_dark']]){if(rule[i]!==kind)continue;const c=b.hand.find(x=>x.key===key);if(!c)continue;b.verdictProcs??={};if((b.verdictProcs[key]||0)>=rule[2])continue;if(!livingEnemies(s).length)return;
+  b.verdictProcs[key]=(b.verdictProcs[key]||0)+1;const info=cardInfo(s,c),h=s.heroes.cyno;b.verdictBusy=true;
+  try{emit(events,'verdictProc',`${CARDS[key].name} · 발동`,{hero:'cyno',uid:c.uid,part:key==='c_sin'?'sin':'dark'});runOps(s,{c,info,owner:'cyno',h,target:null,rate:info.injuryRate||1,mark:events.length,followUp:true,apSpent:0},info.ops,events);}finally{b.verdictBusy=false;}if(s.phase!=='battle')return;}}
+const b0=s=>s.battle||{};
+// 손에 죄·명계와 사용 불가 카드만 남으면 전부 「심판」 하나로 합친다. 의식의 판정 1당 이번 턴 심판 피해 +80%.
+function tryCombine(s,events){const b=s.battle;if(!verdictLive(s)||b.chooseDiscard||b.pickDraw)return;
+ const parts=b.hand.filter(c=>c.key==='c_sin'||c.key==='c_dark');if(!parts.length)return;
+ if(!b.hand.every(c=>VERDICT_KEYS.includes(c.key)||(cardInfo(s,c)?.keywords||[]).includes('unplayable')&&!cardInfo(s,c)?.breakdown))return;
+ const rite=riteCard(s),stacks=rite?.verdict||0;takeVerdict(b,['c_sin','c_dark','c_rite']);
+ const whole={owner:'cyno',key:'c_judgment',uid:b.verdictWhole?.uid||`cyno-c_judgment-${b.turn}`,verdictBonus:VERDICT_PCT*stacks,bonusTurn:b.turn,verdictStacks:stacks};delete b.verdictWhole;
+ if((b.persist||[]).some(p=>p.watch==='combineGrow'))b.combineGrow=(b.combineGrow||0)+2;b.combined=(b.combined||0)+1;b.hand.push(whole);
+ emit(events,'combine',`명암 결합 · 심판 (판정 ${stacks}, 피해 +${VERDICT_PCT*stacks}%)`,{hero:'cyno',uid:whole.uid,stacks});}
+function fixedDamage(s,e,n,owner,events){if(!e||e.hp<=0||n<=0)return;e.hp=Math.max(0,e.hp-n);emit(events,'damage',`${e.name}에게 고정 피해 ${n}`,{hero:owner,enemy:e.id,amount:n,crit:false,fixed:true});if(e.hp===0)emit(events,'kill',`${e.name} 제압`,{enemy:e.id});plans(s);}
+export {VERDICT_TEXT};
 function startDiscard(s,ctx,o,events){const b=s.battle,eligible=b.hand.filter(c=>o.filter!=='nonShard'||!shardInfo(s,c)?.shard),n=Math.min(o.n||1,eligible.length);
  b.discardCtx={owner:ctx.owner,filter:o.filter||null,optional:!!o.optional,allyAp:o.allyAp||0,toTop:!!o.toTop,toBottom:!!o.toBottom,returnShards:!!o.returnShards,thenDrawEqual:!!o.thenDrawEqual,extraDraw:o.extraDraw||0,apAt:o.apAt||0,then:o.then||null,count:0};
  b.chooseDiscard=n;if(!n)finishDiscard(s,events);}
@@ -614,7 +645,7 @@ function finishDiscard(s,events){const b=s.battle,d=b.discardCtx;b.chooseDiscard
  if(d.count>0&&d.owner==='lyney')lynetteStrike(s,events);
  if(d.thenDrawEqual&&d.count>0)drawN(s,d.count+d.extraDraw,events);if(d.apAt&&d.count>=d.apAt)gainAp(s,d.owner,1,events);
  if(d.then)runOps(s,{c:{owner:d.owner,key:'',uid:'after-discard'},info:{},owner:d.owner,h:s.heroes[d.owner],target:null,rate:1,mark:events.length,apSpent:0},d.then,events);
- if(d.owner==='cyno')tryCombine(s,events);}
+ tryCombine(s,events);}
 function opCond(s,ctx,cond){const b=s.battle;if(cond==='frostInHand2')return b.hand.filter(c=>c.key==='l_frost').length>=2;if(cond==='track5')return (b.tracks||0)>=5;if(cond==='aimTarget')return !!ctx.target?.aim;return false;}
 function runOps(s,ctx,ops,events){
  const b=s.battle,{c,info,h}=ctx,key=info?.effectiveKey||c?.key;
@@ -622,7 +653,7 @@ function runOps(s,ctx,ops,events){
   if(s.phase!=='battle')return;
   switch(o.op){
    case 'dmg':{
-    const tracks=b.tracks||0;let pct=o.pct||0,used=0;
+    const tracks=b.tracks||0;let pct=(info?.verdictPct&&['sin','dark'].includes(info.verdictPart)?info.verdictPct:o.pct)||0,used=0;
     if(o.retainPct&&c.retained)pct+=o.retainPct;if(o.perRetain)pct+=o.perRetain*Math.min(o.perMax||9,c.retained||0);
     if(o.perUse)pct+=o.perUse*Math.min(o.perMax||9,b.useCount?.[key]||0);
     if(o.perGraveAttack)pct+=o.perGraveAttack*Math.min(o.perMax||9,b.discard.filter(x=>x.owner===ctx.owner&&x.uid!==c.uid&&CARDS[x.key]?.type==='attack').length);
@@ -631,6 +662,7 @@ function runOps(s,ctx,ops,events){
     if(o.perTrack){pct+=o.perTrack*tracks;used=o.trackUse==='half'?Math.ceil(tracks/2):o.trackUse==='none'?0:tracks;}
     if(o.perTrackBonus)pct+=o.perTrackBonus*tracks;
     if(o.judgment)pct+=o.perAp*(ctx.apSpent||0)+o.perShard*(c.shards||0)+(c.coef||0);
+    if(o.verdictWhole&&c.bonusTurn===b.turn)pct+=c.verdictBonus||0;
     let hits=o.hits||1;
     if(o.multi){hits+=(b.bonusHits||0)+(b.multiPlus||0);b.bonusHits=0;if(ctx.owner==='kinich'&&kinichMode(b,'chase')&&(b.mualaniUsed||0)<2){hits++;b.mualaniUsed=(b.mualaniUsed||0)+1;}}
     const opts={inc:ctx.followUp?levelInc(h):dmgInc(s,ctx.owner,info)};
@@ -642,12 +674,13 @@ function runOps(s,ctx,ops,events){
     if(o.pierceWard)opts.pierceWard=true;
     for(let i=0;i<hits&&s.phase==='battle';i++){
      const live=livingEnemies(s);if(!live.length)break;
-     const targets=o.aoe?[...live]:o.random?[choose(s,live)]:[ctx.target&&ctx.target.hp>0?ctx.target:lastTarget(s)].filter(Boolean);
+     const targets=o.aoe?[...live]:o.random?[o.preferAim&&live.find(e=>e.aim)||choose(s,live)]:[ctx.target&&ctx.target.hp>0?ctx.target:lastTarget(s)].filter(Boolean);
      for(const e of targets){const x={...opts};let p=pct;if(o.ifCrack&&e.crack>0)x.inc+=o.ifCrack/100;if(o.ifAim&&e.aim)p+=o.ifAim;if(o.crackMaxDouble&&(e.crack||0)>=CRACK_MAX)p*=2;if(ctx.owner==='cyno'&&e.aim)x.crBonus=.3;
       damageEnemy(s,e,p*(ctx.rate||1)*PT,ctx.owner,events,0,x);if(o.crack&&e.hp>0)addCrack(e,o.crack,events);b.lastTarget=e.id;}
      if(o.multi&&ctx.owner==='kinich')addTracks(s,o.trackPer||1,events);
     }
     if(used)addTracks(s,-used,events);
+    if(o.verdictWhole&&b.verdictEcho&&s.phase==='battle'){const e=ctx.target?.hp>0?ctx.target:lastTarget(s);if(e)fixedDamage(s,e,b.verdictEcho,'cyno',events);b.verdictEcho=0;}
     if(o.judgment&&o.refund)gainAp(s,ctx.owner,o.refund,events);
     break;}
    case 'shield':{
@@ -700,6 +733,9 @@ function runOps(s,ctx,ops,events){
    case 'hatProc':b.hatProc=o.pct;break;
    case 'hatUsed':if(b.hatProc&&livingEnemies(s).length)damageEnemy(s,choose(s,livingEnemies(s)),b.hatProc*PT,'lyney',events,0,{inc:levelInc(s.heroes.lyney)});break;
    case 'combineCoef':b.combineCoef=(b.combineCoef||0)+o.pct;break;
+   case 'verdict':addVerdict(s,o.n||1,events);break;
+   case 'verdictCarry':b.verdictCarry=(b.verdictCarry||0)+(o.n||1);break;
+   case 'verdictStart':b.verdictStart=Math.max(b.verdictStart||0,o.n||1);break;
    case 'combinePlus':if(o.first){if(!b.combined)b.combineFirstPlus=Math.max(b.combineFirstPlus||0,o.n);}else b.combinePlus=(b.combinePlus||0)+o.n;break;
    case 'aim':if(ctx.target&&ctx.target.hp>0){ctx.target.aim=true;emit(events,'aim',`${ctx.target.name} · 조준점`,{enemy:ctx.target.id,hero:'cyno'});}break;
    case 'recoverShard':{const at=b.discard.findIndex(x=>x.owner==='cyno'&&CARDS[x.key]?.shard);if(at>=0&&b.hand.length<HAND_LIMIT){const [x]=b.discard.splice(at,1);b.hand.push(x);emit(events,'draw','무덤의 편린을 되찾았습니다.',{uid:x.uid,hero:'cyno'});}break;}
@@ -719,6 +755,11 @@ function cardInfoV2(s,c,h,key,blind){
  let desc=(keywords.length?keywordLine(keywords)+'. ':'')+form.text;if(c.parts)desc+=` 지금 쓰면 피해 ${Math.round(dp)}% (편린 ${c.shards}${c.coef?`, 계수 +${c.coef}%`:''}).`;if(rate<1)desc+=` (팔 결손: 효과 ${Math.round(rate*100)}%)`;if(armTax)desc+=' (팔 부상: 비용 +1)';if(sparkInfo)desc+=' '+sparkInfo.desc;
  const actual={...form,name:base.name,title:spec?.title||null,amount,numbers,keywords,cost:c.epiphany&&!blind?0:cost,baseCost:cost,discounted,epiphany:!!c.epiphany&&!blind,desc,effects:{},exhaust:keywords.includes('exhaust'),upgraded:!!branch,branch,spark:sparkId,sparkName:sparkInfo?.name||null,effectiveKey:key,injuryRate:rate,blurred:isBlurred(s,c),armTax,v2:true};
  if(form.xCost)actual.displayCost='X';
+ if(form.verdictPart){const vf=verdictForm(s),side=form.verdictPart;
+  if(side==='sin'||side==='dark'){const i=side==='sin'?0:1;actual.verdictPct=vf.pct;actual.text=`무작위 적에게 피해 ${vf.pct}%, 의식의 판정 +1. ${VERDICT_TEXT[vf.rule[i]]} 이 효과가 저절로 발동한다(턴당 ${vf.rule[2]}회). 손패 맨 ${i?'오른쪽':'왼쪽'}에 놓인다.`;actual.desc=(keywords.length?keywordLine(keywords)+'. ':'')+actual.text+(b?` (이번 턴 ${b.verdictProcs?.[key]||0}/${vf.rule[2]})`:'');
+   if(actual.numbers?.damage!=null){const r=vf.pct/(form.ops[0]?.pct||80);actual.numbers={...actual.numbers,damage:Math.round(actual.numbers.damage*r),critDamage:Math.round(actual.numbers.critDamage*r)};}}
+  if(side==='rite'){const v=c.verdict||1;actual.displayCost='-';actual.verdict=v;actual.desc+=` 지금 판정 ${v}/${VERDICT_MAX} · 결합하면 심판 피해 +${VERDICT_PCT*v}%.`;}
+  if(side==='whole'&&b){const bonus=c.bonusTurn===b.turn?c.verdictBonus||0:0;if(bonus){actual.desc+=` 이번 턴 판정 ${c.verdictStacks} · 피해 +${bonus}%.`;if(actual.numbers?.damage!=null){const r=(dp+bonus)/Math.max(1,dp);actual.numbers={...actual.numbers,damage:Math.round(actual.numbers.damage*r),critDamage:Math.round(actual.numbers.critDamage*r)};}}if(b.verdictEcho)actual.desc+=` 추가 고정 피해 ${b.verdictEcho}.`;}}
  return blind?{...actual,name:'실명',desc:'??',displayCost:'?',upgraded:false,blind:true,target:'none',type:'blind',actual}:actual;
 }
 function playV2(s,c,info,target,a,events){
@@ -731,14 +772,16 @@ function playV2(s,c,info,target,a,events){
  b.useCount[key]=(b.useCount[key]||0)+1;b.turnUses[key]=(b.turnUses[key]||0)+1;
  if(info.type==='attack'){delete h.buffs.nextPct;delete h.buffs.awaken;delete h.buffs.flins;h.buffs.firstAttack=false;if(info.cost>=3)delete b.bigNext;if(c.owner==='kinich'&&info.mode==='crush')delete b.crushNext;if(s.phase==='battle')durinAssist(s,c,events);}
  if(info.type==='guard')delete h.buffs.awaken;
- if(c.parts&&s.phase==='battle')createCard(s,'cyno','c_feather',events);
  if(s.phase!=='battle')return;
  if(info.spark==='ember_support')s.support=Math.min(6,s.support+1);if(info.spark==='ember_calm')h.stress=Math.max(0,h.stress-4);
  b.effectUsed??={};const gate='spark:'+c.owner;
  if(info.spark==='ember_draw'&&!b.effectUsed[gate+':draw']){b.effectUsed[gate+':draw']=true;drawN(s,1,events);}
  if(info.spark==='ember_mercy'&&!b.effectUsed[gate+':heal']){b.effectUsed[gate+':heal']=true;const n=Math.min(hpPts(s,3),s.maxHp-s.hp);s.hp+=n;h.scar=Math.max(0,(h.scar||0)-hpPts(s,3));emit(events,'cardHeal',`잔불의 온기 · 체력 +${n}`,{hero:c.owner,amount:n});}
  if(info.cost===0&&!b.zeroUsed){b.zeroUsed=true;if((b.persist||[]).some(p=>p.watch==='firstZero'))gainAp(s,'jahoda',1,events);}
- if(c.owner==='cyno')tryCombine(s,events);
+ if(info.cost>=1&&!VERDICT_KEYS.includes(c.key))verdictHook(s,'costCard',events);
+ if(c.owner==='cyno'&&!VERDICT_KEYS.includes(c.key))verdictHook(s,'cynoCard',events);
+ if(c.owner!=='cyno'&&!info.breakdown){b.verdictAllies=(b.verdictAllies||0)+1;if(b.verdictAllies%2===0)verdictHook(s,'allyCards',events);}
+ tryCombine(s,events);
 }
 function support(s,a,events){
  if(s.phase!=='battle')reject('전투 중에 지원을 요청할 수 있습니다.');const b=s.battle;let id=a.hero;
@@ -770,7 +813,7 @@ function ultimate(s,a,events){
  if(id==='illuga'){addShield(s,id,25,events,{party:true,label:'일루가 필살기 · 보호막'});for(const ally of active(s)){const ah=s.heroes[ally];ah.buffs.reflect=Math.max(ah.buffs.reflect||0,12);ah.buffs.reflectBy='illuga';}emit(events,'reflectReady','파티 전원 · 되비춤 준비',{hero:id});}
  if(id==='jahoda'){b.ap=Math.min(6,b.ap+2);draw(s,Math.max(0,2-[h.body.leftArm,h.body.rightArm].filter(n=>n===3).length),events);emit(events,'resource','행동력 +2 · 카드 드로우',{hero:id});}
  if(id==='lyney'){for(const e of [...livingEnemies(s)])damageEnemy(s,e,200*PT,id,events,0,{inc:levelInc(h)});if(s.phase==='battle')drawN(s,3,events);}
- if(id==='cyno'){damageEnemy(s,target,350*PT,id,events,0,{inc:levelInc(h),crBonus:target.aim?.3:0});if(s.phase==='battle')for(const k of ['c_thrust','c_claw','c_gaze'])createCard(s,id,k,events);}
+ if(id==='cyno'){const hp0=target.hp;damageEnemy(s,target,350*PT,id,events,0,{inc:levelInc(h),crBonus:target.aim?.3:0});if(s.phase==='battle'){b.verdictEcho=Math.round((hp0-target.hp)*.3);if(b.verdictEcho)emit(events,'verdictEcho',`다음 「심판」 · 추가 고정 피해 ${b.verdictEcho}`,{hero:'cyno',amount:b.verdictEcho});}}
  plans(s);checkVictory(s,events);
 }
 function endTurn(s,events){
@@ -788,6 +831,7 @@ function endTurn(s,events){
   b.hitStress??={};let mental=it.stress||0;if(taken>0&&(b.hitStress[it.target]||0)<HIT_STRESS_CAP){b.hitStress[it.target]=(b.hitStress[it.target]||0)+1;mental+=ENEMIES[e.kind]?.boss?HIT_STRESS.boss:isEliteFight(s)?HIT_STRESS.elite:HIT_STRESS.normal;}if(mental)stress(s,it.target,mental,events,it.mental?'정신공격':it.tag);
   if(it.corrosion)b.corrosion=Math.max(b.corrosion,it.corrosion);
   if(taken>0)scarCheck(s,it.target,events);
+  if(taken>0&&it.target==='cyno')verdictHook(s,'cynoHit',events);
   if(it.summon&&livingEnemies(s).filter(x=>x.kind==='angler').length<2){const angler=makeEnemy(s,'angler',b.turn*10);b.enemies.push(angler);if(!s.collection.codex.includes('angler'))s.collection.codex.push('angler');if(!s.collection.codex.includes(angler.look))s.collection.codex.push(angler.look);emit(events,'summon',`${angler.name} 하나가 나타납니다.`);}
   if(it.stars&&!livingEnemies(s).some(x=>x.kind==='star')){const pair=[makeEnemy(s,'star',b.turn*10),makeEnemy(s,'star',b.turn*10+1)];b.enemies.push(...pair);for(const k of ['star',pair[0].look])if(!s.collection.codex.includes(k))s.collection.codex.push(k);emit(events,'summon',`${pair[0].name} 둘이 펼쳐집니다.`);}
   e.turn++;if(e.wither)e.wither--;if(s.hp<=0)defeat(s,events);
@@ -804,8 +848,8 @@ function endTurn(s,events){
   emit(events,'discard',`${HEROES[c.owner].name}의 카드를 버립니다.`,{uid:c.uid,hero:c.owner});b.discard.push(c);delete c.initiative;}
   b.hand.push(...keep);}
  b.chainUsed={};b.chainCount={};b.hitStress={};b.turn++;b.ap=turnAp(s);if(b.legCut)emit(events,'legs',`다리 부상 · 행동력 -${b.legCut}`,{amount:b.legCut});b.supportUsed=false;b.spent=0;b.supportCharged=false;b.recovered=false;b.effectUsed={};delete b.nextAttackDiscount;b.undoStack=[];
- Object.assign(b,{assists:0,assistCap:0,assistChance:0,frostBoost:0,discardedThisTurn:0,apRestored:false,turnUses:{},zeroUsed:false,costNext:0,bigNext:0,mualaniUsed:0,modeLeft:1,bothModes:false,multiPlus:0,kinichTurnDmg:0,hatProc:0,lynetteUsed:false,stressImmune:false,reflectApUsed:false,armTax:{}});
- if(s.mode==='raid'&&s.raidRun&&b.turn>(s.raidRun.maxTurns||6)){settleRaid(s,events,'turnLimit');return;}if(b.morale)b.morale--;draw(s,5+(b.drawNext||0),events);b.drawNext=0;b.drawnThisTurn=0;rollInitiative(s);
+ Object.assign(b,{assists:0,assistCap:0,assistChance:0,frostBoost:0,discardedThisTurn:0,apRestored:false,turnUses:{},zeroUsed:false,costNext:0,bigNext:0,mualaniUsed:0,modeLeft:1,bothModes:false,multiPlus:0,kinichTurnDmg:0,hatProc:0,lynetteUsed:false,stressImmune:false,reflectApUsed:false,armTax:{},verdictProcs:{},verdictAllies:0});
+ if(s.mode==='raid'&&s.raidRun&&b.turn>(s.raidRun.maxTurns||6)){settleRaid(s,events,'turnLimit');return;}if(b.morale)b.morale--;splitVerdict(s,events);draw(s,5+(b.drawNext||0),events);b.drawNext=0;b.drawnThisTurn=0;rollInitiative(s);
  for(const p of b.persist||[])if(p.ops&&s.phase==='battle'&&active(s).includes(p.owner))runOps(s,{c:{owner:p.owner,key:p.key,uid:'persist-'+p.key},info:{effectiveKey:p.key,cost:0},owner:p.owner,h:s.heroes[p.owner],target:null,rate:1,mark:events.length,followUp:true,apSpent:0},p.ops,events);
  if(s.phase!=='battle')return;checkVictory(s,events);if(s.phase!=='battle')return;plans(s);emit(events,'turn',`${b.turn}번째 턴`);
 }
@@ -949,7 +993,7 @@ function perform(s,a,events){
   }
   case 'play':{const owner=s.battle?.hand.find(c=>c.uid===a.uid)?.owner;play(s,a,events);if(owner)battleAwakening(s,owner,events);break;}
   case 'discard':{
-   if(s.phase!=='battle'||!s.battle.chooseDiscard)reject('버릴 카드를 선택하는 중이 아닙니다.');const b=s.battle,d=b.discardCtx,i=b.hand.findIndex(c=>c.uid===a.uid);if(i<0)reject('손패에서 버릴 카드를 선택하세요.');if(d?.filter==='nonShard'&&shardInfo(s,b.hand[i])?.shard)reject('심판의 편린이 아닌 카드를 고르세요.');const [c]=b.hand.splice(i,1);
+   if(s.phase!=='battle'||!s.battle.chooseDiscard)reject('버릴 카드를 선택하는 중이 아닙니다.');const b=s.battle,d=b.discardCtx,i=b.hand.findIndex(c=>c.uid===a.uid);if(i<0)reject('손패에서 버릴 카드를 선택하세요.');if(d?.filter==='nonShard'&&shardInfo(s,b.hand[i])?.shard)reject('「심판」 카드가 아닌 카드를 고르세요.');const [c]=b.hand.splice(i,1);
    if(d){d.count++;if(d.allyAp&&c.owner!==d.owner)gainAp(s,d.owner,d.allyAp,events);}if(discardCard(s,c,events,d||{})==='frost')frostBurst(s,1,events);b.chooseDiscard--;
    if(d&&(b.chooseDiscard<=0||!b.hand.some(x=>d.filter!=='nonShard'||!shardInfo(s,x)?.shard)))finishDiscard(s,events);
    if(s.phase==='battle'){plans(s);checkVictory(s,events);}break;

@@ -16,11 +16,11 @@ function arena(party,hand,{enemies=1}={}){
 const dmg=r=>r.events.filter(e=>e.type==='damage').map(e=>e.amount);
 const foe=s=>s.battle.enemies[0];
 
-test('v0.36 stage 4: seven fighters, 62 cards (56 with four branches, 6 special) and the plan stats',()=>{
+test('v0.36 stage 4 (v0.37 사이노 명암): seven fighters, 64 cards (56 with four branches, 8 special) and the plan stats',()=>{
  assert.deepEqual(Object.keys(HEROES),['lohen','durin','illuga','jahoda','kinich','lyney','cyno']);assert.deepEqual(CAST_IDS,Object.keys(HEROES));
  assert.deepEqual(HERO_STATS.kinich,{hp:430,atk:85,def:50,cr:.2,cd:1.3});assert.deepEqual(HERO_STATS.cyno,{hp:400,atk:120,def:45,cr:.1,cd:2});assert.equal(HERO_STATS.lyney.atk,80);
- const count=id=>Object.values(V2_CARDS).filter(c=>c.owner===id).length;assert.deepEqual(CAST_IDS.map(count),[9,9,7,8,10,10,9]);
- assert.equal(Object.keys(INSIGHTS).length,56);assert.equal(SPECIAL_CARDS.length,6);for(const k of SPECIAL_CARDS)assert.ok(!INSIGHTS[k]&&CARDS[k].generated);
+ const count=id=>Object.values(V2_CARDS).filter(c=>c.owner===id).length;assert.deepEqual(CAST_IDS.map(count),[9,9,7,8,10,10,11]);
+ assert.equal(Object.keys(INSIGHTS).length,56);assert.equal(SPECIAL_CARDS.length,8);for(const k of SPECIAL_CARDS)assert.ok(!INSIGHTS[k]&&CARDS[k].generated);
  for(const id of CAST_IDS){assert.equal(V2_STARTERS[id].length,4);for(const k of V2_STARTERS[id])assert.equal(CARDS[k].owner,id);}
  for(const p of ['mualani','kachina','lynette','tighnari'])assert.ok(PARTNER_PASSIVES[p].desc.length>10);assert.deepEqual(HEROES.kinich.partners,['mualani','kachina']);
 });
@@ -81,14 +81,28 @@ test('v0.36 stage 4 리니: draws, chosen discards, 셔플 and 커튼콜; the ha
  const pick=arena(['lyney','lohen','durin'],['y_trick']);pick.heroes.lyney.upgrades.y_trick='C';pick.battle.draw=[{uid:'p1',owner:'lohen',key:'l_guard'},{uid:'p2',owner:'lohen',key:'l_pierce'}];go(pick,{type:'play',uid:'h0'});assert.ok(pick.battle.pickDraw);assert.equal(act(pick,{type:'endTurn'}).ok,false);go(pick,{type:'pickDraw',uid:'p2'});assert.ok(pick.battle.hand.some(c=>c.uid==='p2'));
 });
 
-test('v0.36 stage 4 사이노: shards alone combine into 칠흑의 심판, which spends every AP and splits back',()=>{
- const s=arena(['cyno','lohen','durin'],['c_thrust','c_claw','c_stance']);s.battle.ap=4;
- let r=go(s,{type:'play',uid:'h2'});assert.ok(r.events.some(e=>e.type==='combine'));assert.equal(s.battle.hand.length,1);const j=s.battle.hand[0];assert.equal(j.key,'c_judgment');assert.equal(j.shards,2);
- const info=cardInfo(s,j);assert.equal(info.displayCost,'X');assert.equal(info.cost,3);
- r=go(s,{type:'play',uid:j.uid,target:foe(s).id});assert.deepEqual(dmg(r),[Math.round(120*(80+70*3+15*2)/100)]);assert.equal(s.battle.turn,2);
- assert.ok(['h0','h1'].every(u=>[...s.battle.discard,...s.battle.hand,...s.battle.draw].some(c=>c.uid===u)));assert.ok([...s.battle.hand,...s.battle.discard,...s.battle.exhaust].some(c=>c.key==='c_feather'));
- const t=arena(['cyno','lohen','durin'],['c_thrust','c_claw','l_guard']);const before=t.battle.hand.length;go(t,{type:'play',uid:'h0',target:foe(t).id});assert.ok(foe(t).aim);assert.ok(!t.battle.hand.some(c=>c.key==='c_judgment'));assert.equal(t.battle.hand.length,before-1);
+test('v0.37 사이노 명암: 심판이 전투 시작에 죄·명계·의식으로 나뉘고, 조건에 맞으면 저절로 발동한다',()=>{
+ const g=createGame(77,{tutorial:false});g.party=['cyno','lohen','durin'];g.phase='base';g.node=7;go(g,{type:'farm'});const b=g.battle;
+ assert.equal(b.hand[0].key,'c_sin');assert.ok(b.hand.some(c=>c.key==='c_dark')&&b.hand.some(c=>c.key==='c_rite'));assert.ok(![...b.draw,...b.discard,...b.hand].some(c=>c.key==='c_judgment'));
+ assert.equal(b.hand.find(c=>c.key==='c_rite').verdict,1);assert.equal(cardInfo(g,b.hand.find(c=>c.key==='c_rite')).displayCost,'-');
+ const s=arena(['cyno','lohen','durin'],['c_thrust','l_guard','l_guard','l_strike']);const v=s.battle;v.hand.unshift({uid:'sin',owner:'cyno',key:'c_sin',gen:true});v.hand.push({uid:'rite',owner:'cyno',key:'c_rite',gen:true,verdict:1},{uid:'dark',owner:'cyno',key:'c_dark',gen:true});
+ let r=go(s,{type:'play',uid:'h0',target:foe(s).id});assert.equal(dmg(r).length,2);assert.ok(r.events.some(e=>e.type==='verdictProc'&&e.part==='sin'));assert.equal(s.battle.hand.find(c=>c.key==='c_rite').verdict,2);
+ r=go(s,{type:'play',uid:'h1',target:'lohen'});assert.ok(!r.events.some(e=>e.type==='verdictProc'));
+ r=go(s,{type:'play',uid:'h2',target:'lohen'});assert.ok(r.events.some(e=>e.type==='verdictProc'&&e.part==='dark'));assert.equal(s.battle.hand.find(c=>c.key==='c_rite').verdict,3);
+});
+test('v0.37 사이노 명암: 손에 죄·명계와 사용 불가 카드만 남으면 심판으로 결합하고, 판정 1당 +80%로 친 뒤 다음 턴에 다시 나뉜다',()=>{
+ const s=arena(['cyno','lohen','durin'],['c_thrust']);const b=s.battle;b.hand.unshift({uid:'sin',owner:'cyno',key:'c_sin',gen:true});b.hand.push({uid:'rite',owner:'cyno',key:'c_rite',gen:true,verdict:3},{uid:'dark',owner:'cyno',key:'c_dark',gen:true});b.verdictWhole={owner:'cyno',key:'c_judgment',uid:'cyno-c_judgment-0'};
+ let r=go(s,{type:'play',uid:'h0',target:foe(s).id});assert.ok(r.events.some(e=>e.type==='combine'&&e.stacks===4));assert.equal(s.battle.hand.length,1);const j=s.battle.hand[0];assert.equal(j.key,'c_judgment');assert.equal(cardInfo(s,j).cost,0);
+ r=go(s,{type:'play',uid:j.uid,target:foe(s).id});assert.deepEqual(dmg(r),[Math.round(120*(400+80*4)/100)]);assert.equal(s.battle.turn,1);
+ go(s,{type:'endTurn'});assert.equal(s.battle.hand[0].key,'c_sin');assert.ok(s.battle.hand.some(c=>c.key==='c_dark'));assert.ok(![...s.battle.discard,...s.battle.draw].some(c=>c.key==='c_judgment'));
+ const t=arena(['cyno','lohen','durin'],['c_thrust','l_guard']);t.battle.hand.unshift({uid:'sin',owner:'cyno',key:'c_sin',gen:true});go(t,{type:'play',uid:'h0',target:foe(t).id});assert.ok(foe(t).aim);assert.ok(!t.battle.hand.some(c=>c.key==='c_judgment'));
  const o=createGame(5,{tutorial:false});o.party=['lohen','cyno','durin'];let seen=false;for(let i=0;i<40&&!seen;i++){o.rng=i*7919+1;seen=makeUpgradeOffer(o,'event','base').candidates.some(c=>c.key==='c_judgment');}assert.ok(seen);
+});
+test('v0.37 사이노 명암: 심판의 분기가 죄·명계의 피해와 발동 조건을 바꾼다 (로스바이세 명멸검 변형)',()=>{
+ const s=arena(['cyno','lohen','durin'],['c_low','l_strike']);s.heroes.cyno.upgrades.c_judgment='B';const b=s.battle;b.hand.unshift({uid:'sin',owner:'cyno',key:'c_sin',gen:true});b.hand.push({uid:'dark',owner:'cyno',key:'c_dark',gen:true});
+ assert.match(cardInfo(s,b.hand[0]).desc,/버릴 때마다/);assert.match(cardInfo(s,b.hand.at(-1)).desc,/뽑을 때마다/);
+ let r=go(s,{type:'play',uid:'h0'});if(s.battle.chooseDiscard)r=go(s,{type:'discard',uid:'h1'});assert.ok(r.events.some(e=>e.type==='verdictProc'&&e.part==='sin'));
+ const d=arena(['cyno','lohen','durin'],['c_thrust']);d.heroes.cyno.upgrades.c_judgment='D';d.battle.ap=4;d.battle.hand=[{uid:'w',owner:'cyno',key:'c_judgment'}];assert.equal(cardInfo(d,d.battle.hand[0]).displayCost,'X');const rr=go(d,{type:'play',uid:'w',target:foe(d).id});assert.deepEqual(dmg(rr),[Math.round(120*(400+120*4)/100)]);
 });
 
 test('v0.36 stage 4: older saves drop cards that no longer exist and gain the new fighters',()=>{

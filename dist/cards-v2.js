@@ -324,55 +324,61 @@ add(card('lyney','y_shuffle','셔플',0,'skill','none',10,'손패 최대 3장을
  D:br('셔플 · 빌드','손패 최대 3장을 버리고 그만큼 드로우. 3장을 버렸으면 행동력 +1.',{ops:[op('discard',{n:3,optional:true,thenDrawEqual:true,apAt:3})]}),
 });
 
-/* ---------------- 사이노 — 결합형 X코스트 한방 ---------------- */
-add(card('cyno','c_feather','명계의 깃털',0,'skill','none',9,'다음 결합의 편린을 +1장으로 계산.',[op('combinePlus',{n:1})],{keywords:['retain','exhaust'],generated:true}));
-add(card('cyno','c_thrust','심판의 편린 · 찌르기',1,'attack','enemy',6,'피해 80%.',[D(80)],{keywords:['retain'],shard:true}),{
- A:br('편린 · 찌르기 · 안정','피해 110%.',{ops:[D(110)]}),
- B:br('편린 · 찌르기 · 자원','피해 80%. 처치 시 행동력 +1.',{ops:[D(80),op('ifKill',{ops:[op('ap',{n:1})]})]}),
- C:br('편린 · 찌르기 · 변형','피해 50%.',{cost:0,ops:[D(50)]}),
- D:br('편린 · 찌르기 · 빌드','피해 80%. 보존한 턴 수만큼 결합 계수 +10%.',{shardCoefPerRetain:10}),
+/* ---------------- 사이노 — 명암 결합 한방 ---------------- */
+/* v0.37 사이노 — 로스바이세(CZN) 명멸검 구조를 따른다 (cznmetadecks.com/ko/characters/rossweisse).
+   「심판」은 턴이 시작되면 손으로 와서 「죄」(맨 왼쪽)·「명계」(맨 오른쪽)·「의식」으로 나뉜다(턴당 1회).
+   손에 죄·명계와 사용 불가 카드만 남으면 다시 「심판」으로 결합하고, 의식의 판정 1당 이번 턴 심판 피해 +80%.
+   죄·명계는 손에 있는 동안 조건이 맞으면 저절로 발동한다(무작위 적 피해, 의식 판정 +1). 조건은 심판의 분기를 따른다. */
+add(card('cyno','c_sin','심판 · 죄',2,'attack','none',9,'무작위 적에게 피해 80%, 의식의 판정 +1. 사이노 카드를 쓸 때마다 이 효과가 발동한다(턴당 2회). 손패 맨 왼쪽에 놓인다.',[D(80,{random:true,preferAim:true}),op('verdict',{n:1})],{keywords:['unique','retain'],generated:true,shard:true,verdictPart:'sin'}));
+add(card('cyno','c_dark','심판 · 명계',2,'attack','none',12,'무작위 적에게 피해 80%, 의식의 판정 +1. 동료 카드를 2장 쓸 때마다 이 효과가 발동한다(턴당 2회). 손패 맨 오른쪽에 놓인다.',[D(80,{random:true,preferAim:true}),op('verdict',{n:1})],{keywords:['unique','retain'],generated:true,shard:true,verdictPart:'dark'}));
+add(card('cyno','c_rite','심판 · 의식',0,'skill','none',11,'판정 1~20. 「심판」으로 결합할 때 판정 1당 이번 턴 심판의 기본 피해 +80%.',[],{keywords:['unplayable','retain'],generated:true,shard:true,verdictPart:'rite'}));
+add(card('cyno','c_thrust','창 찌르기',1,'attack','enemy',6,'피해 100%.',[D(100)]),{
+ A:br('창 찌르기 · 안정','피해 130%.',{ops:[D(130)]}),
+ B:br('창 찌르기 · 자원','피해 100%. 처치 시 행동력 +1.',{ops:[D(100),op('ifKill',{ops:[op('ap',{n:1})]})]}),
+ C:br('창 찌르기 · 변형','피해 60%.',{cost:0,ops:[D(60)]}),
+ D:br('창 찌르기 · 빌드','피해 100%. 의식의 판정 +1.',{ops:[D(100),op('verdict',{n:1})]}),
 });
-add(card('cyno','c_claw','심판의 편린 · 발톱',1,'attack','enemy',4,'피해 60%. 조준점 대상이면 +40%.',[D(60,{ifAim:40})],{keywords:['retain'],shard:true}),{
- A:br('편린 · 발톱 · 안정','피해 85%. 조준점 대상이면 +40%.',{ops:[D(85,{ifAim:40})]}),
- B:br('편린 · 발톱 · 자원','피해 60%. 조준점 대상이면 +40%, 1장 드로우.',{ops:[D(60,{ifAim:40}),op('if',{cond:'aimTarget',ops:[op('draw',{n:1})]})]}),
- C:br('편린 · 발톱 · 변형','피해 60%. 조준점 대상이면 +40%. 대상에게 조준점 부여.',{ops:[D(60,{ifAim:40}),op('aim')]}),
- D:br('편린 · 발톱 · 빌드','피해 35% × 3회.',{ops:[D(35,{hits:3})]}),
+add(card('cyno','c_claw','검은 발톱',1,'attack','enemy',4,'피해 70%. 조준점 대상이면 +50%.',[D(70,{ifAim:50})]),{
+ A:br('검은 발톱 · 안정','피해 95%. 조준점 대상이면 +50%.',{ops:[D(95,{ifAim:50})]}),
+ B:br('검은 발톱 · 자원','피해 70%. 조준점 대상이면 +50%, 1장 드로우.',{ops:[D(70,{ifAim:50}),op('if',{cond:'aimTarget',ops:[op('draw',{n:1})]})]}),
+ C:br('검은 발톱 · 변형','피해 70%. 조준점 대상이면 +50%. 대상에게 조준점 부여.',{ops:[D(70,{ifAim:50}),op('aim')]}),
+ D:br('검은 발톱 · 빌드','피해 40% × 3회.',{ops:[D(40,{hits:3})]}),
 });
-add(card('cyno','c_gaze','심판의 편린 · 응시',1,'skill','none',3,'1장 드로우. 다음 결합 계수 +15%.',[op('draw',{n:1}),op('combineCoef',{pct:15})],{keywords:['retain'],shard:true}),{
- A:br('편린 · 응시 · 안정','1장 드로우. 다음 결합 계수 +25%.',{ops:[op('draw',{n:1}),op('combineCoef',{pct:25})]}),
- B:br('편린 · 응시 · 자원','2장 드로우. 다음 결합 계수 +15%.',{ops:[op('draw',{n:2}),op('combineCoef',{pct:15})]}),
- C:br('편린 · 응시 · 변형','1장 드로우. 다음 결합 계수 +15%.',{cost:0}),
- D:br('편린 · 응시 · 빌드','1장 드로우, 편린이 아니면 버린다. 다음 결합 계수 +15%.',{ops:[op('draw',{n:1,discardNonShard:true}),op('combineCoef',{pct:15})]}),
+add(card('cyno','c_gaze','심판관의 응시',1,'skill','none',3,'의식의 판정 +3.',[op('verdict',{n:3})]),{
+ A:br('심판관의 응시 · 안정','의식의 판정 +4.',{ops:[op('verdict',{n:4})]}),
+ B:br('심판관의 응시 · 자원','의식의 판정 +3. 1장 드로우.',{ops:[op('verdict',{n:3}),op('draw',{n:1})]}),
+ C:br('심판관의 응시 · 변형','의식의 판정 +2.',{cost:0,keywords:['exhaust'],ops:[op('verdict',{n:2})]}),
+ D:br('심판관의 응시 · 빌드','의식의 판정 +2. 다음 턴 시작 시 판정 +2.',{ops:[op('verdict',{n:2}),op('verdictCarry',{n:2})]}),
 });
-add(card('cyno','c_judgment','칠흑의 심판',0,'attack','enemy',7,'보유 행동력을 전부 소모. 피해 80% + 소모 행동력 1당 70%, 결합한 편린 1장당 +15%. 사용 후 편린으로 나뉘어 무덤으로.',[D(80,{judgment:true,perAp:70,perShard:15})],{keywords:['finale'],xCost:true,combined:true}),{
- A:br('칠흑의 심판 · 안정','보유 행동력을 전부 소모. 피해 80% + 소모 행동력 1당 85%, 편린 1장당 +15%.',{ops:[D(80,{judgment:true,perAp:85,perShard:15})]}),
- B:br('칠흑의 심판 · 자원','보유 행동력을 전부 소모. 피해 80% + 행동력 1당 70%, 편린 1장당 +15%. 사용 후 행동력 1 환급.',{ops:[D(80,{judgment:true,perAp:70,perShard:15,refund:1})]}),
- C:br('칠흑의 심판 · 변형','보유 행동력을 전부 소모. 전체 피해 80% + 행동력 1당 60%, 편린 1장당 +15%.',{target:'all',ops:[ALL(80,{judgment:true,perAp:60,perShard:15})]}),
- D:br('칠흑의 심판 · 빌드','보유 행동력을 전부 소모. 피해 80% + 행동력 1당 70%, 편린 1장당 +15%. 턴이 끝나지 않는 대신 사용한 편린이 소멸한다.',{keywords:[],shardsExhaust:true}),
+add(card('cyno','c_judgment','심판',0,'attack','enemy',10,'피해 400%. 결합한 턴에는 의식의 판정 1당 +80%.',[D(400,{verdictWhole:true})],{keywords:['unique','verdict'],combined:true,verdictPart:'whole'}),{
+ A:br('심판 · 안정','피해 600%. 죄·명계의 피해 120%.',{ops:[D(600,{verdictWhole:true})],verdictPct:120}),
+ B:br('심판 · 자원','피해 600%. 죄는 능력으로 카드를 버릴 때, 명계는 능력으로 카드를 뽑을 때 발동하고 피해 120%.',{ops:[D(600,{verdictWhole:true})],verdictPct:120,verdictRule:'cycle'}),
+ C:br('심판 · 변형','피해 400%, 방어력 기반 본인 보호막 120%. 죄는 사이노가 피격될 때, 명계는 사이노가 보호막을 얻을 때 발동(턴당 1회)하고 피해 240%.',{ops:[D(400,{verdictWhole:true}),SH(120)],verdictPct:240,verdictRule:'aegis'}),
+ D:br('심판 · 빌드','보유 행동력을 전부 소모. 피해 400% + 행동력 1당 120%. 죄는 능력으로 행동력을 얻을 때, 명계는 비용 1 이상 카드를 쓸 때 발동하고 피해 120%.',{xCost:true,keywords:['unique','verdict','finale'],ops:[D(400,{verdictWhole:true,judgment:true,perAp:120,perShard:0})],verdictPct:120,verdictRule:'unbound'}),
 });
 add(card('cyno','c_stance','침묵의 자세',1,'guard','none',2,'방어력 기반 본인 보호막 200%.',[SH(200)]),{
  A:br('침묵의 자세 · 안정','방어력 기반 본인 보호막 260%.',{ops:[SH(260)]}),
  B:br('침묵의 자세 · 자원','방어력 기반 본인 보호막 200%.',{cost:0,keywords:['exhaust']}),
- C:br('침묵의 자세 · 변형','방어력 기반 본인 보호막 200%. 「심판의 편린」으로 취급한다.',{shard:true}),
+ C:br('침묵의 자세 · 변형','방어력 기반 본인 보호막 200%. 의식의 판정 +1.',{ops:[SH(200),op('verdict',{n:1})]}),
  D:br('침묵의 자세 · 빌드','방어력 기반 본인 보호막 200%. 보존: 보호막 +100%.',{keywords:['retain'],ops:[SH(200,{retainPct:100})]}),
 });
-add(card('cyno','c_low','낮은 자세',0,'skill','none',5,'편린이 아닌 손패 1장을 버리고 1장 드로우.',[op('discard',{n:1,filter:'nonShard',then:[op('draw',{n:1})]})],{keywords:['exhaust']}),{
- A:br('낮은 자세 · 안정','편린이 아닌 손패 1장을 버리고 2장 드로우.',{ops:[op('discard',{n:1,filter:'nonShard',then:[op('draw',{n:2})]})]}),
- B:br('낮은 자세 · 자원','편린이 아닌 손패 1장을 버리고 1장 드로우. 동료 카드를 버리면 행동력 +1.',{ops:[op('discard',{n:1,filter:'nonShard',allyAp:1,then:[op('draw',{n:1})]})]}),
- C:br('낮은 자세 · 변형','편린이 아닌 손패 1장을 덱 맨 아래로 보내고 1장 드로우.',{ops:[op('discard',{n:1,filter:'nonShard',toBottom:true,then:[op('draw',{n:1})]})]}),
- D:br('낮은 자세 · 빌드','편린이 아닌 손패를 전부 버리고 1장 드로우.',{ops:[op('discardHand',{filter:'nonShard',thenDraw:1})]}),
+add(card('cyno','c_low','낮은 자세',0,'skill','none',5,'「심판」 카드가 아닌 손패 1장을 버리고 1장 드로우.',[op('discard',{n:1,filter:'nonShard',then:[op('draw',{n:1})]})],{keywords:['exhaust']}),{
+ A:br('낮은 자세 · 안정','「심판」 카드가 아닌 손패 1장을 버리고 2장 드로우.',{ops:[op('discard',{n:1,filter:'nonShard',then:[op('draw',{n:2})]})]}),
+ B:br('낮은 자세 · 자원','「심판」 카드가 아닌 손패 1장을 버리고 1장 드로우. 동료 카드를 버리면 행동력 +1.',{ops:[op('discard',{n:1,filter:'nonShard',allyAp:1,then:[op('draw',{n:1})]})]}),
+ C:br('낮은 자세 · 변형','「심판」 카드가 아닌 손패 1장을 덱 맨 아래로 보내고 1장 드로우.',{ops:[op('discard',{n:1,filter:'nonShard',toBottom:true,then:[op('draw',{n:1})]})]}),
+ D:br('낮은 자세 · 빌드','「심판」 카드가 아닌 손패를 전부 버리고 1장 드로우.',{ops:[op('discardHand',{filter:'nonShard',thenDraw:1})]}),
 });
-add(card('cyno','c_authority','대풍기관의 권한',1,'skill','none',1,'이번 전투 첫 결합의 편린을 +1장으로 계산.',[op('combinePlus',{n:1,first:true})],{keywords:['unique','opening']}),{
- A:br('대풍기관의 권한 · 안정','이번 전투 첫 결합의 편린을 +2장으로 계산.',{ops:[op('combinePlus',{n:2,first:true})]}),
- B:br('대풍기관의 권한 · 자원','이번 전투 첫 결합의 편린을 +1장으로 계산.',{cost:0}),
- C:br('대풍기관의 권한 · 변형','이번 전투 첫 결합의 편린을 +1장으로 계산.',{keywords:['unique','retain']}),
- D:br('대풍기관의 권한 · 빌드','지속: 결합할 때마다 다음 결합 계수 +15% (누적).',{ops:[op('persist',{watch:'combineGrow'})]}),
+add(card('cyno','c_authority','대풍기관의 권한',0,'skill','none',1,'2장 드로우. 이번 전투에서 의식이 판정 2로 시작한다.',[op('draw',{n:2}),op('verdictStart',{n:1})],{keywords:['unique','opening']}),{
+ A:br('대풍기관의 권한 · 안정','2장 드로우. 이번 전투에서 의식이 판정 3으로 시작한다.',{ops:[op('draw',{n:2}),op('verdictStart',{n:2})]}),
+ B:br('대풍기관의 권한 · 자원','3장 드로우. 이번 전투에서 의식이 판정 2로 시작한다.',{ops:[op('draw',{n:3}),op('verdictStart',{n:1})]}),
+ C:br('대풍기관의 권한 · 변형','2장 드로우. 이번 전투에서 의식이 판정 2로 시작한다.',{keywords:['unique','retain']}),
+ D:br('대풍기관의 권한 · 빌드','지속: 결합할 때마다 다음 의식의 판정 +2 (누적).',{ops:[op('persist',{watch:'combineGrow'})]}),
 });
 add(card('cyno','c_summon','일곱 성인의 소환',0,'skill','none',8,'2장 뽑고 2장 버린다.',[op('draw',{n:2}),op('discard',{n:2})],{keywords:['exhaust']}),{
  A:br('일곱 성인의 소환 · 안정','3장 뽑고 2장 버린다.',{ops:[op('draw',{n:3}),op('discard',{n:2})]}),
  B:br('일곱 성인의 소환 · 자원','2장 뽑고 1장 버린다.',{ops:[op('draw',{n:2}),op('discard',{n:1})]}),
- C:br('일곱 성인의 소환 · 변형','2장 뽑고 2장 버린다. 버린 카드 중 편린은 손으로 돌아온다.',{ops:[op('draw',{n:2}),op('discard',{n:2,returnShards:true})]}),
- D:br('일곱 성인의 소환 · 빌드','2장 뽑고 2장 버린다. 무덤의 편린 1장을 손으로 가져온다.',{ops:[op('draw',{n:2}),op('discard',{n:2,then:[op('recoverShard')]})]}),
+ C:br('일곱 성인의 소환 · 변형','2장 뽑고 2장 버린다. 의식의 판정 +2.',{ops:[op('draw',{n:2}),op('discard',{n:2}),op('verdict',{n:2})]}),
+ D:br('일곱 성인의 소환 · 빌드','3장 뽑고 3장 버린다.',{ops:[op('draw',{n:3}),op('discard',{n:3})]}),
 });
 
 /* ---------------- 덱 구성 ---------------- */
@@ -382,9 +388,9 @@ export const V2_STARTERS={
  jahoda:['j_strike','j_strike','j_wind','j_cache'],
  illuga:['i_strike','i_guard','i_guard','i_counter'], kinich:['k_shot','k_shot','k_cannon','k_dodge'],
  lyney:['y_arrow','y_arrow','y_trick','y_hat'],
- cyno:['c_thrust','c_thrust','c_claw','c_stance'],
+ cyno:['c_judgment','c_thrust','c_thrust','c_stance'],
 };
-export const SPECIAL_CARDS=['l_frost','d_resonance','j_spring','k_ajaw','y_tophat','c_feather'];
+export const SPECIAL_CARDS=['l_frost','d_resonance','j_spring','k_ajaw','y_tophat','c_sin','c_dark','c_rite'];
 export function v2Pool(owner){const start=new Set(V2_STARTERS[owner]||[]);return Object.values(V2_CARDS).filter(c=>c.owner===owner&&!c.generated&&!c.combined&&!start.has(c.key)).map(c=>c.key);}
 // Battle discoveries: the first four non-starter cards per owner, in table order.
 export const V2_DISCOVERIES=Object.fromEntries(Object.keys(V2_STARTERS).map(id=>[id,v2Pool(id).slice(0,4)]));
@@ -397,7 +403,7 @@ export const V2_PARTNERS={
  flins:'보호막 → 공격력 전환 +20%. 아군 보호막이 전부 깨지면 공격자에게 일루가 방어력 기반 피해 40%.', mualani:'「추적」 모드: 연타 카드 타수 +1 (턴당 2회).',
  kachina:'「분쇄」 모드: 키니치가 공격하는 대상의 방어력 -30%, 적 장막에 주는 피해 2배.',
  lynette:'리니가 생성 카드를 만들면 30% 확률로 1장 더 생성. 리니의 카드로 카드를 버리면 턴당 1회 전체 피해 20%.',
- tighnari:'사이노가 전투에서 처음 쓰는 공격 카드의 대상에게 조준점(사이노 치명확률 +30%). 결합할 때 조준점이 있으면 편린 +1장으로 계산.',
+ tighnari:'사이노가 전투에서 처음 쓰는 공격 카드의 대상에게 조준점(사이노 치명확률 +30%). 죄·명계의 무작위 피해는 조준점이 붙은 적을 먼저 노린다.',
 };
 export const V2_PASSIVES={
  lohen:'서리 파편: 버려질 때 마지막 대상에게 추가공격 피해 30%. 손패에 최대 3장.',
@@ -405,5 +411,5 @@ export const V2_PASSIVES={
  jahoda:'행동력 보충: 0코스트 행동력 카드로 다른 전투원의 카드를 이어 준다.',
  illuga:'턴 종료 시 본인에게 남은 보호막의 30%를 다음 턴 공격력에 더한다.', kinich:'필살기 버튼으로 「추적」↔「분쇄」 모드를 바꾼다(게이지 소모 없음, 턴당 1회). 전환할 때 「아쥬의 참견」 생성. 연타 1타마다 추적흔 1(최대 10).',
  lyney:'손패 10장 규칙 때문에 뽑기만 하면 막힌다. 버리는 카드가 출구다.',
- cyno:'결합: 사이노 카드를 쓴 뒤 손패에 「심판의 편린」만 2장 이상 남으면 전부 합쳐 「칠흑의 심판」 1장이 된다.',
+ cyno:'명암: 「심판」은 턴이 시작되면 「죄」·「명계」·「의식」으로 나뉜다. 손에 죄·명계와 사용 불가 카드만 남으면 다시 「심판」으로 결합한다.',
 };

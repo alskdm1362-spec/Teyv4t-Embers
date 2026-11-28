@@ -8,7 +8,7 @@
 - dist/가 직접 편집하는 게임 소스와 리소스입니다. tests/에는 자동 테스트가 있습니다.
 
 ## 먼저 읽을 문서
-1. docs/V037-JUDGMENT-VFX.md(칠흑의 심판 연출, dist/judgment-vfx.js), docs/V036-STAGE8-PROLOGUE-GUIDE.md, docs/V036-STAGE7-SEED.md, docs/V036-STAGE6-FORMATION.md, docs/V036-STAGE5-SCARS.md, docs/V036-STAGE4-CAST.md, docs/V036-STAGE3-MONSTERS.md, docs/V036-STAGE2-TERMS.md, docs/V036-STAGE1-STATS.md에서 최신 변경을 확인하세요. 기획 반영 순서는 프로젝트의 기획 문서 §0을 따릅니다(이전 변경은 docs/UI-REPAIR-35.md, 33.md, 30.md, 29.md, 28.md, 27.md, 26.md, 25.md). START-HERE.md와 GEMINI.md는 이전 시점의 인계 기록입니다.
+1. docs/V037-CYNO-VERDICT.md(사이노 「심판」 명암 구조와 연출, dist/judgment-vfx.js), docs/V037-JUDGMENT-VFX.md(이전 연출 기록), docs/V036-STAGE8-PROLOGUE-GUIDE.md, docs/V036-STAGE7-SEED.md, docs/V036-STAGE6-FORMATION.md, docs/V036-STAGE5-SCARS.md, docs/V036-STAGE4-CAST.md, docs/V036-STAGE3-MONSTERS.md, docs/V036-STAGE2-TERMS.md, docs/V036-STAGE1-STATS.md에서 최신 변경을 확인하세요. 기획 반영 순서는 프로젝트의 기획 문서 §0을 따릅니다(이전 변경은 docs/UI-REPAIR-35.md, 33.md, 30.md, 29.md, 28.md, 27.md, 26.md, 25.md). START-HERE.md와 GEMINI.md는 이전 시점의 인계 기록입니다.
 2. docs/ILLUSTRATIONS-3.md와 dist/assets/update25/manifest.json에서 그림별 용도를 확인하세요. 몬스터 외형은 dist/enemy-looks.js, 카드 정의와 분기는 dist/cards-v2.js, 신규 전투원 그림 경로는 dist/cast36.js, 전투원 포즈는 cast-art.js의 CAST_SPRITES, 전투 이펙트는 dist/battle-vfx.js, 정신 붕괴 컷인 배경은 dist/collapse-scene.js에 있습니다. 상흔 한계는 dist/engine.js의 SCAR_RATE, 판정 주사위는 라이브러리 없는 dist/dice.js입니다. 프롤로그 대본은 dist/story-scripts.js의 PROLOGUE, 가이드 항목과 문구는 dist/guide.js입니다. 전투 스탠딩, HUD 초상, 카드, 필살기 및 붕괴 컷인은 별도 역할입니다.
 3. UI를 바꿀 때는 docs/UI-STYLE-GUIDE.md, 기존 화면 구조, docs/implementation-lessons.md를 함께 확인하세요.
 

@@ -15,7 +15,7 @@ function battle(key,branch=null){
 }
 function play(s,uid='one'){const c=s.battle.hand.find(x=>x.uid===uid),d=cardInfo(s,c);return go(s,{type:'play',uid,target:d.target==='ally'?'lohen':s.battle.enemies[0].id});}
 test('all 56 deck cards have four branches (A 안정 / B 자원 / C 변형 / D 빌드) and every branch resolves legally',()=>{
- assert.equal(Object.keys(INSIGHTS).length,56);assert.equal(Object.values(CARDS).filter(c=>c.v2).length,62);
+ assert.equal(Object.keys(INSIGHTS).length,56);assert.equal(Object.values(CARDS).filter(c=>c.v2).length,64);
  for(const [key,paths]of Object.entries(INSIGHTS)){
   assert.deepEqual(Object.keys(paths),INSIGHT_BRANCHES);assert.equal(new Set(Object.values(paths).map(p=>p.title)).size,4);assert.equal(new Set(Object.values(paths).map(p=>JSON.stringify(p))).size,4);
   for(const [branch,word] of [['A','안정'],['B','자원'],['C','변형'],['D','빌드']]){assert.ok(paths[branch].title.endsWith(word),key+branch);const s=battle(key,branch),info=cardInfo(s,s.battle.hand[0]);assert.ok(Number.isFinite(info.cost)&&info.cost>=0);assert.ok(Number.isFinite(info.amount));assert.equal(info.branch,branch);assert.ok(!info.desc.includes('['));assert.ok((info.keywords||[]).length<=3);play(s);assert.ok(s.hp>=0&&s.hp<=s.maxHp);assert.ok(s.battle.ap>=0&&s.battle.ap<=6);const cards=['hand','draw','discard','exhaust'].flatMap(z=>s.battle[z]);assert.equal(new Set(cards.map(c=>c.uid)).size,cards.length);}

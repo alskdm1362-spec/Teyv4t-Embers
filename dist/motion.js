@@ -6,7 +6,7 @@ import {presentationPlan} from './motion-plan.js';
 import {SuppliedVFX,blindnessTransitions,cardTexture} from './supplied-vfx.js';
 import {CameraFeedback} from './feedback.js';
 import {ATTACK_SOUNDS} from './sound.js';
-import {judgmentScene,combineFlash} from './judgment-vfx.js';
+import {judgmentScene,combineFlash,verdictSpark,BEATS as JUDGE_BEATS} from './judgment-vfx.js';
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const wait=ms=>new Promise(resolve=>setTimeout(resolve,ms));
 const center=(el,y=.5)=>{const r=el.getBoundingClientRect();return {x:r.left+r.width*.5,y:r.top+r.height*y};};
@@ -72,13 +72,16 @@ export class BattleMotion{
   await visual;await wait(this.ms(110));actor.classList.remove('enemy-attacking');target?.classList.remove('target-locked','ally-hit','shielded');line?.classList.remove('focused');
  }
  async playerEffects(before,action,effects){
-  const state=this.getState(),owner=action._owner||action.hero,actor=$(`[data-ally="${owner}"]`),source=this.unit(actor),hits=effects.filter(e=>e.type==='damage');
+  const state=this.getState(),owner=action._owner||action.hero,actor=$(`[data-ally="${owner}"]`),source=this.unit(actor);
+  // v0.37: 죄·명계가 저절로 발동해 낸 피해는 카드의 타격과 따로, 작은 번개로 보여 준다.
+  const procHits=[];{let part=null;for(const e of effects){if(e.type==='verdictProc')part=e.part;else if(e.type==='damage'&&part){procHits.push({...e,part});e._proc=true;part=null;}}}
+  const hits=effects.filter(e=>e.type==='damage'&&!e._proc);
   actor?.classList?.add('acting');const isMelee=['lohen','illuga','jahoda','kinich','cyno'].includes(owner)&&action.type==='play'&&hits.length>0,unpose=['play','ultimate'].includes(action.type)?this.pose(owner,action,before,effects,source):null;
   let dashDist=null,dashHold=null;
   // v0.37 칠흑의 심판: 문양이 써지고 세상이 어두워진 뒤, 번개가 닿는 순간에 맞춰 사이노가 뛰어든다.
   const judging=action.type==='play'&&owner==='cyno'&&hits.length>0&&before.battle?.hand?.find(c=>c.uid===action.uid)?.key==='c_judgment';let scene=null;
   if(judging){const first=$(`[data-enemy="${hits[0].enemy}"]`);scene=judgmentScene({target:first&&this.unit(first),short:this.short(),calm:matchMedia('(prefers-reduced-motion: reduce)').matches,sound:(k,o)=>void this.sound(k,o)});
-   await wait(Math.max(0,(this.short()?620/1.8:620)-200));}
+   await wait(Math.max(0,JUDGE_BEATS.strike*1000/(this.short()?1.8:1)-200));}
   if(hits.length){
    if(isMelee&&actor&&source){
     const firstEnemy=$(`[data-enemy="${hits[0].enemy}"]`),sc=parseFloat($('#game')?.style.getPropertyValue('--scale'))||1;
@@ -105,6 +108,10 @@ export class BattleMotion{
     actor.classList.remove('melee-dashing');sortSceneDepth();
    }
   }
+  for(const e of procHits){const enemy=$(`[data-enemy="${e.enemy}"]`);if(!enemy)continue;const spark=verdictSpark(this.unit(enemy),{part:e.part,short:this.short()});await wait(this.ms(70));void this.sound('arcane_hit',{gain:.6});this.camera.hit(.6);enemy.classList.add('enemy-hit');const text=this.float(enemy,e.amount);
+   const next=state.battle?.enemies.find(n=>n.id===e.enemy);if(next){const bar=enemy.querySelector('.hpbar i');if(bar)bar.style.width=(next.hp/next.maxHp*100)+'%';const label=enemy.querySelector('.enemy-name>b');if(label)label.innerHTML=`${next.hp}<small> / ${next.maxHp}</small>`;}
+   await wait(this.ms(110));enemy.classList.remove('enemy-hit');await Promise.all([spark,text]);
+   if(effects.some(x=>x.type==='kill'&&x.enemy===e.enemy)&&enemy.style.opacity!=='0'){await this.effect('dissolve',this.unit(enemy),{scale:.8});await this.animate(enemy,[{opacity:1},{opacity:0,transform:'translateY(7px)'}],200);enemy.style.opacity='0';}}
   for(const e of effects){
    if(e.type==='shield'){void this.sound('shield_cast',{gain:.75});void this.float($('[data-shield-number]'),'◇ +'+e.amount,'shield');for(const id of state.party.filter(id=>!state.heroes[id].retired)){const node=this.unit($(`[data-ally="${id}"]`));void this.effect(action.type==='support'&&owner==='durin'?'veil':'guard',node,{hero:owner,shield:true,scale:1,strength:action.type==='ultimate'?2:1});}}
    if(e.type==='cover')void this.effect('guard',this.unit($(`[data-ally="${e.hero}"]`)),{hero:owner||'illuga',shield:true,scale:.85});

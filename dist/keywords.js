@@ -14,6 +14,7 @@ export const KEYWORDS={
  initiative:{name:'주도',desc:'턴 시작 시 50% 확률로 비용 1 감소. 다른 카드를 먼저 쓰면 감소가 사라진다'},
  chain:{name:'연계',desc:'다른 전투원이 카드를 쓰면 적힌 효과가 발동한다'},
  sense:{name:'감응',desc:'드로우되면 효과가 발동한다'},
+ verdict:{name:'명암',desc:'턴이 시작되면 손으로 와서 죄·명계·의식으로 나뉜다(턴당 1회). 손에 죄·명계와 사용 불가 카드만 남으면 다시 하나로 결합한다'},
 };
 export const KEYWORD_ORDER=Object.keys(KEYWORDS);
 
