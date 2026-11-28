@@ -35,3 +35,15 @@ test('a harmless preparation never becomes an attack target lock',()=>{
  const plan=presentationPlan(before,s,{type:'endTurn'},[{type:'enemyAction',enemy:'star-1',hero:'lohen',name:'심판에 힘을 보냄',damage:0,stress:0},{type:'enemyAction',enemy:'keeper-0',hero:'lohen',name:'영역 검출',damage:10,stress:10}]);
  assert.equal(plan.attacks[0].hostile,false);assert.equal(plan.attacks[1].hostile,true);
 });
+test('v0.37: a play that spends the last AP keeps its own hits (shown before the enemy turn); endTurn still shows none',()=>{
+ const s=createGame(1);move(s,{type:'start'});const before=hydrate(serialize(s));
+ const events=[{type:'card',uid:'j1'},{type:'damage',enemy:'e0',amount:900},{type:'kill',enemy:'e0'},{type:'turn'},{type:'enemyAction',enemy:'e1',hero:'lohen',name:'물기',damage:8,stress:0},{type:'damage',enemy:'x',amount:1}];
+ const play=presentationPlan(before,s,{type:'play',uid:'j1'},events);
+ assert.deepEqual(play.effects.map(e=>e.type),['damage','kill']);assert.equal(play.attacks.length,1);
+ assert.deepEqual(presentationPlan(before,s,{type:'endTurn'},events).effects,[]);
+});
+test('v0.37: 칠흑의 심판 연출 — 번개 길은 끝에서 대상에 정확히 닿고, 박자는 영상의 카드 한 장(약 1.7초)에 맞는다',async()=>{
+ const {boltPath,BEATS,SIDES}=await import('../dist/judgment-vfx.js');
+ for(const seed of [1,7,42]){const p=boltPath(100,-30,400,300,seed,120);assert.deepEqual(p.at(-1),[400,300]);assert.equal(p[0][1],-30);assert.ok(p.every(([x])=>Number.isFinite(x)));}
+ assert.ok(BEATS.charge<BEATS.strike&&BEATS.strike<BEATS.clear&&BEATS.clear<BEATS.end);assert.ok(BEATS.end>=1.4&&BEATS.end<=1.8);assert.equal(SIDES,7);
+});

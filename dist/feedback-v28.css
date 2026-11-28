@@ -717,3 +717,7 @@ button.prologue-skip{position:absolute;right:26px;top:22px;z-index:4;opacity:.75
 .modern-surface .guide-tabs button.active{color:#ffb877!important}
 .lobby-lead-name{left:-22%;top:15%}.lobby-v36 .lobby-stats .lobby-seed{font-size:17px}
 @media(max-height:500px){.guide-v36{max-height:100%;overflow:hidden}.guide-tabs{gap:1px;padding:0}.modern-surface .guide-tabs button{width:34px;height:29px}.modern-surface .guide-tabs button.guide-back{margin-bottom:3px}.modern-surface .guide-tabs button .ui-icon{width:18px;height:18px}.guide-shot{width:auto;height:min(38dvh,140px)}.guide-hint .guide-shot{width:100%;height:auto}.guide-pager{padding-top:2px;min-height:26px}.modern-surface .guide-pager button{font-size:20px}}
+/* ---------- v0.37: 칠흑의 심판 연출 (judgment-vfx.js) — 타격 순간의 잉크 프레임 ---------- */
+.judgment-ink{position:fixed;inset:0;z-index:78;pointer-events:none}
+.judgment-ink.on{backdrop-filter:grayscale(1) contrast(9) brightness(1.1);-webkit-backdrop-filter:grayscale(1) contrast(9) brightness(1.1)}
+.judgment-ink.on.inverted{backdrop-filter:grayscale(1) contrast(9) brightness(1.1) invert(1);-webkit-backdrop-filter:grayscale(1) contrast(9) brightness(1.1) invert(1)}
