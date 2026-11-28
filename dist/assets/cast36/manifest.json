@@ -31,7 +31,7 @@
    }
   }
  },
- "total_files": 110,
+ "total_files": 113,
  "assets": [
   {
    "path": "assets/cast36/cyno/arm-cutin.webp",
@@ -132,6 +132,21 @@
    "path": "assets/cast36/cyno/skill-1.webp",
    "bytes": 51162,
    "sha256": "4838f7ba75586b8c286f9fa1fdd512ee556c750b2fd27008442f9e08070c61fe"
+  },
+  {
+   "path": "assets/cast36/cyno/skill-10.webp",
+   "bytes": 49146,
+   "sha256": "ee469c38524cf91938bd790dbd81c6a508bfb278f91c45774b509d94de73c46f"
+  },
+  {
+   "path": "assets/cast36/cyno/skill-11.webp",
+   "bytes": 50500,
+   "sha256": "f898fc58bc6aa0d5ea52bdb7fd982f16cb65c6c27687427c466e041e25fca238"
+  },
+  {
+   "path": "assets/cast36/cyno/skill-12.webp",
+   "bytes": 54986,
+   "sha256": "3df4bc3caaf91ae85b76758f7a4dcf38b99861f294202118f60aba8b5534acbd"
   },
   {
    "path": "assets/cast36/cyno/skill-2.webp",

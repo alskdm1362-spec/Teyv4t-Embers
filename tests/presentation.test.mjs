@@ -42,8 +42,20 @@ test('v0.37: a play that spends the last AP keeps its own hits (shown before the
  assert.deepEqual(play.effects.map(e=>e.type),['damage','kill']);assert.equal(play.attacks.length,1);
  assert.deepEqual(presentationPlan(before,s,{type:'endTurn'},events).effects,[]);
 });
-test('v0.37: 칠흑의 심판 연출 — 번개 길은 끝에서 대상에 정확히 닿고, 박자는 영상의 카드 한 장(약 1.7초)에 맞는다',async()=>{
- const {boltPath,BEATS,SIDES}=await import('../dist/judgment-vfx.js');
- for(const seed of [1,7,42]){const p=boltPath(100,-30,400,300,seed,120);assert.deepEqual(p.at(-1),[400,300]);assert.equal(p[0][1],-30);assert.ok(p.every(([x])=>Number.isFinite(x)));}
- assert.ok(BEATS.charge<BEATS.strike&&BEATS.strike<BEATS.clear&&BEATS.clear<BEATS.end);assert.ok(BEATS.end>=1.4&&BEATS.end<=1.8);assert.equal(SIDES,7);
+test('v0.37: 심판 연출 — 번개 길은 끝에서 대상에 정확히 닿고, 박자는 영상 순서(소용돌이 → 구체 → 번개 창 → 먹 조각 → 눈 고리)를 따른다',async()=>{
+ const {boltPath,BEATS}=await import('../dist/judgment-vfx.js');
+ for(const seed of [1,7,42]){const p=boltPath(100,-30,400,300,seed,120);assert.deepEqual(p.at(-1),[400,300]);assert.deepEqual(p[0],[100,-30]);assert.ok(p.every(([x,y])=>Number.isFinite(x)&&Number.isFinite(y)));}
+ const order=['vortex','orb','strike','shards','eye','end'];for(let i=1;i<order.length;i++)assert.ok(BEATS[order[i-1]]<BEATS[order[i]],order[i]);assert.ok(BEATS.end>=1.4&&BEATS.end<=1.8);
+});
+test('v0.37 이펙트 붓: 뾰족한 끝은 굵기 0, 흐릿한 끝은 얇게 남고, 몸통이 가장 두껍다',async()=>{
+ const {taperWidth}=await import('../dist/fx-brush.js');
+ assert.ok(taperWidth(0)<1e-6&&taperWidth(1)<1e-6);assert.equal(taperWidth(.5),1);
+ assert.ok(taperWidth(0,{tail:'soft'})>.1&&taperWidth(1,{tail:'soft'})<1e-6);assert.ok(taperWidth(.7,{belly:.7})>=taperWidth(.4,{belly:.7}));
+});
+test('v0.37 이펙트 시험장: /lab 주소, 쓰는 그림과 모듈이 모두 있다',async()=>{
+ const fs=await import('node:fs');const read=p=>fs.readFileSync(new URL('../'+p,import.meta.url),'utf8');
+ assert.match(read('start.mjs'),/pathname==='\/lab'\)pathname='\/vfx-lab.html'/);
+ const html=read('dist/vfx-lab.html'),js=read('dist/vfx-lab.js');assert.match(html,/src="vfx-lab.js"/);
+ for(const m of (html+js).matchAll(/assets\/[a-z0-9/_-]+\.webp/g))assert.ok(fs.existsSync(new URL('../dist/'+m[0],import.meta.url)),m[0]);
+ for(const m of js.matchAll(/from '\.\/([a-z0-9-]+\.js)'/g))assert.ok(fs.existsSync(new URL('../dist/'+m[1],import.meta.url)),m[1]);
 });

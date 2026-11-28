@@ -20,7 +20,7 @@ function arena(hand){const s=qaFixture('battle');s.battle.noCrit=true;s.battle.a
  for(const e of s.battle.enemies){e.hp=e.maxHp=99999;e.ward=0;e.hitWard=0;e.intent={...e.intent,damage:0,stress:0};}return s;}
 
 test('v0.36 stage 2: the glossary has the eleven rule keywords (no 신속) and the Embers terms',()=>{
- assert.deepEqual(Object.values(KEYWORDS).map(k=>k.name),['소멸','증발','사용 불가','유일','보존','회수','종극','개전','주도','연계','감응']);
+ assert.deepEqual(Object.values(KEYWORDS).map(k=>k.name),['소멸','증발','사용 불가','유일','보존','회수','종극','개전','주도','연계','감응','명암']);
  for(const t of ['균열','위축','되비춤','추적흔','조준점','태양화','상흔','정신부담'])assert.ok(Object.values(EMBER_TERMS).some(x=>x.name===t),t);
  assert.equal(CARDS.d_resonance.name,'타다 남은 불티');assert.equal(CARDS.curse_echo.name,'악몽의 찌꺼기');assert.equal(HAND_LIMIT,10);
  assert.match(cardInfo(qaFixture('battle'),{owner:'lohen',key:'l_aim'}).desc,/^소멸\. /);assert.deepEqual(cardKeywords({exhaust:true,keywords:['retain']}),['exhaust','retain']);

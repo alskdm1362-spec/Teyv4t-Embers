@@ -61,11 +61,11 @@ test('v0.36 stage 8: the guide has six categories with the planned items, short 
  assert.deepEqual(GUIDE.map(c=>c.name),['전투','카드','전투원','원정','로비','저장']);
  const titles=id=>GUIDE.find(c=>c.id===id).items.map(i=>i.title);
  assert.deepEqual(titles('battle'),['AP와 카드 사용','손패 10장 규칙','적의 의도','보호막','상흔 게이지와 부상','정신부담과 붕괴','파트너 지원','필살기']);
- assert.deepEqual(titles('cards'),['카드 표기(계수)','키워드 11종','특수 · 생성 카드','전술 각성 분기','잔불 각성']);
+ assert.deepEqual(titles('cards'),['카드 표기(계수)','키워드 12종','특수 · 생성 카드','전술 각성 분기','잔불 각성']);
  assert.deepEqual(titles('heroes'),['능력치',...Object.values(HEROES).map(h=>h.name)]);
  assert.deepEqual(titles('expedition'),['분기 지도','전투 보상','사건','거점과 야영','카드 복제 · 제거']);
  assert.deepEqual(titles('lobby'),['편성','세이브 기록','레이드','도감']);assert.deepEqual(titles('save'),['시드','자동 저장','로비 왕복','다른 기기로 옮기기']);
- assert.equal(Object.keys(KEYWORDS).length,11);const kw=guideItem('cards/keywords').pages.map(p=>p.text).join(' ');for(const k of Object.values(KEYWORDS))assert.ok(kw.includes(`**${k.name}**`),k.name);
+ assert.equal(Object.keys(KEYWORDS).length,12);const kw=guideItem('cards/keywords').pages.map(p=>p.text).join(' ');for(const k of Object.values(KEYWORDS))assert.ok(kw.includes(`**${k.name}**`),k.name);
  assert.equal(new Set(GUIDE_ITEMS.map(i=>guideKey(i.category,i.id))).size,GUIDE_ITEMS.length);
  for(const it of GUIDE_ITEMS){assert.ok(it.pages.length>=1&&it.pages.length<=4,it.title);for(const p of it.pages){assert.ok(/\*\*.+?\*\*/.test(p.text),it.title+': every page marks its key words');if(it.id!=='keywords')assert.ok(p.text.replace(/\*\*|`|<br>/g,'').length<=130,it.title+' stays one or two lines');assert.equal(p.shot,null,'screenshots come after the screens are final');}}
  assert.equal(guideText('**불** & `EMBR` <b>'),'<b>불</b> &amp; <code>EMBR</code> &lt;b&gt;');

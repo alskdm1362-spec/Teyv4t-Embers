@@ -3,6 +3,8 @@
 // Continuous time (no stepped frames). One canvas per layer: under cut-ins (47) and above them (80).
 const TAU=Math.PI*2,clamp=(v,a=0,b=1)=>Math.max(a,Math.min(b,v)),lerp=(a,b,t)=>a+(b-a)*t;
 const out3=t=>1-Math.pow(1-clamp(t),3),out5=t=>1-Math.pow(1-clamp(t),5),in2=t=>clamp(t)*clamp(t),bell=t=>Math.sin(Math.PI*clamp(t));
+import {brushStroke,brushBolt,brushRing,spikeStar,fleck,crescent} from './fx-brush.js';
+// v0.37 개정: 선은 붓획(양 끝 뾰족·흐릿, 넓은 흰 심지)으로 — docs/V037-FX-STYLE.md
 function rnd(seed){let a=seed>>>0||1;return ()=>{a=(a+0x6d2b79f5)>>>0;let t=a;t=Math.imul(t^t>>>15,t|1);t^=t+Math.imul(t^t>>>7,t|61);return ((t^t>>>14)>>>0)/4294967296;};}
 const hex=h=>{const n=parseInt(h.slice(1),16);return [n>>16&255,n>>8&255,n&255];};
 const rgba=(h,a)=>{const [r,g,b]=hex(h);return `rgba(${r},${g},${b},${clamp(a)})`;};
@@ -37,32 +39,31 @@ class Particle{constructor(o){Object.assign(this,{x:0,y:0,vx:0,vy:0,ay:0,drag:2,
  step(dt){this.age+=dt;const d=Math.exp(-this.drag*dt);this.vx*=d;this.vy=this.vy*d+this.ay*dt;this.x+=this.vx*dt;this.y+=this.vy*dt;this.rot+=this.vr*dt;return this.age<this.life;}
  draw(c){const u=this.age/this.life,a=this.alpha*(this.kind==='smoke'?bell(Math.min(1,u*1.6))*(1-u):1-in2(u)),sz=lerp(this.size,this.size1,out3(u)),col=this.ramp?this.ramp[Math.min(this.ramp.length-1,Math.floor(u*this.ramp.length))]:this.color;if(a<=.01||sz<=.2)return;
   c.globalCompositeOperation=this.blend;c.globalAlpha=a;
-  if(this.kind==='spark'){const sp=Math.hypot(this.vx,this.vy),L=Math.max(sz,sp*this.stretch);c.save();c.translate(this.x,this.y);c.rotate(Math.atan2(this.vy,this.vx));const g=c.createLinearGradient(-L,0,0,0);g.addColorStop(0,rgba(col,0));g.addColorStop(1,rgba(col,1));c.strokeStyle=g;c.lineWidth=sz*.45;c.lineCap='round';c.beginPath();c.moveTo(-L,0);c.lineTo(0,0);c.stroke();c.restore();return;}
+  if(this.kind==='spark'){fleck(c,this.x,this.y,this.vx,this.vy,sz,col,a,this.stretch);return;}
   if(this.kind==='shard'){c.save();c.translate(this.x,this.y);c.rotate(this.rot);c.fillStyle=col;c.beginPath();c.moveTo(0,-sz);c.lineTo(sz*.35,0);c.lineTo(0,sz*.7);c.lineTo(-sz*.3,0);c.closePath();c.fill();c.restore();c.globalCompositeOperation='lighter';c.globalAlpha=a*.5;c.drawImage(glow(col),this.x-sz*1.5,this.y-sz*1.5,sz*3,sz*3);return;}
   if(this.kind==='smoke'){c.save();c.translate(this.x,this.y);c.rotate(this.rot);const g=c.createRadialGradient(0,0,0,0,0,sz);g.addColorStop(0,rgba(col,.9));g.addColorStop(.6,rgba(col,.45));g.addColorStop(1,rgba(col,0));c.fillStyle=g;c.beginPath();c.ellipse(0,0,sz,sz*.82,0,0,TAU);c.fill();c.restore();return;}
   if(this.kind==='glint'){drawGlint(c,this.x,this.y,sz,col,this.rot);return;}
   if(this.kind==='flame'){const h=sz*(2.1+.5*Math.sin(this.age*31+this.rot)),w=sz*(.42+.1*Math.sin(this.age*23+this.rot*2));c.save();c.translate(this.x,this.y);c.rotate(Math.atan2(this.vx,-this.vy)*.6);c.drawImage(flameSprite(this.cols),-w*1.1,-h,w*2.2,h*1.4);c.restore();return;}
   c.drawImage(glow(col),this.x-sz,this.y-sz,sz*2,sz*2);}
 }
-function drawGlint(c,x,y,r,col,rot=0){c.save();c.translate(x,y);c.rotate(rot);c.globalCompositeOperation='lighter';for(const [L,w] of [[r,r*.09],[r*.55,r*.07]]){for(let k=0;k<2;k++){c.save();c.rotate(k*Math.PI/2+(L<r?Math.PI/4:0));const g=c.createLinearGradient(-L,0,L,0);g.addColorStop(0,rgba(col,0));g.addColorStop(.5,rgba('#ffffff',1));g.addColorStop(1,rgba(col,0));c.fillStyle=g;c.beginPath();c.moveTo(-L,0);c.quadraticCurveTo(0,-w,L,0);c.quadraticCurveTo(0,w,-L,0);c.fill();c.restore();}}
- c.drawImage(glow(col),-r*.6,-r*.6,r*1.2,r*1.2);c.restore();}
+function drawGlint(c,x,y,r,col,rot=0){const a=c.globalAlpha;spikeStar(c,x,y,r,{alpha:a,cols:{core:'#ffffff',main:col,deep:col},rot,seed:Math.round(r*7),thick:.12,glow:1.6});c.globalCompositeOperation='lighter';c.globalAlpha=a*.6;c.drawImage(glow(col),x-r*.5,y-r*.5,r,r);}
 
 // ---------- primitives drawn from effect time ----------
 function flash(c,x,y,r,col,a){if(a<=0)return;c.globalCompositeOperation='lighter';c.globalAlpha=clamp(a);c.drawImage(glow(col,.7),x-r,y-r,r*2,r*2);}
-function ring(c,x,y,r,w,col,a,squash=1){a*=.32;w*=1.8;if(a<=0||r<=0)return;c.save();c.translate(x,y);c.scale(1,squash);c.globalCompositeOperation='lighter';c.globalAlpha=clamp(a);const g=c.createRadialGradient(0,0,Math.max(0,r-w),0,0,r+w*.3);g.addColorStop(0,rgba(col,0));g.addColorStop(.75,rgba(col,.9));g.addColorStop(1,rgba(col,0));c.fillStyle=g;c.beginPath();c.arc(0,0,r+w*.3,0,TAU);c.arc(0,0,Math.max(0,r-w),0,TAU,true);c.fill();c.restore();}
+function ring(c,x,y,r,w,col,a,squash=1){if(a<=0||r<=0||w<=0)return;brushRing(c,x,y,r,squash,{w:w*1.5,alpha:clamp(a),cols:{core:'#ffffff',main:col,deep:col},pieces:3,front:Math.PI/2,seed:Math.round(r),gap:.3,glow:2});}
 // A slash trail: an arc whose width tapers to both ends and whose head is bright.
 function arcTrail(c,x,y,r,a0,a1,head,w,cols,a,squash=1){if(a<=0)return;const n=40,span=a1-a0;c.save();c.translate(x,y);c.scale(1,squash);c.globalCompositeOperation='lighter';
- for(let pass=0;pass<3;pass++){const ww=w*[1.9,1,.38][pass],col=[cols.deep,cols.main,cols.core][pass],al=a*[.35,.8,1][pass];c.beginPath();
+ for(let pass=0;pass<3;pass++){const ww=w*[1.9,1,.56][pass],col=[cols.deep,cols.main,cols.core][pass],al=a*[.35,.8,1][pass];c.beginPath();
   for(let i=0;i<=n;i++){const u=i/n;if(u>head)break;const ang=a0+span*u,rel=u/Math.max(.001,head),thick=ww*Math.pow(Math.sin(Math.PI*Math.min(1,rel*.55+.45*Math.pow(rel,3))),.7)*(.25+.75*rel);c.lineTo(Math.cos(ang)*(r+thick*.5),Math.sin(ang)*(r+thick*.5));}
   for(let i=n;i>=0;i--){const u=i/n;if(u>head)continue;const ang=a0+span*u,rel=u/Math.max(.001,head),thick=ww*Math.pow(Math.sin(Math.PI*Math.min(1,rel*.55+.45*Math.pow(rel,3))),.7)*(.25+.75*rel);c.lineTo(Math.cos(ang)*(r-thick*.5),Math.sin(ang)*(r-thick*.5));}
   c.closePath();const g=c.createLinearGradient(Math.cos(a0)*r,Math.sin(a0)*r,Math.cos(a0+span*head)*r,Math.sin(a0+span*head)*r);g.addColorStop(0,rgba(col,0));g.addColorStop(.6,rgba(col,al*.6));g.addColorStop(1,rgba(col,al));c.fillStyle=g;c.fill();}
  c.restore();}
 function streak(c,x0,y0,x1,y1,w,cols,a){if(a<=0)return;c.save();c.globalCompositeOperation='lighter';const ang=Math.atan2(y1-y0,x1-x0),L=Math.hypot(x1-x0,y1-y0);c.translate(x0,y0);c.rotate(ang);
- for(const [k,col,al] of [[2.4,cols.deep,.35],[1,cols.main,.85],[.35,cols.core,1]]){const g=c.createLinearGradient(0,0,L,0);g.addColorStop(0,rgba(col,0));g.addColorStop(.7,rgba(col,al*a*.7));g.addColorStop(1,rgba(col,al*a));c.fillStyle=g;c.beginPath();c.moveTo(0,0);c.quadraticCurveTo(L*.8,-w*k,L,0);c.quadraticCurveTo(L*.8,w*k,0,0);c.fill();}
+ for(const [k,col,al] of [[2.4,cols.deep,.35],[1,cols.main,.85],[.55,cols.core,1]]){const g=c.createLinearGradient(0,0,L,0);g.addColorStop(0,rgba(col,0));g.addColorStop(.7,rgba(col,al*a*.7));g.addColorStop(1,rgba(col,al*a));c.fillStyle=g;c.beginPath();c.moveTo(0,0);c.quadraticCurveTo(L*.8,-w*k,L,0);c.quadraticCurveTo(L*.8,w*k,0,0);c.fill();}
  c.restore();}
-function bolt(c,pts,w,cols,a){if(a<=0)return;c.save();c.globalCompositeOperation='lighter';c.lineJoin='round';c.lineCap='round';for(const [k,col,al] of [[4,cols.deep,.4],[1.8,cols.main,.9],[.6,cols.core,1]]){c.globalAlpha=clamp(a*al);c.strokeStyle=col;c.lineWidth=w*k;c.beginPath();pts.forEach(([x,y],i)=>i?c.lineTo(x,y):c.moveTo(x,y));c.stroke();}c.restore();}
+function bolt(c,pts,w,cols,a){if(a<=0)return;brushBolt(c,pts,{w:w*2.2,alpha:clamp(a),cols});}
 function boltPath(x0,y0,x1,y1,R,seg=10,amp=18){const pts=[[x0,y0]];for(let i=1;i<seg;i++){const u=i/seg,nx=-(y1-y0),ny=x1-x0,l=Math.hypot(nx,ny)||1,o=(R()-.5)*2*amp*Math.sin(Math.PI*u);pts.push([x0+(x1-x0)*u+nx/l*o,y0+(y1-y0)*u+ny/l*o]);}pts.push([x1,y1]);return pts;}
-function rays(c,x,y,r,n,col,a,rot,width=.12){if(a<=0)return;c.save();c.translate(x,y);c.rotate(rot);c.globalCompositeOperation='lighter';c.globalAlpha=clamp(a);for(let i=0;i<n;i++){c.rotate(TAU/n);const L=r*(.6+.4*Math.sin(i*2.7)),g=c.createLinearGradient(0,0,L,0);g.addColorStop(0,rgba(col,.9));g.addColorStop(1,rgba(col,0));c.fillStyle=g;c.beginPath();c.moveTo(0,0);c.lineTo(L,-L*width);c.lineTo(L,L*width);c.closePath();c.fill();}c.restore();}
+function rays(c,x,y,r,n,col,a,rot,width=.12){if(a<=0)return;c.save();c.translate(x,y);c.rotate(rot);c.globalCompositeOperation='lighter';c.globalAlpha=clamp(a);for(let i=0;i<n;i++){c.rotate(TAU/n);const L=r*(.6+.4*Math.sin(i*2.7)),g=c.createLinearGradient(0,0,L,0);g.addColorStop(0,rgba(col,.9));g.addColorStop(1,rgba(col,0));c.fillStyle=g;c.beginPath();c.moveTo(L*.08,0);c.lineTo(L*.4,-L*width*.7);c.lineTo(L,0);c.lineTo(L*.4,L*width*.7);c.closePath();c.fill();}c.restore();}
 
 // ---------- effect builders. Each returns {dur, spawn(sys,t0..t1), draw(c,t)} in local coordinates ----------
 function burst(sys,x,y,cols,R,{n=14,speed=420,size=5,life=.45,spark=true,shard=false,up=0,spread=TAU,dir=0}={}){for(let i=0;i<n;i++){const a=dir+(R()-.5)*spread,v=speed*(.35+R()*.8);sys.add(new Particle({x,y,vx:Math.cos(a)*v,vy:Math.sin(a)*v-up,ay:shard?900:260,drag:shard?1.2:4.5,life:life*(.6+R()*.7),size:size*(.6+R()*.8),color:R()<.4?cols.core:R()<.7?cols.spark:cols.main,kind:shard?'shard':spark?'spark':'glow',stretch:.045,rot:R()*TAU,vr:(R()-.5)*16}));}}
@@ -78,7 +79,7 @@ const FX={
  daggers(cols,{from}){const hits=[.16,.24,.32];let n=0;const off=[[-10,-18],[6,4],[-4,20]];return {dur:.95,spawn(sys,t,R,s){while(n<3&&t>=hits[n]){const [ox,oy]=off[n];burst(sys,ox*s,oy*s,cols,R,{n:10,speed:460*s,size:5*s,spread:1.8});burst(sys,ox*s,oy*s,cols,R,{n:5,speed:260*s,size:8*s,shard:true});n++;}},
   draw(c,t,s){const f=from||{x:-300*s,y:-40*s};for(let i=0;i<3;i++){const t0=hits[i]-.12,u=(t-t0)/.12,[ox,oy]=off[i];if(u<0)continue;const tx=ox*s,ty=oy*s;
    if(u<1){const k=out3(u),x=lerp(f.x,tx,k),y=lerp(f.y,ty,k)-Math.sin(Math.PI*k)*30*s,ang=Math.atan2(ty-f.y,tx-f.x);streak(c,x-Math.cos(ang)*90*s,y-Math.sin(ang)*90*s,x,y,4*s,cols,1);
-    c.save();c.translate(x,y);c.rotate(ang);c.globalCompositeOperation='lighter';c.fillStyle=cols.core;c.beginPath();c.moveTo(10*s,0);c.lineTo(-8*s,-3*s);c.lineTo(-8*s,3*s);c.closePath();c.fill();c.restore();}
+    brushStroke(c,[[x-Math.cos(ang)*22*s,y-Math.sin(ang)*22*s],[x+Math.cos(ang)*10*s,y+Math.sin(ang)*10*s]],{w:7*s,alpha:1,cols,tail:'soft',head:'sharp',belly:.7,glow:1.8});}
    else{const v=(t-hits[i]);flash(c,tx,ty,55*s,cols.main,1-v/.25);drawGlint(c,tx,ty,60*s*(1-v/.3),cols.main,i);ring(c,tx,ty,14*s+70*s*out3(v/.35),6*s,cols.core,1-v/.35,.5);}}}};},
  // Durin: black-and-red fire that wraps the target and climbs.
  hellfire(cols,{big=false}){let last=0;const D=big?1.5:1.05;return {dur:D+.6,spawn(sys,t,R,s){const S=s*(big?1.6:1);while(last<Math.min(t,D)){last+=1/100;const a=R()*TAU,d=(big?46:30)*S*Math.sqrt(R());const x=Math.cos(a)*d,y=Math.sin(a)*d*.45+20*S;
@@ -93,7 +94,7 @@ const FX={
  // Illuga's lantern: warm light opens from the lantern bearer and settles on an ally as a halo shield.
  lantern(cols,{r=58}){let n=0;return {dur:1.1,spawn(sys,t,R,s){while(n<Math.min(36,t*60)){n++;const a=R()*TAU,d=r*s*(.6+R()*.5);sys.add(new Particle({x:Math.cos(a)*d,y:Math.sin(a)*d*.9-10*s,vx:-Math.cos(a)*30*s,vy:-30*s-R()*30*s,drag:1.5,life:.6+R()*.5,size:(3+R()*4)*s,color:R()<.5?cols.core:cols.main,kind:R()<.25?'glint':'glow',rot:R()}));}},
   draw(c,t,s){const o=out3(t/.25),f=1-in2((t-.55)/.55),rr=r*s*(.75+.25*o);flash(c,0,-10*s,rr*2.2,cols.deep,.35*o*f);flash(c,0,-10*s,rr*1.2,cols.main,.5*o*f);rays(c,0,-10*s,rr*1.9,12,cols.main,.45*o*f,t*.6,.07);
-   c.save();c.globalCompositeOperation='lighter';c.globalAlpha=.35*o*f;c.strokeStyle=cols.core;c.lineWidth=1.5*s;c.beginPath();c.ellipse(0,-10*s,rr,rr*1.08,0,0,TAU);c.stroke();c.globalAlpha=.4*o*f;c.lineWidth=7*s;c.strokeStyle=cols.main;c.stroke();c.restore();
+   brushRing(c,0,-10*s,rr,1.08,{w:6*s,alpha:.7*o*f,cols,pieces:3,front:Math.PI/2,seed:11,gap:.3,glow:2});
    drawGlint(c,-rr*.55,-rr*.75,26*s*bell(t/.6),cols.main,.4);}};},
  // Jahoda / Nefer: a kick — a short curved swoosh that ends in a punchy impact and a dust ring.
  kick(cols,{rise=false,big=false}){const hits=big?[.1,.22,.36]:[.1];let n=0;return {dur:big?.95:.65,spawn(sys,t,R,s){while(n<hits.length&&t>=hits[n]){const ox=(n-1)*16*s*(big?1:0),oy=(n%2?-14:8)*s*(big?1:0);burst(sys,ox,oy,cols,R,{n:14,speed:520*s,size:5.5*s});n++;}},
@@ -114,7 +115,7 @@ const FX={
  // A clear shield bubble for everyone but Illuga.
  shield(cols,{r=56}){return {dur:.9,spawn(sys,t,R,s){if(!this.s&&t>.05){this.s=1;motes(sys,0,0,cols,R,{n:10,r:r*s,rise:40*s,life:.8,size:4*s,kind:'glint'});}},
   draw(c,t,s){const o=out3(t/.2),f=1-in2((t-.5)/.4),rr=r*s*(.85+.15*o);c.save();c.globalCompositeOperation='lighter';const g=c.createRadialGradient(-rr*.3,-rr*.4,rr*.1,0,0,rr);g.addColorStop(0,rgba(cols.core,.06*f));g.addColorStop(.8,rgba(cols.main,.16*f));g.addColorStop(1,rgba(cols.core,.6*f*o));c.fillStyle=g;c.beginPath();c.ellipse(0,0,rr,rr*1.1,0,0,TAU);c.fill();
-   c.globalAlpha=.8*f;c.strokeStyle=cols.core;c.lineWidth=1.6*s;c.beginPath();c.ellipse(0,0,rr,rr*1.1,0,-2.6,-1.3);c.stroke();c.restore();ring(c,0,0,rr*(1+.4*out3((t-.05)/.4)),6*s,cols.main,(1-t/.45)*.7,1.1);}};},
+   c.restore();crescent(c,0,0,rr*.94,rr*1.03,-2.7,-1.25,{w:4.5*s,alpha:.85*f,cols,glow:1.8});ring(c,0,0,rr*(1+.4*out3((t-.05)/.4)),6*s,cols.main,(1-t/.45)*.7,1.1);}};},
  block(cols){return {dur:.5,spawn(sys,t,R,s){if(!this.s){this.s=1;burst(sys,30*s,0,cols,R,{n:12,speed:420*s,size:5*s,spread:2.2,dir:0});}},
   draw(c,t,s){c.save();c.translate(30*s,0);c.scale(.45,1);ring(c,0,0,56*s,14*s*(1-t/.4),cols.main,1-t/.4,1);c.restore();flash(c,30*s,0,60*s,cols.core,1-t/.2);}};},
  // Enemy blows on allies.
@@ -127,9 +128,14 @@ const FX={
   draw(c,t,s){flash(c,0,0,80*s,cols.main,.6*(1-t/.4));}};},
  // Venom, for Nefer's follow-up mist.
  mist(cols){return {dur:.9,spawn(sys,t,R,s){if(!this.s){this.s=1;motes(sys,0,0,{...cols,main:cols.deep,core:cols.main},R,{n:12,r:30*s,rise:40*s,life:.9,size:26*s,kind:'smoke'});}},draw(){}};},
- // Victory: a sunrise burst over the field with rays, a wide ring and drifting glints.
- victory(cols){let n=0;return {dur:2,spawn(sys,t,R,s){while(n<Math.min(70,t*90)){n++;const a=R()*TAU,v=(120+R()*360)*s;sys.add(new Particle({x:0,y:0,vx:Math.cos(a)*v,vy:Math.sin(a)*v*.6-60*s,ay:80*s,drag:1.4,life:1+R()*.8,size:(8+R()*14)*s,size1:1,color:R()<.5?cols.main:cols.core,kind:R()<.45?'glint':'glow',rot:R()}));}},
-  draw(c,t,s){const o=out3(t/.4),f=1-in2((t-1.1)/.9);flash(c,0,0,420*s*o,cols.deep,.35*f);flash(c,0,0,220*s*o,cols.main,.55*f);rays(c,0,0,520*s*o,18,cols.main,.5*f,t*.25,.05);ring(c,0,0,60*s+620*s*out3(t/.9),18*s,cols.core,(1-t/.9)*.8,.42);drawGlint(c,0,0,160*s*bell(t/.7),cols.main,.2);}};},
+ // Victory (v0.37): 어두운 전장에 맞게 줄였다 — 화면을 덮는 큰 빛과 방사 광선 대신, 가로로 지나가는 가는 빛줄기,
+ // 길이가 다른 가시 별 하나, 얇은 붓 고리, 천천히 떠오르는 작은 반짝임. 가장 밝은 순간도 화면의 일부만 밝힌다.
+ victory(cols){let n=0;return {dur:1.5,spawn(sys,t,R,s){while(n<Math.min(22,t*40)){n++;const a=-Math.PI/2+(R()-.5)*2.2,v=(60+R()*140)*s;sys.add(new Particle({x:(R()-.5)*260*s,y:(R()-.3)*40*s,vx:Math.cos(a)*v*.4,vy:Math.sin(a)*v,ay:-10*s,drag:1.2,life:.9+R()*.6,size:(6+R()*8)*s,size1:1,color:R()<.5?cols.main:cols.core,kind:R()<.6?'glint':'spark',stretch:.04,rot:R()*.5}));}},
+  draw(c,t,s){const pop=t<.08?t/.08:1-out3((t-.08)/.7),line=1-in2((t-.1)/.9);
+   flash(c,0,0,150*s,cols.main,.22*pop);
+   if(line>0)brushStroke(c,[[-420*s*out3(t/.25),0],[420*s*out3(t/.25),0]],{w:9*s*line,alpha:.75*line,cols,tail:'soft',head:'soft',belly:.5,glow:2,core:.45});
+   if(pop>0)spikeStar(c,0,0,110*s*(1-.4*out3(t/.6)),{alpha:.85*pop,cols,rot:-.2,seed:4,thick:.1,glow:1.8});
+   ring(c,0,0,40*s+300*s*out3(t/1),5*s*(1-t/1),cols.core,(1-t/1)*.55,.3);}};},
  // Living flame: warm flames curl up around each hero and heal motes rise.
  lifeFlame(cols){let last=0;return {dur:1.6,spawn(sys,t,R,s){while(last<Math.min(t,1.1)){last+=1/70;const a=R()*TAU,d=36*s*Math.sqrt(R());sys.add(new Particle({x:Math.cos(a)*d,y:30*s+Math.sin(a)*d*.35,vx:(R()-.5)*30*s,vy:-(120+R()*110)*s,drag:1.4,life:.55+R()*.4,size:(10+R()*9)*s,size1:2*s,kind:'flame',cols:R()<.4?['#fffbe6','#ffd27a','#ff8a2a']:['#ffe9a8','#ff9a3a','#d8401a'],alpha:.6,rot:R()*9}));if(R()<.25)sys.add(new Particle({x:(R()-.5)*60*s,y:20*s,vx:(R()-.5)*20*s,vy:-(60+R()*80)*s,drag:.6,life:1+R()*.5,size:4*s,color:R()<.5?'#bfffd6':'#fff1b0',kind:'glint',rot:R()}));}},
   draw(c,t,s){flash(c,0,0,110*s,'#ff9a3a',.4*bell(t/1.4));ring(c,0,40*s,20*s+80*s*out3(t/.8),8*s,'#ffd27a',(1-t/.8)*.8,.3);}};},
