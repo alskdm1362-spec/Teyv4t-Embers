@@ -59,3 +59,7 @@ test('v0.37 이펙트 시험장: /lab 주소, 쓰는 그림과 모듈이 모두 
  for(const m of (html+js).matchAll(/assets\/[a-z0-9/_-]+\.webp/g))assert.ok(fs.existsSync(new URL('../dist/'+m[0],import.meta.url)),m[0]);
  for(const m of js.matchAll(/from '\.\/([a-z0-9-]+\.js)'/g))assert.ok(fs.existsSync(new URL('../dist/'+m[1],import.meta.url)),m[1]);
 });
+test('v0.37 QA 화면에 이펙트 시험장 탭이 있고, #lab 주소로 바로 열린다 (GitHub Pages에는 /lab 주소가 없다)',async()=>{
+ const fs=await import('node:fs');const read=p=>fs.readFileSync(new URL('../dist/'+p,import.meta.url),'utf8');const html=read('qa.html'),js=read('qa.js');
+ assert.match(html,/data-tab="lab"/);assert.match(html,/id="vfx-lab"/);assert.match(html,/id="open-lab"/);assert.match(js,/'vfx-lab\.html'/);assert.match(js,/h==='lab'\|\|h\.startsWith\('lab\/'\)/);
+});

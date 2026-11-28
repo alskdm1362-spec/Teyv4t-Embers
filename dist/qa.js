@@ -25,3 +25,11 @@ $('#export-feedback').onclick=()=>{const content=JSON.stringify(feedbackDocument
 $('#import-feedback').onchange=async e=>{const file=e.target.files[0];if(!file)return;try{if(file.size>15*1024*1024)throw Error('15MB 이하의 피드백 JSON을 선택하세요.');const data=importFeedback(await file.text());entries=mergeFeedback(entries,data.entries);store();if(data.draft)restoreDraft(data.draft);saveDraft();renderEntries();status(`${data.entries.length}개 기록을 불러왔습니다. 같은 기록은 최신 수정본을 유지합니다.`);}catch(e){status(e.message);}e.target.value='';};renderEntries();
 
 $('#stop-preview').onclick=()=>send('stopPreview');
+
+// v0.37 이펙트 시험장: 게임 미리보기 옆 탭. 처음 열 때만 불러오고, 주소 #lab 또는 #lab/그룹/이름(예: #lab/사이노/심판)으로 바로 연다.
+{const lab=$('#vfx-lab'),section=$('.preview-section'),tabs=[...document.querySelectorAll('.qa-tabs button')];
+ const show=(tab,target='')=>{const isLab=tab==='lab';tabs.forEach(b=>{b.classList.toggle('on',b.dataset.tab===tab);b.setAttribute('aria-selected',String(b.dataset.tab===tab));});section.classList.toggle('lab-mode',isLab);frame.hidden=isLab;lab.hidden=!isLab;
+  if(isLab){const src='vfx-lab.html'+(target?'#'+encodeURIComponent(target).replace(/%2F/g,'/'):'');if(!lab.src||target)lab.src=src;}
+  const want=isLab?'#lab'+(target?'/'+target:''):'';if(location.hash!==want&&(isLab||location.hash.startsWith('#lab')))history.replaceState(null,'',want||location.pathname+location.search);};
+ tabs.forEach(b=>b.onclick=()=>show(b.dataset.tab));$('#open-lab').onclick=()=>{show('lab');section.scrollIntoView({behavior:'smooth',block:'start'});};
+ const fromHash=()=>{const h=decodeURIComponent(location.hash.slice(1));if(h==='lab'||h.startsWith('lab/'))show('lab',h.slice(4));};fromHash();addEventListener('hashchange',fromHash);}
