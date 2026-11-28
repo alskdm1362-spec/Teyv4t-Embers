@@ -18,7 +18,8 @@ const noise=(x,s)=>{const i=Math.floor(x),f=x-i,u=f*f*(3-2*f);return lerp(hash(i
 
 // 영상의 색: 흰 심지, 밝은 보라, 짙은 보라, 먹(검은 보라)
 export const JUDGE={core:'#fbf4ff',main:'#b77cff',deep:'#5a24c8',ink:'#12061f',gold:'#ffe3a0'};
-export const BEATS={vortex:.30,orb:.46,strike:.52,shards:.70,eye:1.0,end:1.7};
+// v0.39 나모 님 피드백: 아누비스의 눈이 번개보다 먼저 뜬다 (눈 → 구체 → 번개 → 조각). 번개가 내려칠 때 눈이 감기듯 가늘어진다.
+export const BEATS={vortex:.30,eye:.36,orb:.48,strike:.64,shards:.80,end:1.7};
 
 /** 한 줄의 번개 길: 헤매고 꺾이다가 끝에서 정확히 대상에 닿는다. */
 export function boltPath(x0,y0,x1,y1,seed,amp,steps=26){
@@ -65,7 +66,7 @@ export function judgmentScene({target,short=false,calm=false,onStrike=()=>{},sou
  function frame(T,dt,g){
   const c=fit(cv),B=BEATS,u=g.u;
   // 어둠으로 강조 (영상처럼 화면이 보랏빛 회색으로 가라앉는다)
-  const dim=Math.min(.5*smooth(0,.25,T),.5*(1-smooth(B.strike+.1,B.eye+.2,T)));
+  const dim=Math.min(.5*smooth(0,.25,T),.5*(1-smooth(B.strike+.1,B.shards+.3,T)));
   if(dim>0){const gr=c.createRadialGradient(g.x,g.y,g.size*.45,g.x,g.y,g.size*1.6+g.R*1.4);gr.addColorStop(0,'rgba(14,6,28,0)');gr.addColorStop(1,`rgba(14,6,28,${dim})`);c.fillStyle=gr;c.fillRect(0,0,innerWidth,innerHeight);}
   // ① 그림자 소용돌이: 땅을 도는 먹 리본, 그 아래 보라 고리
   if(T<B.strike+.12){const k=smooth(0,.18,T)*(1-smooth(B.strike-.04,B.strike+.12,T)),rx=g.R*(1.05-.25*smooth(0,B.strike,T)),ry=rx*.3,spin=T*7;
@@ -101,9 +102,9 @@ export function judgmentScene({target,short=false,calm=false,onStrike=()=>{},sou
    else{c.restore();fleck(c,p.x,p.y,p.vx,p.vy,s*1.4,hash(i,seed)<.3?JUDGE.core:JUDGE.main,.95);c.save();}
    c.restore();c.globalCompositeOperation='source-over';c.globalAlpha=1;}
   // 잔전기 (조각이 깔린 동안 대상 주변에서 튄다)
-  if(T>B.shards&&T<B.eye+.15){const k=1-smooth(B.eye-.1,B.eye+.15,T),fl=Math.floor(T*20);if(hash(fl,seed+80)>.4){const a=hash(fl,seed+81)*TAU,r=g.size*.5;litLine(c,boltPath(g.x+Math.cos(a)*r*.3,g.y+Math.sin(a)*r*.3,g.x+Math.cos(a+.8)*r,g.y+Math.sin(a+.8)*r*.8,fl,g.size*.12,8),1*u,k*.7);}}
+  if(T>B.shards&&T<B.end-.3){const k=1-smooth(B.end-.6,B.end-.3,T),fl=Math.floor(T*20);if(hash(fl,seed+80)>.4){const a=hash(fl,seed+81)*TAU,r=g.size*.5;litLine(c,boltPath(g.x+Math.cos(a)*r*.3,g.y+Math.sin(a)*r*.3,g.x+Math.cos(a+.8)*r,g.y+Math.sin(a+.8)*r*.8,fl,g.size*.12,8),1*u,k*.7);}}
   // ⑥ 아누비스의 눈 고리: 퍼지면서 사라진다
-  if(T>=B.eye-.05){const k=smooth(B.eye-.05,B.eye+.12,T)*(1-smooth(B.end-.35,B.end,T)),R=g.size*(.62+.16*out3((T-B.eye)/.6));if(k>0){c.save();c.translate(g.x,g.y);drawEye(c,R,Math.min(1,k*1.4),2.2*u,smooth(B.end-.55,B.end,T));c.restore();}}
+  if(T>=B.eye-.05&&T<B.strike+.3){const k=smooth(B.eye-.05,B.eye+.1,T)*(1-smooth(B.strike+.04,B.strike+.3,T)),R=g.size*(.7+.12*out3((T-B.eye)/.25))*(1+.35*smooth(B.strike-.02,B.strike+.3,T)),cy=g.y-g.size*.25;if(k>0){c.save();c.translate(g.x,cy);drawEye(c,R,Math.min(1,k*1.4),2.2*u,smooth(B.strike-.06,B.strike+.2,T));c.restore();}}
   c.globalAlpha=1;c.globalCompositeOperation='source-over';
  }
  const start=performance.now();
@@ -131,11 +132,20 @@ export function verdictSpark(target,{part='sin',short=false}={}){
 }
 
 /** 결합 순간의 반짝임: 길이가 다른 네 갈래 별 + 붓 고리 (레퍼런스의 타격 반짝임). */
+// v0.39 결합 빛: 카드가 모이는 동안 작은 빛(0.3초, 반짝이며 조금씩 커짐) → 0.15초 만에 최종 크기의 큰 빛 → 퍼지는 원형 빛 두 겹(더 굵고 밝게) → 사라짐
+const out5=t=>1-Math.pow(1-Math.max(0,Math.min(1,t)),5);
+export const COMBINE_BEATS={small:.3,grow:.15,end:.95};
 export function combineFlash(x,y,{short=false,scale=1}={}){
- const cv=makeCanvas(81),speed=short?1.8:1,start=performance.now(),dur=.5;
- return new Promise(resolve=>{const tick=now=>{const t=(now-start)/1000*speed,c=fit(cv),k=clamp(t/dur),a=k<.12?1:1-smooth(.12,1,k);
-  c.globalCompositeOperation='lighter';glowDot(c,x,y,70*scale*(1-k*.4),a*.8);c.globalCompositeOperation='source-over';
-  spikeStar(c,x,y,(150+120*out3(k))*scale*(1-.5*smooth(.3,1,k)),{alpha:a,cols:JUDGE,rot:-.12,seed:3,thick:.12*(1-.6*k),extra:3});
-  brushRing(c,x,y,(36+150*out3(k))*scale,.55,{w:7*scale*(1-k),alpha:a*.9,cols:JUDGE,pieces:3,front:Math.PI/2,seed:5,gap:.4});
-  if(k<1)requestAnimationFrame(tick);else{cv.remove();resolve();}};requestAnimationFrame(tick);});
+ const cv=makeCanvas(81),speed=short?1.8:1,start=performance.now(),B=COMBINE_BEATS;
+ const draw=t=>{const c=fit(cv),S=scale;c.globalCompositeOperation='lighter';
+  if(t<B.small){const k=t/B.small,tw=.8+.2*Math.sin(t*60);glowDot(c,x,y,(16+14*k)*S*tw,.9);spikeStar(c,x,y,(26+18*k)*S*tw,{alpha:.95,cols:JUDGE,rot:-.12+t*.6,seed:3,thick:.16,glow:1.8});c.globalCompositeOperation='source-over';return;}
+  const u=t-B.small,g=out5(u/B.grow),a=u<B.grow+.08?1:1-smooth(B.grow+.08,B.end-B.small,u);
+  glowDot(c,x,y,(30+110*g)*S*(1-.3*smooth(B.grow,B.end-B.small,u)),a*.95);
+  // 원형으로 퍼지는 빛: 납작한 밝은 원판 + 굵은 붓 고리 두 겹
+  const R=(40+230*out3(u/.4))*S;c.save();c.translate(x,y);c.scale(1,.55);const gr=c.createRadialGradient(0,0,R*.55,0,0,R);gr.addColorStop(0,'rgba(190,130,255,0)');gr.addColorStop(.85,`rgba(220,180,255,${.55*a})`);gr.addColorStop(1,'rgba(120,60,230,0)');c.fillStyle=gr;c.beginPath();c.arc(0,0,R,0,Math.PI*2);c.fill();c.restore();
+  c.globalCompositeOperation='source-over';
+  spikeStar(c,x,y,(44+236*g)*S*(1-.45*smooth(B.grow+.1,B.end-B.small,u)),{alpha:a,cols:JUDGE,rot:-.12,seed:3,thick:.12*(1-.5*smooth(0,.6,u)),extra:4});
+  brushRing(c,x,y,R,.55,{w:14*S*(1-smooth(0,.55,u)),alpha:a,cols:JUDGE,pieces:3,front:Math.PI/2,seed:5,gap:.3,glow:2.6});
+  brushRing(c,x,y,R*.7,.55,{w:8*S*(1-smooth(0,.45,u)),alpha:a*.85,cols:JUDGE,pieces:4,front:-Math.PI/2,seed:8,gap:.35});};
+ return new Promise(resolve=>{const tick=now=>{const t=(now-start)/1000*speed;draw(t);if(t<B.end)requestAnimationFrame(tick);else{cv.remove();resolve();}};requestAnimationFrame(tick);});
 }

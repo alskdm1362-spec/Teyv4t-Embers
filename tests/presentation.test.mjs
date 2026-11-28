@@ -42,10 +42,10 @@ test('v0.37: a play that spends the last AP keeps its own hits (shown before the
  assert.deepEqual(play.effects.map(e=>e.type),['damage','kill']);assert.equal(play.attacks.length,1);
  assert.deepEqual(presentationPlan(before,s,{type:'endTurn'},events).effects,[]);
 });
-test('v0.37: 심판 연출 — 번개 길은 끝에서 대상에 정확히 닿고, 박자는 영상 순서(소용돌이 → 구체 → 번개 창 → 먹 조각 → 눈 고리)를 따른다',async()=>{
+test('v0.39: 심판 연출 — 번개 길은 끝에서 대상에 정확히 닿고, 박자는 소용돌이 → 눈 → 구체 → 번개 창 → 먹 조각 순서 (눈이 번개보다 먼저)',async()=>{
  const {boltPath,BEATS}=await import('../dist/judgment-vfx.js');
  for(const seed of [1,7,42]){const p=boltPath(100,-30,400,300,seed,120);assert.deepEqual(p.at(-1),[400,300]);assert.deepEqual(p[0],[100,-30]);assert.ok(p.every(([x,y])=>Number.isFinite(x)&&Number.isFinite(y)));}
- const order=['vortex','orb','strike','shards','eye','end'];for(let i=1;i<order.length;i++)assert.ok(BEATS[order[i-1]]<BEATS[order[i]],order[i]);assert.ok(BEATS.end>=1.4&&BEATS.end<=1.8);
+ const order=['vortex','eye','orb','strike','shards','end'];for(let i=1;i<order.length;i++)assert.ok(BEATS[order[i-1]]<BEATS[order[i]],order[i]);assert.ok(BEATS.end>=1.4&&BEATS.end<=1.8);
 });
 test('v0.37 이펙트 붓: 뾰족한 끝은 굵기 0, 흐릿한 끝은 얇게 남고, 몸통이 가장 두껍다',async()=>{
  const {taperWidth}=await import('../dist/fx-brush.js');

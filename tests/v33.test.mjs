@@ -5,14 +5,15 @@ import {vfxPlan,VFX_COLORS} from '../dist/battle-vfx.js';
 import {crackNetwork,COLLAPSE_THEMES} from '../dist/collapse-scene.js';
 const dist=p=>fs.readFileSync(new URL('../dist/'+p,import.meta.url),'utf8');
 
-test('each combatant and partner has its own natural battle effect',()=>{
- assert.equal(vfxPlan('spear',{hero:'lohen'})[0].fx,'thrust');assert.equal(vfxPlan('frost-finisher',{hero:'lohen',ultimate:true})[0].fx,'daggers');
- assert.equal(vfxPlan('arcane-wave',{hero:'durin'})[0].fx,'hellfire');assert.equal(vfxPlan('counter',{hero:'illuga'})[0].fx,'slash');
- assert.equal(vfxPlan('guard',{hero:'illuga',shield:true})[0].fx,'lantern');assert.equal(vfxPlan('feint',{hero:'jahoda'})[0].fx,'kick');
- assert.equal(vfxPlan('wind-cleave',{})[0].fx,'greatsword');assert.equal(vfxPlan('night-thrust',{})[0].fx,'thunder');
- const nefer=vfxPlan('venom-mark',{});assert.equal(nefer[0].fx,'kick');assert.equal(nefer[0].cols,VFX_COLORS.venom);
- for(const k of ['rally','focus','recover'])assert.equal(vfxPlan(k,{})[0].fx,'sparkle');
- assert.equal(vfxPlan('victory',{})[0].fx,'victory');assert.equal(vfxPlan('flame-heal',{})[0].fx,'lifeFlame');
+test('each combatant and partner has its own natural battle effect (v0.39: 카드마다 다른 모양)',()=>{
+ assert.equal(vfxPlan('spear',{hero:'lohen',card:'l_strike'})[0].fx,'iceStab');assert.equal(vfxPlan('spear',{hero:'lohen',card:'l_pierce'})[0].fx,'iceArrow');assert.equal(vfxPlan('spear',{hero:'lohen',card:'l_breach'})[0].fx,'daggerX');assert.equal(vfxPlan('frost-finisher',{hero:'lohen',ultimate:true})[0].fx,'lohenUlt');
+ assert.equal(vfxPlan('arcane-wave',{hero:'durin',card:'d_strike'})[0].fx,'fireClaw');assert.equal(vfxPlan('arcane-wave',{hero:'durin',card:'d_comet'})[0].fx,'fireComet');assert.equal(vfxPlan('counter',{hero:'illuga'})[0].fx,'slash');
+ assert.equal(vfxPlan('guard',{hero:'illuga',shield:true})[0].fx,'goldDome');assert.equal(vfxPlan('illuga-bird',{})[0].fx,'goldBird');assert.equal(vfxPlan('feint',{hero:'jahoda'})[0].fx,'kick');assert.equal(vfxPlan('spear',{hero:'jahoda',card:'j_dart'})[0].fx,'dart');assert.equal(vfxPlan('jahoda-aura',{})[0].fx,'jahodaAura');
+ assert.equal(vfxPlan('spear',{hero:'kinich',card:'k_cannon'})[0].fx,'pixelBeam');assert.equal(vfxPlan('spear',{hero:'lyney',card:'y_show'})[0].fx,'magicPop');assert.equal(vfxPlan('spear',{hero:'cyno',card:'c_claw'})[0].fx,'clawSwing');
+ for(const [p,fx] of [['nefer','neferRune'],['lynette','lynetteWind'],['mualani','mualaniBubble'],['kachina','kachinaDrill'],['tighnari','tighnariBloom'],['flins','flinsSpears']])assert.equal(vfxPlan('partner',{partner:p})[0].fx,fx);
+ assert.equal(vfxPlan('wind-cleave',{})[0].fx,'greatsword');
+ for(const k of ['rally','focus','recover'])assert.equal(vfxPlan(k,{})[0].fx,'sparkle');assert.equal(vfxPlan('rally',{hero:'jahoda',card:'j_energy'})[0].fx,'clockwork');
+ assert.equal(vfxPlan('victory',{})[0].fx,'victory');assert.equal(vfxPlan('flame-heal',{})[0].fx,'flameOrbit');
  const router=dist('supplied-vfx.js');assert.ok(router.includes("import {BattleVFX} from './battle-vfx.js';"));
  assert.ok(!fs.existsSync(new URL('../dist/cel-vfx.js',import.meta.url)));
 });

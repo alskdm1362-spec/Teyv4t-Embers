@@ -39,6 +39,7 @@ class Particle{constructor(o){Object.assign(this,{x:0,y:0,vx:0,vy:0,ay:0,drag:2,
  step(dt){this.age+=dt;const d=Math.exp(-this.drag*dt);this.vx*=d;this.vy=this.vy*d+this.ay*dt;this.x+=this.vx*dt;this.y+=this.vy*dt;this.rot+=this.vr*dt;return this.age<this.life;}
  draw(c){const u=this.age/this.life,a=this.alpha*(this.kind==='smoke'?bell(Math.min(1,u*1.6))*(1-u):1-in2(u)),sz=lerp(this.size,this.size1,out3(u)),col=this.ramp?this.ramp[Math.min(this.ramp.length-1,Math.floor(u*this.ramp.length))]:this.color;if(a<=.01||sz<=.2)return;
   c.globalCompositeOperation=this.blend;c.globalAlpha=a;
+  if(this.paint){this.paint(c,this,a,sz,col,u);return;}
   if(this.kind==='spark'){fleck(c,this.x,this.y,this.vx,this.vy,sz,col,a,this.stretch);return;}
   if(this.kind==='shard'){c.save();c.translate(this.x,this.y);c.rotate(this.rot);c.fillStyle=col;c.beginPath();c.moveTo(0,-sz);c.lineTo(sz*.35,0);c.lineTo(0,sz*.7);c.lineTo(-sz*.3,0);c.closePath();c.fill();c.restore();c.globalCompositeOperation='lighter';c.globalAlpha=a*.5;c.drawImage(glow(col),this.x-sz*1.5,this.y-sz*1.5,sz*3,sz*3);return;}
   if(this.kind==='smoke'){c.save();c.translate(this.x,this.y);c.rotate(this.rot);const g=c.createRadialGradient(0,0,0,0,0,sz);g.addColorStop(0,rgba(col,.9));g.addColorStop(.6,rgba(col,.45));g.addColorStop(1,rgba(col,0));c.fillStyle=g;c.beginPath();c.ellipse(0,0,sz,sz*.82,0,0,TAU);c.fill();c.restore();return;}
@@ -70,6 +71,9 @@ function burst(sys,x,y,cols,R,{n=14,speed=420,size=5,life=.45,spark=true,shard=f
 function motes(sys,x,y,cols,R,{n=10,r=40,rise=90,life=1,size=5,kind='glow'}={}){for(let i=0;i<n;i++){const a=R()*TAU,d=r*Math.sqrt(R());sys.add(new Particle({x:x+Math.cos(a)*d,y:y+Math.sin(a)*d*.6,vx:(R()-.5)*30,vy:-rise*(.4+R()*.8),drag:1.2,life:life*(.6+R()*.6),size:size*(.6+R()*.9),size1:size*.2,color:R()<.5?cols.core:cols.main,kind,rot:R()*TAU}));}}
 function impact(cols,{r=46,sparks=14,ring:rg=true,shards=false}={}){let done=false;return {dur:.55,spawn(sys,t,R,s){if(!done&&t>=0){done=true;burst(sys,0,0,cols,R,{n:sparks,speed:520*s,size:6*s,shard:shards});}},
  draw(c,t,s){flash(c,0,0,r*s*(1.1+.6*out3(t/.18)),cols.main,1-t/.3);flash(c,0,0,r*.55*s,cols.core,1-t/.16);if(t<.14)drawGlint(c,0,0,r*1.3*s*(1-t/.14*.4),cols.main,.3);if(rg)ring(c,0,0,r*s*(.4+1.4*out3(t/.4)),9*s*(1-t/.4),cols.main,1-t/.4,.55);}};}
+// v0.39: 전투원별 이펙트(카드마다 다른 모양)는 cast-vfx.js에 있다. 같은 도구를 넘겨 FX에 더한다.
+import {castFX,castPlan} from './cast-vfx.js';
+import {durinFX} from './toon-fire.js';
 const FX={
  // Lohen: a spear thrust — a long tapered streak that snaps to the target, then a frost flash and ice shards.
  thrust(cols,{from,len=180}){let hit=false;return {dur:.7,spawn(sys,t,R,s){if(!hit&&t>=.09){hit=true;burst(sys,0,0,cols,R,{n:16,speed:560*s,size:6*s,spread:1.6,dir:0});burst(sys,0,0,cols,R,{n:8,speed:320*s,size:9*s,shard:true});motes(sys,0,0,{...cols,main:'#dff6ff'},R,{n:8,r:30*s,rise:30*s,life:.9,size:12*s,kind:'smoke'});}},
@@ -141,9 +145,11 @@ const FX={
   draw(c,t,s){flash(c,0,0,110*s,'#ff9a3a',.4*bell(t/1.4));ring(c,0,40*s,20*s+80*s*out3(t/.8),8*s,'#ffd27a',(1-t/.8)*.8,.3);}};},
 };
 
+{const H={brushStroke,Particle,burst,motes,flash,ring,arcTrail,streak,drawGlint,rays,glow,bolt,boltPath,rnd,rgba,clamp,lerp,out3,out5,in2,bell,TAU,impact,COLORS:VFX_COLORS};Object.assign(FX,castFX(H),durinFX(H));}
+export const FX_NAMES=()=>Object.keys(FX);
 /** Steps for a game effect kind, or null when this module does not draw it. */
 export function vfxPlan(kind,o={}){
- const C=VFX_COLORS,ult=!!o.ultimate;
+ const C=VFX_COLORS,ult=!!o.ultimate;{const p=castPlan(kind,o,C);if(p)return p;}
  if(['spear','counter','feint','arcane-wave','frost-finisher'].includes(kind)){
   if(o.hero==='durin')return [{fx:'hellfire',at:'center',cols:C.hellfire,opts:{big:ult}}];
   if(o.hero==='illuga')return [{fx:'slash',at:'center',cols:C.lantern,opts:ult?{r:92,w:34,big:true}:{}}];
@@ -170,7 +176,8 @@ export function vfxPlan(kind,o={}){
  return null;
 }
 
-class System{constructor(){this.list=[];}add(p){this.list.push(p);}step(dt){this.list=this.list.filter(p=>p.step(dt));}draw(c){for(const p of this.list)if(p.blend==='source-over')p.draw(c);for(const p of this.list)if(p.blend!=='source-over')p.draw(c);}}
+// 연기처럼 빛을 더하지 않는 입자(source-over)는 이펙트 그림보다 먼저(뒤에) 그린다 — 연기가 불꽃을 덮어 흐려 보이지 않게 (v0.39)
+class System{constructor(){this.list=[];}add(p){this.list.push(p);}step(dt){this.list=this.list.filter(p=>p.step(dt));}under(c){for(const p of this.list)if(p.blend==='source-over')p.draw(c);}over(c){for(const p of this.list)if(p.blend!=='source-over')p.draw(c);}draw(c){this.under(c);this.over(c);}}
 export class BattleVFX{
  constructor({short=()=>false,glow=()=>.85}={}){this.short=short;this.glow=glow;this.layers={};this.seed=29;}
  has(kind,o){return !!vfxPlan(kind,o);}
@@ -191,13 +198,14 @@ export class BattleVFX{
   while(L.fx.length){await new Promise(r=>requestAnimationFrame(r));const now=performance.now(),dt=Math.min(.05,(now-last)/1000);last=now;const dpr=Math.min(1.25,devicePixelRatio||1),W=Math.round(innerWidth*dpr),H=Math.round(innerHeight*dpr);
    if(L.canvas.width!==W||L.canvas.height!==H){L.canvas.width=W;L.canvas.height=H;}const c=L.ctx;c.setTransform(1,0,0,1,0,0);c.clearRect(0,0,W,H);
    for(const e of L.fx){const t=(now-e.born)/1000*e.speed;if(t<0)continue;e.t=t;c.setTransform(dpr,0,0,dpr,0,0);c.translate(e.x,e.y);if(e.flip)c.scale(-1,1);
-    e.fx.spawn?.(e.sys,t,e.R,e.s);e.sys.step(dt*e.speed);c.save();e.fx.draw(c,t,e.s);c.restore();c.save();e.sys.draw(c);c.restore();c.globalAlpha=1;c.globalCompositeOperation='source-over';}
+    // 이펙트 하나가 오류를 내도 같은 층의 다른 이펙트와 다음 프레임은 계속 그린다 (v0.39)
+    try{e.fx.spawn?.(e.sys,t,e.R,e.s);e.sys.step(dt*e.speed);c.save();e.sys.under(c);c.restore();c.save();e.fx.draw(c,t,e.s);c.restore();c.save();e.sys.over(c);c.restore();}catch(err){e.t=1e9;e.sys.list=[];console.error('[vfx]',err);}c.globalAlpha=1;c.globalCompositeOperation='source-over';}
    L.fx=L.fx.filter(e=>!(e.t>e.fx.dur&&!e.sys.list.length));}
   L.ctx.setTransform(1,0,0,1,0,0);L.ctx.clearRect(0,0,L.canvas.width,L.canvas.height);L.running=false;}
  /** QA: run a kind headlessly up to time t and draw that frame. */
  still(kind,anchor,options={},t=.2){const plan=vfxPlan(kind,{...options,sprite:anchor?.classList?.contains('sprite')});if(!plan)return false;const top=!!anchor.closest?.('.cutin-shade'),L=this.layer(top),dpr=Math.min(2,devicePixelRatio||1),c=L.ctx,s=this.unit();L.canvas.width=Math.round(innerWidth*dpr);L.canvas.height=Math.round(innerHeight*dpr);
   for(const step of plan){const p=this.point(anchor,step.at),src=options.from?this.point(options.from,'center'):null,opts={...(step.opts||{})};if(step.from&&src)opts.from={x:src.x-p.x,y:src.y-p.y};const fx=FX[step.fx](step.cols,opts),sys=new System(),R=rnd(7);let tt=0;const T=t-(step.delay||0)/1000;
-   const steps=Math.max(0,Math.ceil(T*60)),dt=steps?T/steps:0;for(let i=0;i<steps;i++){tt+=dt;fx.spawn?.(sys,tt,R,s);sys.step(dt);}if(T<0)continue;c.setTransform(dpr,0,0,dpr,0,0);c.translate(p.x,p.y);if(step.flip)c.scale(-1,1);c.save();fx.draw(c,Math.max(0,T),s);c.restore();c.save();sys.draw(c);c.restore();c.globalAlpha=1;c.globalCompositeOperation='source-over';}
+   const steps=Math.max(0,Math.ceil(T*60)),dt=steps?T/steps:0;for(let i=0;i<steps;i++){tt+=dt;fx.spawn?.(sys,tt,R,s);sys.step(dt);}if(T<0)continue;c.setTransform(dpr,0,0,dpr,0,0);c.translate(p.x,p.y);if(step.flip)c.scale(-1,1);c.save();sys.under(c);c.restore();c.save();fx.draw(c,Math.max(0,T),s);c.restore();c.save();sys.over(c);c.restore();c.globalAlpha=1;c.globalCompositeOperation='source-over';}
   return true;}
  clear(){for(const L of Object.values(this.layers)){L.fx=[];L.ctx.setTransform(1,0,0,1,0,0);L.ctx.clearRect(0,0,L.canvas.width,L.canvas.height);}}
 }
