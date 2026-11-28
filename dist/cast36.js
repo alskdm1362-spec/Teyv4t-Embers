@@ -20,3 +20,5 @@ export const breakdownArt36=(hero,n)=>`${D}${hero}/breakdown-${n}.webp`;
 export const skillArt=(id,n)=>isNewCast(id)?`${D}${id}/skill-${n}.webp`:n>7?`${D}extra/${id}-skill-${n}.webp`:`assets/illustrations/cards/${id}/skill-${n}.webp`;
 export const collapseCardArt=(id,n)=>isNewCast(id)?`${D}${id}/collapse-${n}.webp`:`assets/illustrations/cards/${id}/collapse-${n}.webp`;
 export const AJAW_ART=`${D}kinich/ajaw.png`;
+// v0.39 분쇄 모드: 키니치 뒤에 크게 뜨는 아쥬 (나모 님 제공 ajaw-분쇄.png)
+export const AJAW_CRUSH_ART=`${D}kinich/ajaw-crush.webp`;

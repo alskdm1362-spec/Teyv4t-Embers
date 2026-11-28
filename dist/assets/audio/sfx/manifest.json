@@ -1,403 +1,1208 @@
 {
-  "version": 1,
-  "sampleRate": 24000,
-  "channels": 1,
-  "encoding": "PCM signed 16-bit little endian WAV",
-  "provenance": "Original DSP waveforms for the base set; v0.35 adds user-supplied effects (source noted per asset), trimmed and level-matched.",
-  "references": [
-    "https://kenney.nl/assets/impact-sounds",
-    "https://kenney.nl/assets/rpg-audio",
-    "https://kenney.nl/assets/interface-sounds",
-    "https://kenney.nl/support"
+ "version": 1,
+ "sampleRate": 24000,
+ "channels": 1,
+ "encoding": "PCM signed 16-bit little endian WAV",
+ "provenance": "Original DSP waveforms for the base set; v0.35 adds user-supplied effects (source noted per asset), trimmed and level-matched. v0.38 adds Lumina SFX (LuminaBench/lumina-sfx v1.5, royalty-free in-game use, no audio credit required; collection redistribution not permitted) renders; recipe and seed noted per asset.",
+ "references": [
+  "https://kenney.nl/assets/impact-sounds",
+  "https://kenney.nl/assets/rpg-audio",
+  "https://kenney.nl/assets/interface-sounds",
+  "https://kenney.nl/support",
+  "https://github.com/LuminaBench/lumina-sfx"
+ ],
+ "assets": {
+  "spear_whoosh": [
+   {
+    "src": "assets/audio/sfx/spear_whoosh-1.wav",
+    "duration": 0.22,
+    "peakDbFS": -5.54,
+    "rmsDbFS": -20.5,
+    "bytes": 10604,
+    "sha256": "d264dd17fe2d1c88ac380302d6158d0012a86f63eec5efefc9e2552f990c4d9b"
+   },
+   {
+    "src": "assets/audio/sfx/spear_whoosh-2.wav",
+    "duration": 0.22,
+    "peakDbFS": -5.61,
+    "rmsDbFS": -20.5,
+    "bytes": 10604,
+    "sha256": "cf6d1d11f908f6826361b1c96ca13f6763fcf5068134f38dee394654c3df2ba1"
+   }
   ],
-  "assets": {
-    "spear_whoosh": [
-      {
-        "src": "assets/audio/sfx/spear_whoosh-1.wav",
-        "duration": 0.22,
-        "peakDbFS": -5.54,
-        "rmsDbFS": -20.5,
-        "bytes": 10604,
-        "sha256": "d264dd17fe2d1c88ac380302d6158d0012a86f63eec5efefc9e2552f990c4d9b"
-      },
-      {
-        "src": "assets/audio/sfx/spear_whoosh-2.wav",
-        "duration": 0.22,
-        "peakDbFS": -5.61,
-        "rmsDbFS": -20.5,
-        "bytes": 10604,
-        "sha256": "cf6d1d11f908f6826361b1c96ca13f6763fcf5068134f38dee394654c3df2ba1"
-      }
-    ],
-    "spear_hit": [
-      {
-        "src": "assets/audio/sfx/spear_hit-1.wav",
-        "duration": 0.22,
-        "peakDbFS": -4.73,
-        "rmsDbFS": -21.75,
-        "bytes": 10604,
-        "sha256": "d521ccdad645672d923aad4ea2385182dfbb040d6951aace05ec3b9645c2b552"
-      },
-      {
-        "src": "assets/audio/sfx/spear_hit-2.wav",
-        "duration": 0.22,
-        "peakDbFS": -4.73,
-        "rmsDbFS": -24.15,
-        "bytes": 10604,
-        "sha256": "a14af5ad8a12001cf2ad06e7049d10bb4bb9e9752ceb4015453a6f0b99f09fb8"
-      }
-    ],
-    "heavy_whoosh": [
-      {
-        "src": "assets/audio/sfx/heavy_whoosh.wav",
-        "duration": 0.34,
-        "peakDbFS": -6.01,
-        "rmsDbFS": -20.5,
-        "bytes": 16364,
-        "sha256": "48ff76b31a98034eda76c0c2d3cd582ec7220a8b4e9f037a8e482068ba9a516f"
-      }
-    ],
-    "heavy_hit": [
-      {
-        "src": "assets/audio/sfx/heavy_hit-1.wav",
-        "duration": 0.32,
-        "peakDbFS": -4.73,
-        "rmsDbFS": -21.08,
-        "bytes": 15404,
-        "sha256": "56783b24f17a4a78c55cd0f0e3fdf5b61f3b1fe0c326ab70c2c386b9316cfe4c"
-      },
-      {
-        "src": "assets/audio/sfx/heavy_hit-2.wav",
-        "duration": 0.32,
-        "peakDbFS": -4.73,
-        "rmsDbFS": -22.43,
-        "bytes": 15404,
-        "sha256": "1404d5db9142c8eb8db3ec8b74ef11641838f75b12413581b1e51e7588b0584e"
-      }
-    ],
-    "arcane_cast": [
-      {
-        "src": "assets/audio/sfx/arcane_cast.wav",
-        "duration": 0.48,
-        "peakDbFS": -6.64,
-        "rmsDbFS": -20.5,
-        "bytes": 23084,
-        "sha256": "bf5f1ff834518e3d45951e46e6392ab2dd83302ad6f7967efef78614478dd8c4"
-      }
-    ],
-    "arcane_hit": [
-      {
-        "src": "assets/audio/sfx/arcane_hit.wav",
-        "duration": 0.38,
-        "peakDbFS": -4.73,
-        "rmsDbFS": -23.16,
-        "bytes": 18284,
-        "sha256": "336fd5a7a90ed25c8ddbe4940389f0a0ca56bb11f5b1f2f66534e0ce69a093a8"
-      }
-    ],
-    "shield_cast": [
-      {
-        "src": "assets/audio/sfx/shield_cast.wav",
-        "duration": 0.47,
-        "peakDbFS": -5.84,
-        "rmsDbFS": -20.5,
-        "bytes": 22604,
-        "sha256": "f8231589787e1fd9ffde6371cbb2b567e2b834080978f1f3bc02c8b8b492abf4"
-      }
-    ],
-    "shield_hit": [
-      {
-        "src": "assets/audio/sfx/shield_hit.wav",
-        "duration": 0.29,
-        "peakDbFS": -4.73,
-        "rmsDbFS": -24.1,
-        "bytes": 13964,
-        "sha256": "ae9303a517bba78645edbbe2f95b5496128a98007806e08ac5754e984fe67c44"
-      }
-    ],
-    "counter": [
-      {
-        "src": "assets/audio/sfx/counter.wav",
-        "duration": 0.25,
-        "peakDbFS": -4.73,
-        "rmsDbFS": -22.92,
-        "bytes": 12044,
-        "sha256": "da71cd9ded342704e87e3e26dbb4ff060a95f6cde23635ba577cf5dead7cc017"
-      }
-    ],
-    "dagger": [
-      {
-        "src": "assets/audio/sfx/dagger-1.wav",
-        "duration": 0.22,
-        "peakDbFS": -4.73,
-        "rmsDbFS": -22.58,
-        "bytes": 10604,
-        "sha256": "2451d0e41f85b25d2c3fe4ee6b07b76e15689a3aff6c0d7701a41cfe9fae9055"
-      },
-      {
-        "src": "assets/audio/sfx/dagger-2.wav",
-        "duration": 0.22,
-        "peakDbFS": -4.73,
-        "rmsDbFS": -24.04,
-        "bytes": 10604,
-        "sha256": "99b305083a5768c3737203743418e3182b0375afb502e6ca535dba7e11e53b48"
-      }
-    ],
-    "abyss_cast": [
-      {
-        "src": "assets/audio/sfx/abyss_cast.wav",
-        "duration": 0.48,
-        "peakDbFS": -10.13,
-        "rmsDbFS": -20.5,
-        "bytes": 23084,
-        "sha256": "527c4215cf63a0b4a8116350fe7df378e1ce0e1b626ffa88333111163ad15262"
-      }
-    ],
-    "abyss_hit": [
-      {
-        "src": "assets/audio/sfx/abyss_hit.wav",
-        "duration": 0.39,
-        "peakDbFS": -5.58,
-        "rmsDbFS": -20.5,
-        "bytes": 18764,
-        "sha256": "63ec02e67b416283c0bc2b8a68f65d75b938435628db05896d0c9708b26165ea"
-      }
-    ],
-    "celestial_hit": [
-      {
-        "src": "assets/audio/sfx/celestial_hit.wav",
-        "duration": 0.44,
-        "peakDbFS": -4.73,
-        "rmsDbFS": -21.94,
-        "bytes": 21164,
-        "sha256": "46bd3972bdea16fd9ae8f514c0c74d4010e582e6e773cb891750f50adcadb0a2"
-      }
-    ],
-    "card_deal": [
-      {
-        "src": "assets/audio/sfx/card_deal-1.wav",
-        "duration": 0.105,
-        "peakDbFS": -7.23,
-        "rmsDbFS": -23.0,
-        "bytes": 5084,
-        "sha256": "389534774b1ad4557d6df3e34e2a1d67dd8c44b2bad90d7db7b32cdfe980d9bf"
-      },
-      {
-        "src": "assets/audio/sfx/card_deal-2.wav",
-        "duration": 0.105,
-        "peakDbFS": -6.57,
-        "rmsDbFS": -23.0,
-        "bytes": 5084,
-        "sha256": "55b47d9f7fb7cba98de879d9f3ae2b811c1c4d855cacb59111ddb1eff756bc26"
-      },
-      {
-        "src": "assets/audio/sfx/card_deal-3.wav",
-        "duration": 0.105,
-        "peakDbFS": -8.05,
-        "rmsDbFS": -23.0,
-        "bytes": 5084,
-        "sha256": "c35eea26d3e25a3918c6b25b3745d96d4ea74a83f09ae9b6c72401fcb591310e"
-      }
-    ],
-    "card_discard": [
-      {
-        "src": "assets/audio/sfx/card_discard-1.wav",
-        "duration": 0.145,
-        "peakDbFS": -7.71,
-        "rmsDbFS": -23.0,
-        "bytes": 7004,
-        "sha256": "c881eaea99e24351c734ac5a15a81289967f4b2d82e6ddc498ea03746cdb7a22"
-      },
-      {
-        "src": "assets/audio/sfx/card_discard-2.wav",
-        "duration": 0.145,
-        "peakDbFS": -8.07,
-        "rmsDbFS": -23.0,
-        "bytes": 7004,
-        "sha256": "a17e995a077629eafad02853cec565d929f43ab0ecae0c1624cbe0f0ec87db52"
-      }
-    ],
-    "card_morph": [
-      {
-        "src": "assets/audio/sfx/card_morph.wav",
-        "duration": 0.45,
-        "peakDbFS": -6.28,
-        "rmsDbFS": -23.0,
-        "bytes": 21644,
-        "sha256": "5c6b8ce734db3b6fcb64674ef66cd9f8dd3eeee47bfbbfab5edf1f56c9a5ff6a"
-      }
-    ],
-    "resource": [
-      {
-        "src": "assets/audio/sfx/resource.wav",
-        "duration": 0.3,
-        "peakDbFS": -7.25,
-        "rmsDbFS": -20.5,
-        "bytes": 14444,
-        "sha256": "3109692805622c158eaef6ff4242d3c52d28090c827b68e79811e0af569aca60"
-      }
-    ],
-    "heal": [
-      {
-        "src": "assets/audio/sfx/heal.wav",
-        "duration": 0.86,
-        "peakDbFS": -5.54,
-        "rmsDbFS": -20.5,
-        "bytes": 41324,
-        "sha256": "49480e80e7bb702e02d6b138a21185280a2ef286871b94ae7394900d9ae739eb"
-      }
-    ],
-    "victory": [
-      {
-        "src": "assets/audio/sfx/victory.wav",
-        "duration": 0.92,
-        "peakDbFS": -5.53,
-        "rmsDbFS": -20.5,
-        "bytes": 44204,
-        "sha256": "884aca3790ba0b15c78d977c0c711c5224c3312dfde34e0a9a66cb9586c9f1dc"
-      }
-    ],
-    "ui_click": [
-      {
-        "src": "assets/audio/sfx/ui_click.wav",
-        "duration": 0.065,
-        "peakDbFS": -7.54,
-        "rmsDbFS": -24.19,
-        "bytes": 3164,
-        "sha256": "702c5c994e9decb16d16ac0fa0f69652e05d28ddbf4be3292fe322577002755f"
-      }
-    ],
-    "swing_light": [
-      {
-        "src": "assets/audio/sfx/swing_light.wav",
-        "duration": 0.463,
-        "peakDbFS": -4.21,
-        "rmsDbFS": -19.44,
-        "bytes": 22262,
-        "sha256": "c599622edf5ce3e61226601c1729ef5d99081be07ec1e168b04f22c1b0aef67a",
-        "source": "사용자 제공 효과음.zip / 휘두르기2.mp3",
-        "processing": "앞 무음 0.045s 제거, 활성 구간 RMS -17 dB로 맞춤, 끝 30ms 페이드"
-      }
-    ],
-    "swing_heavy": [
-      {
-        "src": "assets/audio/sfx/swing_heavy.wav",
-        "duration": 0.576,
-        "peakDbFS": -4.41,
-        "rmsDbFS": -19.38,
-        "bytes": 27668,
-        "sha256": "83bfa101344ada2f8aa4d8bf3b3e6fc4b449012b8f63a8a68913bf457c023c2e",
-        "source": "사용자 제공 효과음.zip / 휘두르기.mp3",
-        "processing": "앞 무음 0.051s 제거, 활성 구간 RMS -16 dB로 맞춤, 끝 30ms 페이드"
-      }
-    ],
-    "strike": [
-      {
-        "src": "assets/audio/sfx/strike.wav",
-        "duration": 0.394,
-        "peakDbFS": -3.35,
-        "rmsDbFS": -19.74,
-        "bytes": 18944,
-        "sha256": "01b1dc4d30adf13e0ade96ccf781f5b0b16c30439eee513e9c821d88e33389be",
-        "source": "사용자 제공 효과음.zip / 때리기.mp3",
-        "processing": "앞 무음 0.143s 제거, 활성 구간 RMS -15 dB로 맞춤, 끝 30ms 페이드"
-      }
-    ],
-    "slash": [
-      {
-        "src": "assets/audio/sfx/slash.wav",
-        "duration": 0.563,
-        "peakDbFS": -4.47,
-        "rmsDbFS": -17.87,
-        "bytes": 27056,
-        "sha256": "64cba60767ade11e99b5fdb0cf47c3af35b3ed3c1b9247847cdd7b902f5da29f",
-        "source": "사용자 제공 효과음.zip / 베기.mp3",
-        "processing": "앞 무음 0.064s 제거, 활성 구간 RMS -15 dB로 맞춤, 끝 30ms 페이드"
-      }
-    ],
-    "kick": [
-      {
-        "src": "assets/audio/sfx/kick.wav",
-        "duration": 0.771,
-        "peakDbFS": -3.35,
-        "rmsDbFS": -19.45,
-        "bytes": 37038,
-        "sha256": "01a0ec3430cfbe26bfb0761025bc9cd9451a08011fd672a1174e8e8cdf89a129",
-        "source": "사용자 제공 효과음.zip / 발차기.mp3",
-        "processing": "앞 무음 0.184s 제거, 활성 구간 RMS -15 dB로 맞춤, 끝 30ms 페이드"
-      }
-    ],
-    "fire_weak": [
-      {
-        "src": "assets/audio/sfx/fire_weak.wav",
-        "duration": 1.61,
-        "peakDbFS": -3.49,
-        "rmsDbFS": -18.05,
-        "bytes": 77312,
-        "sha256": "e454e4c15f3bc16b8291315fa4160be0368d8fb0dfc7642a9c7ead60e1543dea",
-        "source": "사용자 제공 효과음.zip / 두린-불(약).mp3",
-        "processing": "앞 무음 0.000s 제거, 활성 구간 RMS -16 dB로 맞춤, 끝 30ms 페이드"
-      }
-    ],
-    "fire_strong": [
-      {
-        "src": "assets/audio/sfx/fire_strong.wav",
-        "duration": 1.532,
-        "peakDbFS": -4.5,
-        "rmsDbFS": -16.21,
-        "bytes": 73572,
-        "sha256": "3ac9c8ea9f12413338d7f3ca0017f5fe4f8cc5fc9abc3e5862a617a7bcc3c3fe",
-        "source": "사용자 제공 효과음.zip / 두린-불(강).mp3",
-        "processing": "앞 무음 0.011s 제거, 활성 구간 RMS -14 dB로 맞춤, 끝 30ms 페이드"
-      }
-    ],
-    "stage_clear": [
-      {
-        "src": "assets/audio/sfx/stage_clear.wav",
-        "duration": 1.928,
-        "peakDbFS": -3.35,
-        "rmsDbFS": -21.85,
-        "bytes": 92566,
-        "sha256": "0362121225eb2a7c36ccba0ab102a060106187304d39861ad2467b2da0a0ff03",
-        "source": "사용자 제공 효과음.zip / stage clear.mp3",
-        "processing": "앞 무음 0.240s 제거, 활성 구간 RMS -17 dB로 맞춤, 끝 30ms 페이드"
-      }
-    ],
-    "card_flip": [
-      {
-        "src": "assets/audio/sfx/card_flip.wav",
-        "duration": 0.381,
-        "peakDbFS": -6.8,
-        "rmsDbFS": -23.97,
-        "bytes": 18310,
-        "sha256": "994fe652336b0abc846c27a739b6f6751bf5b1e312f8b3d7c8ea125ad91b3e32",
-        "source": "사용자 제공 효과음.zip / 카드1.mp3",
-        "processing": "앞 무음 0.085s 제거, 활성 구간 RMS -22 dB로 맞춤, 끝 30ms 페이드"
-      }
-    ],
-    "ui_tap": [
-      {
-        "src": "assets/audio/sfx/ui_tap.wav",
-        "duration": 0.07,
-        "peakDbFS": -6.75,
-        "rmsDbFS": -26.4,
-        "bytes": 3418,
-        "sha256": "5b3980d933ee366282257ff8ecbef049bf8cdc6470450c6a3dd296342a826f86",
-        "source": "사용자 제공 효과음.zip / 클릭3.mp3",
-        "processing": "앞 무음 0.040s 제거, 활성 구간 RMS -22 dB로 맞춤, 끝 30ms 페이드"
-      }
-    ],
-    "ui_tap2": [
-      {
-        "src": "assets/audio/sfx/ui_tap2.wav",
-        "duration": 0.155,
-        "peakDbFS": -3.35,
-        "rmsDbFS": -25.83,
-        "bytes": 7482,
-        "sha256": "9b8f86583bbf2a7abf4014fa8c4462bb9d16277957ef893848665930dbe5fa4d",
-        "source": "사용자 제공 효과음.zip / 클릭.mp3",
-        "processing": "앞 무음 0.000s 제거, 활성 구간 RMS -22 dB로 맞춤, 끝 30ms 페이드"
-      }
-    ]
-  }
+  "spear_hit": [
+   {
+    "src": "assets/audio/sfx/spear_hit-1.wav",
+    "duration": 0.22,
+    "peakDbFS": -4.73,
+    "rmsDbFS": -21.75,
+    "bytes": 10604,
+    "sha256": "d521ccdad645672d923aad4ea2385182dfbb040d6951aace05ec3b9645c2b552"
+   },
+   {
+    "src": "assets/audio/sfx/spear_hit-2.wav",
+    "duration": 0.22,
+    "peakDbFS": -4.73,
+    "rmsDbFS": -24.15,
+    "bytes": 10604,
+    "sha256": "a14af5ad8a12001cf2ad06e7049d10bb4bb9e9752ceb4015453a6f0b99f09fb8"
+   }
+  ],
+  "heavy_whoosh": [
+   {
+    "src": "assets/audio/sfx/heavy_whoosh.wav",
+    "duration": 0.34,
+    "peakDbFS": -6.01,
+    "rmsDbFS": -20.5,
+    "bytes": 16364,
+    "sha256": "48ff76b31a98034eda76c0c2d3cd582ec7220a8b4e9f037a8e482068ba9a516f"
+   }
+  ],
+  "heavy_hit": [
+   {
+    "src": "assets/audio/sfx/heavy_hit-1.wav",
+    "duration": 0.32,
+    "peakDbFS": -4.73,
+    "rmsDbFS": -21.08,
+    "bytes": 15404,
+    "sha256": "56783b24f17a4a78c55cd0f0e3fdf5b61f3b1fe0c326ab70c2c386b9316cfe4c"
+   },
+   {
+    "src": "assets/audio/sfx/heavy_hit-2.wav",
+    "duration": 0.32,
+    "peakDbFS": -4.73,
+    "rmsDbFS": -22.43,
+    "bytes": 15404,
+    "sha256": "1404d5db9142c8eb8db3ec8b74ef11641838f75b12413581b1e51e7588b0584e"
+   }
+  ],
+  "arcane_cast": [
+   {
+    "src": "assets/audio/sfx/arcane_cast.wav",
+    "duration": 0.48,
+    "peakDbFS": -6.64,
+    "rmsDbFS": -20.5,
+    "bytes": 23084,
+    "sha256": "bf5f1ff834518e3d45951e46e6392ab2dd83302ad6f7967efef78614478dd8c4"
+   }
+  ],
+  "arcane_hit": [
+   {
+    "src": "assets/audio/sfx/arcane_hit.wav",
+    "duration": 0.38,
+    "peakDbFS": -4.73,
+    "rmsDbFS": -23.16,
+    "bytes": 18284,
+    "sha256": "336fd5a7a90ed25c8ddbe4940389f0a0ca56bb11f5b1f2f66534e0ce69a093a8"
+   }
+  ],
+  "shield_hit": [
+   {
+    "src": "assets/audio/sfx/shield_hit.wav",
+    "duration": 0.29,
+    "peakDbFS": -4.73,
+    "rmsDbFS": -24.1,
+    "bytes": 13964,
+    "sha256": "ae9303a517bba78645edbbe2f95b5496128a98007806e08ac5754e984fe67c44"
+   }
+  ],
+  "counter": [
+   {
+    "src": "assets/audio/sfx/counter.wav",
+    "duration": 0.25,
+    "peakDbFS": -4.73,
+    "rmsDbFS": -22.92,
+    "bytes": 12044,
+    "sha256": "da71cd9ded342704e87e3e26dbb4ff060a95f6cde23635ba577cf5dead7cc017"
+   }
+  ],
+  "dagger": [
+   {
+    "src": "assets/audio/sfx/dagger-1.wav",
+    "duration": 0.22,
+    "peakDbFS": -4.73,
+    "rmsDbFS": -22.58,
+    "bytes": 10604,
+    "sha256": "2451d0e41f85b25d2c3fe4ee6b07b76e15689a3aff6c0d7701a41cfe9fae9055"
+   },
+   {
+    "src": "assets/audio/sfx/dagger-2.wav",
+    "duration": 0.22,
+    "peakDbFS": -4.73,
+    "rmsDbFS": -24.04,
+    "bytes": 10604,
+    "sha256": "99b305083a5768c3737203743418e3182b0375afb502e6ca535dba7e11e53b48"
+   }
+  ],
+  "abyss_cast": [
+   {
+    "src": "assets/audio/sfx/abyss_cast.wav",
+    "duration": 0.48,
+    "peakDbFS": -10.13,
+    "rmsDbFS": -20.5,
+    "bytes": 23084,
+    "sha256": "527c4215cf63a0b4a8116350fe7df378e1ce0e1b626ffa88333111163ad15262"
+   }
+  ],
+  "abyss_hit": [
+   {
+    "src": "assets/audio/sfx/abyss_hit.wav",
+    "duration": 0.39,
+    "peakDbFS": -5.58,
+    "rmsDbFS": -20.5,
+    "bytes": 18764,
+    "sha256": "63ec02e67b416283c0bc2b8a68f65d75b938435628db05896d0c9708b26165ea"
+   }
+  ],
+  "card_deal": [
+   {
+    "src": "assets/audio/sfx/card_deal-1.wav",
+    "duration": 0.105,
+    "peakDbFS": -7.23,
+    "rmsDbFS": -23.0,
+    "bytes": 5084,
+    "sha256": "389534774b1ad4557d6df3e34e2a1d67dd8c44b2bad90d7db7b32cdfe980d9bf"
+   },
+   {
+    "src": "assets/audio/sfx/card_deal-2.wav",
+    "duration": 0.105,
+    "peakDbFS": -6.57,
+    "rmsDbFS": -23.0,
+    "bytes": 5084,
+    "sha256": "55b47d9f7fb7cba98de879d9f3ae2b811c1c4d855cacb59111ddb1eff756bc26"
+   },
+   {
+    "src": "assets/audio/sfx/card_deal-3.wav",
+    "duration": 0.105,
+    "peakDbFS": -8.05,
+    "rmsDbFS": -23.0,
+    "bytes": 5084,
+    "sha256": "c35eea26d3e25a3918c6b25b3745d96d4ea74a83f09ae9b6c72401fcb591310e"
+   }
+  ],
+  "card_discard": [
+   {
+    "src": "assets/audio/sfx/card_discard-1.wav",
+    "duration": 0.145,
+    "peakDbFS": -7.71,
+    "rmsDbFS": -23.0,
+    "bytes": 7004,
+    "sha256": "c881eaea99e24351c734ac5a15a81289967f4b2d82e6ddc498ea03746cdb7a22"
+   },
+   {
+    "src": "assets/audio/sfx/card_discard-2.wav",
+    "duration": 0.145,
+    "peakDbFS": -8.07,
+    "rmsDbFS": -23.0,
+    "bytes": 7004,
+    "sha256": "a17e995a077629eafad02853cec565d929f43ab0ecae0c1624cbe0f0ec87db52"
+   }
+  ],
+  "card_morph": [
+   {
+    "src": "assets/audio/sfx/card_morph.wav",
+    "duration": 0.45,
+    "peakDbFS": -6.28,
+    "rmsDbFS": -23.0,
+    "bytes": 21644,
+    "sha256": "5c6b8ce734db3b6fcb64674ef66cd9f8dd3eeee47bfbbfab5edf1f56c9a5ff6a"
+   }
+  ],
+  "resource": [
+   {
+    "src": "assets/audio/sfx/resource.wav",
+    "duration": 0.3,
+    "peakDbFS": -7.25,
+    "rmsDbFS": -20.5,
+    "bytes": 14444,
+    "sha256": "3109692805622c158eaef6ff4242d3c52d28090c827b68e79811e0af569aca60"
+   }
+  ],
+  "heal": [
+   {
+    "src": "assets/audio/sfx/heal.wav",
+    "duration": 0.86,
+    "peakDbFS": -5.54,
+    "rmsDbFS": -20.5,
+    "bytes": 41324,
+    "sha256": "49480e80e7bb702e02d6b138a21185280a2ef286871b94ae7394900d9ae739eb"
+   }
+  ],
+  "victory": [
+   {
+    "src": "assets/audio/sfx/victory.wav",
+    "duration": 0.92,
+    "peakDbFS": -5.53,
+    "rmsDbFS": -20.5,
+    "bytes": 44204,
+    "sha256": "884aca3790ba0b15c78d977c0c711c5224c3312dfde34e0a9a66cb9586c9f1dc"
+   }
+  ],
+  "ui_click": [
+   {
+    "src": "assets/audio/sfx/ui_click.wav",
+    "duration": 0.065,
+    "peakDbFS": -7.54,
+    "rmsDbFS": -24.19,
+    "bytes": 3164,
+    "sha256": "702c5c994e9decb16d16ac0fa0f69652e05d28ddbf4be3292fe322577002755f"
+   }
+  ],
+  "swing_light": [
+   {
+    "src": "assets/audio/sfx/swing_light.wav",
+    "duration": 0.463,
+    "peakDbFS": -4.21,
+    "rmsDbFS": -19.44,
+    "bytes": 22262,
+    "sha256": "c599622edf5ce3e61226601c1729ef5d99081be07ec1e168b04f22c1b0aef67a",
+    "source": "사용자 제공 효과음.zip / 휘두르기2.mp3",
+    "processing": "앞 무음 0.045s 제거, 활성 구간 RMS -17 dB로 맞춤, 끝 30ms 페이드"
+   }
+  ],
+  "swing_heavy": [
+   {
+    "src": "assets/audio/sfx/swing_heavy.wav",
+    "duration": 0.576,
+    "peakDbFS": -4.41,
+    "rmsDbFS": -19.38,
+    "bytes": 27668,
+    "sha256": "83bfa101344ada2f8aa4d8bf3b3e6fc4b449012b8f63a8a68913bf457c023c2e",
+    "source": "사용자 제공 효과음.zip / 휘두르기.mp3",
+    "processing": "앞 무음 0.051s 제거, 활성 구간 RMS -16 dB로 맞춤, 끝 30ms 페이드"
+   }
+  ],
+  "strike": [
+   {
+    "src": "assets/audio/sfx/strike.wav",
+    "duration": 0.394,
+    "peakDbFS": -3.35,
+    "rmsDbFS": -19.74,
+    "bytes": 18944,
+    "sha256": "01b1dc4d30adf13e0ade96ccf781f5b0b16c30439eee513e9c821d88e33389be",
+    "source": "사용자 제공 효과음.zip / 때리기.mp3",
+    "processing": "앞 무음 0.143s 제거, 활성 구간 RMS -15 dB로 맞춤, 끝 30ms 페이드"
+   }
+  ],
+  "slash": [
+   {
+    "src": "assets/audio/sfx/slash.wav",
+    "duration": 0.563,
+    "peakDbFS": -4.47,
+    "rmsDbFS": -17.87,
+    "bytes": 27056,
+    "sha256": "64cba60767ade11e99b5fdb0cf47c3af35b3ed3c1b9247847cdd7b902f5da29f",
+    "source": "사용자 제공 효과음.zip / 베기.mp3",
+    "processing": "앞 무음 0.064s 제거, 활성 구간 RMS -15 dB로 맞춤, 끝 30ms 페이드"
+   }
+  ],
+  "kick": [
+   {
+    "src": "assets/audio/sfx/kick.wav",
+    "duration": 0.771,
+    "peakDbFS": -3.35,
+    "rmsDbFS": -19.45,
+    "bytes": 37038,
+    "sha256": "01a0ec3430cfbe26bfb0761025bc9cd9451a08011fd672a1174e8e8cdf89a129",
+    "source": "사용자 제공 효과음.zip / 발차기.mp3",
+    "processing": "앞 무음 0.184s 제거, 활성 구간 RMS -15 dB로 맞춤, 끝 30ms 페이드"
+   }
+  ],
+  "fire_weak": [
+   {
+    "src": "assets/audio/sfx/fire_weak.wav",
+    "duration": 1.61,
+    "peakDbFS": -3.49,
+    "rmsDbFS": -18.05,
+    "bytes": 77312,
+    "sha256": "e454e4c15f3bc16b8291315fa4160be0368d8fb0dfc7642a9c7ead60e1543dea",
+    "source": "사용자 제공 효과음.zip / 두린-불(약).mp3",
+    "processing": "앞 무음 0.000s 제거, 활성 구간 RMS -16 dB로 맞춤, 끝 30ms 페이드"
+   }
+  ],
+  "fire_strong": [
+   {
+    "src": "assets/audio/sfx/fire_strong.wav",
+    "duration": 1.532,
+    "peakDbFS": -4.5,
+    "rmsDbFS": -16.21,
+    "bytes": 73572,
+    "sha256": "3ac9c8ea9f12413338d7f3ca0017f5fe4f8cc5fc9abc3e5862a617a7bcc3c3fe",
+    "source": "사용자 제공 효과음.zip / 두린-불(강).mp3",
+    "processing": "앞 무음 0.011s 제거, 활성 구간 RMS -14 dB로 맞춤, 끝 30ms 페이드"
+   }
+  ],
+  "stage_clear": [
+   {
+    "src": "assets/audio/sfx/stage_clear.wav",
+    "duration": 1.928,
+    "peakDbFS": -3.35,
+    "rmsDbFS": -21.85,
+    "bytes": 92566,
+    "sha256": "0362121225eb2a7c36ccba0ab102a060106187304d39861ad2467b2da0a0ff03",
+    "source": "사용자 제공 효과음.zip / stage clear.mp3",
+    "processing": "앞 무음 0.240s 제거, 활성 구간 RMS -17 dB로 맞춤, 끝 30ms 페이드"
+   }
+  ],
+  "card_flip": [
+   {
+    "src": "assets/audio/sfx/card_flip.wav",
+    "duration": 0.381,
+    "peakDbFS": -6.8,
+    "rmsDbFS": -23.97,
+    "bytes": 18310,
+    "sha256": "994fe652336b0abc846c27a739b6f6751bf5b1e312f8b3d7c8ea125ad91b3e32",
+    "source": "사용자 제공 효과음.zip / 카드1.mp3",
+    "processing": "앞 무음 0.085s 제거, 활성 구간 RMS -22 dB로 맞춤, 끝 30ms 페이드"
+   }
+  ],
+  "ui_tap": [
+   {
+    "src": "assets/audio/sfx/ui_tap.wav",
+    "duration": 0.07,
+    "peakDbFS": -6.75,
+    "rmsDbFS": -26.4,
+    "bytes": 3418,
+    "sha256": "5b3980d933ee366282257ff8ecbef049bf8cdc6470450c6a3dd296342a826f86",
+    "source": "사용자 제공 효과음.zip / 클릭3.mp3",
+    "processing": "앞 무음 0.040s 제거, 활성 구간 RMS -22 dB로 맞춤, 끝 30ms 페이드"
+   }
+  ],
+  "ui_tap2": [
+   {
+    "src": "assets/audio/sfx/ui_tap2.wav",
+    "duration": 0.155,
+    "peakDbFS": -3.35,
+    "rmsDbFS": -25.83,
+    "bytes": 7482,
+    "sha256": "9b8f86583bbf2a7abf4014fa8c4462bb9d16277957ef893848665930dbe5fa4d",
+    "source": "사용자 제공 효과음.zip / 클릭.mp3",
+    "processing": "앞 무음 0.000s 제거, 활성 구간 RMS -22 dB로 맞춤, 끝 30ms 페이드"
+   }
+  ],
+  "roulette_tick": [
+   {
+    "src": "assets/audio/sfx/roulette_tick-1.wav",
+    "duration": 0.096,
+    "peakDbFS": -14.47,
+    "rmsDbFS": -36.66,
+    "bytes": 4644,
+    "sha256": "2084ac0dc2b4b0ebf6f9e6ecc29118272fe1e57450289071596cb2aa336b16ba",
+    "source": "Lumina SFX v1.5 / rotary-selector-crosses-one-stop (seed 104729)",
+    "processing": "24 kHz 모노 변환, 앞 무음 제거, 활성 구간 RMS -25 dB로 맞춤(피크 -4 dB 제한), 끝 30ms 페이드"
+   },
+   {
+    "src": "assets/audio/sfx/roulette_tick-2.wav",
+    "duration": 0.134,
+    "peakDbFS": -11.92,
+    "rmsDbFS": -33.41,
+    "bytes": 6466,
+    "sha256": "c2875ad2bb2cd58a884e5dae8d435b527617db0d2863f716762e6789417e5f7d",
+    "source": "Lumina SFX v1.5 / rotary-selector-crosses-one-stop (seed 112920)",
+    "processing": "24 kHz 모노 변환, 앞 무음 제거, 활성 구간 RMS -25 dB로 맞춤(피크 -4 dB 제한), 끝 30ms 페이드"
+   },
+   {
+    "src": "assets/audio/sfx/roulette_tick-3.wav",
+    "duration": 0.095,
+    "peakDbFS": -14.65,
+    "rmsDbFS": -36.76,
+    "bytes": 4618,
+    "sha256": "74c060d592497d06499c0efa938c54f1e74cc51c334ae01161b28b1b164f7adc",
+    "source": "Lumina SFX v1.5 / rotary-selector-crosses-one-stop (seed 121111)",
+    "processing": "24 kHz 모노 변환, 앞 무음 제거, 활성 구간 RMS -25 dB로 맞춤(피크 -4 dB 제한), 끝 30ms 페이드"
+   }
+  ],
+  "injury_crack": [
+   {
+    "src": "assets/audio/sfx/injury_crack.wav",
+    "duration": 0.392,
+    "peakDbFS": -4.0,
+    "rmsDbFS": -32.59,
+    "bytes": 18860,
+    "sha256": "2c1298351ed1f86aa622f6c05017783abbf8cbc879956ec2d9638530aa12cd7f",
+    "source": "Lumina SFX v1.5 / joint-crack-with-tendon-release (seed 104729)",
+    "processing": "24 kHz 모노 변환, 앞 무음 제거, 활성 구간 RMS -19 dB로 맞춤(피크 -4 dB 제한), 끝 30ms 페이드"
+   }
+  ],
+  "injury_snap": [
+   {
+    "src": "assets/audio/sfx/injury_snap-1.wav",
+    "duration": 0.369,
+    "peakDbFS": -4.0,
+    "rmsDbFS": -30.09,
+    "bytes": 17752,
+    "sha256": "b6e92248e36861fc1b0504c87be675c2173360749e4d2ea409d624d6ec39a1f8",
+    "source": "Lumina SFX v1.5 / brittle-double-bone-snap (seed 104729)",
+    "processing": "24 kHz 모노 변환, 앞 무음 제거, 활성 구간 RMS -19 dB로 맞춤(피크 -4 dB 제한), 끝 30ms 페이드"
+   },
+   {
+    "src": "assets/audio/sfx/injury_snap-2.wav",
+    "duration": 0.369,
+    "peakDbFS": -4.0,
+    "rmsDbFS": -29.99,
+    "bytes": 17752,
+    "sha256": "efe3d9c2c095c40c2b943ef385e5443002cd78c990ffa50fcb4ad0af224c5ec8",
+    "source": "Lumina SFX v1.5 / brittle-double-bone-snap (seed 112920)",
+    "processing": "24 kHz 모노 변환, 앞 무음 제거, 활성 구간 RMS -19 dB로 맞춤(피크 -4 dB 제한), 끝 30ms 페이드"
+   }
+  ],
+  "injury_loss": [
+   {
+    "src": "assets/audio/sfx/injury_loss.wav",
+    "duration": 0.639,
+    "peakDbFS": -4.0,
+    "rmsDbFS": -30.63,
+    "bytes": 30712,
+    "sha256": "3bc8144d6d8bb73c944a6c3a077f20001c7986bdcb3968d338fd9c1257dcc2c1",
+    "source": "Lumina SFX v1.5 / soft-tissue-pull-and-snap (seed 104729)",
+    "processing": "24 kHz 모노 변환, 앞 무음 제거, 활성 구간 RMS -19 dB로 맞춤(피크 -4 dB 제한), 끝 30ms 페이드"
+   }
+  ],
+  "map_step": [
+   {
+    "src": "assets/audio/sfx/map_step-1.wav",
+    "duration": 0.181,
+    "peakDbFS": -6.75,
+    "rmsDbFS": -26.72,
+    "bytes": 8724,
+    "sha256": "89db7c18edf206ad7bbc52f4c369dfc7939dfdaa61aa6b992bd66c30e4bfcf6b",
+    "source": "Lumina SFX v1.5 / map-table-marker-plant (seed 104729)",
+    "processing": "24 kHz 모노 변환, 앞 무음 제거, 활성 구간 RMS -23 dB로 맞춤(피크 -4 dB 제한), 끝 30ms 페이드"
+   },
+   {
+    "src": "assets/audio/sfx/map_step-2.wav",
+    "duration": 0.181,
+    "peakDbFS": -6.65,
+    "rmsDbFS": -26.61,
+    "bytes": 8722,
+    "sha256": "0c76186e390e72c084268c2a003cd2cf6ccedbf422c62632e2832e434bb3ea85",
+    "source": "Lumina SFX v1.5 / map-table-marker-plant (seed 112920)",
+    "processing": "24 kHz 모노 변환, 앞 무음 제거, 활성 구간 RMS -23 dB로 맞춤(피크 -4 dB 제한), 끝 30ms 페이드"
+   },
+   {
+    "src": "assets/audio/sfx/map_step-3.wav",
+    "duration": 0.181,
+    "peakDbFS": -7.43,
+    "rmsDbFS": -26.58,
+    "bytes": 8724,
+    "sha256": "ae61f03c712f92c120f7ece892eadab9f6e7672157780055c138747dc81052b5",
+    "source": "Lumina SFX v1.5 / map-table-marker-plant (seed 121111)",
+    "processing": "24 kHz 모노 변환, 앞 무음 제거, 활성 구간 RMS -23 dB로 맞춤(피크 -4 dB 제한), 끝 30ms 페이드"
+   }
+  ],
+  "map_open": [
+   {
+    "src": "assets/audio/sfx/map_open.wav",
+    "duration": 0.246,
+    "peakDbFS": -7.7,
+    "rmsDbFS": -26.76,
+    "bytes": 11844,
+    "sha256": "2f6af2c821f68ea9216f3b3afe2d62e812f5caac3b1f80461329ee0a1672e74c",
+    "source": "Lumina SFX v1.5 / map-table-board-fold (seed 104729)",
+    "processing": "24 kHz 모노 변환, 앞 무음 제거, 활성 구간 RMS -24 dB로 맞춤(피크 -4 dB 제한), 끝 30ms 페이드"
+   }
+  ],
+  "reward_claim": [
+   {
+    "src": "assets/audio/sfx/reward_claim.wav",
+    "duration": 0.353,
+    "peakDbFS": -5.04,
+    "rmsDbFS": -28.18,
+    "bytes": 16980,
+    "sha256": "8fc01a3a6310664333204b20f9d43bdd9e37c089a637fc5e14191aa10b6ef725",
+    "source": "Lumina SFX v1.5 / reward-drawer-delivered (seed 104729)",
+    "processing": "24 kHz 모노 변환, 앞 무음 제거, 활성 구간 RMS -21 dB로 맞춤(피크 -4 dB 제한), 끝 30ms 페이드"
+   }
+  ],
+  "reward_skip": [
+   {
+    "src": "assets/audio/sfx/reward_skip.wav",
+    "duration": 0.228,
+    "peakDbFS": -8.52,
+    "rmsDbFS": -32.16,
+    "bytes": 10978,
+    "sha256": "211340e7ab413777106ed07ce66d648a964d4bd12f657a97f40486ea2b5a3637",
+    "source": "Lumina SFX v1.5 / trade-offer-declined (seed 104729)",
+    "processing": "24 kHz 모노 변환, 앞 무음 제거, 활성 구간 RMS -24 dB로 맞춤(피크 -4 dB 제한), 끝 30ms 페이드"
+   }
+  ],
+  "turn_start": [
+   {
+    "src": "assets/audio/sfx/turn_start.wav",
+    "duration": 0.186,
+    "peakDbFS": -8.03,
+    "rmsDbFS": -32.05,
+    "bytes": 8978,
+    "sha256": "378a2595ca7269ada728143d07ddbeaed3cb7b6e10a00e88c606e80d2af6c2fc",
+    "source": "Lumina SFX v1.5 / tab-selects-with-a-hard-detent (seed 104729)",
+    "processing": "24 kHz 모노 변환, 앞 무음 제거, 활성 구간 RMS -24 dB로 맞춤(피크 -4 dB 제한), 끝 30ms 페이드"
+   }
+  ],
+  "panel_open": [
+   {
+    "src": "assets/audio/sfx/panel_open.wav",
+    "duration": 0.266,
+    "peakDbFS": -6.98,
+    "rmsDbFS": -30.38,
+    "bytes": 12802,
+    "sha256": "dbc14fbde8a46fa87de156a4d7abb3e0ab35634ebdec795da3d5a1a8d28ffb8c",
+    "source": "Lumina SFX v1.5 / accordion-panel-unfolds (seed 104729)",
+    "processing": "24 kHz 모노 변환, 앞 무음 제거, 활성 구간 RMS -26 dB로 맞춤(피크 -4 dB 제한), 끝 30ms 페이드"
+   }
+  ],
+  "panel_close": [
+   {
+    "src": "assets/audio/sfx/panel_close.wav",
+    "duration": 0.226,
+    "peakDbFS": -9.69,
+    "rmsDbFS": -29.82,
+    "bytes": 10882,
+    "sha256": "8c4d9e6d52ac94f896e427c11ec81b91fe5a537519b18ac8889db9f9f0f54914",
+    "source": "Lumina SFX v1.5 / accordion-panel-folds-away (seed 104729)",
+    "processing": "24 kHz 모노 변환, 앞 무음 제거, 활성 구간 RMS -26 dB로 맞춤(피크 -4 dB 제한), 끝 30ms 페이드"
+   }
+  ],
+  "radio_glitch": [
+   {
+    "src": "assets/audio/sfx/radio_glitch.wav",
+    "duration": 1.999,
+    "peakDbFS": -6.53,
+    "rmsDbFS": -28.5,
+    "bytes": 95996,
+    "sha256": "0120680fd2ee24b43a565adde490a482596cd47a347168639972d17cf46bfaf5",
+    "source": "사용자 제공 효과음 2차.zip / 도도통신기-초반.mp3",
+    "processing": "24 kHz 모노, 앞 무음 제거, RMS 맞춤(피크 -4 dB 제한)"
+   }
+  ],
+  "radio_noise": [
+   {
+    "src": "assets/audio/sfx/radio_noise-1.wav",
+    "duration": 0.42,
+    "peakDbFS": -8.38,
+    "rmsDbFS": -26.28,
+    "bytes": 20204,
+    "sha256": "bd055a51c92cf1f501ddd313e1282cd7759d4574ca2c93e4931d12e91af9d7d6",
+    "source": "사용자 제공 효과음 2차.zip / 도도통신기-초반.mp3",
+    "processing": "0.25초부터 0.42초 잘라 냄, RMS 맞춤"
+   },
+   {
+    "src": "assets/audio/sfx/radio_noise-2.wav",
+    "duration": 0.42,
+    "peakDbFS": -11.97,
+    "rmsDbFS": -34.54,
+    "bytes": 20204,
+    "sha256": "cbedde627f10416b7fbe726979c56aea50ad96c9a1900cf2d0db536bd4875938",
+    "source": "사용자 제공 효과음 2차.zip / 도도통신기-초반.mp3",
+    "processing": "0.85초부터 0.42초 잘라 냄, RMS 맞춤"
+   },
+   {
+    "src": "assets/audio/sfx/radio_noise-3.wav",
+    "duration": 0.42,
+    "peakDbFS": -20.55,
+    "rmsDbFS": -39.01,
+    "bytes": 20204,
+    "sha256": "19cb1b69881b2498bfbab2e8d0c9964a904b291a3efb1ad6e42fc62065c9c2ef",
+    "source": "사용자 제공 효과음 2차.zip / 도도통신기-초반.mp3",
+    "processing": "1.40초부터 0.42초 잘라 냄, RMS 맞춤"
+   }
+  ],
+  "radio_release": [
+   {
+    "src": "assets/audio/sfx/radio_release.wav",
+    "duration": 1.668,
+    "peakDbFS": -12.72,
+    "rmsDbFS": -23.01,
+    "bytes": 80090,
+    "sha256": "5507d7121e070a7166255321b06eb5984312955dfb44776492ed018d10be74b4",
+    "source": "사용자 제공 효과음 2차.zip / 도도통신기-끝.mp3",
+    "processing": "24 kHz 모노, 앞 무음 제거, RMS 맞춤(피크 -4 dB 제한)"
+   }
+  ],
+  "dice_roll": [
+   {
+    "src": "assets/audio/sfx/dice_roll.wav",
+    "duration": 0.879,
+    "peakDbFS": -7.96,
+    "rmsDbFS": -32.36,
+    "bytes": 42226,
+    "sha256": "fa410a1e676da26b31a0ab30035d13d60e62ec62c88c62be10cc8f84e4b3c291",
+    "source": "사용자 제공 효과음 2차.zip / 주사위.mp3",
+    "processing": "24 kHz 모노, 앞 무음 제거, RMS 맞춤(피크 -4 dB 제한)"
+   }
+  ],
+  "enemy_kill": [
+   {
+    "src": "assets/audio/sfx/enemy_kill.wav",
+    "duration": 0.929,
+    "peakDbFS": -4.0,
+    "rmsDbFS": -23.62,
+    "bytes": 44626,
+    "sha256": "798469fc3894c967da14c6126fc3c083e29914dab3d0f93fd24f1ebc9fce1619",
+    "source": "사용자 제공 효과음 2차.zip / 심연 잡몹 처치1.mp3",
+    "processing": "24 kHz 모노, 앞 무음 제거, RMS 맞춤(피크 -4 dB 제한)"
+   }
+  ],
+  "enemy_kill_heavy": [
+   {
+    "src": "assets/audio/sfx/enemy_kill_heavy.wav",
+    "duration": 0.836,
+    "peakDbFS": -7.09,
+    "rmsDbFS": -19.32,
+    "bytes": 40170,
+    "sha256": "a73b1b089fdc9c580f92e1f8a26c4ed32d4b0e6f2272c0bff16d3da5b43cf16f",
+    "source": "사용자 제공 효과음 2차.zip / 심연 몬스터 처치1.mp3",
+    "processing": "24 kHz 모노, 앞 무음 제거, RMS 맞춤(피크 -4 dB 제한)"
+   }
+  ],
+  "celestial_hit": [
+   {
+    "src": "assets/audio/sfx/celestial_hit.wav",
+    "duration": 0.667,
+    "peakDbFS": -4.71,
+    "rmsDbFS": -21.12,
+    "bytes": 32062,
+    "sha256": "935630a526b06ff306c704db7e0479763a77e1a36f3f5c59071fc635039d3deb",
+    "source": "사용자 제공 효과음 2차.zip / 천공 몬스터 피격.mp3",
+    "processing": "24 kHz 모노, 앞 무음 제거, RMS 맞춤(피크 -4 dB 제한)"
+   }
+  ],
+  "shield_cast": [
+   {
+    "src": "assets/audio/sfx/shield_cast.wav",
+    "duration": 0.795,
+    "peakDbFS": -7.68,
+    "rmsDbFS": -23.7,
+    "bytes": 38184,
+    "sha256": "ad1e829ed844544075fd06884e3d9e5f58273641eb4e077a281e95744ddb07a3",
+    "source": "사용자 제공 효과음 2차.zip / 쉴드.mp3",
+    "processing": "24 kHz 모노, 앞 무음 제거, RMS 맞춤(피크 -4 dB 제한)"
+   }
+  ],
+  "hero_hit": [
+   {
+    "src": "assets/audio/sfx/hero_hit-1.wav",
+    "duration": 0.242,
+    "peakDbFS": -4.0,
+    "rmsDbFS": -23.21,
+    "bytes": 11682,
+    "sha256": "282af4a82bbbbc073003e08f455e2d5c1f9e3331f96c5fa27f3ba8f547e0c200",
+    "source": "사용자 제공 효과음 2차.zip / 피격음.mp3",
+    "processing": "24 kHz 모노, 앞 무음 제거, RMS 맞춤(피크 -4 dB 제한)"
+   },
+   {
+    "src": "assets/audio/sfx/hero_hit-2.wav",
+    "duration": 0.387,
+    "peakDbFS": -4.0,
+    "rmsDbFS": -22.84,
+    "bytes": 18638,
+    "sha256": "e07a0bbbc7b3ed88720990521018bcaaa1ea1226715d84010243a4c2a5b1aed0",
+    "source": "사용자 제공 효과음 2차.zip / 피격음2.mp3",
+    "processing": "24 kHz 모노, 앞 무음 제거, RMS 맞춤(피크 -4 dB 제한)"
+   },
+   {
+    "src": "assets/audio/sfx/hero_hit-3.wav",
+    "duration": 0.455,
+    "peakDbFS": -5.22,
+    "rmsDbFS": -20.55,
+    "bytes": 21870,
+    "sha256": "bb75d5d6468d3993c97d33ba384d26597ac15c75a4e53d97d37631997c45d69f",
+    "source": "사용자 제공 효과음 2차.zip / 피격음3.mp3",
+    "processing": "24 kHz 모노, 앞 무음 제거, RMS 맞춤(피크 -4 dB 제한)"
+   }
+  ],
+  "hero_hit_heavy": [
+   {
+    "src": "assets/audio/sfx/hero_hit_heavy.wav",
+    "duration": 1.014,
+    "peakDbFS": -4.7,
+    "rmsDbFS": -19.97,
+    "bytes": 48716,
+    "sha256": "77c7c7ce9c3ca1b06f75d9789bfe5ea15d6847b5a4bb21030c6901a0c3ad3a2f",
+    "source": "사용자 제공 효과음 2차.zip / 둔탁한 공격.mp3",
+    "processing": "24 kHz 모노, 앞 무음 제거, RMS 맞춤(피크 -4 dB 제한)"
+   }
+  ],
+  "thunder": [
+   {
+    "src": "assets/audio/sfx/thunder.wav",
+    "duration": 2.2,
+    "peakDbFS": -4.0,
+    "rmsDbFS": -22.51,
+    "bytes": 105644,
+    "sha256": "feccb869d71d7cfe3fc83ebbebd3a9d650ff9c6e5ccfa775ad65a35d63eaa986",
+    "source": "사용자 제공 효과음 2차.zip / 천둥번개.mp3",
+    "processing": "24 kHz 모노, 앞 무음 제거, RMS 맞춤(피크 -4 dB 제한)"
+   }
+  ],
+  "cherubim_attack": [
+   {
+    "src": "assets/audio/sfx/cherubim_attack.wav",
+    "duration": 1.0,
+    "peakDbFS": -7.23,
+    "rmsDbFS": -22.53,
+    "bytes": 48044,
+    "sha256": "4823c8ed4e86e75e117d0fdc7723213e95e7ba213f4c36efb2b76a316b488f0a",
+    "source": "사용자 제공 효과음 2차.zip / 케루빔 공격 효과.mp3",
+    "processing": "24 kHz 모노, 앞 무음 제거, RMS 맞춤(피크 -4 dB 제한)"
+   }
+  ],
+  "lyney_throw": [
+   {
+    "src": "assets/audio/sfx/lyney_throw.wav",
+    "duration": 0.331,
+    "peakDbFS": -7.17,
+    "rmsDbFS": -26.04,
+    "bytes": 15922,
+    "sha256": "361a72252538dbc508d7e332517f5b1fede925b8bad9ba45987163b92da02bb3",
+    "source": "사용자 제공 효과음 2차.zip / 리니 카드 투척.mp3",
+    "processing": "24 kHz 모노, 앞 무음 제거, RMS 맞춤(피크 -4 dB 제한)"
+   }
+  ],
+  "burn_impact": [
+   {
+    "src": "assets/audio/sfx/burn_impact.wav",
+    "duration": 2.045,
+    "peakDbFS": -6.38,
+    "rmsDbFS": -21.15,
+    "bytes": 98214,
+    "sha256": "942c8e1538812811b620a1b5b74e859da52396cade55eb9407b1bae67383aeca",
+    "source": "사용자 제공 효과음 2차.zip / 부딛힌 후 타는 소리.mp3",
+    "processing": "24 kHz 모노, 앞 무음 제거, RMS 맞춤(피크 -4 dB 제한)"
+   }
+  ],
+  "kinich_attack": [
+   {
+    "src": "assets/audio/sfx/kinich_attack.wav",
+    "duration": 0.225,
+    "peakDbFS": -9.42,
+    "rmsDbFS": -22.3,
+    "bytes": 10846,
+    "sha256": "336e7a24052b4e1494deb6407df0eb682293e105388cbab47c6c0fe035f7f555",
+    "source": "사용자 제공 효과음 2차.zip / 키니치-공격.mp3",
+    "processing": "24 kHz 모노, 앞 무음 제거, RMS 맞춤(피크 -4 dB 제한)"
+   }
+  ],
+  "polearm_swing": [
+   {
+    "src": "assets/audio/sfx/polearm_swing-1.wav",
+    "duration": 0.498,
+    "peakDbFS": -4.59,
+    "rmsDbFS": -22.65,
+    "bytes": 23964,
+    "sha256": "fab38c3c6e7b20807c31c659aa278b455796f2598114340badfba3d091ec5d63",
+    "source": "사용자 제공 효과음 2차.zip / 스윙.mp3",
+    "processing": "24 kHz 모노, 앞 무음 제거, RMS 맞춤(피크 -4 dB 제한)"
+   },
+   {
+    "src": "assets/audio/sfx/polearm_swing-2.wav",
+    "duration": 0.863,
+    "peakDbFS": -6.43,
+    "rmsDbFS": -22.39,
+    "bytes": 41444,
+    "sha256": "7f97bfc2df8fe9f69480a7854758504225b3090ceddc07ea811fa7d35cdade5d",
+    "source": "사용자 제공 효과음 2차.zip / 스윙2.mp3",
+    "processing": "24 kHz 모노, 앞 무음 제거, RMS 맞춤(피크 -4 dB 제한)"
+   },
+   {
+    "src": "assets/audio/sfx/polearm_swing-3.wav",
+    "duration": 0.579,
+    "peakDbFS": -7.32,
+    "rmsDbFS": -24.0,
+    "bytes": 27822,
+    "sha256": "3e0135e57f5aae1735b143411c9dfb50e1bf659718c95c5a6b2598c8d5ab29bc",
+    "source": "사용자 제공 효과음 2차.zip / 휘두르는 소리.mp3",
+    "processing": "24 kHz 모노, 앞 무음 제거, RMS 맞춤(피크 -4 dB 제한)"
+   }
+  ],
+  "illuga_light": [
+   {
+    "src": "assets/audio/sfx/illuga_light.wav",
+    "duration": 0.624,
+    "peakDbFS": -6.94,
+    "rmsDbFS": -25.59,
+    "bytes": 30016,
+    "sha256": "ff718ca80598957d27dcfe47a46dfa7efe48ad8abbaaf48a5a8abc479371e8e4",
+    "source": "사용자 제공 효과음 2차.zip / 일루가 빛.mp3",
+    "processing": "24 kHz 모노, 앞 무음 제거, RMS 맞춤(피크 -4 dB 제한)"
+   }
+  ],
+  "varka_skill": [
+   {
+    "src": "assets/audio/sfx/varka_skill.wav",
+    "duration": 0.938,
+    "peakDbFS": -4.1,
+    "rmsDbFS": -20.86,
+    "bytes": 45090,
+    "sha256": "c51e6403e3efdcbf5dedac9d629a65042bab213e8f1ad7c9ade58cd3de769d75",
+    "source": "사용자 제공 효과음 2차.zip / 바르카 스킬.mp3",
+    "processing": "24 kHz 모노, 앞 무음 제거, RMS 맞춤(피크 -4 dB 제한)"
+   }
+  ],
+  "tighnari_skill": [
+   {
+    "src": "assets/audio/sfx/tighnari_skill-1.wav",
+    "duration": 0.957,
+    "peakDbFS": -4.0,
+    "rmsDbFS": -27.3,
+    "bytes": 45978,
+    "sha256": "02370dd1e351af0726f7d64f1076fc3ad04087d0b2b7db195bc1238cd0e0fca8",
+    "source": "사용자 제공 효과음 2차.zip / 타이나리 스킬1.mp3",
+    "processing": "24 kHz 모노, 앞 무음 제거, RMS 맞춤(피크 -4 dB 제한)"
+   },
+   {
+    "src": "assets/audio/sfx/tighnari_skill-2.wav",
+    "duration": 0.39,
+    "peakDbFS": -4.0,
+    "rmsDbFS": -26.4,
+    "bytes": 18772,
+    "sha256": "0f00cb2af1949b23a5c5c6770d09ded0047efe4137fbf7df06cda485b9093e40",
+    "source": "사용자 제공 효과음 2차.zip / 타이나리 스킬2.mp3",
+    "processing": "24 kHz 모노, 앞 무음 제거, RMS 맞춤(피크 -4 dB 제한)"
+   },
+   {
+    "src": "assets/audio/sfx/tighnari_skill-3.wav",
+    "duration": 0.913,
+    "peakDbFS": -8.01,
+    "rmsDbFS": -26.4,
+    "bytes": 43852,
+    "sha256": "f5fdc0279a91d20e4885223da230a6209fabda965b09819c779695b6dfe3be4f",
+    "source": "사용자 제공 효과음 2차.zip / 타이나리 스킬3.mp3",
+    "processing": "24 kHz 모노, 앞 무음 제거, RMS 맞춤(피크 -4 dB 제한)"
+   }
+  ],
+  "spark": [
+   {
+    "src": "assets/audio/sfx/spark.wav",
+    "duration": 0.657,
+    "peakDbFS": -8.92,
+    "rmsDbFS": -26.97,
+    "bytes": 31604,
+    "sha256": "7024e8fe5dca5ef20c8824b56a14263ab849417b5b96c4df23c623bba292ac56",
+    "source": "사용자 제공 효과음 2차.zip / 빛 관련.mp3",
+    "processing": "24 kHz 모노, 앞 무음 제거, RMS 맞춤(피크 -4 dB 제한)"
+   }
+  ],
+  "recover": [
+   {
+    "src": "assets/audio/sfx/recover.wav",
+    "duration": 0.799,
+    "peakDbFS": -5.46,
+    "rmsDbFS": -24.55,
+    "bytes": 38420,
+    "sha256": "6519b6decbb2dfc96cfd4f93ba06f82b9f6aaaf70a2cd8b9ea49f843bac93d23",
+    "source": "사용자 제공 효과음 2차.zip / 빛 관련2.mp3",
+    "processing": "24 kHz 모노, 앞 무음 제거, RMS 맞춤(피크 -4 dB 제한)"
+   }
+  ],
+  "expedition_clear": [
+   {
+    "src": "assets/audio/sfx/expedition_clear.wav",
+    "duration": 1.205,
+    "peakDbFS": -6.04,
+    "rmsDbFS": -25.87,
+    "bytes": 57886,
+    "sha256": "f6304ef858e344b67709235c3da6bf215c7b2a49d65a7f11bdb263776a69b345",
+    "source": "사용자 제공 효과음 2차.zip / 스테이지 클리어.mp3",
+    "processing": "24 kHz 모노, 앞 무음 제거, RMS 맞춤(피크 -4 dB 제한)"
+   }
+  ],
+  "ward_break": [
+   {
+    "src": "assets/audio/sfx/ward_break.wav",
+    "duration": 0.882,
+    "peakDbFS": -4.0,
+    "rmsDbFS": -23.72,
+    "bytes": 42358,
+    "sha256": "9fd7add43898684ce6fdba788ff6035417f934f9aa7ad0eaaf597e7b2e574f47",
+    "source": "Lumina SFX v1.5 / crevasse-ice-break (seed 104729)",
+    "processing": "24 kHz 모노, 앞 무음 제거, RMS 맞춤(피크 -4 dB 제한)"
+   }
+  ],
+  "collapse": [
+   {
+    "src": "assets/audio/sfx/collapse.wav",
+    "duration": 0.451,
+    "peakDbFS": -7.84,
+    "rmsDbFS": -27.51,
+    "bytes": 21702,
+    "sha256": "65cbc5232ee1d9b750aba5ba484c0374f0e69f508258cac1aa906d6dac32a51d",
+    "source": "Lumina SFX v1.5 / window-glass-shatter (seed 104729)",
+    "processing": "24 kHz 모노, 앞 무음 제거, RMS 맞춤(피크 -4 dB 제한)"
+   }
+  ],
+  "gold": [
+   {
+    "src": "assets/audio/sfx/gold-1.wav",
+    "duration": 0.82,
+    "peakDbFS": -4.64,
+    "rmsDbFS": -29.9,
+    "bytes": 39394,
+    "sha256": "d0aecda632a22df84098f78fc0356276e2e17573ecdfec8f340134894850e509",
+    "source": "Lumina SFX v1.5 / coins-swept-into-a-purse (seed 104729)",
+    "processing": "24 kHz 모노, 앞 무음 제거, RMS 맞춤(피크 -4 dB 제한)"
+   },
+   {
+    "src": "assets/audio/sfx/gold-2.wav",
+    "duration": 0.82,
+    "peakDbFS": -4.36,
+    "rmsDbFS": -29.67,
+    "bytes": 39394,
+    "sha256": "3dd1b846ef29bdce8422023dd3ba617a15b6d366f7d1f65c3183003ab797aff8",
+    "source": "Lumina SFX v1.5 / coins-swept-into-a-purse (seed 112920)",
+    "processing": "24 kHz 모노, 앞 무음 제거, RMS 맞춤(피크 -4 dB 제한)"
+   }
+  ],
+  "save": [
+   {
+    "src": "assets/audio/sfx/save.wav",
+    "duration": 0.344,
+    "peakDbFS": -8.69,
+    "rmsDbFS": -28.38,
+    "bytes": 16568,
+    "sha256": "5f5ae4e9b143a2cbf33d66136547891caf0504b8d36da0d971c204c2d9c0ffe2",
+    "source": "Lumina SFX v1.5 / book-cover-shut (seed 104729)",
+    "processing": "24 kHz 모노, 앞 무음 제거, RMS 맞춤(피크 -4 dB 제한)"
+   }
+  ],
+  "defeat": [
+   {
+    "src": "assets/audio/sfx/defeat.wav",
+    "duration": 0.605,
+    "peakDbFS": -4.0,
+    "rmsDbFS": -23.97,
+    "bytes": 29064,
+    "sha256": "6b26ccfa39aba457031d4e08c76b5ac4aa1998a69f40e48a55c25bbff33c3f92",
+    "source": "Lumina SFX v1.5 / knees-strike-and-hands-catch (seed 104729)",
+    "processing": "24 kHz 모노, 앞 무음 제거, RMS 맞춤(피크 -4 dB 제한)"
+   }
+  ],
+  "enemy_slime": [
+   {
+    "src": "assets/audio/sfx/enemy_slime-1.wav",
+    "duration": 0.524,
+    "peakDbFS": -4.0,
+    "rmsDbFS": -28.96,
+    "bytes": 25188,
+    "sha256": "54459a765e83918681710f13f54be911e265409e7f76043f739ddd02b4dd6990",
+    "source": "Lumina SFX v1.5 / mud-squelch-footstep (seed 104729)",
+    "processing": "24 kHz 모노, 앞 무음 제거, RMS 맞춤(피크 -4 dB 제한)"
+   },
+   {
+    "src": "assets/audio/sfx/enemy_slime-2.wav",
+    "duration": 0.547,
+    "peakDbFS": -4.0,
+    "rmsDbFS": -29.63,
+    "bytes": 26316,
+    "sha256": "bcc50ae0fafe2d100b3195845e482b959ddd4211d53250af3ccfed22ce0f2406",
+    "source": "Lumina SFX v1.5 / mud-squelch-footstep (seed 112920)",
+    "processing": "24 kHz 모노, 앞 무음 제거, RMS 맞춤(피크 -4 dB 제한)"
+   }
+  ],
+  "enemy_bite": [
+   {
+    "src": "assets/audio/sfx/enemy_bite-1.wav",
+    "duration": 0.491,
+    "peakDbFS": -4.0,
+    "rmsDbFS": -28.62,
+    "bytes": 23608,
+    "sha256": "8cfbc1f381d8d63972277b08712fc67720b7a039a52d6e261c3d06aea4d11540",
+    "source": "Lumina SFX v1.5 / knife-prop-sinks-into-a-melon (seed 104729)",
+    "processing": "24 kHz 모노, 앞 무음 제거, RMS 맞춤(피크 -4 dB 제한)"
+   },
+   {
+    "src": "assets/audio/sfx/enemy_bite-2.wav",
+    "duration": 0.491,
+    "peakDbFS": -4.0,
+    "rmsDbFS": -24.22,
+    "bytes": 23606,
+    "sha256": "d3bf257bbd93b1b88ae40a291dd0d3544884652bf79be0e0da7cc464bfa7d408",
+    "source": "Lumina SFX v1.5 / knife-prop-sinks-into-a-melon (seed 112920)",
+    "processing": "24 kHz 모노, 앞 무음 제거, RMS 맞춤(피크 -4 dB 제한)"
+   }
+  ],
+  "enemy_wet": [
+   {
+    "src": "assets/audio/sfx/enemy_wet-1.wav",
+    "duration": 0.325,
+    "peakDbFS": -4.0,
+    "rmsDbFS": -28.39,
+    "bytes": 15640,
+    "sha256": "d0f2799e6c93223a2de213df14663fcd6dd7636396db0818204655e9c2051ba0",
+    "source": "Lumina SFX v1.5 / close-palm-slap-with-wet-tail (seed 104729)",
+    "processing": "24 kHz 모노, 앞 무음 제거, RMS 맞춤(피크 -4 dB 제한)"
+   },
+   {
+    "src": "assets/audio/sfx/enemy_wet-2.wav",
+    "duration": 0.318,
+    "peakDbFS": -4.0,
+    "rmsDbFS": -28.15,
+    "bytes": 15316,
+    "sha256": "0e39b723cc7f38800d150ccd8a29af78f15203cf9d1dca3dfa7cccd33d55491a",
+    "source": "Lumina SFX v1.5 / close-palm-slap-with-wet-tail (seed 112920)",
+    "processing": "24 kHz 모노, 앞 무음 제거, RMS 맞춤(피크 -4 dB 제한)"
+   },
+   {
+    "src": "assets/audio/sfx/enemy_wet-3.wav",
+    "duration": 0.325,
+    "peakDbFS": -4.0,
+    "rmsDbFS": -28.26,
+    "bytes": 15640,
+    "sha256": "4d876acae94d1b2f61e5644560120d2dff8abf55010cb0cc63b33601e36c59bd",
+    "source": "Lumina SFX v1.5 / close-palm-slap-with-wet-tail (seed 121111)",
+    "processing": "24 kHz 모노, 앞 무음 제거, RMS 맞춤(피크 -4 dB 제한)"
+   }
+  ],
+  "enemy_drag": [
+   {
+    "src": "assets/audio/sfx/enemy_drag.wav",
+    "duration": 0.844,
+    "peakDbFS": -4.0,
+    "rmsDbFS": -24.37,
+    "bytes": 40570,
+    "sha256": "4681c40104ce0e917513648555c5282fa41932eba09361db5f78eb70536a68f4",
+    "source": "Lumina SFX v1.5 / body-dragged-one-length (seed 104729)",
+    "processing": "24 kHz 모노, 앞 무음 제거, RMS 맞춤(피크 -4 dB 제한)"
+   }
+  ],
+  "enemy_blade": [
+   {
+    "src": "assets/audio/sfx/enemy_blade-1.wav",
+    "duration": 0.194,
+    "peakDbFS": -5.52,
+    "rmsDbFS": -25.33,
+    "bytes": 9366,
+    "sha256": "d2e189e3502e0a0a4ab46d0ae38edcb0e9b696c964155701771bea3a0bbd4a7d",
+    "source": "Lumina SFX v1.5 / light-blade-swish (seed 104729)",
+    "processing": "24 kHz 모노, 앞 무음 제거, RMS 맞춤(피크 -4 dB 제한)"
+   }
+  ],
+  "enemy_crunch": [
+   {
+    "src": "assets/audio/sfx/enemy_crunch-1.wav",
+    "duration": 0.519,
+    "peakDbFS": -4.0,
+    "rmsDbFS": -25.1,
+    "bytes": 24950,
+    "sha256": "e33fdbffbf68ec89da10f7608290a91f3f3d6130de300561949b899326b15055",
+    "source": "Lumina SFX v1.5 / heavy-crunch-under-falling-weight (seed 104729)",
+    "processing": "24 kHz 모노, 앞 무음 제거, RMS 맞춤(피크 -4 dB 제한)"
+   },
+   {
+    "src": "assets/audio/sfx/enemy_crunch-2.wav",
+    "duration": 0.519,
+    "peakDbFS": -4.0,
+    "rmsDbFS": -24.93,
+    "bytes": 24950,
+    "sha256": "7593a58724352119825f5e6b709bc3cb96211132e8f8e41ea40ae584c9696f4c",
+    "source": "Lumina SFX v1.5 / heavy-crunch-under-falling-weight (seed 112920)",
+    "processing": "24 kHz 모노, 앞 무음 제거, RMS 맞춤(피크 -4 dB 제한)"
+   }
+  ],
+  "enemy_burst": [
+   {
+    "src": "assets/audio/sfx/enemy_burst.wav",
+    "duration": 0.681,
+    "peakDbFS": -4.0,
+    "rmsDbFS": -26.2,
+    "bytes": 32722,
+    "sha256": "960b5859a3d30a4eb7a1142f7c350301a9a2f5f7cfc9b12d7bdd367a48457bea",
+    "source": "Lumina SFX v1.5 / heavy-fall-into-wet-leaves (seed 104729)",
+    "processing": "24 kHz 모노, 앞 무음 제거, RMS 맞춤(피크 -4 dB 제한)"
+   }
+  ],
+  "enemy_growl": [
+   {
+    "src": "assets/audio/sfx/enemy_growl.wav",
+    "duration": 1.4,
+    "peakDbFS": -11.01,
+    "rmsDbFS": -22.27,
+    "bytes": 67244,
+    "sha256": "9018763009f865ab60cc780be381a7eadd71c39e977dcb353a451e46d5172cf8",
+    "source": "Lumina SFX v1.5 / grizzly-grumbles-under-brush (seed 104729)",
+    "processing": "24 kHz 모노, 앞 무음 제거, RMS 맞춤(피크 -4 dB 제한)"
+   }
+  ],
+  "enemy_wings": [
+   {
+    "src": "assets/audio/sfx/enemy_wings.wav",
+    "duration": 0.853,
+    "peakDbFS": -5.87,
+    "rmsDbFS": -29.96,
+    "bytes": 41000,
+    "sha256": "f5264eb41477e8dc85a329ec2780f515f70f07d03fc8d7cf3c8cf58355b97a3f",
+    "source": "Lumina SFX v1.5 / duck-flapping-after-a-bath (seed 104729)",
+    "processing": "24 kHz 모노, 앞 무음 제거, RMS 맞춤(피크 -4 dB 제한)"
+   }
+  ],
+  "enemy_cloth": [
+   {
+    "src": "assets/audio/sfx/enemy_cloth-1.wav",
+    "duration": 0.416,
+    "peakDbFS": -9.09,
+    "rmsDbFS": -25.21,
+    "bytes": 20002,
+    "sha256": "39f359ce9102497cee2c6bfc9967bea5473ebae94116fc9bfb4ce607ce401307",
+    "source": "Lumina SFX v1.5 / linen-page-wipe (seed 104729)",
+    "processing": "24 kHz 모노, 앞 무음 제거, RMS 맞춤(피크 -4 dB 제한)"
+   },
+   {
+    "src": "assets/audio/sfx/enemy_cloth-2.wav",
+    "duration": 0.42,
+    "peakDbFS": -6.41,
+    "rmsDbFS": -24.65,
+    "bytes": 20194,
+    "sha256": "643c4ddd007c7cec826e7926fd60b2732b2f30e0e4a35fcf37249adc9f44e811",
+    "source": "Lumina SFX v1.5 / linen-page-wipe (seed 112920)",
+    "processing": "24 kHz 모노, 앞 무음 제거, RMS 맞춤(피크 -4 dB 제한)"
+   }
+  ],
+  "enemy_pages": [
+   {
+    "src": "assets/audio/sfx/enemy_pages-1.wav",
+    "duration": 0.451,
+    "peakDbFS": -5.66,
+    "rmsDbFS": -22.59,
+    "bytes": 21684,
+    "sha256": "0add658fb6de17ef375d2c3fcb35e902cea0a60f917f8cb516d074f35ae25c86",
+    "source": "Lumina SFX v1.5 / book-page-turn (seed 104729)",
+    "processing": "24 kHz 모노, 앞 무음 제거, RMS 맞춤(피크 -4 dB 제한)"
+   }
+  ],
+  "enemy_hiss": [
+   {
+    "src": "assets/audio/sfx/enemy_hiss.wav",
+    "duration": 0.568,
+    "peakDbFS": -4.92,
+    "rmsDbFS": -25.5,
+    "bytes": 27294,
+    "sha256": "611d2e27afad67086446b57f4cbdf54caa8a7cd9c99006cd7edb813621cd305d",
+    "source": "Lumina SFX v1.5 / cat-hisses-and-springs-away (seed 104729)",
+    "processing": "24 kHz 모노, 앞 무음 제거, RMS 맞춤(피크 -4 dB 제한)"
+   }
+  ],
+  "enemy_thunder": [
+   {
+    "src": "assets/audio/sfx/enemy_thunder.wav",
+    "duration": 2.0,
+    "peakDbFS": -4.0,
+    "rmsDbFS": -23.58,
+    "bytes": 96044,
+    "sha256": "02b1b866b6199b01bb91e652c5627df887cbe180a7abd672f34e491d89bfbb46",
+    "source": "Lumina SFX v1.5 / thunder-isolated-rolling-strike (seed 104729)",
+    "processing": "24 kHz 모노, 앞 무음 제거, RMS 맞춤(피크 -4 dB 제한)"
+   }
+  ],
+  "enemy_blast": [
+   {
+    "src": "assets/audio/sfx/enemy_blast.wav",
+    "duration": 1.6,
+    "peakDbFS": -4.34,
+    "rmsDbFS": -20.73,
+    "bytes": 76844,
+    "sha256": "6e32d197347af1f8bcb243d0de31ee173211caf23c4dd76b0e2920b4ce89733d",
+    "source": "Lumina SFX v1.5 / distant-blast-roll (seed 104729)",
+    "processing": "24 kHz 모노, 앞 무음 제거, RMS 맞춤(피크 -4 dB 제한)"
+   }
+  ]
+ }
 }

@@ -8,6 +8,25 @@ export const ATTACK_SOUNDS={
  'wind-cleave':['swing_heavy','slash'],'night-thrust':['abyss_cast','heavy_hit'],'venom-mark':['kick','dagger'],
  'abyss-hit':['abyss_cast','abyss_hit'],'celestial-hit':['resource','celestial_hit'],
 };
+// v0.38: per-character recordings from the user's second sound pack. [swing/cast, impact, optional extra layer].
+export const OWNER_SOUNDS={
+ 'lyney:play':['lyney_throw','strike'],'lyney:ultimate':['lyney_throw','burn_impact'],
+ 'kinich:play':['kinich_attack','strike'],'kinich:ultimate':['kinich_attack','heavy_hit'],
+ 'cyno:play':['polearm_swing','slash'],
+ 'illuga:ultimate':['swing_light','slash','illuga_light'],
+ 'lohen:support':['varka_skill','slash'],'cyno:support':['tighnari_skill','dagger'],
+};
+// v0.38: enemy actions, keyed by the creature look (the sprite on screen). attack = the lunge at a hero,
+// impact stays hero_hit / hero_hit_heavy / shield_hit. Recorded foley only, no synth beeps or pitch sweeps.
+export const ENEMY_ATTACK_SOUNDS={
+ 'abyss-slime':'enemy_slime','abyss-tick':'enemy_bite','abyss-grub':'enemy_wet','abyss-worm':'enemy_drag','abyss-mantis':'enemy_blade',
+ 'abyss-jelly':'enemy_wet','abyss-maw':'enemy_crunch','abyss-cocoon':'enemy_burst','abyss-womb':'enemy_growl',
+ 'sky-seraph':'enemy_wings','sky-pilgrim':'enemy_cloth','sky-knight':'enemy_blade','sky-tome':'enemy_pages','sky-serpent':'enemy_hiss',
+ 'sky-bladewing':'enemy_wings','sky-crescent':'enemy_blast','sky-throne':'enemy_thunder','sky-prism':'enemy_cloth','cherubim':'cherubim_attack',
+};
+// Wards, buffs and other non-hostile moves draw particles inward; a quieter cue by realm.
+export const ENEMY_CHARGE_SOUNDS={abyss:'enemy_slime',celestial:'enemy_cloth'};
+export function enemyActionSound(look,realm,hostile){return hostile?(ENEMY_ATTACK_SOUNDS[look]||(realm==='celestial'?'enemy_cloth':'enemy_wet')):look==='cherubim'?'cherubim_attack':ENEMY_CHARGE_SOUNDS[realm]||'enemy_slime';}
 export class SoundBank{
  constructor({music,getPrefs}){this.music=music;this.getPrefs=getPrefs;this.context=null;this.buffers=new Map();this.raw=new Map();this.counters=new Map();this.last=new Map();this.voices=[];this.loaded=false;this.unlocked=false;this.musicMix=1;
  this.ready=fetch('assets/audio/sfx/manifest.json').then(r=>r.json()).then(async manifest=>{this.manifest=manifest;await Promise.all(Object.entries(manifest.assets).map(async([key,list])=>{this.raw.set(key,await Promise.all(list.map(a=>fetch(a.src).then(r=>{if(!r.ok)throw new Error(a.src);return r.arrayBuffer();}))));}));this.loaded=true;document.body.dataset.sfx='loaded';}).catch(()=>{document.body.dataset.sfx='unavailable';});

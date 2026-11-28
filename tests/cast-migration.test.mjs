@@ -31,7 +31,7 @@ test('cast artwork retains non-collapse cutins and resolves replacement collapse
  assert.deepEqual(new Set(Object.keys(HEROES)),new Set(CAST_IDS));assert.equal(manifest.assets.length,20);
  const resolved=new Set();
  for(const id of CAST_IDS){
-  assert.equal(CAST_FOOT_X[id],.5);
+  assert.ok(CAST_FOOT_X[id]>.3&&CAST_FOOT_X[id]<.75,'v0.39: 발 위치는 그림마다 잰 값');
   for(const role of Object.keys(ART_ROLES)){
    const asset=castArt(id,role);resolved.add(asset);const bytes=fs.readFileSync(new URL(asset,root));if(asset.endsWith('.png'))assert.equal(bytes.subarray(1,4).toString(),'PNG');else{assert.equal(bytes.subarray(0,4).toString(),'RIFF');assert.equal(bytes.subarray(8,12).toString(),'WEBP');}assert.ok(bytes.length>10000);
   }

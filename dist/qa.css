@@ -1,11 +1,106 @@
-@font-face{font-family:Paperlogy;src:url('assets/fonts/Paperlogy-4Regular.woff2')}@font-face{font-family:Paperlogy;src:url('assets/fonts/Paperlogy-7Bold.woff2');font-weight:600}*{box-sizing:border-box}body{margin:0;background:#0c121d;color:#e1ece9;font:14px Paperlogy,sans-serif}button,input,select,textarea{font:inherit}button,a,.file-button{cursor:pointer}button,.file-button{background:#1d2e3b;color:#e3efec;border:1px solid #465d69;padding:11px 13px;border-radius:4px}button:hover,.file-button:hover{border-color:#9cd6cc}button:disabled{opacity:.4;cursor:default}button:focus-visible,a:focus-visible,input:focus-visible,textarea:focus-visible,select:focus-visible{outline:2px solid #92e4d6;outline-offset:3px}.primary{background:#a4cec5;color:#10242b;border-color:#a4cec5;font-weight:600}a{color:#b2ddd3;text-decoration:none}.qa-header{display:flex;gap:24px;align-items:center;padding:20px 28px;border-bottom:1px solid #2e424c;background:#111c29}h1{font-size:23px;margin:4px 0}h2{font-size:16px;margin:0 0 15px}.qa-header small{font-size:10px;letter-spacing:2px;color:#98b5bd}.isolation{margin-left:auto;color:#a9babe;font-size:12px}.qa-layout{display:grid;grid-template-columns:252px minmax(0,1fr);gap:18px;padding:18px;max-width:1800px;margin:auto}.qa-controls section,.feedback-panel,.preview-section{background:#121f2d;border:1px solid #2d404f;border-radius:6px;padding:18px;margin-bottom:15px}.qa-controls section>button{width:100%;margin-top:10px}label{display:grid;gap:7px;margin-bottom:12px;color:#b9cece;font-size:12px}input,select,textarea{min-width:0;width:100%;background:#0b1522;color:#e0ebed;border:1px solid #3b5261;border-radius:3px;padding:10px;user-select:text}textarea{resize:vertical;line-height:1.6}.form-pair{display:grid;grid-template-columns:1fr 1fr;gap:12px}.hint,.feedback-panel>p{font-size:12px;line-height:1.65;color:#9bb2b9;word-break:keep-all}.preview-section{padding:0;overflow:hidden}.preview-toolbar{display:flex;gap:15px;align-items:center;flex-wrap:wrap;padding:12px 15px;background:#1a2b39}.preview-toolbar label{display:flex;align-items:center;margin:0}.preview-toolbar select{width:auto}.preview-toolbar span{font-size:12px;color:#aacac9;flex:1}#resume{font-size:11px;padding:8px}.frame-scroll{overflow:auto;background:#03070d;padding:12px;display:grid;justify-items:center}iframe{border:1px solid #3f5663;width:100%;height:580px;background:#080e18;max-width:none;flex-shrink:0;display:block}.feedback-actions{display:flex;gap:10px;flex-wrap:wrap;align-items:center}.file-button{display:inline-flex;margin:0}.file-button input{display:none}.check-label{display:flex;align-items:center}.check-label input{width:auto}.feedback-item{padding:16px 0;border-top:1px solid #304353;overflow-wrap:anywhere}.feedback-item h3{margin:8px 0;font-size:15px}.feedback-item p{white-space:pre-wrap;line-height:1.65;font-size:13px}.feedback-item small{color:#9cb4bb}.feedback-item .item-actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:10px}.item-actions button{font-size:11px;padding:7px 9px}.feedback-done{opacity:.6}.feedback-tag{border:1px solid #496372;padding:3px 6px;font-size:10px;border-radius:2px}.feedback-tag.blocker{border-color:#df7f94;color:#ffafbf}#feedback-status{min-height:18px;color:#b9dccd}@media(max-width:900px){.qa-layout{grid-template-columns:1fr}.qa-controls{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}.qa-controls section{padding:12px}.qa-header{padding:15px;flex-wrap:wrap;gap:12px}.isolation{width:100%;margin:0}iframe{height:420px}}@media(max-width:600px){.qa-layout{padding:10px}.qa-controls{grid-template-columns:1fr}.qa-controls section{margin-bottom:0}.form-pair{gap:8px}.preview-toolbar{padding:10px;gap:8px}.preview-toolbar span{flex-basis:100%}.feedback-panel{padding:14px}.frame-scroll{justify-items:start}h1{font-size:21px}}
+/* v0.39 QA 화면 리디자인 — 본편과 같은 밤하늘 청록 계열, 조작판은 단계 번호를 단 카드로 */
+@font-face{font-family:Paperlogy;src:url('assets/fonts/Paperlogy-4Regular.woff2')}
+@font-face{font-family:Paperlogy;src:url('assets/fonts/Paperlogy-7Bold.woff2');font-weight:600}
+:root{--bg:#0a0f18;--panel:#111a27;--panel2:#162231;--line:#26384a;--line2:#3a5266;--ink:#e3eeec;--dim:#93aab3;--acc:#8fd6c9;--acc2:#2f5566;--warn:#ffb3c1}
+*{box-sizing:border-box}
+html,body{margin:0;height:100%}
+body{background:radial-gradient(1200px 500px at 80% -10%,#1b2f45 0,transparent 60%),var(--bg);color:var(--ink);font:14px/1.5 Paperlogy,system-ui,'Apple SD Gothic Neo','Malgun Gothic',sans-serif;display:flex;flex-direction:column}
+button,input,select,textarea{font:inherit;color:inherit}
+button,a,.file-button,summary{cursor:pointer}
+button,.file-button{background:var(--panel2);color:var(--ink);border:1px solid var(--line2);padding:8px 12px;border-radius:7px;transition:border-color .12s,background .12s}
+button:hover,.file-button:hover{border-color:var(--acc)}
+button:disabled{opacity:.4;cursor:default}
+:is(button,a,input,textarea,select,summary):focus-visible{outline:2px solid var(--acc);outline-offset:2px}
+.primary{background:var(--acc);color:#0d2229;border-color:var(--acc);font-weight:600}
+.ghost{background:transparent;border-style:dashed;color:var(--acc)}
+.wide{width:100%;margin-top:8px}
+a{color:var(--acc);text-decoration:none}
+input,select,textarea{min-width:0;width:100%;background:#0a1320;border:1px solid var(--line2);border-radius:6px;padding:8px 9px}
+textarea{resize:vertical;line-height:1.6}
+label{display:grid;gap:5px;margin-bottom:10px;color:#b7cacb;font-size:12px}
+.check-label{display:flex;align-items:center;gap:6px;margin:0}.check-label input{width:auto}
+label.inline{display:flex;align-items:center;gap:6px;margin:0}label.inline select{width:auto}
+.hint{font-size:12px;line-height:1.6;color:var(--dim);margin:4px 0 10px;word-break:keep-all}
+.hidden-selects{position:absolute!important;width:1px!important;height:1px!important;overflow:hidden;clip:rect(0 0 0 0);opacity:0;pointer-events:none}
+.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap;margin-top:8px}.row button{flex:1}
 
-/* v0.37 이펙트 시험장 탭 */
-.qa-tabs{display:flex;gap:4px}
-.qa-tabs button{width:auto;margin:0;padding:7px 12px}
-.qa-tabs button.on{background:#2f5566;border-color:#7fc4d0;color:#fff}
-.preview-section.lab-mode .game-only{display:none}
-#vfx-lab{width:100%;height:min(84vh,880px);border:0;background:#05040a;display:block}
-#vfx-lab[hidden],#game-preview[hidden]{display:none}
-.preview-section.lab-mode .frame-scroll{padding:0;display:block}
-.lab-only{display:none}.preview-section.lab-mode .lab-only{display:inline}
+/* ---------- 위쪽 띠 ---------- */
+.qa-top{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:18px;padding:10px 18px;background:#0d1622ee;backdrop-filter:blur(6px);border-bottom:1px solid var(--line)}
+.brand{display:grid;line-height:1.2}.brand small{font-size:9px;letter-spacing:2px;color:var(--dim)}.brand b{font-size:17px}
+.qa-tabs{display:flex;gap:4px;background:#0a121d;border:1px solid var(--line);border-radius:10px;padding:3px}
+.qa-tabs button{border:0;background:transparent;padding:7px 14px;border-radius:7px;color:var(--dim)}
+.qa-tabs button.on{background:var(--acc2);color:#fff}
+.count{display:inline-block;min-width:18px;padding:0 5px;margin-left:4px;border-radius:9px;background:#24384a;font-size:11px;color:#cfe;text-align:center}
+.top-right{margin-left:auto;display:flex;gap:14px;align-items:center}.isolation{font-size:11px;color:var(--dim)}
+
+/* ---------- 본문 ---------- */
+.qa-body{flex:1;min-height:0;padding:14px;max-width:1900px;width:100%;margin:0 auto}
+.pane[hidden]{display:none!important}
+.pane-game{display:grid;grid-template-columns:300px minmax(0,1fr);gap:14px;align-items:start}
+.qa-controls{display:grid;gap:10px;position:sticky;top:70px;max-height:calc(100vh - 84px);overflow:auto;padding-right:2px}
+.card{background:linear-gradient(180deg,#132031,#101a27);border:1px solid var(--line);border-radius:12px;padding:14px}
+.card h2{font-size:14px;margin:0 0 6px;display:flex;align-items:center;gap:8px}
+details.card>summary{list-style:none}details.card>summary::-webkit-details-marker{display:none}
+details.card>summary h2::after{content:'열기 ▾';margin-left:auto;font-size:11px;color:var(--dim);font-weight:400}details.card[open]>summary h2::after{content:'닫기 ▴'}
+details.card[open]>summary{margin-bottom:8px}
+.step{display:inline-grid;place-items:center;width:20px;height:20px;border-radius:50%;background:var(--acc2);color:#fff;font-size:11px}
+.form-pair{display:grid;grid-template-columns:1fr 1fr;gap:8px}.form-quad{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+
+/* 편성: 초상 칩 */
+.cast-picker{display:grid;grid-template-columns:repeat(4,1fr);gap:6px}
+.cast-chip{position:relative;display:grid;justify-items:center;gap:3px;padding:6px 2px 5px;border-radius:9px;background:#0c1521;border:1px solid var(--line)}
+.cast-chip img{width:44px;height:44px;border-radius:50%;object-fit:cover;object-position:56% 25%;background:#1a2636;border:2px solid transparent}
+.cast-chip span{font-size:11px;color:var(--dim)}
+.cast-chip.on{border-color:var(--chip,#8fd6c9);background:#122334}.cast-chip.on img{border-color:var(--chip,#8fd6c9)}.cast-chip.on span{color:#fff}
+.cast-chip b{position:absolute;top:3px;right:5px;width:17px;height:17px;border-radius:50%;background:var(--chip,#8fd6c9);color:#0d1b22;font-size:10px;display:grid;place-items:center}
+.cast-chip b:empty{display:none}
+
+/* 장면 목록 */
+.scene-list{display:grid;gap:8px;max-height:300px;overflow:auto;margin:8px 0 2px;padding-right:2px}
+.scene-group h3{font-size:11px;color:var(--dim);margin:2px 0 4px;font-weight:400;letter-spacing:.04em}
+.scene-group div{display:flex;flex-wrap:wrap;gap:4px}
+.chip{padding:5px 9px;font-size:12px;border-radius:14px;background:#0c1521}
+.chip.on{background:var(--acc2);border-color:var(--acc);color:#fff}
+.chip.need::after{content:' ↻';color:var(--dim)}
+.preview-list{display:grid;gap:8px}
+
+/* 미리보기 */
+.preview-section{background:var(--panel);border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.preview-toolbar{display:flex;gap:12px;align-items:center;flex-wrap:wrap;padding:9px 12px;background:var(--panel2);border-bottom:1px solid var(--line)}
+#game-context{flex:1;font-size:12px;color:#bfe3dc}
+.dot{width:8px;height:8px;border-radius:50%;background:#6b7d86}.dot.live{background:#5fe0a2;box-shadow:0 0 8px #5fe0a2}.dot.busy{background:#ffcf5a;box-shadow:0 0 8px #ffcf5a}
+#resume{font-size:12px;padding:6px 10px}
+.frame-scroll{overflow:auto;background:#03070d;padding:10px;display:grid;justify-items:center}
+#game-preview{border:1px solid #2e4452;border-radius:6px;width:100%;height:min(72vh,760px);background:#080e18;display:block;flex-shrink:0}
+.status-line{min-height:20px;margin:0;padding:6px 12px;font-size:12px;color:#b9dccd;border-top:1px solid var(--line)}
+
+/* 이펙트 시험장 */
+.pane-lab #vfx-lab{width:100%;height:calc(100vh - 92px);min-height:520px;border:1px solid var(--line);border-radius:12px;background:#05040a;display:block}
+
+/* 피드백 */
+.pane-feedback{display:grid;grid-template-columns:minmax(320px,440px) minmax(0,1fr);gap:14px;align-items:start}
+.feedback-actions{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.file-button{display:inline-flex;margin:0;font-size:14px;color:var(--ink)}.file-button input{display:none}
+.feedback-list-card h2 small{font-weight:400;color:var(--dim);font-size:12px}
+.feedback-item{padding:12px;border:1px solid var(--line);border-radius:9px;margin-top:8px;background:#0d1724;overflow-wrap:anywhere}
+.feedback-item h3{margin:6px 0;font-size:14px}
+.feedback-item p{white-space:pre-wrap;line-height:1.6;font-size:13px;margin:6px 0}
+.feedback-item small{color:var(--dim)}
+.feedback-item .item-actions{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.item-actions button{font-size:11px;padding:5px 8px}
+.feedback-done{opacity:.55}
+.feedback-tag{border:1px solid #496372;padding:2px 6px;font-size:10px;border-radius:4px}
+.feedback-tag.blocker{border-color:#df7f94;color:var(--warn)}.feedback-tag.high{border-color:#e2b46a;color:#ffd79a}
+
+@media(max-width:1000px){
+ .pane-game{grid-template-columns:1fr}.qa-controls{position:static;max-height:none;grid-template-columns:repeat(2,minmax(0,1fr))}
+ .pane-feedback{grid-template-columns:1fr}.isolation{display:none}
+ #game-preview{height:460px}
+}
+@media(max-width:640px){
+ .qa-top{flex-wrap:wrap;gap:8px;padding:8px 10px}.qa-tabs{order:3;width:100%;overflow-x:auto}.qa-tabs button{flex:1;white-space:nowrap;padding:7px 8px}
+ .qa-body{padding:8px}.qa-controls{grid-template-columns:1fr}.cast-picker{grid-template-columns:repeat(4,1fr)}
+ .form-quad{grid-template-columns:1fr 1fr}.frame-scroll{justify-items:start;padding:6px}
+ .pane-lab #vfx-lab{height:calc(100vh - 120px)}
+}
+@media(max-width:1000px){.pane-game .preview-section{order:-1}}

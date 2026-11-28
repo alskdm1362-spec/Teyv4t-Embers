@@ -1,11 +1,12 @@
 import {sortSceneDepth} from './scene-interactions.js';
 import {HEROES,cardInfo,PART_NAMES,BODY_STAGES} from './engine.js';
 import {bodySilhouette} from './condition-ui.js';
-import {CAST_SPRITES,castPose} from './cast-art.js';
+import {CAST_SPRITES,spriteFrame,castPose} from './cast-art.js';
+import {isMeleeCard} from './cast-vfx.js';
 import {presentationPlan} from './motion-plan.js';
 import {SuppliedVFX,blindnessTransitions,cardTexture} from './supplied-vfx.js';
 import {CameraFeedback} from './feedback.js';
-import {ATTACK_SOUNDS} from './sound.js';
+import {ATTACK_SOUNDS,OWNER_SOUNDS,enemyActionSound} from './sound.js';
 import {judgmentScene,combineFlash,verdictSpark,BEATS as JUDGE_BEATS} from './judgment-vfx.js';
 const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
 const wait=ms=>new Promise(resolve=>setTimeout(resolve,ms));
@@ -22,8 +23,8 @@ export class BattleMotion{
   else if((info.type==='draw'||effects.some(e=>e.type==='draw'))&&P.draw)pose='draw';
   else if(effects.some(e=>e.type==='shield'||e.type==='cover')||info.type==='guard')pose='guard';
   else pose=P.buff?'buff':'guard';
-  const old=source.getAttribute('src'),t0=performance.now();source.src=castPose(owner,pose);source.style.scale=String(sp.base*P[pose]);source.classList.add('posed');source.dataset.pose=pose;
-  return async()=>{const left=this.ms(420)-(performance.now()-t0);if(left>0)await wait(left);if(source.isConnected){source.src=old;source.style.scale='';source.classList.remove('posed');delete source.dataset.pose;}};}
+  const old=source.getAttribute('src'),t0=performance.now();source.src=castPose(owner,pose);{const f=spriteFrame(owner,pose);source.style.scale=String(f.scale);source.style.setProperty('--sprite-scale',f.scale);source.style.setProperty('--foot-x',f.foot);}source.classList.add('posed');source.dataset.pose=pose;
+  return async()=>{const left=this.ms(420)-(performance.now()-t0);if(left>0)await wait(left);if(source.isConnected){source.src=old;source.style.scale='';source.style.removeProperty('--sprite-scale');source.style.removeProperty('--foot-x');source.classList.remove('posed');delete source.dataset.pose;}};}
  ms(n){return this.short()?Math.min(65,n*.2):n;}
  async animate(el,frames,duration=300,options={}){if(!el?.isConnected)return;const {retain=false,...timing}=options,a=el.animate(frames,{duration:this.ms(duration),easing:'cubic-bezier(.2,.7,.25,1)',fill:'both',...timing});try{await a.finished;}catch{}if(!retain)a.cancel();return a;}
  callout(text,enemy=false){const el=$('.battle-callout');if(!el)return;el.textContent=text;el.classList.add('visible');el.classList.toggle('enemy-call',enemy);}
@@ -36,7 +37,7 @@ export class BattleMotion{
  clone.remove();pile.classList.add('fx-pulse');setTimeout(()=>pile.classList.remove('fx-pulse'),this.ms(250));}
  async deal(uids,shuffle=false){const nodes=uids.map(uid=>$(`[data-card="${uid}"]`)).filter(Boolean),pile=$('[data-pile="draw"]');if(!nodes.length||!pile)return;nodes.forEach(n=>n.style.visibility='hidden');if(shuffle){this.callout('버린 카드를 다시 섞습니다');await this.animate(pile,[{transform:'translateX(0) rotate(0)'},{transform:'translateX(7px) rotate(8deg)',offset:.3},{transform:'translateX(-7px) rotate(-8deg)',offset:.6},{transform:'translateX(0) rotate(0)'}],250);}
  await Promise.all(nodes.map(async(el,i)=>{await wait(this.ms(i*55));const n=this.cloneCard(el),a=center(pile),b=center(n),dx=a.x-b.x,dy=a.y-b.y;n.style.visibility='visible';n.classList.add('card-back');await this.animate(n,[{transform:`translate(${dx}px,${dy}px) scale(.16) rotate(-25deg)`,opacity:0},{transform:`translate(${dx*.3}px,${dy*.5-45}px) scale(.8) rotate(-8deg)`,opacity:1}],220);n.classList.remove('card-back');await this.animate(n,[{transform:`translate(${dx*.3}px,${dy*.5-45}px) scale(.8) rotate(-8deg)`,opacity:1},{transform:'translate(0,0) scale(1.03) rotate(0)',opacity:1,offset:.8},{transform:'translate(0,0) scale(1) rotate(0)',opacity:1}],180);n.remove();el.style.visibility='';void this.sound('card_flip',{gain:.8,ui:true});}));}
- async morph(before,heroes){if(!heroes.length)return;void this.sound('card_morph',{gain:.65});const after=this.getState(),nodes=$$('.hand [data-card]').filter(el=>heroes.includes(el.dataset.owner));for(const id of heroes){const broken=after.heroes[id].breakdown;this.callout(broken?before.heroes[id]?.breakdown?`${HEROES[id].name} · 극복 실패 ${broken.failures}/10 · 위험 상승`:`${HEROES[id].name} · 모든 고유 카드 변질`:`${HEROES[id].name} · 고유 카드 복원`);const actor=$(`[data-ally="${id}"]`);if(actor){actor.classList.toggle('collapsed',!!broken);void this.effect(broken?'collapse':'recover',this.unit(actor),{scale:1});}void this.float($(`[data-hud="${id}"]`),broken?'정신 붕괴':'붕괴 극복',broken?'stress':'heal');}
+ async morph(before,heroes){if(!heroes.length)return;void this.sound('card_morph',{gain:.65});const after=this.getState(),nodes=$$('.hand [data-card]').filter(el=>heroes.includes(el.dataset.owner));for(const id of heroes){const broken=after.heroes[id].breakdown;this.callout(broken?before.heroes[id]?.breakdown?`${HEROES[id].name} · 극복 실패 ${broken.failures}/10 · 위험 상승`:`${HEROES[id].name} · 모든 고유 카드 변질`:`${HEROES[id].name} · 고유 카드 복원`);const actor=$(`[data-ally="${id}"]`);if(actor){actor.classList.toggle('collapsed',!!broken);void this.effect(broken?'collapse':'recover',this.unit(actor),{scale:1});if(!broken)void this.sound('recover',{gain:.7});}void this.float($(`[data-hud="${id}"]`),broken?'정신 붕괴':'붕괴 극복',broken?'stress':'heal');}
  await Promise.all(nodes.map(async(el,i)=>{const c=after.battle?.hand.find(c=>c.uid===el.dataset.card)||before.battle?.hand.find(c=>c.uid===el.dataset.card);if(!c)return;await wait(this.ms(i*35));el.classList.add('card-morph');const t=getComputedStyle(el).transform;await this.animate(el,[{transform:t,filter:'brightness(1)'},{transform:'translateY(-15px) rotateY(90deg)',filter:'brightness(2)'}],150);const temp=document.createElement('div');temp.innerHTML=this.cardHTML(c,i,nodes.length);const face=temp.firstElementChild;el.innerHTML=face.innerHTML;el.classList.toggle('broken',!!after.heroes[c.owner].breakdown);await this.animate(el,[{transform:'translateY(-15px) rotateY(-90deg)',filter:'brightness(2)'},{transform:t,filter:'brightness(1)'}],200);el.classList.remove('card-morph');}));await wait(this.ms(130));}
  async burnCard(el,face,hold){const old=await cardTexture(el),next=await cardTexture(face);await this.vfx.raw('cardBurnTransition',el,{card:true,cardImgA:old,cardImgB:next,hold});el.innerHTML=face.innerHTML;el.classList.toggle('blind-card',face.classList.contains('blind-card'));}
  async blindMorph(before){const after=this.getState(),uids=blindnessTransitions(before,after);await Promise.all(uids.map(async uid=>{const el=$(`[data-card="${uid}"]`),c=after.battle.hand.find(c=>c.uid===uid);if(!el||!c)return;const div=document.createElement('div');div.innerHTML=this.cardHTML(c,0,1);await this.burnCard(el,div.firstElementChild);}));}
@@ -50,20 +51,20 @@ export class BattleMotion{
   for(const node of n.querySelectorAll('[data-part]'))if(!open.includes(node.dataset.part))node.dataset.off='1';
   const lit=p=>{for(const node of n.querySelectorAll('[data-part]'))node.classList.toggle('lit',node.dataset.part===p);},steps=fast?[40,60,90]:[55,55,60,65,75,90,110,140,150];
   let i=(Math.max(0,open.indexOf(e.part))-steps.length%open.length+open.length)%open.length;
-  try{for(const ms of steps){lit(open[i++%open.length]);await wait(ms);}lit(e.part);n.classList.add('landed');n.querySelector('b').textContent=`${PART_NAMES[e.part]} ${BODY_STAGES[e.stage]}`;n.querySelector(`[data-part="${e.part}"]`)?.setAttribute('data-stage',e.stage);void this.sound('abyss_hit',{gain:.35});await wait(fast?260:720);n.classList.add('leaving');await wait(180);}finally{n.remove();this.rouletteSlots[e.hero]=Math.max(0,(this.rouletteSlots[e.hero]||1)-1);}}
+  try{for(const ms of steps){lit(open[i++%open.length]);void this.sound('roulette_tick',{gain:.55,ui:true});await wait(ms);}lit(e.part);n.classList.add('landed');n.querySelector('b').textContent=`${PART_NAMES[e.part]} ${BODY_STAGES[e.stage]}`;n.querySelector(`[data-part="${e.part}"]`)?.setAttribute('data-stage',e.stage);void this.sound('abyss_hit',{gain:.3});void this.sound(e.stage>=3?'injury_loss':e.stage===2?'injury_snap':'injury_crack',{gain:e.stage>=3?.9:.75});await wait(fast?260:720);n.classList.add('leaving');await wait(180);}finally{n.remove();this.rouletteSlots[e.hero]=Math.max(0,(this.rouletteSlots[e.hero]||1)-1);}}
  hudDamage(hp,shield){const label=$('[data-hp-number]'),bar=$('.team-health .party-hp>i'),sh=$('[data-shield-number]');if(label)label.innerHTML=`${hp}<small> / ${this.getState().maxHp}</small>`;if(bar)bar.style.width=(hp/this.getState().maxHp*100)+'%';if(sh)sh.textContent='◇ '+shield;const sb=$('.shared-shield');if(sb)sb.style.width=Math.min(100,shield/this.getState().maxHp*100)+'%';}
  async enemyStep(group,live){
   const actor=$(`[data-enemy="${group.enemy}"]`),target=group.hostile?$(`[data-ally="${group.hero}"]`):null;if(!actor)return;
   const celestial=actor.dataset.realm==='celestial'||['keeper','sentinel','star'].includes(actor.dataset.kind),heroName=HEROES[group.hero]?.name||'파티',line=$(`[data-threat="${group.enemy}"]`);
   actor.classList.add('enemy-attacking');target?.classList.add('target-locked');line?.classList.add('focused');
-  void this.sound(celestial?'resource':'abyss_cast',{gain:.55});this.callout(`${actor.querySelector('h3')?.textContent||'적'} · ${group.name}${group.hostile?' → '+heroName:''}`,true);await wait(this.ms(230));
+  void this.sound(enemyActionSound(actor.dataset?.look,celestial?'celestial':'abyss',group.hostile),{gain:group.hostile?.85:.5});this.callout(`${actor.querySelector('h3')?.textContent||'적'} · ${group.name}${group.hostile?' → '+heroName:''}`,true);await wait(this.ms(230));
   const sprite=this.unit(actor);let visual=Promise.resolve();
   if(group.hostile){void this.animate(sprite,[{transform:'translateX(0)'},{transform:'translateX(10px) scale(.97)',offset:.25},{transform:'translateX(-23px)',offset:.6},{transform:'translateX(0)'}],310);}
   else{const ward=this.getState().battle?.enemies.find(e=>e.id===group.enemy);visual=ward&&(ward.ward||ward.hitWard)?this.effect('guard',sprite,{enemy:true,celestial,shield:true}):this.effect(celestial?'celestial-charge':'abyss-charge',sprite);void this.float(actor,group.name,'label');}
   const hit=group.effects.find(e=>e.type==='enemyAttack');
   if(hit&&target){visual=this.effect(hit.blocked?'guard-hit':celestial?'celestial-hit':'abyss-hit',this.unit(target),{from:sprite,scale:1,hero:group.hero,shield:!!hit.blocked});await wait(this.ms(95));
    live.hp=Math.max(0,live.hp-hit.amount);live.shield=Math.max(0,live.shield-hit.blocked);this.hudDamage(live.hp,live.shield);target.classList.add(hit.amount?'ally-hit':'shielded');
-   if(hit.blocked)void this.float(target,'◇ '+hit.blocked,'shield');if(hit.amount){this.scar(group.hero,hit.amount);void this.float(target,'−'+hit.amount);if(hit.blocked)void this.effect(celestial?'celestial-hit':'abyss-hit',this.unit(target),{scale:.7});}else if(hit.blocked)void this.float($('[data-shield-number]'),'방어','shield');void this.sound(hit.blocked?'shield_hit':celestial?'celestial_hit':'abyss_hit',{gain:hit.blocked ? .8 : 1});this.camera.hit(hit.amount?Math.min(2,hit.amount/12):.3);
+   if(hit.blocked)void this.float(target,'◇ '+hit.blocked,'shield');if(hit.amount){this.scar(group.hero,hit.amount);void this.float(target,'−'+hit.amount);if(hit.blocked)void this.effect(celestial?'celestial-hit':'abyss-hit',this.unit(target),{scale:.7});}else if(hit.blocked)void this.float($('[data-shield-number]'),'방어','shield');void this.sound(hit.blocked?'shield_hit':hit.amount&&(actor.dataset?.rank||'normal')!=='normal'?'hero_hit_heavy':'hero_hit',{gain:hit.blocked ? .8 : .9});this.camera.hit(hit.amount?Math.min(2,hit.amount/12):.3);
   }else if(target)visual=this.effect(celestial?'celestial-charge':'abyss-charge',this.unit(target),{from:sprite,scale:.85});
   for(const e of group.effects){
    if(e.type==='stress'){const hud=$(`[data-hud="${e.hero}"]`);void this.float(hud,'정신 +'+e.amount,'stress');const bar=hud?.querySelector('.hud-stress i');live.stress[e.hero]=Math.min(100,(live.stress[e.hero]||0)+e.amount);if(bar)bar.style.width=live.stress[e.hero]+'%';}
@@ -72,11 +73,11 @@ export class BattleMotion{
   await visual;await wait(this.ms(110));actor.classList.remove('enemy-attacking');target?.classList.remove('target-locked','ally-hit','shielded');line?.classList.remove('focused');
  }
  async playerEffects(before,action,effects){
-  const state=this.getState(),owner=action._owner||action.hero,actor=$(`[data-ally="${owner}"]`),source=this.unit(actor);
+  this._lit=false;const state=this.getState(),owner=action._owner||action.hero,actor=$(`[data-ally="${owner}"]`),source=this.unit(actor);
   // v0.37: 죄·명계가 저절로 발동해 낸 피해는 카드의 타격과 따로, 작은 번개로 보여 준다.
   const procHits=[];{let part=null;for(const e of effects){if(e.type==='verdictProc')part=e.part;else if(e.type==='damage'&&part){procHits.push({...e,part});e._proc=true;part=null;}}}
   const hits=effects.filter(e=>e.type==='damage'&&!e._proc);
-  actor?.classList?.add('acting');const isMelee=['lohen','illuga','jahoda','kinich','cyno'].includes(owner)&&action.type==='play'&&hits.length>0,unpose=['play','ultimate'].includes(action.type)?this.pose(owner,action,before,effects,source):null;
+  actor?.classList?.add('acting');const playedKey=before.battle?.hand?.find(c=>c.uid===action.uid)?.key,supportEv=effects.find(e=>e.type==='support'),isMelee=['lohen','illuga','jahoda','cyno'].includes(owner)&&action.type==='play'&&hits.length>0&&isMeleeCard(owner,playedKey),unpose=['play','ultimate'].includes(action.type)?this.pose(owner,action,before,effects,source):null;
   let dashDist=null,dashHold=null;
   // v0.37 칠흑의 심판: 문양이 써지고 세상이 어두워진 뒤, 번개가 닿는 순간에 맞춰 사이노가 뛰어든다.
   const judging=action.type==='play'&&owner==='cyno'&&hits.length>0&&before.battle?.hand?.find(c=>c.uid===action.uid)?.key==='c_judgment';let scene=null;
@@ -87,7 +88,7 @@ export class BattleMotion{
     const firstEnemy=$(`[data-enemy="${hits[0].enemy}"]`),sc=parseFloat($('#game')?.style.getPropertyValue('--scale'))||1;
     if(firstEnemy){
      // feet to feet: stop just short of the target's near edge, standing on the same ground line
-     const sr=source.getBoundingClientRect(),er=this.unit(firstEnemy).getBoundingClientRect(),a={x:sr.left+sr.width/2,y:sr.bottom},b={x:er.left+er.width*.18,y:er.bottom};
+     const sr=source.getBoundingClientRect(),er=this.unit(firstEnemy).getBoundingClientRect(),a={x:sr.left+sr.width*(+source.style?.getPropertyValue?.('--foot-x')||spriteFrame(owner).foot),y:sr.bottom},b={x:er.left+er.width*.18,y:er.bottom};
      // the sprite carries a CSS scale (pose canvases); transform translate is applied inside it, so divide it out
      const k=(()=>{try{return parseFloat(getComputedStyle(source).scale)||1;}catch{return 1;}})(),dx=Math.max(36,(b.x-a.x)/sc-46)/k,dy=Math.max(-40,Math.min(40,(b.y-a.y)/sc))/k;
      dashDist={dx,dy};
@@ -97,11 +98,11 @@ export class BattleMotion{
    }else void this.animate(source,[{transform:'translateX(0)'},{transform:'translateX(20px)',offset:.5},{transform:'translateX(0)'}],260);
    await Promise.all(hits.map(async(e,index)=>{
     const enemy=$(`[data-enemy="${e.enemy}"]`);if(!enemy)return;
-    const repeat=hits.slice(0,index).some(hit=>hit.enemy===e.enemy),kind=repeat?'counter':action.type==='support'?({lohen:'wind-cleave',durin:'veil',illuga:'night-thrust',jahoda:'venom-mark',kinich:'wind-cleave',lyney:'veil',cyno:'venom-mark'})[owner]:action.type==='ultimate'?({lohen:'frost-finisher',durin:'arcane-wave',illuga:'counter',jahoda:'feint',kinich:'spear',lyney:'arcane-wave',cyno:'frost-finisher'})[owner]:({lohen:'spear',durin:'arcane-wave',illuga:'counter',jahoda:'feint'})[owner]||'spear';
-    if(repeat)await wait(this.ms(100));const cue=(action.type==='ultimate'&&ATTACK_SOUNDS[kind+':ult'])||ATTACK_SOUNDS[kind]||ATTACK_SOUNDS.spear;if(index===0)void this.sound(cue[0],{gain:.7});const wing=owner==='durin'&&action.type==='ultimate',visual=scene&&index===0?scene.done:wing&&index>0?Promise.resolve():this.effect(kind,wing?source:this.unit(enemy),{from:source,hero:owner,ultimate:action.type==='ultimate',scale:action.type==='ultimate'?1.3:1,strength:action.type==='ultimate'?2:1});if(scene&&index===0){await scene.strike;void this.sound('heavy_hit',{gain:1});setTimeout(()=>void this.sound('arcane_hit',{gain:.55}),this.ms(140));}else await wait(this.ms(90));if(!(scene&&index===0)&&(index===0||repeat))void this.sound(cue[1],{gain:repeat ? .6 : 1});this.camera.hit(action.type==='ultimate'||(scene&&index===0)?2.2:repeat ? .5 : .8);enemy.classList.add('enemy-hit');const damageText=this.float(enemy,e.amount);
+    const repeat=hits.slice(0,index).some(hit=>hit.enemy===e.enemy),partner=action.type==='support'?(supportEv?.partner||{lohen:'varka',durin:'albedo',illuga:'flins',jahoda:'nefer',kinich:'mualani',lyney:'lynette',cyno:'tighnari'}[owner]):null,kind=action.type==='support'&&['flins','nefer','mualani','kachina','lynette','tighnari'].includes(partner)?'partner':repeat?'counter':action.type==='support'?({lohen:'wind-cleave',durin:'veil',illuga:'night-thrust',jahoda:'venom-mark',kinich:'wind-cleave',lyney:'veil',cyno:'venom-mark'})[owner]:action.type==='ultimate'?({lohen:'frost-finisher',durin:'arcane-wave',illuga:'counter',jahoda:'feint',kinich:'spear',lyney:'arcane-wave',cyno:'frost-finisher'})[owner]:({lohen:'spear',durin:'arcane-wave',illuga:'counter',jahoda:'feint'})[owner]||'spear';
+    if(repeat)await wait(this.ms(100));const cue=(!repeat&&OWNER_SOUNDS[owner+':'+action.type])||(action.type==='ultimate'&&ATTACK_SOUNDS[kind+':ult'])||ATTACK_SOUNDS[kind]||ATTACK_SOUNDS.spear;if(index===0)void this.sound(cue[0],{gain:.7});const visual=scene&&index===0?scene.done:this.effect(kind,this.unit(enemy),{from:source,hero:owner,card:action.type==='play'?playedKey:null,partner,index,repeat,ultimate:action.type==='ultimate',scale:action.type==='ultimate'?1.3:1,strength:action.type==='ultimate'?2:1});if(scene&&index===0){await scene.strike;void this.sound('heavy_hit',{gain:1});void this.sound('thunder',{gain:.9});setTimeout(()=>void this.sound('arcane_hit',{gain:.55}),this.ms(140));}else await wait(this.ms(90));if(!(scene&&index===0)&&(index===0||repeat)){void this.sound(cue[1],{gain:repeat ? .6 : 1});if(cue[2])void this.sound(cue[2],{gain:.8});if(enemy.dataset?.realm==='celestial')void this.sound('celestial_hit',{gain:.7});}this.camera.hit(action.type==='ultimate'||(scene&&index===0)?2.2:repeat ? .5 : .8);enemy.classList.add('enemy-hit');const damageText=this.float(enemy,e.amount);
     const next=state.battle?.enemies.find(n=>n.id===e.enemy);if(next){const bar=enemy.querySelector('.hpbar i');if(bar)bar.style.width=(next.hp/next.maxHp*100)+'%';const label=enemy.querySelector('.enemy-name>b');if(label)label.innerHTML=`${next.hp}<small> / ${next.maxHp}</small>`;}
     await wait(this.ms(120));enemy.classList.remove('enemy-hit');await Promise.all([visual,damageText]);
-    if(effects.some(x=>x.type==='kill'&&x.enemy===e.enemy)){await this.effect('dissolve',this.unit(enemy),{scale:.8});await this.animate(enemy,[{opacity:1},{opacity:0,transform:'translateY(7px)'}],200);enemy.style.opacity='0';}
+    if(effects.some(x=>x.type==='kill'&&x.enemy===e.enemy)){void this.sound(enemy.dataset?.rank==='normal'?'enemy_kill':'enemy_kill_heavy',{gain:.9});await this.effect('dissolve',this.unit(enemy),{scale:.8});await this.animate(enemy,[{opacity:1},{opacity:0,transform:'translateY(7px)'}],200);enemy.style.opacity='0';}
    }));
    if(dashDist&&actor&&source){
     const back=await this.animate(source,[{transform:`translate(${dashDist.dx}px,${dashDist.dy}px) scale(1.06)`},{transform:'translate(0,0) scale(1)'}],210,{easing:'cubic-bezier(.35,0,.2,1)',retain:true});dashHold?.cancel();back?.cancel();
@@ -113,24 +114,27 @@ export class BattleMotion{
    await wait(this.ms(110));enemy.classList.remove('enemy-hit');await Promise.all([spark,text]);
    if(effects.some(x=>x.type==='kill'&&x.enemy===e.enemy)&&enemy.style.opacity!=='0'){await this.effect('dissolve',this.unit(enemy),{scale:.8});await this.animate(enemy,[{opacity:1},{opacity:0,transform:'translateY(7px)'}],200);enemy.style.opacity='0';}}
   for(const e of effects){
-   if(e.type==='shield'){void this.sound('shield_cast',{gain:.75});void this.float($('[data-shield-number]'),'◇ +'+e.amount,'shield');for(const id of state.party.filter(id=>!state.heroes[id].retired)){const node=this.unit($(`[data-ally="${id}"]`));void this.effect(action.type==='support'&&owner==='durin'?'veil':'guard',node,{hero:owner,shield:true,scale:1,strength:action.type==='ultimate'?2:1});}}
-   if(e.type==='cover')void this.effect('guard',this.unit($(`[data-ally="${e.hero}"]`)),{hero:owner||'illuga',shield:true,scale:.85});
+   if(e.type==='shield'){void this.sound('shield_cast',{gain:.75});void this.float($('[data-shield-number]'),'◇ +'+e.amount,'shield');const team=state.party.filter(id=>!state.heroes[id].retired&&(!e.targets||e.targets.includes(id))),illuga=owner==='illuga'&&action.type!=='support';
+    // v0.39 일루가: 빛은 일루가 몸에서만 → 이어서 금빛 보호막이 각자에게 둘러지고, 금빛 새가 파티 위를 난다
+    if(illuga&&!this._lit){this._lit=true;void this.sound('illuga_light',{gain:.6});void this.effect('illuga-light',source,{hero:owner});const last=$(`[data-ally="${team[team.length-1]}"]`);if(team.length>1||action.type==='ultimate'||playedKey==='i_watch')void this.effect('illuga-bird',this.unit(last),{from:source,hero:owner});await wait(this.ms(240));}
+    for(const id of team){const node=this.unit($(`[data-ally="${id}"]`));void this.effect(action.type==='support'&&owner==='durin'?'veil':'guard',node,{hero:owner,card:playedKey,shield:true,scale:1,strength:action.type==='ultimate'?2:1});}}
+   if(e.type==='cover'){const to=this.unit($(`[data-ally="${e.hero}"]`));if((owner||'illuga')==='illuga'&&to!==source)void this.effect('illuga-bird',to,{from:source,hero:'illuga'});void this.effect('guard',to,{hero:owner||'illuga',card:playedKey,shield:true,scale:.85});}
    if(e.type==='friendlyFire'){this.callout('불신이 아군을 겨눕니다',true);void this.float($('[data-hp-number]'),'아군 피해 −'+e.amount,'stress');}
    if(e.type==='injury'&&e.roulette)void this.roulette($(`[data-ally="${e.hero}"]`),e);
    if(e.type==='collapseFail')void this.float(actor,'극복 실패','stress');
-   if(e.type==='break'){void this.effect('guard-hit',this.unit($(`[data-enemy="${e.enemy}"]`)),{enemy:true,celestial:$(`[data-enemy="${e.enemy}"]`)?.dataset.realm==='celestial',shield:true,scale:.8});void this.float($(`[data-enemy="${e.enemy}"]`),'장막 파괴','label');}
+   if(e.type==='break'){void this.sound('ward_break',{gain:.85});void this.effect('guard-hit',this.unit($(`[data-enemy="${e.enemy}"]`)),{enemy:true,celestial:$(`[data-enemy="${e.enemy}"]`)?.dataset.realm==='celestial',shield:true,scale:.8});void this.float($(`[data-enemy="${e.enemy}"]`),'장막 파괴','label');}
    if(e.type==='cardHeal'){void this.sound('heal',{gain:.65});void this.effect('recover',source);void this.float($('[data-hp-number]'),'+'+e.amount,'heal');}
-   if(e.type==='resource'){void this.sound('resource',{gain:.6});void this.effect('rally',source);void this.float($('.ap-meter'),'+'+(e.amount||2)+' AP','heal');}
+   if(e.type==='resource'){void this.sound('resource',{gain:.6});void this.effect(owner==='jahoda'&&action.type==='ultimate'?'jahoda-aura':'rally',source,{hero:owner,card:playedKey});void this.float($('.ap-meter'),'+'+(e.amount||2)+' AP','heal');}
   }
-  const played=before.battle?.hand.find(c=>c.uid===action.uid);if(played){const info=cardInfo(before,played);if(info.type==='focus'){void this.sound('resource',{gain:.4});void this.effect('focus',source);void this.float(actor,'공격 준비','label');}if(info.type==='energy'){void this.sound('resource',{gain:.65});void this.effect('rally',source);void this.float($('.ap-meter'),'행동력 회복','heal');}}
+  const played=before.battle?.hand.find(c=>c.uid===action.uid);if(played){const info=cardInfo(before,played);if(info.type==='focus'){void this.sound('resource',{gain:.4});void this.effect('focus',source,{hero:owner,card:played.key});void this.float(actor,'공격 준비','label');}if(info.type==='energy'&&!effects.some(x=>x.type==='resource')){void this.sound('resource',{gain:.65});void this.effect('rally',source,{hero:owner,card:played.key});void this.float($('.ap-meter'),'행동력 회복','heal');}}
   if(state.hp!==before.hp||state.shield!==before.shield)this.hudDamage(state.hp,state.shield);
   void unpose?.();setTimeout(()=>actor?.classList?.remove('acting'),this.ms(420));
  }
  // 결합: the fragments left in hand slide together and flash before the merged card is dealt in.
  async combine(){const cards=$$('.hand [data-card]').filter(el=>el.isConnected&&!el.classList.contains('leaving'));if(cards.length<2)return;const rects=cards.map(el=>el.getBoundingClientRect()),cx=rects.reduce((n,r)=>n+r.left+r.width/2,0)/rects.length,dur=this.ms(380);
   void this.sound('card_flip',{gain:.8,ui:true});const runs=cards.map((el,i)=>{el.classList.add('combine-out');return el.animate?.([{translate:'0 0',scale:'1',filter:'brightness(1)',opacity:1},{translate:`${(cx-(rects[i].left+rects[i].width/2))*.92}px -26px`,scale:'1.04',filter:'brightness(1.9)',opacity:1,offset:.7},{translate:`${cx-(rects[i].left+rects[i].width/2)}px -30px`,scale:'.92',filter:'brightness(3)',opacity:0}],{duration:dur,easing:'cubic-bezier(.5,0,.2,1)',fill:'forwards'})?.finished?.catch(()=>{});});
-  // (the flash peaks as the fragments vanish into one: started at 70% of the merge)
-  const y=rects.reduce((n,r)=>n+r.top+r.height*.4,0)/rects.length-30,flash=wait(dur*.7).then(()=>{void this.sound('strike',{gain:.5});return combineFlash(cx,y,{short:this.short(),scale:Math.max(.7,Math.min(1.3,rects[0].height/150))});});
+  // (v0.39: 작은 빛이 카드가 모이는 동안 0.3초 머물다가, 카드가 사라진 직후 큰 빛으로 터진다)
+  const y=rects.reduce((n,r)=>n+r.top+r.height*.4,0)/rects.length-30,flash=wait(dur*.45).then(()=>{void this.sound('strike',{gain:.5});return combineFlash(cx,y,{short:this.short(),scale:Math.max(.7,Math.min(1.3,rects[0].height/150))});});
   await Promise.all([...runs,wait(dur),flash]);}
  async present(before,action,events){const after=this.getState(),plan=presentationPlan(before,after,action,events);this.onBusy(true);try{
  const wasBattle=before.phase==='battle'&&!!$('.battle');if(wasBattle){
@@ -139,17 +143,17 @@ export class BattleMotion{
   const early=action.type==='play'&&plan.attacks.length&&plan.effects.length;if(early){await this.playerEffects(before,action,plan.effects);await departure;}
   if(plan.attacks.length){$$('.threat-path').forEach(n=>n.style.opacity='0');this.callout('ENEMY TURN',true);const live={hp:before.hp,shield:before.shield,stress:Object.fromEntries(before.party.map(id=>[id,before.heroes[id].stress]))};for(const group of plan.attacks){const line=$(`[data-threat="${group.enemy}"]`);if(line)line.style.opacity='1';await this.enemyStep(group,live);if(line)line.style.opacity='0';}}
   const special=events.find(e=>e.type==='ultimate'||e.type==='support');if(special)await this.cutin(special.hero,special.type);
-  {const mode=events.find(e=>e.type==='mode');if(mode){if(mode.first&&!events.some(e=>e.type==='card'))await this.cutin('kinich','ultimate');const k=$('[data-ally="kinich"]');if(k){k.classList.remove('mode-flash');void k.offsetWidth;k.dataset.modeFlash=mode.mode;k.classList.add('mode-flash');setTimeout(()=>k.classList.remove('mode-flash'),this.ms(320));}void this.sound('card_flip',{gain:.7,ui:true});}}
+  {const mode=events.find(e=>e.type==='mode');if(mode){if(mode.first&&!events.some(e=>e.type==='card'))await this.cutin('kinich','ultimate');const k=$('[data-ally="kinich"]');if(k){k.classList.remove('mode-flash');void k.offsetWidth;k.dataset.modeFlash=mode.mode;k.classList.add('mode-flash');setTimeout(()=>k.classList.remove('mode-flash'),this.ms(320));const sp=k.querySelector('.sprite');if(sp)void this.effect('kinich-mode',this.unit(k),{hero:'kinich',mode:mode.mode});}void this.sound('card_flip',{gain:.7,ui:true});}}
   if(!early){await this.playerEffects(before,action,plan.effects);await departure;}
   if(plan.combine)await this.combine();
   for(const e of events.filter(e=>e.type==='injury'&&e.stage===3&&(before.heroes[e.hero]?.body[e.part]||0)<3))await this.cutin(e.hero,'injury-'+e.part);
-  for(const hero of plan.collapseCutins)await this.cutin(hero,'breakdown');
+  for(const hero of plan.collapseCutins){void this.sound('collapse',{gain:.9});await this.cutin(hero,'breakdown');}
   await this.blindMorph(before);await this.morph(before,plan.changed);await Promise.all([...this.pending]);
   if(plan.discarded.length)await Promise.all(plan.discarded.map((uid,i)=>wait(this.ms(i*22)).then(()=>this.leave(uid))));
  }
  if(events.some(e=>e.type==='victory')){void this.sound('stage_clear',{gain:.8});await this.effect('victory',$('.battle-field')||$('#screen'),{scale:.65});}this.render();
  if(after.phase==='battle'){
-  if(plan.newBattle){this.callout('BATTLE START');for(const e of after.battle.enemies.filter(e=>e.hp>0&&(e.ward||e.hitWard)))void this.effect('guard',this.unit($(`[data-enemy="${e.id}"]`)),{enemy:true,celestial:['keeper','sentinel','star'].includes(e.kind),shield:true});}else if(action.type==='endTurn')this.callout(`YOUR TURN · ${String(after.battle.turn).padStart(2,'0')}`);
+  if(plan.newBattle){this.callout('BATTLE START');for(const e of after.battle.enemies.filter(e=>e.hp>0&&(e.ward||e.hitWard)))void this.effect('guard',this.unit($(`[data-enemy="${e.id}"]`)),{enemy:true,celestial:['keeper','sentinel','star'].includes(e.kind),shield:true});}else if(action.type==='endTurn'){void this.sound('turn_start',{gain:.7,ui:true});this.callout(`YOUR TURN · ${String(after.battle.turn).padStart(2,'0')}`);}
   await this.deal(plan.drawn,plan.shuffled);
   if(!plan.drawn.length&&plan.newBattle)await this.deal(after.battle.hand.map(c=>c.uid));
   const call=$('.battle-callout');if(call){await wait(this.ms(100));call.classList.remove('visible');}

@@ -48,9 +48,10 @@ test('player remains at melee impact while either the VFX or damage feedback is 
   visualDone();await playing;assert.equal(animations.length,2);assert.ok(animations.every(a=>a.cancelled));
  }finally{globalThis.document=old;}
 });
-test('Durin ultimate wings use the caster anchor once for all enemies',async()=>{
+test('v0.39 Durin ultimate: first enemy gets wings + fireball from the caster, the others get a delayed blast',async()=>{
  const cls={add(){},remove(){}},sprite={isConnected:true},actor={querySelector:()=>sprite},foes=new Map(['a','b'].map(id=>[id,{classList:cls,querySelector:()=>null}]));const old=globalThis.document;
  globalThis.document={querySelector:q=>q.startsWith('[data-ally')?actor:q.startsWith('[data-enemy')?foes.get(q.match(/"(.*?)"/)[1]):null};
  const m=Object.create(BattleMotion.prototype),calls=[];m.getState=()=>({hp:100,shield:0,party:['durin'],battle:{enemies:[{id:'a',hp:20,maxHp:42},{id:'b',hp:20,maxHp:42}]}});m.short=()=>true;m.sound=()=>{};m.camera={hit(){}};m.animate=async()=>{};m.float=async()=>{};m.effect=async(kind,anchor,options)=>calls.push({kind,anchor,options});
- try{await m.playerEffects({hp:100,shield:0,battle:{hand:[]}},{type:'ultimate',hero:'durin'},[{type:'damage',enemy:'a',amount:22},{type:'damage',enemy:'b',amount:22}]);assert.equal(calls.length,1);assert.equal(calls[0].anchor,sprite);assert.equal(calls[0].options.ultimate,true);assert.equal(calls[0].options.hero,'durin');}finally{globalThis.document=old;}
+ try{await m.playerEffects({hp:100,shield:0,battle:{hand:[]}},{type:'ultimate',hero:'durin'},[{type:'damage',enemy:'a',amount:22},{type:'damage',enemy:'b',amount:22}]);assert.equal(calls.length,2);assert.equal(calls[0].options.from,sprite);assert.equal(calls[0].options.ultimate,true);assert.equal(calls[0].options.hero,'durin');assert.equal(calls[0].options.index,0);assert.equal(calls[1].options.index,1);
+  const {vfxPlan}=await import('../dist/battle-vfx.js');assert.equal(vfxPlan('arcane-wave',{hero:'durin',ultimate:true,index:0})[0].fx,'durinUlt');assert.equal(vfxPlan('arcane-wave',{hero:'durin',ultimate:true,index:1})[0].fx,'celBurst');}finally{globalThis.document=old;}
 });
